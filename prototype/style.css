@@ -1,0 +1,53 @@
+navbar {
+    position: sticky;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    height: 60px;
+    width: auto;
+    align-content: left;
+}
+
+navbar h1 {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+navbar ul {
+    align-self: flex-end;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 35px;
+    word-spacing: 20px;
+}
+
+navbar ul span:hover {
+    font-weight: bold;
+    color: blue;
+}
+
+div.quiz_grid {
+    display: grid;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+div.quiz_grid table {
+    height: 360px;
+    width: 600px;
+}
+
+div.quiz_grid table tr td {
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    font-size: 30px;
+    background-color: gray;
+}
+
+div.quiz_grid table tr td:hover {
+    background-color: aliceblue;
+}

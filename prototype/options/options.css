@@ -1,0 +1,28 @@
+body {
+    margin: 0px;
+}
+
+#context -menu {
+    position: fixed;
+    z-index: 1000;
+    width: 150px;
+    background-color: beige;
+    transform: scale(0);
+    transform-origin: top left;
+}
+
+#context -menu :active {
+    transform: scale(1);
+    transition:transform 200ms ease-in-out;
+}
+
+#context -menu option {
+    margin: 2px 0px;
+    padding: 8px 10px;
+    font-size: 15px;
+    color: black;
+}
+
+#context -menu option:hover {
+    background-color: azure;
+}

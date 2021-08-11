@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Tutorial</title>
+</head>
+<body>
+    <style>
+        h1{
+            font-size:  45px;
+            text-align: center;
+        }
+    </style>
+    <!-- 튜토리얼 -->
+    <h1>Tutorial</h1>
+    <div class="quiz_grid" x_grid=10 y_grid=6 id="tutorial">
+        <table>
+            <tr aria-rowindex="0">
+                <td aria-rowindex="0", aria-colindex="0"></td>
+                <td aria-rowindex="0", aria-colindex="1"></td>
+                <td aria-rowindex="0", aria-colindex="2"></td>
+                <td aria-rowindex="0", aria-colindex="3"></td>
+                <td aria-rowindex="0", aria-colindex="4"></td>
+                <td aria-rowindex="0", aria-colindex="5"></td>
+                <td aria-rowindex="0", aria-colindex="6"></td>
+                <td aria-rowindex="0", aria-colindex="7"></td>
+                <td aria-rowindex="0", aria-colindex="8"></td>
+                <td aria-rowindex="0", aria-colindex="9"></td>
+            </tr>
+
+            <tr aria-rowindex="1">
+                <td aria-rowindex="1", aria-colindex="0"></td>
+                <td aria-rowindex="1", aria-colindex="1"></td>
+                <td aria-rowindex="1", aria-colindex="2"></td>
+                <td aria-rowindex="1", aria-colindex="3"></td>
+                <td aria-rowindex="1", aria-colindex="4"></td>
+                <td aria-rowindex="1", aria-colindex="5"></td>
+                <td aria-rowindex="1", aria-colindex="6"></td>
+                <td aria-rowindex="1", aria-colindex="7"></td>
+                <td aria-rowindex="1", aria-colindex="8"></td>
+                <td aria-rowindex="1", aria-colindex="9"></td>
+
+            </tr>
+            
+            <tr aria-rowindex="2">
+                <td aria-rowindex="2", aria-colindex="0"></td>
+                <td aria-rowindex="2", aria-colindex="1"></td>
+                <td aria-rowindex="2", aria-colindex="2"></td>
+                <td aria-rowindex="2", aria-colindex="3"></td>
+                <td aria-rowindex="2", aria-colindex="4"></td>
+                <td aria-rowindex="2", aria-colindex="5"></td>
+                <td aria-rowindex="2", aria-colindex="6"></td>
+                <td aria-rowindex="2", aria-colindex="7"></td>
+                <td aria-rowindex="2", aria-colindex="8"></td>
+                <td aria-rowindex="2", aria-colindex="9"></td>
+            </tr>
+            
+            <tr aria-rowindex="3">
+                <td aria-rowindex="3", aria-colindex="0"></td>
+                <td aria-rowindex="3", aria-colindex="1"></td>
+                <td aria-rowindex="3", aria-colindex="2"></td>
+                <td aria-rowindex="3", aria-colindex="3"></td>
+                <td aria-rowindex="3", aria-colindex="4"></td>
+                <td aria-rowindex="3", aria-colindex="5"></td>
+                <td aria-rowindex="3", aria-colindex="6"></td>
+                <td aria-rowindex="3", aria-colindex="7"></td>
+                <td aria-rowindex="3", aria-colindex="8"></td>
+                <td aria-rowindex="3", aria-colindex="9"></td>
+            </tr>
+
+            <tr aria-rowindex="4">
+                <td aria-rowindex="4", aria-colindex="0"></td>
+                <td aria-rowindex="4", aria-colindex="1"></td>
+                <td aria-rowindex="4", aria-colindex="2"></td>
+                <td aria-rowindex="4", aria-colindex="3"></td>
+                <td aria-rowindex="4", aria-colindex="4"></td>
+                <td aria-rowindex="4", aria-colindex="5"></td>
+                <td aria-rowindex="4", aria-colindex="6"></td>
+                <td aria-rowindex="4", aria-colindex="7"></td>
+                <td aria-rowindex="4", aria-colindex="8"></td>
+                <td aria-rowindex="4", aria-colindex="9"></td>
+            </tr>
+
+            <tr aria-rowindex="5">
+                <td aria-rowindex="5", aria-colindex="0"></td>
+                <td aria-rowindex="5", aria-colindex="1"></td>
+                <td aria-rowindex="5", aria-colindex="2"></td>
+                <td aria-rowindex="5", aria-colindex="3"></td>
+                <td aria-rowindex="5", aria-colindex="4"></td>
+                <td aria-rowindex="5", aria-colindex="5"></td>
+                <td aria-rowindex="5", aria-colindex="6"></td>
+                <td aria-rowindex="5", aria-colindex="7"></td>
+                <td aria-rowindex="5", aria-colindex="8"></td>
+                <td aria-rowindex="5", aria-colindex="9"></td>
+            </tr>
+        </table>
+    </div>
+
+<div id="options-window">
+    <div class="option" id="merge">합치기
+        <script>
+        document.querySelector("#merge").addEventListener("click", e => {
+            merge(e.target);
+        });
+        </script>
+    </div>
+    <br>
+    <div class="option" id="word">단어 조합
+        <script>
+        document.querySelector("#word").addEventListener("click", e => {
+            word(e.target);
+        });
+        </script>
+    </div>
+    <br>
+    <div class="option" id="blank">빈칸
+        <script>
+        document.querySelector("#blank").addEventListener("click", e => {
+            blank(e.target);
+        });
+        </script>
+    </div>
+</div>
+
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="game.js"></script>
+</body>
+</html>

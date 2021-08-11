@@ -37,7 +37,7 @@ div.quiz_grid {
 
 div.quiz_grid table {
     height: 360px;
-    width: 600px;
+    width: 900px;
 }
 
 div.quiz_grid table tr td {
@@ -50,4 +50,21 @@ div.quiz_grid table tr td {
 
 div.quiz_grid table tr td:hover {
     background-color: aliceblue;
+}
+
+div#options-window {
+    position: fixed;
+    z-index: 1000;
+    width: 100px;
+    background-color: aliceblue;
+}
+
+div#options-window .option {
+    padding: 8px 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+div#options-window .option:hover {
+    background-color: beige;
 }

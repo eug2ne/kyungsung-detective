@@ -57,6 +57,7 @@ div#options-window {
     z-index: 1000;
     width: 100px;
     background-color: aliceblue;
+    display: none;
 }
 
 div#options-window .option {

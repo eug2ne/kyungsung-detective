@@ -12,6 +12,7 @@ function options_window(e) {
     options_window.style.top = `${mouseY}px`;
     options_window.style.left = `${mouseX}px`;
 
+    options_window.style.display="block";
     options_window.classList.add("visible");
 
     return e.target;

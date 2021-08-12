@@ -38,7 +38,15 @@ function letterChoose(target, option) {
 
 function merge(target) {
     // merge selected letters to left
+    const pre_array = letterChoose(target, "merge");
 
+    for (let pre_letter in pre_array) {
+        pre_letter.classList.add("pre");
+        // pre_letter.addEventListener("click", e => {
+            // if (e.target.innerHTML in possible_merge[`${target.innerHTML}`])
+                
+        // })
+    }
 }
 
 function word() {

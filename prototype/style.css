@@ -52,6 +52,10 @@ div.quiz_grid table tr td:hover {
     background-color: aliceblue;
 }
 
+div.quiz_grid table tr td .pre {
+    background-color: aliceblue;
+}
+
 div#options-window {
     position: fixed;
     z-index: 1000;

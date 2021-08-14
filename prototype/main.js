@@ -46,6 +46,7 @@ let target = {
     },
     word : function() {
         // function method
+            // (error handling using switch?)
     },
     blank : function() {
         // blank method

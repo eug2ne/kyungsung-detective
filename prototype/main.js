@@ -12,6 +12,7 @@ function options_window(e) {
     options_window.style.top = `${mouseY}px`;
     options_window.style.left = `${mouseX}px`;
 
+    options_window.style.display="block";
     options_window.classList.add("visible");
 }
 
@@ -21,18 +22,41 @@ document.body.addEventListener("click", e => {
 });
 
 // target obj
-    // target obj exists only one at a time
-    // if new element is set to target, update target obj
-var target = {
-    "pos" : "null",
-    "letter" : "null",
-    "merge" : function merge() {
-        // merge function
+    // if new td clicked >> update target obj
+let target = {
+    pos : null,
+    letter : null,
+    element : null,
+    table : null,
+    set clickOnTd(Td) {
+        this.element = Td;
+        this.letter = Td.innerHTML;
+        this.pos = `${Td.ariaColIndex},${Td.ariaRowIndex}`;
+        this.table = Td.closest("table");
+
+        this.element.classList.add("target");
     },
-    "word" : function word() {
-        // word function
+    merge : function() {
+        // merge method
+            // let choosable_array
+            // for letter in choosable_array
+                // addEventListener("click", e=> {})
+                    // try {e.target.innerHTML in valid_mergewordlist.valid[this.element.innerHTML]}
+                    // (some error handling)
     },
-    "blank" : function blank() {
-        // blank function
+    word : function() {
+        // function method
+    },
+    blank : function() {
+        // blank method
     }
 }
+
+document.body.addEventListener("click", e => {
+    try {
+        target.element.classList.remove("target");
+    } catch (TypeError) {}
+
+    if (e.target.matches("td"))
+        target.clickOnTd = e.target;
+});

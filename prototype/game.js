@@ -60,7 +60,6 @@ function letterChoose(target, option) {
 
 function merge(target) {
     // merge selected letters to left
-<<<<<<< Updated upstream
     const pre_array = letterChoose(target, "merge");
 
     for (let pre_letter in pre_array) {
@@ -69,20 +68,6 @@ function merge(target) {
             // if (e.target.innerHTML in possible_merge[`${target.innerHTML}`])
                 
         // })
-=======
-    letterChoose(target, "merge");
-    let choosable_array = document.querySelectorAll(`td.choosable`);
-
-    for (let choosable in choosable_array) {
-        choosable.addEventListener("click", e => {
-            if (e.target.innerHTML in valid_mergewordlist.valid[`${target.innerHTML}`])
-                () => {
-                target.innerHTML = valid_mergewordlist.merge[`${target.innerHTML},${e.target.innerHTML}`];
-                }
-            // else
-                // error("InvalidMergeError")
-        })
->>>>>>> Stashed changes
     }
 }
 

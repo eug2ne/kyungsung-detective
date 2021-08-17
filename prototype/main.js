@@ -1,148 +1,202 @@
-// reload function
-document.addEventListener("click", e => {
-    if (e.target.matches("h1"))
-        location.reload();
-})
-
 // options-window function
 function options_window(e) {
-    const {clientX: mouseX, clientY: mouseY} = e;
+    const { clientX: mouseX, clientY: mouseY } = e;
     const options_window = document.querySelector("#options-window");
 
     options_window.style.top = `${mouseY}px`;
     options_window.style.left = `${mouseX}px`;
 
-    options_window.style.display="block";
+    options_window.style.display = "block";
     options_window.classList.add("visible");
 }
 
-document.body.addEventListener("click", e => {
-    if (e.target.matches("td"))
-        options_window(e);
-});
-
-// letterChoose function
-    // return choosable_array for each method
-function letterChoose(target, table, method) {
-    const x_pos = parseInt(target.ariaColIndex);
-    const y_pos = parseInt(target.ariaRowIndex);
-    let rows = [];
-
-    if (method == "merge")
-        () => {
-        if (target.ariaColIndex == "0")
-            table.querySelector(`td[aria-colindex="1"]`).classList.add("choosable");
-    
-        else if (target.ariaColIndex == "14")
-            table.querySelector(`td[aria-colindex="13"]`).classList.add("choosable");
-    
-        else
-            for (let x in [ table.querySelector(`td[aria-colindex="${x_pos-1}"]`), table.querySelector(`td[aria-colindex="${x_pos+1}"]`) ]) {
-                x.classList.add("choosable");
-            }
-        }
-    
-    else 
-        () => {
-        try {
-            rows = [ table.querySelector(`tr[aria-rowindex=${y_pos}]`), this.table.querySelector(`tr[aria-rowindex=${y_pos+1}]`), this.table.querySelector(`tr[aria-rowindex=${y_pos+2}]`) ];
-        } catch(Error) {
-            rows = [ table.querySelector(`tr[aria-rowindex="3"`), this.table.querySelector(`tr[aria-rowindex="4"`), this.table.querySelector(`tr[aria-rowindex="5"`)];
-        }
-
-        for (const row in rows) {
-            try {
-                for (const x in [ x_pos, x_pos+1 ]) {
-                    row.querySelector(`td[aria-colindex="${x}"]`).classList.add("choosable");
-                }
-            } catch(Error) {
-                for (const x in [ 13, 14 ]) {
-                    row.querySelector(`td[aria-colindex="${x}"]`).classList.add("choosable");
-                }
-            }
-        }
-        }
-}
-
 // target obj
-    // if new td clicked >> update target obj
+// if new td clicked >> update target obj
 let target = {
-    pos : null,
-    letter : null,
-    element : null,
-    table : null,
+    x_pos: null,
+    y_pos: null,
+    letter: null,
+    element: null,
+    table: null,
     set clickOnTd(Td) {
         this.element = Td;
         this.letter = Td.innerHTML;
-        this.pos = `${Td.ariaColIndex},${Td.ariaRowIndex}`;
+        this.x_pos = parseInt(Td.ariaColIndex);
+        this.y_pos = parseInt(Td.ariaRowIndex);
         this.table = Td.closest("table");
 
-        this.element.classList.add("target");
+        Td.className = "target";
     },
-    merge : function() {
-        // merge method
-        letterChoose(this.element, this.table, "merge");
-        
-        document.addEventListener("click", e => {
-            if (e.target.matches("td.choosable"))
-                () => {
+    merge: function (input_letter, input_xpos) {
+        const controller = new AbortController();
+        const { siganl } = controller;
+
+        let wordlist = null;
+        fetch("valid_mergewordlist.json", { siganl })
+            .then(response => response.json())
+            .then(json => {
+                // import json file
+                wordlist = json;
+                console.log(wordlist.valid);
+                console.log(wordlist.merge);
+
                 try {
-                    if (e.target.innerHTML in valid_mergewordlist.valid[this.element.innerHTML])
-                        () => {
-                        this.table.querySelector(`td[aria-colindex="${Math.min(this.element.ariaColIndex, e.target.ariaColIndex)}"]`).innerHTML = valid_mergewordlist.merge[`${this.element.innerHTML},${e.target.innerHTML}`];
-                        this.table.querySelector(`td[aria-colindex="${Math.max(this.element.ariaColIndex, e.target.ariaColIndex)}"]`).innerHTML = "";
-                        
-                        // regression till end of row
-                        let row_letter = this.table.querySelector(`td[aria-colindex="${Math.max(this.element.ariaColIndex, e.target.ariaColIndex)}"]`);
+                    if (wordlist.valid[`${this.letter}`].includes(input_letter)) {
+                        console.log(wordlist.merge[`${this.letter},${input_letter}`]);
+                        this.table.querySelector(`td[aria-colindex="${Math.min(this.x_pos, input_xpos)}"][aria-rowindex="${this.y_pos}"]`).innerHTML = wordlist.merge[`${this.letter},${input_letter}`];
+                        this.table.querySelector(`td[aria-colindex="${Math.max(this.x_pos, input_xpos)}"][aria-rowindex="${this.y_pos}"]`).innerHTML = "";
 
-                        if (!(row_letter.nextElementSibling))
-                            () => {}
-                        else
-                            () => {
-                            row_letter.innerHTML = row_letter.nextElementSibling.innerHTML;
-                            row_letter = row_letter.nextElementSibling;
+                        // regression on tr
+                        function regression(max_td) {
+                            if (parseInt(max_td.ariaColIndex) == 14)
+                                max_td.innerHTML = "";
+
+                            else {
+                                max_td.innerHTML = max_td.nextElementSibling.innerHTML;
+                                regression(max_td.nextElementSibling);
                             }
-
                         }
+
+                        regression(this.table.querySelector(`td[aria-colindex="${Math.max(this.x_pos, input_xpos)}"][aria-rowindex="${this.y_pos}"]`));
+
+                        // remove choosable
+                        this.table.querySelectorAll("td.choosable").forEach(element => element.classList.remove("choosable"));
+                    }
 
                     else
                         throw new Error("MergeImpossibleError");
-                } catch(Error) {
-                    // show "MegeImpossibleError" on screen
-                } finally {
-                    e.stopPropagation();
+                } catch (Error) {
+                    alert(Error.name + Error.message);
                 }
-                }
-        })
-    },
-    word : function() {
-        // function method
-        const x_pos = parseInt(this.element.ariaColIndex);
-        const y_pos = parseInt(this.element.ariaRowIndex);
-        letterChoose(this.element, this.table, "word");
+            });
 
-        let chosen = { "0,0":null, "1,0":null, "0,1":null, "1,1":null, "0,2":null, "1,2":null }
-        document.addEventListener("click", e => {
-            if (e.target.matches("td.choosable"))
-                () => {
-                e.target.style.backgroundcolor = "bisque";
-                chosen[`${e.target.ariaColIndex - x_pos},${e.target.ariaRowIndex - y_pos}`] = e.target.innerHTML;
-                }
-
-            else if (e.target.matches("td.target"))
-                return chosen;
-        })
+        // abort fetch()
+        controller.abort();
     },
-    blank : function() {
-        // blank method
+    word: function () { },
+    blank: function () { }
+}
+
+// main page click event
+document.body.addEventListener("click", e => {
+    if (e.target.matches("td:not(.choosable)")&&e.target.matches("td:not(.chosen)")) {
+        // delete every td with class (target, choosable, chosen)
+        document.querySelectorAll("td.target, td.choosable, td.chosen").forEach(element => element.classList.remove("target", "choosable", "chosen"));
+        // update target obj
+        target.clickOnTd = e.target;
+
+        // open up options-window
+        options_window(e);
+    }
+
+    // reload function
+    else if (e.target.matches("h1"))
+        location.reload();
+
+    else {
+        // remove options-window
+        document.querySelector("#options-window").classList.remove("visible");
+        document.querySelector("#options-window").style.display = "none";
+    }
+});
+
+// return { /target_element/ : "0,0", /choosable_element/ : /relative_pos/, ...} object
+function word_space() {
+    try {
+        w_space = {};
+
+        choosables = target.table
+            .querySelectorAll(`td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos}"], td[aria-colindex="${target.x_pos}"][aria-rowindex="${target.y_pos + 1}"], td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos + 1}"], td[aria-colindex="${target.x_pos}"][aria-rowindex="${target.y_pos + 2}"], td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos + 2}"]`);
+
+        w_space["0,0"] = target.letter;
+        w_space["1,0"] = choosables[0].innerHTML;
+        w_space["0,1"] = choosables[1].innerHTML;
+        w_space["1,1"] = choosables[2].innerHTML;
+        w_space["0,2"] = choosables[3].innerHTML;
+        w_space["1,2"] = choosables[4].innerHTML;
+
+        return w_space;
+    } catch (IndexError) {
+        alert(IndexError + "Choose another letter");
     }
 }
 
+// set click event for option
 document.body.addEventListener("click", e => {
-    try {
-        target.element.classList.remove("target");
-    } catch (TypeError) {}
+    if (e.target.parentElement.matches("#options-window")) {
+        // show target td
+        // target.element.classList.add("target");
 
-    if (e.target.matches("td"))
-        target.clickOnTd = e.target;
+        switch (e.target.id) {
+            case "merge":
+                // show choosable td
+                switch (target.x_pos) {
+                    case 0:
+                        target.table.querySelector(`td[aria-colindex="1"][aria-rowindex="${target.y_pos}"]`).className = "choosable";
+                        break;
+
+                    case 14:
+                        target.table.querySelector(`td[aria-colindex="13"][aria-rowindex="${target.y_pos}"]`).className = "choosable";
+                        break;
+
+                    default:
+                        target.table.querySelectorAll(`td[aria-colindex="${target.x_pos - 1}"][aria-rowindex="${target.y_pos}"], td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos}"]`).forEach(element => element.className = "choosable");
+                        break;
+                }
+
+                // click event on td.choosable
+                document.querySelectorAll("td.choosable")
+                    .forEach(element => {
+                        element.addEventListener("click", e => {
+                            target.merge(e.target.innerHTML, parseInt(e.target.ariaColIndex));
+                        });
+                    });
+                break;
+
+            case "word":
+                try {
+                    chosen = { "0,0": target.letter, "1,0": null, "0,1": null, "1,1": null, "0,2": null, "1,2": null };
+
+                    // show choosable td
+                    if (target.table
+                        .querySelectorAll(`td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos}"], td[aria-colindex="${target.x_pos}"][aria-rowindex="${target.y_pos + 1}"], td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos + 1}"], td[aria-colindex="${target.x_pos}"][aria-rowindex="${target.y_pos + 2}"], td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos + 2}"]`)
+                        .length < 5)
+                        throw ReferenceError;
+                    else
+                        target.table
+                            .querySelectorAll(`td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos}"], td[aria-colindex="${target.x_pos}"][aria-rowindex="${target.y_pos + 1}"], td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos + 1}"], td[aria-colindex="${target.x_pos}"][aria-rowindex="${target.y_pos + 2}"], td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos + 2}"]`)
+                            .forEach(element => element.className = "choosable");
+
+
+                    document.querySelectorAll("td.choosable").forEach(element => element.addEventListener("click", e => {
+                        // event: click >> append to chosen
+                        e.target.className = "chosen";
+                        chosen[`${e.target.ariaColIndex - target.x_pos},${e.target.ariaRowIndex - target.y_pos}`] = e.target.innerHTML;
+                    }));
+
+                    document.querySelector("td.target").addEventListener("click", e => {
+                        // if target clicked, create word div
+                        target.word(chosen);
+                    });
+
+                } catch (Error) {
+                    alert("Out of valid index : Choose another target");
+                }
+
+                break;
+
+            case "blank":
+                try {
+                    w_space = word_space();
+
+                    switch (w_space) {
+                        // evaluate evaluate word_space
+                    }
+                } catch (Error) {
+
+                }
+                target.blank();
+                break;
+        }
+    }
 });

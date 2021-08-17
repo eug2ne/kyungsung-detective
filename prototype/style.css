@@ -60,6 +60,10 @@ div.quiz_grid table tr td.choosable {
     background-color: beige;
 }
 
+div.quiz_grid table tr td.chosen {
+    background-color: blue;
+}
+
 div.quiz_grid table tr td .pre {
     background-color: aliceblue;
 }

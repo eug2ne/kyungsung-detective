@@ -367,7 +367,7 @@
     <div class="option" id="merge">합치기
         <script>
         document.querySelector("#merge").addEventListener("click", e => {
-            merge(e.target);
+            merge(document.querySelector("td.target"));
         });
         </script>
     </div>
@@ -375,7 +375,7 @@
     <div class="option" id="word">단어 조합
         <script>
         document.querySelector("#word").addEventListener("click", e => {
-            word(e.target);
+            word(document.querySelector("td.target"));
         });
         </script>
     </div>
@@ -383,7 +383,7 @@
     <div class="option" id="blank">빈칸
         <script>
         document.querySelector("#blank").addEventListener("click", e => {
-            blank(e.target);
+            blank(document.querySelector("td.target"));
         });
         </script>
     </div>
@@ -400,6 +400,5 @@
 </div>
 
 <script type="text/javascript" src="main.js"></script>
-<script type="text/javascript" src="game.js"></script>
 </body>
 </html>

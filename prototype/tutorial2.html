@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,30 +8,8 @@
     <link rel="stylesheet" href="style.css">
     <title>Tutorial</title>
 </head>
-<body>
-    <style>
-        h1{
-            font-size:  45px;
-            text-align: center;
-        }
-        h3{font-size:  25px;}
-        ul{
-            font-size:  17px;
-            text-align: center;
-            padding:20px;
-            margin:20px;
-            background-color: lightgray;
-            display:block;
-            width:100px;
-        }
-        #list_1{width: 120px; float: left; padding: 15px;}
-        #list_2{width: 120px; float: left; padding: 15px;}
-        #list_3{width: 120px; float: left; padding: 15px;}
-        #list_4{width: 200px; float: left; padding: 15px;}
-        #tutorial_1{clear: both; border-top: 5px;}
 
-        
-    </style>
+<body>
     <!-- 튜토리얼 -->
     <h1>Tutorial</h1>
     <p>
@@ -39,28 +18,28 @@
     만들어진 글자는 선택한 칸 중 가장 왼쪽 칸에 합쳐지며, 전체 행이 없어진 칸만큼 왼쪽으로 밀립니다.<br>
     <p>
     <h4>합치기 규칙</h4>
-    <div id="list_1">
+    <div class="list" id="list_1">
         <li>ㄱ + ㆍ → ㅋ</li>
         <li>ㄱ + ㄱ → ㄲ</li>
         <li>ㄷ + ㆍ → ㄷ</li>
         <li>ㄷ + ㄷ → ㄸ</li>
         <li>ㅁ + _ → ㅂ</li>
     </div>
-    <div id="list_2">
+    <div class="list" id="list_2">
         <li>ㅁ + ㆍ → ㅍ</li>
         <li>ㅇ + ㆍ → ㅎ</li>
         <li>ㅅ + ㆍ → ㅊ</li>
         <li>ㅅ + _ → ㅈ</li>
         <li>ㅅ + ㅅ → ㅆ</li>
     </div>
-    <div id="list_3">
+    <div class="list" id="list_3">
         <li>ㅂ + ㅂ → ㅃ</li>
         <li>ㅈ + ㅈ → ㅉ</li>
         <li>ㅏ + ㆍ → ㅑ</li>
         <li>ㅏ + | → ㅐ</li>
         <li>ㅓ + ㆍ → ㅕ</li>
     </div>
-    <div id="list_4">
+    <div class="list" id="list_4">
         <li>ㅓ + | → ㅔ</li>
         <li>ㅗ + ㆍ → ㅛ</li>
         <li>ㅜ + ㆍ → ㅠ</li>
@@ -68,144 +47,123 @@
         <li>ㅔ + ㆍ → ㅖ</li>
     </div>
     </p>
+    </p>
+
     <div class="tutorial_grid" x_grid=6 y_grid=3 id="tutorial_1">
         <table>
             <tr aria-rowindex="0">
-                <td aria-rowindex="0", aria-colindex="0"></td>
-                <td aria-rowindex="0", aria-colindex="1"></td>
-                <td aria-rowindex="0", aria-colindex="2"></td>
-                <td aria-rowindex="0", aria-colindex="3"></td>
-                <td aria-rowindex="0", aria-colindex="4"></td>
-                <td aria-rowindex="0", aria-colindex="5"></td>
+                <td aria-rowindex="0" , aria-colindex="0"></td>
+                <td aria-rowindex="0" , aria-colindex="1"></td>
+                <td aria-rowindex="0" , aria-colindex="2"></td>
+                <td aria-rowindex="0" , aria-colindex="3"></td>
+                <td aria-rowindex="0" , aria-colindex="4"></td>
+                <td aria-rowindex="0" , aria-colindex="5"></td>
             </tr>
 
             <tr aria-rowindex="1">
-                <td aria-rowindex="1", aria-colindex="0"></td>
-                <td aria-rowindex="1", aria-colindex="1"></td>
-                <td aria-rowindex="1", aria-colindex="2"></td>
-                <td aria-rowindex="1", aria-colindex="3"></td>
-                <td aria-rowindex="1", aria-colindex="4"></td>
-                <td aria-rowindex="1", aria-colindex="5"></td>
+                <td aria-rowindex="1" , aria-colindex="0"></td>
+                <td aria-rowindex="1" , aria-colindex="1"></td>
+                <td aria-rowindex="1" , aria-colindex="2"></td>
+                <td aria-rowindex="1" , aria-colindex="3"></td>
+                <td aria-rowindex="1" , aria-colindex="4"></td>
+                <td aria-rowindex="1" , aria-colindex="5"></td>
             </tr>
-            
+
             <tr aria-rowindex="2">
-                <td aria-rowindex="2", aria-colindex="0"></td>
-                <td aria-rowindex="2", aria-colindex="1"></td>
-                <td aria-rowindex="2", aria-colindex="2"></td>
-                <td aria-rowindex="2", aria-colindex="3"></td>
-                <td aria-rowindex="2", aria-colindex="4"></td>
-                <td aria-rowindex="2", aria-colindex="5"></td>
+                <td aria-rowindex="2" , aria-colindex="0"></td>
+                <td aria-rowindex="2" , aria-colindex="1"></td>
+                <td aria-rowindex="2" , aria-colindex="2"></td>
+                <td aria-rowindex="2" , aria-colindex="3"></td>
+                <td aria-rowindex="2" , aria-colindex="4"></td>
+                <td aria-rowindex="2" , aria-colindex="5"></td>
             </tr>
         </table>
     </div>
-    </p>
+
     <p>
     <h3>단어 조합을 사용해 단어를 조합하시오.</h3>
     단어 조합을 할 때는 가장 맨 위의 왼쪽 칸을 기준으로 오른쪽으로 2칸 아래로 3칸(2x3)의 자음 모음을 골라 단어를 만들 수 있습니다. <br>
     단어가 만들어지면 6칸이 하나로 합쳐지며, 분해가 불가능합니다.
+    </p>
+
     <div class="tutorial_grid" x_grid=6 y_grid=3 id="tutorial_2">
         <table>
             <tr aria-rowindex="0">
-                <td aria-rowindex="0", aria-colindex="0"></td>
-                <td aria-rowindex="0", aria-colindex="1"></td>
-                <td aria-rowindex="0", aria-colindex="2"></td>
-                <td aria-rowindex="0", aria-colindex="3"></td>
-                <td aria-rowindex="0", aria-colindex="4"></td>
-                <td aria-rowindex="0", aria-colindex="5"></td>
+                <td aria-rowindex="0" , aria-colindex="0"></td>
+                <td aria-rowindex="0" , aria-colindex="1"></td>
+                <td aria-rowindex="0" , aria-colindex="2"></td>
+                <td aria-rowindex="0" , aria-colindex="3"></td>
+                <td aria-rowindex="0" , aria-colindex="4"></td>
+                <td aria-rowindex="0" , aria-colindex="5"></td>
             </tr>
 
             <tr aria-rowindex="1">
-                <td aria-rowindex="1", aria-colindex="0"></td>
-                <td aria-rowindex="1", aria-colindex="1"></td>
-                <td aria-rowindex="1", aria-colindex="2"></td>
-                <td aria-rowindex="1", aria-colindex="3"></td>
-                <td aria-rowindex="1", aria-colindex="4"></td>
-                <td aria-rowindex="1", aria-colindex="5"></td>
+                <td aria-rowindex="1" , aria-colindex="0"></td>
+                <td aria-rowindex="1" , aria-colindex="1"></td>
+                <td aria-rowindex="1" , aria-colindex="2"></td>
+                <td aria-rowindex="1" , aria-colindex="3"></td>
+                <td aria-rowindex="1" , aria-colindex="4"></td>
+                <td aria-rowindex="1" , aria-colindex="5"></td>
             </tr>
-            
+
             <tr aria-rowindex="2">
-                <td aria-rowindex="2", aria-colindex="0"></td>
-                <td aria-rowindex="2", aria-colindex="1"></td>
-                <td aria-rowindex="2", aria-colindex="2"></td>
-                <td aria-rowindex="2", aria-colindex="3"></td>
-                <td aria-rowindex="2", aria-colindex="4"></td>
-                <td aria-rowindex="2", aria-colindex="5"></td>
-            </tr>   
+                <td aria-rowindex="2" , aria-colindex="0"></td>
+                <td aria-rowindex="2" , aria-colindex="1"></td>
+                <td aria-rowindex="2" , aria-colindex="2"></td>
+                <td aria-rowindex="2" , aria-colindex="3"></td>
+                <td aria-rowindex="2" , aria-colindex="4"></td>
+                <td aria-rowindex="2" , aria-colindex="5"></td>
+            </tr>
         </table>
     </div>
-    </p>
+
     <p>
     <h3>빈칸 규칙을 사용해 빈칸을 만드십시오.</h3>
     빈칸은 빈칸이라는 행동을 했을 때 2x3 범위 내에 있는 글자들을 조합해 단어를 만들 수 없을 때 해당 단위에 있는 모든 칸을 빈칸으로 만들 수 있습니다.<br>
     만약 단어 조합에 사용되는 영역의 글자들로 단어를 만들 수 없으면 빈칸을 만들 수 있습니다.
+    </p>
+
     <div class="tutorial_grid" x_grid=6 y_grid=3 id="tutorial_3">
         <table>
             <tr aria-rowindex="0">
-                <td aria-rowindex="0", aria-colindex="0"></td>
-                <td aria-rowindex="0", aria-colindex="1"></td>
-                <td aria-rowindex="0", aria-colindex="2"></td>
-                <td aria-rowindex="0", aria-colindex="3"></td>
-                <td aria-rowindex="0", aria-colindex="4"></td>
-                <td aria-rowindex="0", aria-colindex="5"></td>
+                <td aria-rowindex="0" , aria-colindex="0"></td>
+                <td aria-rowindex="0" , aria-colindex="1"></td>
+                <td aria-rowindex="0" , aria-colindex="2"></td>
+                <td aria-rowindex="0" , aria-colindex="3"></td>
+                <td aria-rowindex="0" , aria-colindex="4"></td>
+                <td aria-rowindex="0" , aria-colindex="5"></td>
             </tr>
 
             <tr aria-rowindex="1">
-                <td aria-rowindex="1", aria-colindex="0"></td>
-                <td aria-rowindex="1", aria-colindex="1"></td>
-                <td aria-rowindex="1", aria-colindex="2"></td>
-                <td aria-rowindex="1", aria-colindex="3"></td>
-                <td aria-rowindex="1", aria-colindex="4"></td>
-                <td aria-rowindex="1", aria-colindex="5"></td>
+                <td aria-rowindex="1" , aria-colindex="0"></td>
+                <td aria-rowindex="1" , aria-colindex="1"></td>
+                <td aria-rowindex="1" , aria-colindex="2"></td>
+                <td aria-rowindex="1" , aria-colindex="3"></td>
+                <td aria-rowindex="1" , aria-colindex="4"></td>
+                <td aria-rowindex="1" , aria-colindex="5"></td>
             </tr>
-            
+
             <tr aria-rowindex="2">
-                <td aria-rowindex="2", aria-colindex="0"></td>
-                <td aria-rowindex="2", aria-colindex="1"></td>
-                <td aria-rowindex="2", aria-colindex="2"></td>
-                <td aria-rowindex="2", aria-colindex="3"></td>
-                <td aria-rowindex="2", aria-colindex="4"></td>
-                <td aria-rowindex="2", aria-colindex="5"></td>
-            </tr>   
+                <td aria-rowindex="2" , aria-colindex="0"></td>
+                <td aria-rowindex="2" , aria-colindex="1"></td>
+                <td aria-rowindex="2" , aria-colindex="2"></td>
+                <td aria-rowindex="2" , aria-colindex="3"></td>
+                <td aria-rowindex="2" , aria-colindex="4"></td>
+                <td aria-rowindex="2" , aria-colindex="5"></td>
+            </tr>
         </table>
     </div>
-    </p>
-<div id="options-window">
-    <div class="option" id="merge">합치기
-        <script>
-        document.querySelector("#merge").addEventListener("click", e => {
-            merge(e.target);
-        });
-        </script>
+
+    <div id="options-window">
+        <div class="option" id="merge">합치기</div>
+        <br>
+        <div class="option" id="word">단어 조합</div>
+        <br>
+        <div class="option" id="blank">빈칸</div>
     </div>
-    <br>
-    <div class="option" id="word">단어 조합
-        <script>
-        document.querySelector("#word").addEventListener("click", e => {
-            word(e.target);
-        });
-        </script>
-    </div>
-    <br>
-    <div class="option" id="blank">빈칸
-        <script>
-        document.querySelector("#blank").addEventListener("click", e => {
-            blank(e.target);
-        });
-        </script>
-    </div>
-    <br>
-    <div class="option" id="cancel">취소
-        <script>
-            document.querySelector("#cancel").addEventListener("click", e =>
-            {
-                //console.log(document.querySelector("#options-window"));
-                document.getElementById("options-window").style.display="none";
-            })
-        </script>
-    </div>
-</div>
-<ul><a href="main.html">튜토리얼 종료</a></ul>
+
+    <ul><a href="main.html">튜토리얼 종료</a></ul>
+    
 <script type="text/javascript" src="main.js"></script>
-<script type="text/javascript" src="game.js"></script>
 </body>
 </html>

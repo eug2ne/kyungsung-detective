@@ -40,7 +40,7 @@ div.quiz_grid table {
     width: 900px;
 }
 
-div.quiz_grid table tr td {
+div table tr td {
     height: 60px;
     width: 60px;
     text-align: center;
@@ -48,24 +48,20 @@ div.quiz_grid table tr td {
     background-color: gray;
 }
 
-div.quiz_grid table tr td:hover {
+div table tr td:hover {
     background-color: aliceblue;
 }
 
-div.quiz_grid table tr td.target {
+div table tr td.target {
     background-color: aliceblue;
 }
 
-div.quiz_grid table tr td.choosable {
+div table tr td.choosable {
     background-color: beige;
 }
 
-div.quiz_grid table tr td.chosen {
+div table tr td.chosen {
     background-color: blue;
-}
-
-div.quiz_grid table tr td .pre {
-    background-color: aliceblue;
 }
 
 div#options-window {
@@ -87,6 +83,25 @@ div#options-window .option:hover {
 }
 
 /* 튜토리얼 */
+h1 {
+    font-size: 45px;
+    text-align: center;
+}
+
+h3 {
+    font-size: 25px;
+}
+
+ul {
+    font-size: 17px;
+    text-align: center;
+    padding: 20px;
+    margin: 20px;
+    background-color: lightgray;
+    display: block;
+    width: 100px;
+}
+
 div.tutorial_grid {
     display: grid;
     margin-top: 25px;
@@ -95,19 +110,13 @@ div.tutorial_grid {
     margin-bottom: 25px;
     flex-wrap: wrap;
 }
-div.tutorial_grid table {
-    height: 180px;
-    width: 360px;
+
+div.btn {
+    float: left;
 }
 
-div.tutorial_grid table tr td {
-    height: 60px;
-    width: 60px;
-    text-align: center;
-    font-size: 30px;
-    background-color: gray;
-}
-
-div.tutorial_grid table tr td:hover {
-    background-color: aliceblue;
+div.list {
+    width: 120px;
+    float: left;
+    padding: 15px;
 }

@@ -37,8 +37,6 @@ let target = {
             .then(json => {
                 // import json file
                 wordlist = json;
-                console.log(wordlist.valid);
-                console.log(wordlist.merge);
 
                 try {
                     if (wordlist.valid[`${this.letter}`].includes(input_letter)) {
@@ -66,7 +64,7 @@ let target = {
                     else
                         throw new Error("MergeImpossibleError");
                 } catch (Error) {
-                    alert(Error.name + Error.message);
+                    alert(Error.message);
                 }
             });
 
@@ -74,12 +72,65 @@ let target = {
         controller.abort();
     },
     word: function () { },
-    blank: function () { }
+    blank: function (word_space) {
+        const controller = new AbortController();
+        const { siganl } = controller;
+
+        let wordlist = null;
+        fetch("valid_wordlist.json", { siganl })
+            .then(response => response.json())
+            .then(json => {
+                // import json file
+                wordlist = json;
+
+                // evaluate word_space
+                try {
+                    // 초성
+                    if (!(word_space["0,0"] in wordlist["초성 자음"]["0,0"]))
+                        throw Error("Blank Impossible");
+
+                    // 중성 + 종성
+                    switch (word_space) {
+                        case (word_space["0,1"] == null):
+                            if (!(word_space["0,1"] in wordlist["중성 모음1"]["0,1"]))
+                                throw Error("WordImpossibleError");
+                            break;
+
+                        case (word_space["0,1"] != null):
+                            if (wordlist["중성 모음2"]["1,0"].indexOf(word_space["1,0"]) != wordlist["중성 모음2"]["0,1"].indexOf(word_space["0,1"]))
+                                throw Error("WordImpossibleError");
+                            break;
+
+                        case (word_space["1,2"] == null):
+                            if (!(word_space["0,2"] in wordlist["종성 자음1"]["0,2"]))
+                                throw Error("WordImpossibleError");
+                            break;
+
+                        case (word_space["1,2"] != null):
+                            if (wordlist["종성 모음2"]["0,2"].indexOf(word_space["0,2"]) != wordlist["종성 모음2"]["1,2"].indexOf(word_space["1,2"]))
+                                throw Error("WordImpossibleError");
+                            break;
+                    }
+                } catch (Error) {
+                    // 2x3 element.innerHTML >> ""
+                    target.table
+                        .querySelectorAll(`td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos}"], td[aria-colindex="${target.x_pos}"][aria-rowindex="${target.y_pos + 1}"], td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos + 1}"], td[aria-colindex="${target.x_pos}"][aria-rowindex="${target.y_pos + 2}"], td[aria-colindex="${target.x_pos + 1}"][aria-rowindex="${target.y_pos + 2}"]`)
+                        .forEach(element => {
+                            element.innerHTML = "";
+                        });
+
+                    this.element.innerHTML = "";
+                }
+            });
+
+        // abort fetch
+        controller.abort();
+    }
 }
 
 // main page click event
 document.body.addEventListener("click", e => {
-    if (e.target.matches("td:not(.choosable)")&&e.target.matches("td:not(.chosen)")) {
+    if (e.target.matches("td:not(.choosable)") && e.target.matches("td:not(.chosen)")) {
         // delete every td with class (target, choosable, chosen)
         document.querySelectorAll("td.target, td.choosable, td.chosen").forEach(element => element.classList.remove("target", "choosable", "chosen"));
         // update target obj
@@ -189,13 +240,11 @@ document.body.addEventListener("click", e => {
                 try {
                     w_space = word_space();
 
-                    switch (w_space) {
-                        // evaluate evaluate word_space
-                    }
+                    target.blank(w_space);
                 } catch (Error) {
-
+                    alert(Error);
                 }
-                target.blank();
+
                 break;
         }
     }

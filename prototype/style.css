@@ -73,6 +73,7 @@ div#options-window {
     z-index: 1000;
     width: 100px;
     background-color: aliceblue;
+    display: none;
 }
 
 div#options-window .option {
@@ -83,4 +84,30 @@ div#options-window .option {
 
 div#options-window .option:hover {
     background-color: beige;
+}
+
+/* 튜토리얼 */
+div.tutorial_grid {
+    display: grid;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+div.tutorial_grid table {
+    height: 180px;
+    width: 360px;
+}
+
+div.tutorial_grid table tr td {
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    font-size: 30px;
+    background-color: gray;
+}
+
+div.tutorial_grid table tr td:hover {
+    background-color: aliceblue;
 }

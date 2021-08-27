@@ -1,3 +1,4 @@
+/* main */
 navbar {
     position: sticky;
     flex-wrap: wrap;
@@ -26,7 +27,9 @@ navbar ul span:hover {
     color: blue;
 }
 
-div.quiz_grid {
+
+/* main, tutorial 공통 부분 */
+div {
     display: grid;
     margin-top: 25px;
     margin-left: 25px;
@@ -35,7 +38,7 @@ div.quiz_grid {
     flex-wrap: wrap;
 }
 
-div.quiz_grid table {
+div table {
     height: 360px;
     width: 900px;
 }
@@ -64,59 +67,25 @@ div table tr td.chosen {
     background-color: blue;
 }
 
+div table tr td.word {
+    background-color: blue;
+}
+
 div#options-window {
-    position: fixed;
+    position: relative;
     z-index: 1000;
-    width: 100px;
+    width: 150px;
+    height: fit-content;
     background-color: aliceblue;
     display: none;
 }
 
 div#options-window .option {
-    padding: 8px 10px;
+    padding: 5px;
     font-size: 15px;
     cursor: pointer;
 }
 
 div#options-window .option:hover {
     background-color: beige;
-}
-
-/* 튜토리얼 */
-h1 {
-    font-size: 45px;
-    text-align: center;
-}
-
-h3 {
-    font-size: 25px;
-}
-
-ul {
-    font-size: 17px;
-    text-align: center;
-    padding: 20px;
-    margin: 20px;
-    background-color: lightgray;
-    display: block;
-    width: 100px;
-}
-
-div.tutorial_grid {
-    display: grid;
-    margin-top: 25px;
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
-}
-
-div.btn {
-    float: left;
-}
-
-div.list {
-    width: 120px;
-    float: left;
-    padding: 15px;
 }

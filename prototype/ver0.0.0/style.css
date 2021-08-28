@@ -72,7 +72,7 @@ div table tr td.word {
 }
 
 div#options-window {
-    position: relative;
+    position: fixed;
     z-index: 1000;
     width: 150px;
     height: fit-content;

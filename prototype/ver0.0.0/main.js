@@ -92,7 +92,7 @@ let target = {
             });
     },
     blank: function (w_space) {
-        fetch("valid_wordlist.json")
+        fetch("wordlist.json")
             .then(response => response.json())
             .then(json => {
                 try {

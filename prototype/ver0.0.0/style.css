@@ -30,7 +30,6 @@ navbar ul span:hover {
 
 /* main, tutorial 공통 부분 */
 div {
-    display: grid;
     margin-top: 25px;
     margin-left: 25px;
     margin-right: 25px;
@@ -39,7 +38,7 @@ div {
 
 div table {
     height: auto;
-    width: auto
+    width: auto;
 }
 
 div table tr td {

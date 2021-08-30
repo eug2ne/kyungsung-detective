@@ -59,17 +59,15 @@ button {
 
 /* 퀴즈에 사용되는 div는 main, tutorial 동일하게 적용 */
 div {
-    display: grid;
     margin-top: 25px;
     margin-left: 25px;
     margin-right: 25px;
     margin-bottom: 25px;
-    flex-wrap: wrap;
 }
 
 div table {
-    height: 180px;
-    width: 360px;
+    height: auto;
+    width: auto;
 }
 
 div table tr td {
@@ -82,22 +80,32 @@ div table tr td {
 
 div table tr td:hover {
     background-color: aliceblue;
+    height: 60px;
+    width: 60px;
 }
 
 div table tr td.target {
     background-color: aliceblue;
+    height: 60px;
+    width: 60px;
 }
 
 div table tr td.choosable {
     background-color: beige;
+    height: 60px;
+    width: 60px;
 }
 
 div table tr td.chosen {
     background-color: blue;
+    height: 60px;
+    width: 60px;
 }
 
 div table tr td.word {
     background-color: blue;
+    height: 180px;
+    width: 120px;
 }
 
 div#options-window {

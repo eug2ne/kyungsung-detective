@@ -35,12 +35,11 @@ div {
     margin-left: 25px;
     margin-right: 25px;
     margin-bottom: 25px;
-    flex-wrap: wrap;
 }
 
 div table {
-    height: 360px;
-    width: 900px;
+    height: auto;
+    width: auto
 }
 
 div table tr td {
@@ -57,18 +56,26 @@ div table tr td:hover {
 
 div table tr td.target {
     background-color: aliceblue;
+    height: 60px;
+    width: 60px;
 }
 
 div table tr td.choosable {
     background-color: beige;
+    height: 60px;
+    width: 60px;
 }
 
 div table tr td.chosen {
     background-color: blue;
+    height: 60px;
+    width: 60px;
 }
 
 div table tr td.word {
     background-color: blue;
+    width: 120px;
+    height: 180px;
 }
 
 div#options-window {

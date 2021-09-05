@@ -1,0 +1,97 @@
+/* main */
+navbar {
+    position: sticky;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    height: 60px;
+    width: auto;
+    align-content: left;
+}
+
+navbar h1 {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+navbar ul {
+    align-self: flex-end;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 35px;
+    word-spacing: 20px;
+}
+
+navbar ul span:hover {
+    font-weight: bold;
+    color: blue;
+}
+
+
+/* main, tutorial 공통 부분 */
+div {
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 25px;
+}
+
+div table {
+    height: auto;
+    width: auto;
+}
+
+div table tr td {
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    font-size: 30px;
+    background-color: gray;
+}
+
+div table tr td:hover {
+    background-color: aliceblue;
+}
+
+div table tr td.target {
+    background-color: aliceblue;
+    height: 60px;
+    width: 60px;
+}
+
+div table tr td.choosable {
+    background-color: beige;
+    height: 60px;
+    width: 60px;
+}
+
+div table tr td.chosen {
+    background-color: blue;
+    height: 60px;
+    width: 60px;
+}
+
+div table tr td.word {
+    background-color: blue;
+    width: 120px;
+    height: 180px;
+}
+
+div#options-window {
+    position: fixed;
+    z-index: 1000;
+    width: 150px;
+    height: fit-content;
+    background-color: aliceblue;
+    display: none;
+}
+
+div#options-window .option {
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+div#options-window .option:hover {
+    background-color: beige;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Inventory Item</title>
+</head>
+<body>
+    <header id="menu" text-align="center">
+        <nav class="dotted2">
+            <img class="menuicon" src="image/menu.png" alt="menu">
+            <a class="hidden"></a>
+            <a class="menudotted" href="inventory.html">돌아가기</a>
+            <a class="menudotted" href="menu2.php">단서 노트</a>
+            <a class="menudotted" href="menu3.php">단어판</a>
+        </nav>
+    </header>
+    <br>
+    <div id="item">
+        <a id="item1" @click="addItem($event)">아이템1
+            <div>아이템1 설명</div>
+        </a>
+        <a id="item2" @click="addItem($event)">아이템2
+            <div>아이템2 설명</div>
+        </a>
+        <a id="item3" @click="addItem($event)">아이템3
+            <div>아이템3 설명</div>
+        </a>
+        <a id="item4" @click="addItem($event)">아이템4
+            <div>아이템4 설명</div>
+        </a>
+        <a id="item5" @click="addItem($event)">아이템5
+            <div>아이템5 설명</div>
+        </a>
+        <a id="item6" @click="addItem($event)">아이템6
+            <div>아이템6 설명</div>
+        </a>
+
+        현재 소유한 아이템: 
+        <li v-for="item in items">{{item}}</li>
+    </div>
+   
+    <script>
+        const app = new Vue({
+            el: "#item",
+            data: {
+                newItemText: '',
+                items: [
+                ],
+                nextItemId: 1
+            },
+            methods: {
+                addItem(event) {
+                    targetId = event.currentTarget.id
+                    if(!(this.items.includes(targetId))){
+                    this.items.push(targetId);
+                    this.newItemText=''
+                    }
+                }
+            }
+        })
+    
+
+
+
+    </script>
+</body>
+</html>

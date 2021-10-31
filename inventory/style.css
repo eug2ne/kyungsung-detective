@@ -1,0 +1,142 @@
+a:link {
+    color: black;
+    text-decoration: none;
+}
+a:visited {
+    color: black;
+    text-decoration: none;
+}
+a:hover {
+    color: blue;
+}
+
+.menudotted{
+    border: 1px;
+    border-style: dashed;
+    padding: 5px;
+    font-size: 30px;
+}
+
+nav.dotted1{
+    border: 1px;
+    border-style: dashed;
+    padding: 10px;
+    width: 425px;
+}
+
+nav.dotted2{
+    border: 1px;
+    border-style: dashed;
+    padding: 10px;
+    width: 450px;
+}
+
+#item a{
+    width: 100px; height: 100px;
+    margin: 15px; padding:130px;
+    background-color: lightgoldenrodyellow;
+    border-style: solid;
+    float: left; position: relative;
+    display: flex;
+    align-items: center; 
+    flex-direction: row;
+    justify-content: center;
+}
+
+nav > .hidden{
+    visibility: hidden;
+    margin: 30px;
+}
+
+.menuicon{
+    position: absolute;
+    top: 7px;
+    left: 8px;
+    width: 65px;
+}
+
+#answerarea{
+    position: absolute; 
+    top: 25%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; height: 180px; 
+    border-style: solid;
+    display: flex;
+    align-items: center; 
+    flex-direction: row;
+    justify-content: center;
+}
+
+#gamearea{
+    position: absolute; 
+    top: 65%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; height: 450px; 
+    border-style: solid;
+    display: flex;
+    align-items: center; 
+    flex-direction: row;
+    justify-content: center;
+}
+
+#hint{
+    list-style-type: none;
+    float: right; position: absolute;
+    font-size: 20px;
+    right: 3%;
+    top: 3%;
+}
+
+.hintbox{
+    background-color: gainsboro;
+    width: 111px; height: 40px;
+    padding:10px;
+    border-style: solid;
+    display: flex;
+    align-items: center; 
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    
+}
+
+.hintdotted{
+    display: block;
+    width: 80px; height: 30px;
+    border: 1px;
+    border-style: dashed;
+    padding: 10px;
+    margin: 6px;
+}
+
+
+div > .hidden{
+    visibility: hidden;
+    height: 65px;
+}  
+
+ul > div{
+    border: 1px;
+    border-style: dashed;
+    padding: 10px;
+}
+
+#item a:hover div{
+    background-color: #c0c0c0 ;
+    border: #c0c0c0 1px dotted;
+    display: block;
+    top: 0%;
+    left: 0%;
+    right: 0%;
+    bottom: 0%;
+    border: 10px;
+    position: absolute;
+    display: flex;
+    align-items: center; 
+    flex-direction: row;
+    justify-content: center;
+}
+
+#item a div{
+    display: none;
+}

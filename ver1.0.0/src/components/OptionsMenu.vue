@@ -1,5 +1,5 @@
 <template>
-<div id="optionsMenu">
+<div id="optionsMenu" v-if="show">
     <ul id="optionsMenuList">
         <li @click="merge" class="option" id="merge">합치기</li>
         <li @click="word" class="option" id="word">단어 조합</li>
@@ -11,7 +11,11 @@
 <script>
 export default {
     name: 'OptionsMenu',
-    props: ['show'],
+    data() {
+        return {
+            show: false
+        }
+    },
     methods: {
         merge() {
 
@@ -22,6 +26,11 @@ export default {
         space() {
 
         }
+    },
+    mounted() {
+        this.emitter.on('toggleShow', (data) => {
+            this.show = data
+        })
     }
 }
 </script>

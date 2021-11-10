@@ -1,7 +1,7 @@
 <template>
-    <td ref="td" @click="clickOn" @clickOnTarget="console.log(this.isTarget)" :class="{ target:isTarget, choice:isChoice, answer:isAnswer }" :aria-rowindex="rowIndex" :aria-colindex="colIndex">
-        {{ letter }}
-    </td>
+  <td ref="td" @click="toggleTarget" :class="{ target:isTarget, choice:isChoice, answer:isAnswer }" :aria-rowindex="rowIndex" :aria-colindex="colIndex">
+      {{ letter }}
+  </td>
 </template>
 
 <script>
@@ -16,10 +16,21 @@ export default {
     }
   },
   methods: {
-    clickOn() {
-      this.isTarget = true
-      this.$emit('clickOnTarget')
+    toggleTarget(event) {
+      this.isTarget = !this.isTarget
+      this.emitter.emit('toggleShow', this.isTarget)
+
+      if (this.isTarget) {
+        this.emitter.emit('targetClickOn', event.target)
+      }
     }
+  },
+  mounted() {
+    this.emitter.on('targetClickOn', (data) => {
+      if (this.$refs.td != data) {
+        this.isTarget = false
+      }
+    })
   }
 }
 </script>

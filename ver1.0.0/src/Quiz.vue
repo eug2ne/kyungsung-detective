@@ -6,12 +6,7 @@
   <button @click="refreshQuiz" id="refreshQuiz">
     <img src="./assets/refresh-page-option.png" alt="재배열">
   </button>
-  <table ref="table" id="Quiz area">
-    <tr v-for="(item, index) in quizletterset" :key="index" :aria-rowindex="index">
-      <Letter :rowIndex="index" v-for="(value, name) in item" :key="name.id" :colIndex="name" :letter="value"/>
-    </tr>
-  </table>
-  <OptionsMenu v-if="show"/>
+  <QuizArea/>
 
   <div>Icons made by <a href="https://www.flaticon.com/authors/andy-horvath" title="Andy Horvath">Andy Horvath</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 </template>
@@ -19,20 +14,11 @@
 <script>
 import Navbar from './components/Navbar.vue'
 import Answerarea from './components/Answerarea.vue'
-import Letter from './components/Letter.vue'
-import OptionsMenu from './components/OptionsMenu.vue'
-import quizletterset from './assets/quizletterset.json'
+import QuizArea from './components/QuizArea.vue'
 
 export default {
   name: 'Quiz',
-  components: { Letter, Navbar, Answerarea, OptionsMenu },
-  data() {
-    return {
-      quizletterset: quizletterset,
-      show: false,
-      targetLetter: null
-    }
-  },
+  components: { QuizArea, Navbar, Answerarea },
   methods: {
     refreshQuiz() {
       // refresh quiz

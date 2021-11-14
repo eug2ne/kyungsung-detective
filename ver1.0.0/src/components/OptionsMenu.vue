@@ -1,9 +1,9 @@
 <template>
 <div id="optionsMenu" v-if="show">
     <ul id="optionsMenuList">
-        <li @click="merge" class="option" id="merge">합치기</li>
-        <li @click="word" class="option" id="word">단어 조합</li>
-        <li @click="space" class="option" id="space">빈칸</li>
+        <li @click="mergeOpt" class="option" id="merge">합치기</li>
+        <li @click="wordOpt" class="option" id="word">단어 조합</li>
+        <li @click="spaceOpt" class="option" id="space">빈칸</li>
     </ul>
 </div>
 </template>
@@ -13,33 +13,50 @@ export default {
     name: 'OptionsMenu',
     data() {
         return {
-            show: false
+            show: false,
+            top: '0px',
+            left: '0px',
+            targetTd: null
         }
     },
     methods: {
-        merge() {
-
+        mergeOpt() {
+            this.emitter.emit('showChoices', {'target':this.targetTd, 'type':'merge'})
         },
-        word() {
-
+        wordOpt() {
+            this.emitter.emit('showChoices', {'target':this.targetTd, 'type':'word'})
         },
-        space() {
-
+        spaceOpt() {
+            this.emitter.emit('showChoices', {'target':this.targetTd, 'type':null})
         }
     },
     mounted() {
         this.emitter.on('toggleShow', (data) => {
             this.show = data
+        }),
+        this.emitter.on('updateTarget', (data) => {
+            this.targetTd = data
         })
     }
 }
 </script>
 
 <style scoped>
-#targetMenu {
-    position: fixed;
+#optionsMenu {
+    display: block;
+    position: absolute;
     z-index: 1000;
     width: 100px;
     background-color: aliceblue;
+}
+
+ul .option {
+    padding: 8px 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+ul .option:hover {
+    background-color: beige;
 }
 </style>

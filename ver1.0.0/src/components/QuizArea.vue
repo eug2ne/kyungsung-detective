@@ -1,7 +1,7 @@
 <template>
   <table ref="table" id="Quiz-area">
-    <tr v-for="(item, index) in quizletterset" :key="index" :aria-rowindex="index">
-      <Letter :rowIndex="index" v-for="(value, name) in item" :key="name.id" :colIndex="name" :letter="value"/>
+    <tr v-for="(item, index) in quizletterset" :key="item.id" :aria-rowindex="index">
+      <Letter :action="action" :rowIndex="index" v-for="(value, name) in item" :key="name.id" :colIndex="name" :letter="value"/>
     </tr>
   </table>
   <OptionsMenu/>
@@ -17,8 +17,29 @@ export default {
     components: { Letter, OptionsMenu },
     data() {
       return {
-        quizletterset: quizletterset
+        quizletterset: quizletterset,
+        target: null,
+        chosen: [],
+        action: null,
+        pastSet: []
       }
+    },
+    methods: {
+    },
+    mounted() {
+      this.emitter.on('showChoices', (data, type) => {
+        this.target = data
+        this.action = type
+      }),
+      this.emitter.on('ppChoices', (data, type) => {
+        if (type === 'push') {
+          this.chosen.push(data)
+        } else {
+          this.chosen.pop(data)
+        }
+
+        console.log(this.chosen)
+      })
     }
 }
 </script>

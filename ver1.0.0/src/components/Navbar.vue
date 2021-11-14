@@ -5,21 +5,34 @@
     </button>
     <ul class="navbar">
       <li class="navbar" id="tutorial">튜토리얼<a href=""></a></li>
-      <li @mouseover="mouseOverHint" class="navbar" id="hint">힌트<a href=""></a></li>
+      <li @mouseover="mouseOverHint" @mouseleave="mouseLeaveHint" class="navbar" id="hint">힌트<a href=""></a></li>
+    </ul>
+  </nav>
+  <nav v-if="showHintDropdown" id="hint-dropdown">
+    <ul>
+      <li><a href="#"></a></li>
+      <li><a href="#"></a></li>
+      <li><a href="#"></a></li>
     </ul>
   </nav>
 </template>
 
 <script>
-import hintDropdown from './hintDropdown.vue'
-
 export default {
   name: 'Navbar',
-  components: { hintDropdown },
+  data() {
+    return {
+      showDropdown: false
+    }
+  },
   methods: {
-    mouseOverHint: () => {
+    mouseOverHint() {
       // show hintDropdown
-      console.log("mouseover")
+      this.showDropdown = true
+    },
+    mouseLeaveHint() {
+      // hide hintDropdown
+      this.showDropdown = false
     }
   }
 }

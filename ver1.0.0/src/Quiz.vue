@@ -21,7 +21,7 @@ export default {
   components: { QuizArea, Navbar, Answerarea },
   methods: {
     refreshQuiz() {
-      // refresh quiz
+      this.$forceUpdate()
     }
   }
 }

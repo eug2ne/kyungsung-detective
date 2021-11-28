@@ -1,32 +1,24 @@
 <template>
-  <div id="item">
-    <a id="item1" @click="addItem($event)" @dblclick="deleteItem($event)"
-      >아이템1
-      <div>아이템1 설명</div>
-    </a>
-    <a id="item2" @click="addItem($event)" @dblclick="deleteItem($event)"
-      >아이템2
-      <div>아이템2 설명</div>
-    </a>
-    <a id="item3" @click="addItem($event)" @dblclick="deleteItem($event)"
-      >아이템3
-      <div>아이템3 설명</div>
-    </a>
-    <a id="item4" @click="addItem($event)" @dblclick="deleteItem($event)"
-      >아이템4
-      <div>아이템4 설명</div>
-    </a>
-    <a id="item5" @click="addItem($event)" @dblclick="deleteItem($event)"
-      >아이템5
-      <div>아이템5 설명</div>
-    </a>
-    <a id="item6" @click="addItem($event)" @dblclick="deleteItem($event)"
-      >아이템6
-      <div>아이템6 설명</div>
-    </a>
-    <div id="owned">
+  <div>
+    <div v-for="(item, index) in items" :key="index">
+      <div
+        v-if="item.access === 1"
+        v-bind:id="index"
+        class="item"
+        @click="addItem($event)"
+        @dblclick="deleteItem($event)"
+      >
+        {{ item.name }}
+        <div>{{ item.description }}</div>
+      </div>
+      <div v-else class="lockedItem">아이템을 잠금 해제하세요</div>
+    </div>
+
+    <div id="ownedBox">
       현재 소유한 아이템:
-      <li :key="item" v-for="item in items">{{ item }}</li>
+      <b v-for="(item, index) in items" :key="index">
+        <b v-if="item.owned === 1">&nbsp;{{ item.name }}&nbsp;</b>
+      </b>
     </div>
   </div>
 </template>
@@ -35,26 +27,63 @@
 export default {
   data() {
     return {
-      items: [],
+      items: [
+        {
+          access: 1,
+          name: "item1",
+          description: "item1 description",
+          owned: "",
+        },
+        {
+          access: 1,
+          name: "item2",
+          description: "item2 description",
+          owned: "",
+        },
+        {
+          access: 1,
+          name: "item3",
+          description: "item3 description",
+          owned: "",
+        },
+        {
+          access: 1,
+          name: "item4",
+          description: "item4 description",
+          owned: "",
+        },
+        {
+          access: 0,
+          name: "item5",
+          description: "item5 description",
+          owned: "",
+        },
+        {
+          access: 0,
+          name: "item6",
+          description: "item6 description",
+          owned: "",
+        },
+      ],
     };
   },
   methods: {
     addItem(event) {
-      if (!this.items.includes(event.currentTarget.id))
-        this.items.push(event.currentTarget.id);
+      var thisId = event.currentTarget.id;
+      this.items[thisId].owned = 1;
+      console.log(this.items[thisId].owned);
     },
     deleteItem(event) {
-      //  targetId = event.currentTarget.id;
-      for (var i = 0; i < this.items.length; i++) {
-        if (this.items[i] == event.currentTarget.id) this.items.splice(i, 1);
-      }
+      var thisId = event.currentTarget.id;
+      this.items[thisId].owned = 0;
+      console.log(this.items[thisId].owned);
     },
   },
 };
 </script>
 
 <style scoped>
-#item a {
+.item {
   width: 100px;
   height: 100px;
   margin: 15px;
@@ -69,8 +98,23 @@ export default {
   justify-content: center;
   white-space: nowrap;
 }
+.lockedItem {
+  width: 100px;
+  height: 100px;
+  margin: 15px;
+  padding: 130px;
+  background-color: gray;
+  border-style: solid;
+  float: left;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  white-space: nowrap;
+}
 
-#item a:hover div {
+.item:hover div {
   background-color: #84c0d5;
   top: 0%;
   left: 0%;
@@ -84,11 +128,11 @@ export default {
   justify-content: center;
 }
 
-#item a div {
+.item div {
   display: none;
 }
 
-#owned {
+#ownedBox {
   width: auto;
   height: 50px;
   margin: 15px;

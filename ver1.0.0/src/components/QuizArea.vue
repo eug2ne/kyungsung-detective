@@ -21,6 +21,7 @@
         :isChoice="value.isChoice"
         :isChosen="value.isChosen"
         :isAnswer="value.isAnswer"
+        :isWord="value.isWord"
         />
     </tr>
   </table>
@@ -59,7 +60,7 @@ export default {
     },
     methods: {
       updateTarget(data) {
-        if (this.chosen.length == 6&&this.quizletterset[data.row][data.col].isTarget) {
+        if (this.$refs.table.querySelector('td.choice,td.chosen')&&this.quizletterset[data.row][data.col].isTarget) {
           // forceword()
           this.word(this.chosen)
         } else {
@@ -122,7 +123,6 @@ export default {
         const l1 = this.quizletterset[arr[0].row][arr[0].col].letter
         const l2 = this.quizletterset[arr[1].row][arr[1].col].letter
 
-        console.log(this.mergelist.merge[`${l1},${l2}`])
         if (mergelist.valid[`${l1}`].includes(`${l2}`)) {
           this.quizletterset[arr[0].row][Math.min(arr[0].col, arr[1].col)].letter = this.mergelist.merge[`${l1},${l2}`]
           this.quizletterset[arr[0].row][Math.max(arr[0].col, arr[1].col)].letter = ''
@@ -131,9 +131,64 @@ export default {
         }
 
         // reset()
+        for (let r=0;r<6;r++) {
+          for (let c=0;c<15;c++) {
+              this.quizletterset[r][c].isTarget = false
+              this.quizletterset[r][c].isChoice = false
+              this.quizletterset[r][c].isChosen = false
+          }
+        }
       },
       word(arr) {
-        
+        let wordspace = {'0,0':null, '1,0':null, '0,1':null, '1,1':null, '0,2':null, '1,2':null}
+
+        for (let n=0;n<arr.length;n++) {
+          
+          if (this.quizletterset[arr[n].row][arr[n].col] == '') {
+            wordspace[`${arr[n].col-arr[0].col},${arr[n].row-arr[0].row}`] = null
+          } else {
+            wordspace[`${arr[n].col-arr[0].col},${arr[n].row-arr[0].row}`] = this.quizletterset[arr[n].row][arr[n].col].letter
+          }
+        }
+
+        let index = Object.values(this.wordlist).findIndex(element => this.compare_obj(element, wordspace))
+        if (index != -1) {
+          this.quizletterset[arr[0].row][arr[0].col].letter = Object.keys(this.wordlist)[index]
+          this.quizletterset[arr[0].row][arr[0].col].isWord = true
+
+          delete this.quizletterset[arr[0].row][arr[0].col+1]
+          delete this.quizletterset[arr[0].row+1][arr[0].col]
+          delete this.quizletterset[arr[0].row+1][arr[0].col+1]
+          delete this.quizletterset[arr[0].row+2][arr[0].col]
+          delete this.quizletterset[arr[0].row+2][arr[0].col+1]
+        } else {
+          console.log('wordimpossible')
+        }
+
+        // reset()
+        for (let r=0;r<6;r++) {
+          for (let c=0;c<15;c++) {
+              this.quizletterset[r][c].isTarget = false
+              this.quizletterset[r][c].isChoice = false
+              this.quizletterset[r][c].isChosen = false
+          }
+        }
+      },
+      compare_obj(a, b) {
+        // compare 2 objects
+        // if identical, return true
+        // else, return false
+
+        let n = 0;
+        let compare = true;
+        while (compare && n < 6) {
+          if (Object.values(a)[n] === Object.values(b)[n])
+            n = n + 1;
+          else
+            compare = false;
+        }
+
+        return compare;
       },
       ppChoice(data) {
         if (data.action === 'push') {

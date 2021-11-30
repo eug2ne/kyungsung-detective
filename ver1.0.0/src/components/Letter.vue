@@ -1,6 +1,6 @@
 <template>
-  <td @click="clickonLetter"
-  :class="{ target:isTarget, choice:isChoice, chosen:isChosen, answer:isAnswer }" :aria-rowindex="rowIndex" :aria-colindex="colIndex">
+  <td @click="clickonLetter" ref="td"
+  :class="{ target:isTarget, choice:isChoice, chosen:isChosen, answer:isAnswer, word:isWord }" :aria-rowindex="rowIndex" :aria-colindex="colIndex">
       {{ letter }}
   </td>
 </template>
@@ -8,7 +8,7 @@
 <script>
 export default {
   name: 'Letter',
-  props: ['rowIndex', 'colIndex', 'letter', 'isTarget', 'isChoice', 'isChosen', 'isAnswer'],
+  props: ['rowIndex', 'colIndex', 'letter', 'isTarget', 'isChoice', 'isChosen', 'isAnswer', 'isWord'],
   methods: {
     clickonLetter() {
       if (this.isChoice||this.isChosen) {
@@ -24,12 +24,18 @@ export default {
       }
     }
   },
-  mounted() {
+  watch: {
+    isWord: function(val) {
+      if (val) {
+        this.$refs.td.setAttribute('rowspan', 3)
+        this.$refs.td.setAttribute('colspan', 2)
+      }
+    }
   }
 }
 </script>
 
-<style scoped>
+<style>
 td {
   height: 90px;
   width: 90px;
@@ -47,6 +53,10 @@ td.choice {
 
 td.chosen {
   background-color: #84C0D5;
+}
+
+td.word {
+  background-color: #275A68;
 }
 
 td.answer {

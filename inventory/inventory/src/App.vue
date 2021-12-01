@@ -1,17 +1,14 @@
 <template>
   <div id="app">
-    <Inventory />
+    <router-link to="/">홈</router-link><br />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Inventory from "./components/layout/Inventory.vue";
-
 export default {
   name: "App",
-  components: {
-    Inventory,
-  },
+  components: {},
 };
 </script>
 

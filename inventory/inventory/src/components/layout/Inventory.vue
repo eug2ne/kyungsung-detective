@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div v-if="ownedItems.includes(7)">여기</div>
+
+    <div id="ownedBox">
+      <div>현재 소유한 아이템:</div>
+      <div v-for="itemIdx in ownedItems" :key="itemIdx">
+        &nbsp;<img :src="items[itemIdx].img" />
+      </div>
+    </div>
+    <div class="hidden">empty space</div>
+
     <div v-for="(item, index) in items" :key="index">
       <div
         v-if="item.access === 1"
@@ -8,17 +18,12 @@
         @click="addItem($event)"
         @dblclick="deleteItem($event)"
       >
-        {{ item.name }}
-        <div>{{ item.description }}</div>
+        <div class="isOwned">{{ isOwned(index) }}</div>
+        <img align="middle" :src="item.img" />
+        <div>{{ item.name }}</div>
+        <div class="description">{{ item.description }}</div>
       </div>
       <div v-else class="lockedItem">아이템을 잠금 해제하세요</div>
-    </div>
-
-    <div id="ownedBox">
-      현재 소유한 아이템:
-      <b v-for="(item, index) in items" :key="index">
-        <b v-if="item.owned === 1">&nbsp;{{ item.name }}&nbsp;</b>
-      </b>
     </div>
   </div>
 </template>
@@ -32,89 +37,102 @@ export default {
           access: 1,
           name: "item1",
           description: "item1 description",
-          owned: "",
+          img: require("../../img/item1.png"),
         },
         {
           access: 1,
           name: "item2",
           description: "item2 description",
-          owned: "",
+          img: require("../../img/item2.png"),
         },
         {
           access: 1,
           name: "item3",
           description: "item3 description",
-          owned: "",
+          img: require("../../img/item3.png"),
         },
         {
           access: 1,
           name: "item4",
           description: "item4 description",
-          owned: "",
+          img: require("../../img/item4.png"),
         },
         {
           access: 0,
           name: "item5",
           description: "item5 description",
-          owned: "",
+          img: require("../../img/item5.png"),
         },
         {
           access: 0,
           name: "item6",
           description: "item6 description",
-          owned: "",
+          img: require("../../img/item6.png"),
         },
       ],
+      ownedItems: [],
     };
   },
+
   methods: {
     addItem(event) {
-      var thisId = event.currentTarget.id;
-      this.items[thisId].owned = 1;
-      console.log(this.items[thisId].owned);
+      var targetId = parseInt(event.currentTarget.id);
+      if (!this.ownedItems.includes(targetId)) this.ownedItems.push(targetId);
     },
     deleteItem(event) {
-      var thisId = event.currentTarget.id;
-      this.items[thisId].owned = 0;
-      console.log(this.items[thisId].owned);
+      var targetId = parseInt(event.currentTarget.id);
+      for (var i = 0; i < this.ownedItems.length; i++)
+        if (this.ownedItems[i] == targetId) this.ownedItems.splice(i, 1);
+    },
+    isOwned(index) {
+      if (this.ownedItems.includes(index)) return "✔소지 중인 아이템입니다";
     },
   },
 };
 </script>
 
 <style scoped>
-.item {
-  width: 100px;
-  height: 100px;
+#ownedBox {
+  width: 95%;
+  height: 85px;
   margin: 15px;
-  padding: 130px;
-  background-color: #b0eeff;
+  padding: 15px;
   border-style: solid;
   float: left;
   position: relative;
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: center;
-  white-space: nowrap;
-}
-.lockedItem {
-  width: 100px;
-  height: 100px;
-  margin: 15px;
-  padding: 130px;
-  background-color: gray;
-  border-style: solid;
-  float: left;
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
   white-space: nowrap;
 }
 
-.item:hover div {
+#ownedBox div img {
+  width: 70px;
+  height: 70px;
+}
+
+.hidden {
+  float: left;
+  width: 100%;
+  visibility: hidden;
+}
+
+.item {
+  width: 250px;
+  height: 250px;
+  margin: 15px;
+  border-style: solid;
+  float: left;
+  position: relative;
+  text-align: center;
+}
+
+.item img {
+  width: 80%;
+  height: 80%;
+}
+
+.item:hover .description {
   background-color: #84c0d5;
   top: 0%;
   left: 0%;
@@ -128,21 +146,25 @@ export default {
   justify-content: center;
 }
 
-.item div {
+.item .description {
   display: none;
 }
 
-#ownedBox {
-  width: auto;
-  height: 50px;
+.isOwned {
+  height: 25px;
+}
+
+.lockedItem {
+  width: 250px;
+  height: 250px;
   margin: 15px;
-  padding: 15px;
+  background-color: gray;
   border-style: solid;
   float: left;
   position: relative;
   display: flex;
   align-items: center;
   flex-direction: row;
-  white-space: nowrap;
+  justify-content: center;
 }
 </style>

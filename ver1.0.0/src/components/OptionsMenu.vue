@@ -15,26 +15,27 @@ export default {
         return {
             show: false,
             top: '0px',
-            left: '0px'
+            left: '0px',
+            targetTd: null
         }
     },
     methods: {
         mergeOpt() {
-            this.show = false
-            this.$emit('clickOption', 'merge')
+            this.emitter.emit('showChoices', {'target':this.targetTd, 'type':'merge'})
         },
         wordOpt() {
-            this.show = false
-            this.$emit('clickOption', 'word')
+            this.emitter.emit('showChoices', {'target':this.targetTd, 'type':'word'})
         },
         spaceOpt() {
-            this.show = false
-            this.$emit('clickOption', null)
+            this.emitter.emit('showChoices', {'target':this.targetTd, 'type':null})
         }
     },
     mounted() {
         this.emitter.on('toggleShow', (data) => {
             this.show = data
+        }),
+        this.emitter.on('updateTarget', (data) => {
+            this.targetTd = data
         })
     }
 }

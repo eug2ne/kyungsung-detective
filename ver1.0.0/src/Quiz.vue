@@ -3,11 +3,12 @@
     <Navbar/>
   </header>
   <Answerarea/>
+  <button @click="refreshQuiz" id="refreshQuiz">
+    <img src="./assets/refresh-page-option.png" alt="재배열">
+  </button>
   <QuizArea/>
 
   <div>Icons made by <a href="https://www.flaticon.com/authors/andy-horvath" title="Andy Horvath">Andy Horvath</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-  <div>Icons made by <a href="https://www.flaticon.com/authors/jesus-chavarria" title="Jesus Chavarria">Jesus Chavarria</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-  <div>Icons made by <a href="https://www.flaticon.com/authors/bayu015" title="bayu015">bayu015</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 </template>
 
 <script>
@@ -19,6 +20,9 @@ export default {
   name: 'Quiz',
   components: { QuizArea, Navbar, Answerarea },
   methods: {
+    refreshQuiz() {
+      this.$forceUpdate()
+    }
   }
 }
 </script>

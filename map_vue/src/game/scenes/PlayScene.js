@@ -118,9 +118,9 @@ export default class PlayScene extends Scene {
     trees.create(2654/2, 1344/2,'tree').setScale(0.4).refreshBody()
     trees.create(2776/2, 1243/2,'tree').setScale(0.4).refreshBody()
 
-    player = this.physics.add.sprite(100, 450, 'sami').setScale(0.08)
+    player = this.physics.add.sprite(100, 450, 'sami').setScale(0.1)
     player.setCollideWorldBounds(true)
- /*
+
     this.anims.create({
       key: 'left',
       frames: this.anims.generateFrameNumbers('sami', { start: 1, end: 4 }),
@@ -147,7 +147,7 @@ export default class PlayScene extends Scene {
         frameRate: 10,
         repeat: -1
     })
-    */
+   
     cursors = this.input.keyboard.createCursorKeys()
 
     this.physics.add.collider(player, house_m)
@@ -190,7 +190,7 @@ export default class PlayScene extends Scene {
     else if(cursors.down.isDown){
         player.body.setVelocityY(160);
     }
-    /*
+    
     if (cursors.left.isDown) {
         player.anims.play('left', true);
     }else if (cursors.right.isDown) {
@@ -203,6 +203,6 @@ export default class PlayScene extends Scene {
         player.anims.stop();
     }
     player.body.velocity.normalize().scale(160);
-    */
+    
   }
 }

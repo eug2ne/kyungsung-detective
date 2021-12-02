@@ -5,8 +5,8 @@ import PlayScene from '@/game/scenes/PlayScene'
 function launch(containerId) {
   return new Phaser.Game({
     type: Phaser.AUTO,
-    width: 1400,
-    height: 990.5,
+    width: 2800/3,
+    height: 1981/3,
     parent: containerId,
     physics: {
       default: 'arcade',

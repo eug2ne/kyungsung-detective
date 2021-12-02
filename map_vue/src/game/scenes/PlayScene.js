@@ -8,7 +8,16 @@ export default class PlayScene extends Scene {
   }
 
   create () {
-    this.add.image(700,495.25,'back1').setScale(0.5)
+    this.physics.world.setBounds(0, 0, 2800,1981)
+    this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
+
+    this.minimap = this.cameras.add(15, 500, 2800*0.08, 1981*0.076).setZoom(0.07).setName('mini');
+
+    this.minimap.setBackgroundColor(0xE4B7AF)
+    this.minimap.scrollX = 700*2
+    this.minimap.scrollY = 445.25*2
+
+    this.add.image(700*2,495.25*2,'back1')
     var platforms = this.physics.add.staticGroup() //그룹으로 묶는다. 
     var house_m = this.physics.add.staticGroup()
     var trees = this.physics.add.staticGroup()
@@ -30,96 +39,99 @@ export default class PlayScene extends Scene {
     var col_gr2 = this.physics.add.staticGroup()
     var col_gr3 = this.physics.add.staticGroup()
     var col_gr4 = this.physics.add.staticGroup()
-    house_m.create(1220, 775,'house1').setScale(0.5).refreshBody()
-    tree_sss.create(700, 495.25,'treess').setScale(0.5).refreshBody().setDepth(10)
-    platforms.create(700.45,495.25,'back2').setScale(0.5).refreshBody().setDepth(5)
+    house_m.create(1220*2, 775*2,'house1').refreshBody()
+    tree_sss.create(700*2, 495.25*2,'treess').refreshBody().setDepth(10)
+    platforms.create(700.45*2,495.25*2,'back2').refreshBody().setDepth(5)
 
-    col_left_h_g.create(446.5,467,'left_h_g').setScale(0.5).refreshBody()
-    col_mid_h.create(705,475,'mid_h').setScale(0.5).refreshBody()
-    col_mini_h.create(2405/2,1753/2,'mini_h').setScale(0.5).refreshBody()
-    col_mini_h.create(2495/2,1753/2,'mini_h').setScale(0.5).refreshBody()
-    col_left_h.create(1295/2,1380/2,'left_h').setScale(0.5).refreshBody()
-    col_right_h.create(1863/2,1325/2,'right_h').setScale(0.5).refreshBody()
-    col_gr1.create(1726/2,809/2,'gr1').setScale(0.5).refreshBody()
-    col_gr2.create(1648/2,943/2,'gr2').setScale(0.5).refreshBody()
-    col_gr3.create(1780/2,888/2,'gr3').setScale(0.5).refreshBody()
-    col_gr4.create(1756/2,968/2,'gr4').setScale(0.5).refreshBody()
-    col_fo1.create(2478/2,317/2,'fo1').setScale(0.5).refreshBody()
-    col_fo2.create(2074/2,61/2,'fo2').setScale(0.5).refreshBody()
-    col_fo3.create(2330/2,123/2,'fo3').setScale(0.5).refreshBody()
-    col_fo4.create(2398/2,229/2,'fo4').setScale(0.5).refreshBody()
-    col_fo5.create(2340/2,325/4,'fo5').setScale(0.5).refreshBody()
-    col_fo5.create(2309.5/2,196/4,'fo6').setScale(0.5).refreshBody()
+    col_left_h_g.create(446.5*2,467*2,'left_h_g').refreshBody()
+    col_mid_h.create(705*2,475*2,'mid_h').refreshBody()
+    col_mini_h.create(2405,1753,'mini_h').refreshBody()
+    col_mini_h.create(2495,1753,'mini_h').refreshBody()
+    col_left_h.create(1295,1380,'left_h').refreshBody()
+    col_right_h.create(1863,1325,'right_h').refreshBody()
+    col_gr1.create(1726,809,'gr1').refreshBody()
+    col_gr2.create(1648,943,'gr2').refreshBody()
+    col_gr3.create(1780,888,'gr3').refreshBody()
+    col_gr4.create(1756,968,'gr4').refreshBody()
+    col_fo1.create(2478,317,'fo1').refreshBody()
+    col_fo2.create(2074,61,'fo2').refreshBody()
+    col_fo3.create(2330,123,'fo3').refreshBody()
+    col_fo4.create(2398,229,'fo4').refreshBody()
+    col_fo5.create(2340,325/2,'fo5').refreshBody()
+    col_fo5.create(2309.5,196/2,'fo6').refreshBody()
 
-    col_north_o.create(1574/2,470/2,'north_o').setScale(0.5).refreshBody()
-    col_west_o.create(2570/2,948/2,'west_o').setScale(0.5).refreshBody()
+    col_north_o.create(1574,470,'north_o').refreshBody()
+    col_west_o.create(2570,948,'west_o').refreshBody()
 
     //나무 심기(충돌때문에 하나씩)
     //왼쪽 위에 숲
-    trees.create(95, 65,'tree').setScale(0.4).refreshBody()
-    trees.create(155, 30,'tree').setScale(0.4).refreshBody()
-    trees.create(215, 20,'tree').setScale(0.4).refreshBody()
-    trees.create(90, 165,'tree').setScale(0.4).refreshBody()
-    trees.create(120, 225,'tree').setScale(0.4).refreshBody()
+    trees.create(95*2, 65*2,'tree').setScale(0.8).refreshBody()
+    trees.create(155*2, 30*2,'tree').setScale(0.8).refreshBody()
+    trees.create(215*2, 20*2,'tree').setScale(0.8).refreshBody()
+    trees.create(90*2, 165*2,'tree').setScale(0).refreshBody()
+    trees.create(120*2, 225*2,'tree').setScale(0.8).refreshBody()
     //위 중앙 숲
-    trees.create(330, 190,'tree').setScale(0.4).refreshBody()
-    trees.create(350, 95,'tree').setScale(0.4).refreshBody()
-    trees.create(400, 25,'tree').setScale(0.4).refreshBody()
-    trees.create(490, 20,'tree').setScale(0.4).refreshBody()
-    trees.create(435, 80,'tree').setScale(0.4).refreshBody()
-    trees.create(435, 80,'tree').setScale(0.4).refreshBody()
-    trees.create(465, 150,'tree').setScale(0.4).refreshBody()
-    trees.create(430, 230,'tree').setScale(0.4).refreshBody()
-    trees.create(485, 280,'tree').setScale(0.4).refreshBody()
-    trees.create(520, 135,'tree').setScale(0.4).refreshBody()
-    trees.create(535, 85,'tree').setScale(0.4).refreshBody()
-    trees.create(525, 210,'tree').setScale(0.4).refreshBody()
-    trees.create(630, 165,'tree').setScale(0.4).refreshBody()
-    trees.create(620, 104,'tree').setScale(0.4).refreshBody()
+    trees.create(330*2, 190*2,'tree').setScale(0.8).refreshBody()
+    trees.create(350*2, 95*2,'tree').setScale(0.8).refreshBody()
+    trees.create(400*2, 25*2,'tree').setScale(0.8).refreshBody()
+    trees.create(490*2, 20*2,'tree').setScale(0.8).refreshBody()
+    trees.create(435*2, 80*2,'tree').setScale(0.8).refreshBody()
+    trees.create(435*2, 80*2,'tree').setScale(0.8).refreshBody()
+    trees.create(465*2, 150*2,'tree').setScale(0.8).refreshBody()
+    trees.create(430*2, 230*2,'tree').setScale(0.8).refreshBody()
+    trees.create(485*2, 280*2,'tree').setScale(0.8).refreshBody()
+    trees.create(520*2, 135*2,'tree').setScale(0.8).refreshBody()
+    trees.create(535*2, 85*2,'tree').setScale(0.8).refreshBody()
+    trees.create(525*2, 210*2,'tree').setScale(0.8).refreshBody()
+    trees.create(630*2, 165*2,'tree').setScale(0.8).refreshBody()
+    trees.create(620*2, 104*2,'tree').setScale(0.8).refreshBody()
     
     //중간 숲
-    trees.create(270, 753,'tree').setScale(0.4).refreshBody()
-    trees.create(385, 750,'tree').setScale(0.4).refreshBody()
-    trees.create(425, 640,'tree').setScale(0.4).refreshBody()
-    trees.create(1090, 640,'tree').setScale(0.4).refreshBody()
-    trees.create(1175, 627,'tree').setScale(0.4).refreshBody()
-    trees.create(1235, 638,'tree').setScale(0.4).refreshBody()
+    trees.create(270*2, 753*2,'tree').setScale(0.8).refreshBody()
+    trees.create(385*2, 750*2,'tree').setScale(0.8).refreshBody()
+    trees.create(425*2, 640*2,'tree').setScale(0.8).refreshBody()
+    trees.create(1090*2, 640*2,'tree').setScale(0.8).refreshBody()
+    trees.create(1175*2, 627*2,'tree').setScale(0.8).refreshBody()
+    trees.create(1235*2, 638*2,'tree').setScale(0.8).refreshBody()
 
     //밑에 숲
-    trees.create(80, 698,'tree').setScale(0.4).refreshBody()
-    trees.create(100, 778,'tree').setScale(0.4).refreshBody()
-    trees.create(90, 930,'tree').setScale(0.4).refreshBody()
-    trees.create(150, 985,'tree').setScale(0.4).refreshBody()
-    trees.create(160, 937,'tree').setScale(0.4).refreshBody()
-    trees.create(250, 990.5,'tree').setScale(0.4).refreshBody()
-    trees.create(340, 990.5,'tree').setScale(0.4).refreshBody()
-    trees.create(395, 970,'tree').setScale(0.4).refreshBody()
-    trees.create(492, 984,'tree').setScale(0.4).refreshBody()
-    trees.create(553, 962,'tree').setScale(0.4).refreshBody()
-    trees.create(568, 863,'tree').setScale(0.4).refreshBody()
-    trees.create(626, 889,'tree').setScale(0.4).refreshBody()
-    trees.create(705, 896,'tree').setScale(0.4).refreshBody()
-    trees.create(760, 962,'tree').setScale(0.4).refreshBody()
-    trees.create(623, 963,'tree').setScale(0.4).refreshBody()
-    trees.create(1706/2, 1930/2,'tree').setScale(0.4).refreshBody()
-    trees.create(1764/2, 1740/2,'tree').setScale(0.4).refreshBody()
-    trees.create(1870/2, 1718/2,'tree').setScale(0.4).refreshBody()
-    trees.create(1842/2, 1897/2,'tree').setScale(0.4).refreshBody()
-    trees.create(1940/2, 1755/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2000/2, 1900/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2122/2, 1922/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2190/2, 1974/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2350/2, 1944/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2540/2, 1900/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2640/2, 1850/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2690/2, 1690/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2738/2, 1516/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2627/2, 1505/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2654/2, 1344/2,'tree').setScale(0.4).refreshBody()
-    trees.create(2776/2, 1243/2,'tree').setScale(0.4).refreshBody()
+    trees.create(80*2, 698*2,'tree').setScale(0.8).refreshBody()
+    trees.create(100*2, 778*2,'tree').setScale(0.8).refreshBody()
+    trees.create(90*2, 930*2,'tree').setScale(0.8).refreshBody()
+    trees.create(150*2, 985*2,'tree').setScale(0.8).refreshBody()
+    trees.create(160*2, 937*2,'tree').setScale(0.8).refreshBody()
+    trees.create(250*2, 990.5*2,'tree').setScale(0.8).refreshBody()
+    trees.create(340*2, 990.5*2,'tree').setScale(0.8).refreshBody()
+    trees.create(395*2, 970*2,'tree').setScale(0.8).refreshBody()
+    trees.create(492*2, 984*2,'tree').setScale(0.8).refreshBody()
+    trees.create(553*2, 962*2,'tree').setScale(0.8).refreshBody()
+    trees.create(568*2, 863*2,'tree').setScale(0.8).refreshBody()
+    trees.create(626*2, 889*2,'tree').setScale(0.8).refreshBody()
+    trees.create(705*2, 896*2,'tree').setScale(0.8).refreshBody()
+    trees.create(760*2, 962*2,'tree').setScale(0.8).refreshBody()
+    trees.create(623*2, 963*2,'tree').setScale(0.8).refreshBody()
 
-    player = this.physics.add.sprite(100, 450, 'sami').setScale(0.1)
-    player.setCollideWorldBounds(true)
+
+    trees.create(1706, 1930,'tree').setScale(0.8).refreshBody()
+    trees.create(1764, 1740,'tree').setScale(0.8).refreshBody()
+    trees.create(1870, 1718,'tree').setScale(0.8).refreshBody()
+    trees.create(1842, 1897,'tree').setScale(0.8).refreshBody()
+    trees.create(1940, 1755,'tree').setScale(0.8).refreshBody()
+    trees.create(2000, 1900,'tree').setScale(0.8).refreshBody()
+    trees.create(2122, 1922,'tree').setScale(0.8).refreshBody()
+    trees.create(2190, 1974,'tree').setScale(0.8).refreshBody()
+    trees.create(2350, 1944,'tree').setScale(0.8).refreshBody()
+    trees.create(2540, 1900,'tree').setScale(0.8).refreshBody()
+    trees.create(2640, 1850,'tree').setScale(0.8).refreshBody()
+    trees.create(2690, 1690,'tree').setScale(0.8).refreshBody()
+    trees.create(2738, 1516,'tree').setScale(0.8).refreshBody()
+    trees.create(2627, 1505,'tree').setScale(0.8).refreshBody()
+    trees.create(2654, 1344,'tree').setScale(0.8).refreshBody()
+    trees.create(2776, 1243,'tree').setScale(0.8).refreshBody()
+
+    player = this.physics.add.sprite(200, 900, 'sami').setScale(0.16)
+    this.cameras.main.startFollow(player, false, 0.2, 0.2)
+    //player.setCollideWorldBounds(true)
 
     this.anims.create({
       key: 'left',
@@ -176,19 +188,20 @@ export default class PlayScene extends Scene {
     player.body.setVelocity(0);
     if (cursors.left.isDown)
     { 
-        player.body.setVelocityX(-160);
+        player.body.setVelocityX(-160*2);
     }
     else if (cursors.right.isDown)
     {
-        player.body.setVelocityX(160);
+        player.body.setVelocityX(160*2);
     }
 
     if(cursors.up.isDown)
     {
-        player.body.setVelocityY(-160);
+        player.body.setVelocityY(-160*2);
+
     }
     else if(cursors.down.isDown){
-        player.body.setVelocityY(160);
+        player.body.setVelocityY(160*2);
     }
     
     if (cursors.left.isDown) {

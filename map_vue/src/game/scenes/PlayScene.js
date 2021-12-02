@@ -1,5 +1,7 @@
 import { Scene } from 'phaser'
 
+var player
+var cursors
 export default class PlayScene extends Scene {
   constructor () {
     super({ key: 'PlayScene' })
@@ -116,8 +118,37 @@ export default class PlayScene extends Scene {
     trees.create(2654/2, 1344/2,'tree').setScale(0.4).refreshBody()
     trees.create(2776/2, 1243/2,'tree').setScale(0.4).refreshBody()
 
-    var player = this.physics.add.sprite(100, 450, 'sami').setScale(0.08)
+    player = this.physics.add.sprite(100, 450, 'sami').setScale(0.08)
     player.setCollideWorldBounds(true)
+ /*
+    this.anims.create({
+      key: 'left',
+      frames: this.anims.generateFrameNumbers('sami', { start: 1, end: 4 }),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    this.anims.create({
+        key: 'back',
+        frames: this.anims.generateFrameNumbers('sami', { start: 5, end: 8 }),
+        frameRate: 10,
+        repeat: -1
+    })
+    this.anims.create({
+        key: 'front',
+        frames: this.anims.generateFrameNumbers('sami', { start: 9, end: 12 }),
+        frameRate: 10,
+        repeat: -1
+    })
+
+    this.anims.create({
+        key: 'right',
+        frames: this.anims.generateFrameNumbers('sami', { start: 13, end: 16  }),
+        frameRate: 10,
+        repeat: -1
+    })
+    */
+    cursors = this.input.keyboard.createCursorKeys()
 
     this.physics.add.collider(player, house_m)
     this.physics.add.collider(player, trees)
@@ -145,11 +176,40 @@ export default class PlayScene extends Scene {
     bomb.setBounce(1)
     bomb.setVelocity(200, 20)
     this.physics.add.collider(bomb, trees)
-    
-
    
   }
 
   update () {
+    player.body.setVelocity(0);
+    if (cursors.left.isDown)
+    { 
+        player.body.setVelocityX(-160);
+    }
+    else if (cursors.right.isDown)
+    {
+        player.body.setVelocityX(160);
+    }
+
+    if(cursors.up.isDown)
+    {
+        player.body.setVelocityY(-160);
+    }
+    else if(cursors.down.isDown){
+        player.body.setVelocityY(160);
+    }
+    /*
+    if (cursors.left.isDown) {
+        player.anims.play('left', true);
+    }else if (cursors.right.isDown) {
+        player.anims.play('right', true);
+    } else if (cursors.up.isDown) {
+        player.anims.play('back', true);
+    } else if (cursors.down.isDown) {
+        player.anims.play('front', true);
+    } else {
+        player.anims.stop();
+    }
+    player.body.velocity.normalize().scale(160);
+    */
   }
 }

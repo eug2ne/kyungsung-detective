@@ -169,13 +169,6 @@ export default class PlayScene extends Scene {
     this.physics.add.collider(player, col_gr2)
     this.physics.add.collider(player, col_gr3)
     this.physics.add.collider(player, col_gr4)
-    
-    const bomb = this.physics.add.image(400, 200, 'bomb')
-    bomb.setCollideWorldBounds(true)
-    bomb.body.onWorldBounds = true // enable worldbounds collision event
-    bomb.setBounce(1)
-    bomb.setVelocity(200, 20)
-    this.physics.add.collider(bomb, trees)
    
   }
 

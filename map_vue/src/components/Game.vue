@@ -5,10 +5,8 @@
   </div>
 </template>
 
-
 <script>
 export default {
-  name: 'Game',
   data() {
     return {
       downloaded: false,
@@ -17,7 +15,7 @@ export default {
     }
   },
   async mounted() {
-    const game = await import(/* webpackChunkName: "game" */ '@/game/game.js')
+    const game = await import(/* webpackChunkName: "game" */ '@/game/game')
     this.downloaded = true
     this.$nextTick(() => {
       this.gameInstance = game.launch(this.containerId)
@@ -29,3 +27,9 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+.placeholder {
+  font-size: 2rem;
+  font-family: 'Courier New', Courier, monospace;
+}
+</style>

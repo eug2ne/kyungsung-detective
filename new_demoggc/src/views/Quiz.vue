@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue'
-import Answerarea from './components/Answerarea.vue'
-import QuizArea from './components/QuizArea.vue'
+import Navbar from '../components/Navbar.vue'
+import Answerarea from '../components/Answerarea.vue'
+import QuizArea from '../components/QuizArea.vue'
 
 export default {
   name: 'Quiz',

@@ -55,13 +55,4 @@ table {
   align-self: center;
   background-color: #914D44;
 }
-<<<<<<< Updated upstream
 </style>
-=======
-
-div#quiz-wrapper {
-  display: flex;
-  flex-direction: row;
-}
-</style>
->>>>>>> Stashed changes

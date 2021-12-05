@@ -15,6 +15,7 @@ import QuizArea from './components/QuizArea.vue'
 export default {
   name: 'Quiz',
   components: { QuizArea, Navbar, Answerarea },
+  props: ['quiz_id'],
   methods: {
   }
 }
@@ -54,4 +55,13 @@ table {
   align-self: center;
   background-color: #914D44;
 }
+<<<<<<< Updated upstream
 </style>
+=======
+
+div#quiz-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+</style>
+>>>>>>> Stashed changes

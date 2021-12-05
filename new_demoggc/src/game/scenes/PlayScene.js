@@ -11,13 +11,13 @@ export default class PlayScene extends Scene {
     this.physics.world.setBounds(0, 0, 2800,1981)
     this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
 
-    this.minimap = this.cameras.add(15, 500, 2800*0.08, 1981*0.076).setZoom(0.07).setName('mini');
+    this.minimap = this.cameras.add(15, 500, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
 
-    this.minimap.setBackgroundColor(0xE4B7AF)
-    this.minimap.scrollX = 700*2
-    this.minimap.scrollY = 445.25*2
+    this.minimap.setBackgroundColor(0xaca2a0)
+    this.minimap.scrollX = 1306
+    this.minimap.scrollY = 925
 
-    this.add.image(700*2,495.25*2,'back1')
+    this.add.image(2800/2,1981/2,'back1')
     var platforms = this.physics.add.staticGroup() //그룹으로 묶는다. 
     var house_m = this.physics.add.staticGroup()
     var trees = this.physics.add.staticGroup()

@@ -39,8 +39,6 @@ export default {
 <style scoped>
 #optionsMenu {
     display: block;
-    position: absolute;
-    z-index: 1000;
     width: 100px;
     background-color: aliceblue;
 }

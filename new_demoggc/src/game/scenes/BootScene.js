@@ -1,30 +1,30 @@
 import { Scene } from 'phaser'
-import back1 from '../assets/궁정리.png'
-import back2 from '../assets/건물레이어(나무밑).png'
-import treess from '../assets/다리자른 나무.png'
-import sami from '../assets/주인공걸음마확대_frame1.png'
-import house1 from '../assets/궁_0000s_0004_건물6_충돌버전.png'
-import tree from '../assets/궁_0004_나무한그루_충돌.png'
-import left_h_g from '../assets/경복궁왼쪽충돌.png'
-import mid_h from '../assets/경복궁 충돌 중앙.png'
-import mini_h from '../assets/미니집.png'
-import left_h from '../assets/왼쪽집.png'
-import tight_h from '../assets/오른쪽집.png'
-import north_o from '../assets/위에 충돌(궁하나 혼자).png'
-import west_o from '../assets/오른쪽에 충돌(궁하나 혼자).png'
+import back1 from '@/game/assets/궁정리.png'
+import back2 from '@/game/assets/건물레이어(나무밑).png'
+import treess from '@/game/assets/다리자른 나무.png'
+import sami from '@/game/assets/주인공걸음마확대_frame1.png'
+import house1 from '@/game/assets/궁_0000s_0004_건물6_충돌버전.png'
+import tree from '@/game/assets/궁_0004_나무한그루_충돌.png'
+import left_h_g from '@/game/assets/경복궁왼쪽충돌.png'
+import mid_h from '@/game/assets/경복궁 충돌 중앙.png'
+import mini_h from '@/game/assets/미니집.png'
+import left_h from '@/game/assets/왼쪽집.png'
+import tight_h from '@/game/assets/오른쪽집.png'
+import north_o from '@/game/assets/위에 충돌(궁하나 혼자).png'
+import west_o from '@/game/assets/오른쪽에 충돌(궁하나 혼자).png'
 
-import fo1 from '../assets/오른쪽숲1.png'
-import fo2 from '../assets/오른쪽숲2.png'
-import fo3 from '../assets/오른쪽숲3.png'
-import fo4 from '../assets/오른쪽숲4.png'
-import fo5 from '../assets/오른쪽숲5.png'
-import fo6 from '../assets/오른쪽숲6.png'
+import fo1 from '@/game/assets/오른쪽숲1.png'
+import fo2 from '@/game/assets/오른쪽숲2.png'
+import fo3 from '@/game/assets/오른쪽숲3.png'
+import fo4 from '@/game/assets/오른쪽숲4.png'
+import fo5 from '@/game/assets/오른쪽숲5.png'
+import fo6 from '@/game/assets/오른쪽숲6.png'
 
 
-import gr1 from '../assets/궁오른쪽1.png'
-import gr2 from '../assets/궁오른쪽2.png'
-import gr3 from '../assets/궁오른쪽3.png'
-import gr4 from '../assets/궁오른쪽4.png'
+import gr1 from '@/game/assets/궁오른쪽1.png'
+import gr2 from '@/game/assets/궁오른쪽2.png'
+import gr3 from '@/game/assets/궁오른쪽3.png'
+import gr4 from '@/game/assets/궁오른쪽4.png'
 
 
 
@@ -34,8 +34,6 @@ export default class BootScene extends Scene {
   }
 
   preload () {
-    this.load.image('sky', sky)
-    this.load.image('bomb', bomb)
     this.load.image('back1', back1)
     this.load.image('back2', back2)
     this.load.image('treess', treess)

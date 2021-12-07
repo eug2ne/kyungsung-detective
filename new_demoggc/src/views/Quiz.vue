@@ -1,24 +1,10 @@
 <template>
-  <header>
-    <Navbar>
-      <li><router-link :to="{ name: 'Inventory' }">인벤토리</router-link></li>
-      <li><router-link :to="{ name: 'Cluenote' }">단서노트</router-link></li>
-      <nav v-if="showHintDropdown" id="hint-dropdown">
-        <ul>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-        </ul>
-      </nav>
-    </Navbar>
-  </header>
   <Answerarea/>
-  <button @click="refreshQuiz" id="refreshQuiz">
-    <img src="../assets/refresh-page-option.png" alt="재배열">
-  </button>
   <QuizArea/>
 
   <div>Icons made by <a href="https://www.flaticon.com/authors/andy-horvath" title="Andy Horvath">Andy Horvath</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+  <div>Icons made by <a href="https://www.flaticon.com/authors/jesus-chavarria" title="Jesus Chavarria">Jesus Chavarria</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+  <div>Icons made by <a href="https://www.flaticon.com/authors/bayu015" title="bayu015">bayu015</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 </template>
 
 <script>
@@ -29,10 +15,8 @@ import QuizArea from '../components/QuizArea.vue'
 export default {
   name: 'Quiz',
   components: { QuizArea, Navbar, Answerarea },
+  props: ['quiz_id'],
   methods: {
-    refreshQuiz() {
-      this.$forceUpdate()
-    }
   }
 }
 </script>

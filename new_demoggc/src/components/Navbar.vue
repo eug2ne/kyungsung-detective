@@ -50,13 +50,4 @@ ul {
   display: flex;
   align-items: flex-end;
 }
-
-li {
-  font-size: 25px;
-  padding: 10px 20px;
-  position: relative;
-  text-align: center;
-  display: flex;
-  transition: 0.4%;
-}
 </style>

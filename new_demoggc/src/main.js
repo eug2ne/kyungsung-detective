@@ -1,17 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import mitt from 'mitt'
 
-// Import Bootstrap an BootstrapVue CSS files (order is important)
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-// Make BootstrapVue available throughout your project
-Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin)
-
-Vue.config.productionTip = false
-
-createApp(App).use(router).mount('#app')
+// eventbus
+const emitter = mitt()
+const app = createApp(App).use(router)
+app.mount('#app')
+app.config.globalProperties.emitter = emitter

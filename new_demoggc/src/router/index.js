@@ -11,9 +11,10 @@ const routes = [
     component: Game
   },
   {
-    path: '/Quiz',
+    path: '/Quiz/:quiz_id',
     name: 'Quiz',
-    component: Quiz
+    component: Quiz,
+    props: true
   },
   {
     path: '/Cluenote',

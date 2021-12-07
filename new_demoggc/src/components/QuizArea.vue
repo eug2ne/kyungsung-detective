@@ -1,10 +1,12 @@
 <template>
-  <table ref="table" id="Quiz-area">
-    <tr v-for="(item, index) in quizletterset" :key="item.id" :aria-rowindex="index">
-      <Letter :action="action" :rowIndex="index" v-for="(value, name) in item" :key="name.id" :colIndex="name" :letter="value"/>
-    </tr>
-  </table>
-  <OptionsMenu/>
+  <div id="quiz-wrapper">
+    <table ref="table" id="Quiz-area">
+      <tr v-for="(item, index) in quizletterset" :key="item.id" :aria-rowindex="index">
+        <Letter :action="action" :rowIndex="index" v-for="(value, name) in item" :key="name.id" :colIndex="name" :letter="value"/>
+      </tr>
+    </table>
+    <OptionsMenu/>
+  </div>
 </template>
 
 <script>
@@ -17,7 +19,7 @@ export default {
     components: { Letter, OptionsMenu },
     data() {
       return {
-        quizletterset: quizletterset,
+        quizletterset,
         target: null,
         chosen: [],
         action: null,

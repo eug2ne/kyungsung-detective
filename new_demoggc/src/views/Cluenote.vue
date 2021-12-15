@@ -9,7 +9,7 @@
     <div class="clue" v-for="clue in this.show" :key="clue.id">
       <div class="cluewrapper" v-if="clue.achieve">
         <h3>{{ clue.title }}</h3>
-        <p>{{ clue.descript }}</p>
+        <p><a v-if="clue.a" :href="clue.a">{{ clue.descript }}</a></p>
       </div>
 
       <div class="cluewrapper" v-else>
@@ -24,22 +24,32 @@
 
         <div class="subcluewrapper" v-else>
           <h3>아직 잠겨있습니다</h3>
-          <p>퍼즐 풀고 단서 얻으러가기</p>
+          <p>
+            <router-link :to="subclue.link">
+              퍼즐 풀고 단서 얻으러가기
+            </router-link>
+          </p>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script> 
-import cluelist from '../assets/cluelist.json'
+<script>
+import { ref } from 'vue'
 
 export default {
   data() {
     return {
-      cluelist,
-      show: []
+      cluelist: ref([]),
+      show: ref([])
     }
+  },
+  beforeMount() {
+    fetch('http://localhost:3000/cluelist')
+      .then(response => response.json())
+      .then(data => this.cluelist = data)
+      .catch(error => console.log(error.message))
   },
   methods: {
     showClue(story) {

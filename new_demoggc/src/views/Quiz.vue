@@ -1,6 +1,6 @@
 <template>
-  <Answerarea/>
-  <QuizArea/>
+  <Answerarea :id="quiz_id"/>
+  <QuizArea :id="quiz_id"/>
 
   <div>Icons made by <a href="https://www.flaticon.com/authors/andy-horvath" title="Andy Horvath">Andy Horvath</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
   <div>Icons made by <a href="https://www.flaticon.com/authors/jesus-chavarria" title="Jesus Chavarria">Jesus Chavarria</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
@@ -8,29 +8,32 @@
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue'
 import Answerarea from '../components/Answerarea.vue'
 import QuizArea from '../components/QuizArea.vue'
 
 export default {
   name: 'Quiz',
-  components: { QuizArea, Navbar, Answerarea },
-  props: ['quiz_id'],
-  methods: {
-  }
+  components: { QuizArea, Answerarea },
+  props: ['quiz_id']
 }
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+#controls {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #84C0D5;
+  margin-bottom: 10px;
 }
 
-header {
-  width: 100%;
-  padding: 15px;
+#help {
+  background-color: #84C0D5;
+}
+
+#hints {
+  background-color: #B0EEFF;
 }
 
 button {
@@ -50,9 +53,7 @@ img {
 }
 
 table {
-  margin: 20px;
-  padding: 5px;
-  align-self: center;
+  display: block;
   background-color: #914D44;
 }
 </style>

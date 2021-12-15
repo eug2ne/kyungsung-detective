@@ -10,7 +10,7 @@ export default {
   name: 'Letter',
   props: ['rowIndex', 'colIndex', 'letter', 'isTarget', 'isChoice', 'isChosen', 'isAnswer', 'isWord'],
   methods: {
-    clickonLetter() {
+    clickonLetter(event) {
       if (this.isChoice||this.isChosen) {
         // update chosen
         if (this.isChoice) {
@@ -18,9 +18,12 @@ export default {
         } else {
           this.$emit('toggleChoice', {'choice':{'row':this.rowIndex, 'col':parseInt(this.colIndex)}, 'action':'pop'})
         }
+      }
+      else if (this.isWord) {
+        // pass
       } else {
         // toggletarget() || forceword()
-        this.$emit('clickOnLetter', {'row':this.rowIndex, 'col':parseInt(this.colIndex), 'target':this.isTarget})
+        this.$emit('clickOnLetter', {'row':this.rowIndex, 'col':parseInt(this.colIndex), 'target':this.isTarget, 'x':event.clientX, 'y':event.clientY})
       }
     }
   },
@@ -29,6 +32,9 @@ export default {
       if (val) {
         this.$refs.td.setAttribute('rowspan', 3)
         this.$refs.td.setAttribute('colspan', 2)
+      } else {
+        this.$refs.td.setAttribute('rowspan', 1)
+        this.$refs.td.setAttribute('colspan', 1)
       }
     }
   }
@@ -37,9 +43,12 @@ export default {
 
 <style>
 td {
-  height: 90px;
-  width: 90px;
-  margin: 10px;
+  height: 60px;
+  width: 60px;
+  margin: 2px;
+  text-align: center;
+  font-size: 25px;
+  color: #1D1009;
   background-color: #E4B7AF;
 }
 
@@ -57,6 +66,8 @@ td.chosen {
 
 td.word {
   background-color: #275A68;
+  -ms-grid-row-span: 3;
+  -ms-grid-col-span: 2;
 }
 
 td.answer {

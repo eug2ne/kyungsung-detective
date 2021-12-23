@@ -1,7 +1,7 @@
 <template>
   <nav>
-    <button class="navbar" id="return">
-      <a href="main.html"><img src="../assets/refresh.png" alt="돌아가기"></a>
+    <button class="navbar" id="terminate">
+      <img src="../assets/refresh.png" alt="">
     </button>
     <ul class="navbar">
       <slot></slot>
@@ -11,42 +11,21 @@
 
 <script>
 export default {
-  name: 'Navbar',
-  data() {
-    return {
-      showDropdown: false
-    }
-  },
-  methods: {
-    mouseOverHint() {
-      // show hintDropdown
-      this.showDropdown = true
-    },
-    mouseLeaveHint() {
-      // hide hintDropdown
-      this.showDropdown = false
-    }
-  }
+  name: 'Navbar'
 }
 </script>
 
-<style scoped>
+<style>
 nav {
+  position: sticky;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-a {
-  display: inherit;
-  width: inherit;
-  height: inherit;
-}
-
 ul {
   align-self: flex-end;
-  margin-bottom: 10px;
   display: flex;
   align-items: flex-end;
 }

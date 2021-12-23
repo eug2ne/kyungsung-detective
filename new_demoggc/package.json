@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "json-server": "^0.17.0",
+    "lodash": "^4.17.21",
     "mitt": "^3.0.0",
     "phaser": "^3.55.2",
     "vue": "^3.2.23",

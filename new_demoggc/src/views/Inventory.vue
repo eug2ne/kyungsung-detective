@@ -19,18 +19,24 @@
 </template>
 
 <script>
-import itemlist from '../assets/itemlist.json'
-import Item from './inventory/Item.vue'
-import None from './inventory/None.vue'
+import { ref } from 'vue'
+import Item from '../components/inventory/Item.vue'
+import None from '../components/inventory/None.vue'
 
 export default {
   data() {
     return {
-      itemlist,
-      owned: {'name':null, 'descript':null}
+      itemlist: ref([]),
+      owned: ref({})
     }
   },
   components: { Item, None },
+  beforeMount() {
+    fetch('http://localhost:3000/itemlist')
+      .then(response => response.json())
+      .then(data => this.itemlist = data)
+      .catch(error => console.log(error.message))
+  },
   methods: {
     toggleOwned(data) {
       if (this.owned.name == data.name) {
@@ -54,10 +60,5 @@ div#inventory {
 
 div#owned-item {
   margin: 30px;
-}
-
-div.wrapper#owned {
-  display: flex;
-  flex-direction: row;
 }
 </style>

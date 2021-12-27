@@ -1,64 +1,90 @@
 <template>
   <div id="owned-item">
-    <h2>소지하고 있는 아이템</h2>
-    <div v-if="this.owned.name" class="wrapper" id="owned">
-      <h3>{{ this.owned.name }}</h3>
-      <p>{{ this.owned.descript }}</p>
-      <img src="@/assets/item/item1.png" alt="loading">
+    <h3>소지하고 있는 아이템</h3>
+    <div v-if="owned.length > 0">
+      <div v-for="ownedId in owned" :key="ownedId.id" id="owned-itemlist">
+        <img
+          :src="require(`@/assets/item/${itemlist[ownedId].imgURL}`)"
+          alt="loading"
+        />
+      </div>
     </div>
-    <div v-else class="wrapper">
+    <div v-else>
+      <br />
       <p>아직 소지하고 있는 아이템이 없습니다.</p>
     </div>
   </div>
+
   <div id="inventory">
-    <component @addItem="toggleOwned" v-for="item in itemlist" :key="item.id"
-    :name="item.name"
-    :descript="item.descript"
-    :is="item.name === undefined ? 'None':'Item'"/>
+    <component
+      @addItem="toggleOwned"
+      v-for="item in itemlist"
+      :key="item.id"
+      :item="item"
+      :owned="owned"
+      :is="'Item'"
+    />
+    <!-- 존재하는 아이템 총 개수 = 6 -->
+    <component
+      v-for="n in 6 - Object.keys(this.itemlist).length"
+      :is="'None'"
+    />
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import Item from '../components/inventory/Item.vue'
-import None from '../components/inventory/None.vue'
+import { ref } from "vue";
+import Item from "../components/inventory/Item.vue";
+import None from "../components/inventory/None.vue";
 
 export default {
   data() {
     return {
       itemlist: ref([]),
-      owned: ref({})
-    }
+      owned: ref([]),
+    };
   },
   components: { Item, None },
   beforeMount() {
-    fetch('http://localhost:3000/itemlist')
-      .then(response => response.json())
-      .then(data => this.itemlist = data)
-      .catch(error => console.log(error.message))
+    fetch("http://localhost:3000/itemlist")
+      .then((response) => response.json())
+      .then((data) => (this.itemlist = data))
+      .catch((error) => console.log(error.message));
   },
   methods: {
     toggleOwned(data) {
-      if (this.owned.name == data.name) {
-        this.owned.name = null
-        this.owned.descript = null
-      } else {
-        this.owned = data
-      }
-    }
-  }
-}
+      var array = this.owned;
+      var index = array.indexOf(data.id);
+      if (index === -1) array.push(data.id);
+      else array.splice(index, 1);
+    },
+  },
+};
 </script>
 
 <style>
-div#inventory {
-  display: flex;
-  flex-direction: row;
-  width: 450px;
-  height: 300px;
+#owned-item {
+  width: 930px;
+  height: 230px;
+  margin: 15px;
+  padding: 25px;
+  border: 7px #275a68 solid;
+  font-size: 25px;
 }
 
-div#owned-item {
-  margin: 30px;
+#owned-itemlist {
+  display: inline;
+}
+
+#owned-itemlist img {
+  width: 120px;
+  height: 120px;
+  margin: 20px 10px;
+}
+
+#inventory {
+  display: flex;
+  flex-wrap: wrap;
+  width: 965px;
 }
 </style>

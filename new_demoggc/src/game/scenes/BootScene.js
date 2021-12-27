@@ -26,7 +26,9 @@ import gr2 from '@/game/assets/궁오른쪽2.png'
 import gr3 from '@/game/assets/궁오른쪽3.png'
 import gr4 from '@/game/assets/궁오른쪽4.png'
 
-
+import item4 from '@/assets/item/item4.png'
+import item5 from '@/assets/item/item5.png'
+import item6 from '@/assets/item/item6.png'
 
 export default class BootScene extends Scene {
   constructor () {
@@ -60,6 +62,10 @@ export default class BootScene extends Scene {
     this.load.image('gr2', gr2)
     this.load.image('gr3', gr3)
     this.load.image('gr4', gr4)
+
+    this.load.image('item4', item4)
+    this.load.image('item5', item5)
+    this.load.image('item6', item6)
   }
 
   create () {

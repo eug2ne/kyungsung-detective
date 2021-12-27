@@ -14,16 +14,16 @@ export default {
       if (this.isChoice||this.isChosen) {
         // update chosen
         if (this.isChoice) {
-          this.$emit('toggleChoice', {'choice':{'row':this.rowIndex, 'col':parseInt(this.colIndex)}, 'action':'push'})
+          this.$emit('toggleChoice', {'choice':{'row':this.rowIndex, 'col':parseInt(this.colIndex), 'letter':this.letter}, 'action':'push'})
         } else {
-          this.$emit('toggleChoice', {'choice':{'row':this.rowIndex, 'col':parseInt(this.colIndex)}, 'action':'pop'})
+          this.$emit('toggleChoice', {'choice':{'row':this.rowIndex, 'col':parseInt(this.colIndex), 'letter':this.letter}, 'action':'pop'})
         }
       }
       else if (this.isWord) {
         // pass
       } else {
         // toggletarget() || forceword()
-        this.$emit('clickOnLetter', {'row':this.rowIndex, 'col':parseInt(this.colIndex), 'target':this.isTarget, 'x':event.clientX, 'y':event.clientY})
+        this.$emit('clickOnLetter', {'row':this.rowIndex, 'col':parseInt(this.colIndex), 'letter':this.letter, 'target':this.isTarget, 'x':event.clientX, 'y':event.clientY})
       }
     }
   },

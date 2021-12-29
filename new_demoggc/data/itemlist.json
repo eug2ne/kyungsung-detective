@@ -3,18 +3,18 @@
         "id": 0,
         "name": "개발자들의 사랑",
         "descript": "딱히 쓸모있지는 않다.",
-        "imgURL": "item1.png"
+        "imgURL": "item0.png"
     },
     {
         "id": 1,
         "name": "개발자들의 ...",
         "descript": "그 뭐냐 하여튼 그거다.",
-        "imgURL": "item2.png"
+        "imgURL": "item1.png"
     },
     {
         "id": 2,
         "name": "개발자",
         "descript": "개발개발",
-        "imgURL": "item3.png"
+        "imgURL": "item2.png"
     }
 ]

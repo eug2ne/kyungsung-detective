@@ -1,14 +1,10 @@
 import { BlendModes, Scene } from 'phaser'
+import { newItems } from '../components/Item'
 
 var player, box, items, text
 var cursors, spaceBar
 var spacebarKeydown
-var newItemlist, itemlist
-
-fetch("http://localhost:3000/newItemlist")
-.then((response) => response.json())
-.then((data) => (newItemlist = data))
-.catch((error) => console.log(error.message));
+var itemlist
 
 fetch("http://localhost:3000/itemlist")
 .then((response) => response.json())
@@ -200,16 +196,16 @@ export default class PlayScene extends Scene {
     this.physics.add.collider(player, col_gr4)
     this.physics.add.collider(player, items)
 
-    newItemlist.forEach(item => {
+    newItems.forEach(item => {
         const { id, x, y } = item
-        items.create(x, y, 'item' + (id + 1)).setScale(0.1).refreshBody()
+        items.create(x, y, 'item' + id).setScale(0.1).refreshBody()
     })
         
-    for(var i = 0; i < newItemlist.length; i++){
-        items.children.entries[i].id = newItemlist[i].id;
-        items.children.entries[i].name = newItemlist[i].name;
-        items.children.entries[i].descript = newItemlist[i].descript;
-        items.children.entries[i].imgURL = newItemlist[i].imgURL;
+    for(var i = 0; i < newItems.length; i++){
+        items.children.entries[i].id = newItems[i].id;
+        items.children.entries[i].name = newItems[i].name;
+        items.children.entries[i].descript = newItems[i].descript;
+        items.children.entries[i].imgURL = newItems[i].imgURL;
     }
 
     box = this.physics.add.existing(this.add.rectangle(0, 0, 40, 40));
@@ -220,7 +216,7 @@ export default class PlayScene extends Scene {
     text.setColor('#fff');
     text.setStroke('#000', 5);
     text.setPadding(5);
-
+    
     function addItem(box, item) {
         text.setText("스페이스바를 눌러 '"+ item.name +"' 얻기");
         if(spacebarKeydown === true){
@@ -286,8 +282,8 @@ export default class PlayScene extends Scene {
     if(spaceBar.isDown) spacebarKeydown = true;
     else spacebarKeydown = false;
 
-    for(var i = 0; i < newItemlist.length; i++){
-        if (itemlist[newItemlist[i].id] != undefined) 
+    for(var i = 0; i < newItems.length; i++){
+        if (itemlist[newItems[i].id] != undefined) 
             items.children.entries[i].disableBody(true, true);
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div id="owned-item">
-    <h3>소지하고 있는 아이템</h3>
+    <h4>소지하고 있는 아이템</h4>
     <div v-if="owned.length > 0">
       <div v-for="ownedId in owned" :key="ownedId.id" id="owned-itemlist">
         <img
@@ -10,7 +10,6 @@
       </div>
     </div>
     <div v-else>
-      <br />
       <p>아직 소지하고 있는 아이템이 없습니다.</p>
     </div>
   </div>
@@ -62,14 +61,21 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #owned-item {
   width: 930px;
-  height: 230px;
+  height: 210px;
   margin: 15px;
-  padding: 25px;
+  padding: 20px;
   border: 7px #275a68 solid;
   font-size: 25px;
+}
+
+#owned-item div {
+  height: 140px;
+  display: table-cell;
+  vertical-align: middle;
+  color: gray;
 }
 
 #owned-itemlist {
@@ -77,8 +83,8 @@ export default {
 }
 
 #owned-itemlist img {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   margin: 20px 10px;
 }
 

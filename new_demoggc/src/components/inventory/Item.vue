@@ -1,8 +1,8 @@
 <template>
   <div @click="clickItem" :class="{ wrapper: true, owned: isOwned() }">
     <h3>{{ item.name }}</h3>
-    <p>{{ item.descript }}</p>
     <img :src="require(`@/assets/item/${item.imgURL}`)" alt="loading" />
+    <p class="hover">{{ item.descript }}</p>
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
 <style>
 .wrapper {
   flex: 0 0 210px;
-  height: 380px;
+  height: 310px;
   background: #b0eeff;
   margin: 15px;
   padding: 10px;
@@ -36,27 +36,44 @@ export default {
 }
 
 .wrapper h3 {
-  font-size: 30px;
+  height: 120px;
+  width: 190px;
+  font-size: 28px;
   padding: 20px;
   text-align: center;
+  display: table-cell;
+  vertical-align: middle;
 }
 
-.wrapper p {
+.wrapper .hover {
+  display: none;
   font-size: 20px;
   margin: 10px;
+}
+
+.wrapper:hover .hover {
+  background: #b0eeff;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
   position: absolute;
-  top: 28%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
 }
 
 .wrapper img {
   width: 150px;
   height: 150px;
   position: absolute;
-  top: 55%;
+  top: 42%;
   left: 50%;
   transform: translateX(-50%);
 }
+
 .owned {
-  background-color: #84c0d5;
+  filter: brightness(80%);
 }
 </style>

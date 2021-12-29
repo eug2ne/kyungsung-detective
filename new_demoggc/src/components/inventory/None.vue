@@ -15,7 +15,10 @@ export default {};
 
 .wrapper p {
   position: absolute;
-  top: 50%;
+  top: 48%;
   transform: translateY(-50%);
+  font-size: 20px;
+  margin: 10px;
+  position: absolute;
 }
 </style>

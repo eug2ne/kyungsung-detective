@@ -1,26 +1,26 @@
 const library = () => {
     // regression func
     // used for merge
-    const regression = (set, max_col, row) => {
-        if (set[row][max_col+1] == undefined||
-            set[row][max_col+1].isWord) {
-            set[row][max_col].letter = ''
+    const regression = (set, max_col, row, reverse) => {
+        if (reverse) {
+            // reverse-regression
+            if (set[row][max_col-1] == undefined||
+                set[row][max_col-1].isWord) {
+                set[row][max_col].letter = ''
+            } else {
+                set[row][max_col].letter = set[row][max_col-1].letter
+                    regression(set, max_col-1, row, reverse)
+            }
         } else {
-            set[row][max_col].letter = set[row][max_col+1].letter
-            regression(set, max_col+1, row, reverse = false)
+            // normal-regression
+            if (set[row][max_col+1] == undefined||
+                set[row][max_col+1].isWord) {
+                set[row][max_col].letter = ''
+            } else {
+                set[row][max_col].letter = set[row][max_col+1].letter
+                regression(set, max_col+1, row, reverse)
+            }
         }   
-    }
-
-    // reverse-regression func
-    // used for merge
-    const r_regression = (set, max_col, row) => {
-        if (set[row][max_col-1] == undefined||
-            set[row][max_col-1].isWord) {
-            set[row][max_col].letter = ''
-        } else {
-            set[row][max_col].letter = set[row][max_col-1].letter
-                r_regression(set, max_col-1, row)
-        }
     }
 
     // compare 2 objects
@@ -51,7 +51,7 @@ const library = () => {
         }
     }
 
-    return { regression, r_regression, compare_obj, reset }
+    return { regression, compare_obj, reset }
 }
 
 export default library

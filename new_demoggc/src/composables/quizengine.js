@@ -1,15 +1,13 @@
 // normal quizengine
 import { ref } from 'vue'
-import loadlists from './loadlists'
 import library from './library'
 import backforth from './backforth'
+import mergelist from '../assets/loadlists/valid_mergewordlist.json'
+import wordlist from '../assets/loadlists/wordlist.json'
 
-const quizengine = () => {
-    // import mergelist, wordlist
-    const { mergelist, wordlist } = loadlists()
-
+const quizengine = (reverse) => {
     // import library
-    const { regression, r_regression, compare_obj, reset } = library()
+    const { regression, compare_obj, reset } = library()
 
     // import backforth
     const {
@@ -20,36 +18,8 @@ const quizengine = () => {
         back,
         forward } = backforth()
 
-    // set chosen, max_chosen
-    const chosen = ref([])
-    const max_chosen = ref(Number)
-    const ppChoice = (data, set) => {
-        if (data.action === 'push') {
-          // toggle isChoice/isChosen
-          set[data.choice.row][data.choice.col].isChosen = true
-          set[data.choice.row][data.choice.col].isChoice = false
-
-          chosen.push(data.choice)
-
-          if (chosen.length == max_chosen) {
-              // merge()
-              useMerge(this.chosen)
-          }
-        } else {
-          // data.type === 'pop'
-          // toggle isChoice/isChosen
-          set[data.choice.row][data.choice.col].isChosen = false
-          set[data.choice.row][data.choice.col].isChoice = true
-
-          const i = chosen.indexOf(data.choice)
-          chosen.splice(i,1)
-        }
-      }
-
     // showChoice funcs
     const useshowMerge = (set, row, col) => {
-        max_chosen = 2
-
         switch (col) {
             case 0:
                 set[row][col+1].isChoice = true
@@ -67,8 +37,6 @@ const quizengine = () => {
 
     const useshowWord = (set, row, col) => {
         try {
-            max_chosen = 6
-
             set[row][col+1].isChoice = true
             set[row+1][col].isChoice = true
             set[row+1][col+1].isChoice = true
@@ -83,13 +51,23 @@ const quizengine = () => {
     // merge func
     const useMerge = (arr, set) => {
         try {
-            if (this.mergelist.valid[arr[0].letter].includes(arr[1].letter)) {
+            if (mergelist.valid[arr[0].letter].includes(arr[1].letter)) {
                 // update pastset
-                set[arr[0].row][Math.min(arr[0].col, arr[1].col)].letter = mergelist.merge[`${arr[0].letter},${arr[1].letter}`]
-                set[arr[0].row][Math.max(arr[0].col, arr[1].col)].letter = ''
+                if (reverse) {
+                    // apply reverse-engine
+                    set[arr[0].row][Math.max(arr[0].col, arr[1].col)].letter = mergelist.merge[`${arr[0].letter},${arr[1].letter}`]
+                    set[arr[0].row][Math.min(arr[0].col, arr[1].col)].letter = ''
 
-                // normal-regression()
-                regression(set, Math.max(arr[0].col, arr[1].col), arr[0].row)
+                    // reverse-regression()
+                    regression(set, Math.min(arr[0].col, arr[1].col), arr[0].row, reverse)
+                } else {
+                    // apply normal-engine
+                    set[arr[0].row][Math.min(arr[0].col, arr[1].col)].letter = mergelist.merge[`${arr[0].letter},${arr[1].letter}`]
+                    set[arr[0].row][Math.max(arr[0].col, arr[1].col)].letter = ''
+
+                    // normal-regression()
+                    regression(set, Math.max(arr[0].col, arr[1].col), arr[0].row, reverse)
+                }
 
                 // reset()
                 reset(set)
@@ -108,13 +86,13 @@ const quizengine = () => {
 
         arr.forEach(element => {
             if (element.letter == '') {
-                wordspace[`${element.col-arr[0].col},${element.row-arr[0]/row}`] = null
+                wordspace[`${element.col-arr[0].col},${element.row-arr[0].row}`] = null
             } else {
-                wordspace[`${element.col-arr[0].col},${element.row-arr[0]/row}`] = element.letter
+                wordspace[`${element.col-arr[0].col},${element.row-arr[0].row}`] = element.letter
             }
         })
 
-        let index = Object.values(wordlist.value).findIndex(element => compare_obj(element, wordspace))
+        const index = Object.values(wordlist).findIndex(element => compare_obj(element, wordspace))
         try {
             if (index != -1) {
                 // update pastset
@@ -164,9 +142,6 @@ const quizengine = () => {
         forwardSet,
         back,
         forward,
-        chosen,
-        max_chosen,
-        ppChoice,
         useshowMerge,
         useshowWord,
         useMerge,

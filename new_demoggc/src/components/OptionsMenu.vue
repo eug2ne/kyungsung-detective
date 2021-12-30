@@ -11,22 +11,28 @@
 <script>
 export default {
     name: 'OptionsMenu',
+    data() {
+        return {
+            id: String
+        }
+    },
     methods: {
         mergeOpt() {
             this.$refs.optionsMenu.style.display = 'none'
-            this.$emit('clickOption', 'merge')
+            this.emitter.emit('clickOption', {'option':'merge', 'id':this.id})
         },
         wordOpt() {
             this.$refs.optionsMenu.style.display = 'none'
-            this.$emit('clickOption', 'word')
+            this.emitter.emit('clickOption', {'option':'word', 'id':this.id})
         },
         spaceOpt() {
             this.$refs.optionsMenu.style.display = 'none'
-            this.$emit('clickOption', null)
+            this.emitter.emit('clickOption', {'option':null, 'id':this.id})
         }
     },
     mounted() {
         this.emitter.on('toggleShow', (data) => {
+            this.id = data.id
             if (data.show) {
                 this.$refs.optionsMenu.style.top = `${data.y}px`
                 this.$refs.optionsMenu.style.left = `${data.x+10}px`

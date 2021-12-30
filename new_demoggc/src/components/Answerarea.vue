@@ -35,7 +35,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #Answer-area {
     width: 600px;
     height: 200px;

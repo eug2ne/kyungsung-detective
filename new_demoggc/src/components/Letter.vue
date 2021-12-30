@@ -65,9 +65,8 @@ td.chosen {
 }
 
 td.word {
+  display: block;
   background-color: #275A68;
-  -ms-grid-row-span: 3;
-  -ms-grid-col-span: 2;
 }
 
 td.answer {

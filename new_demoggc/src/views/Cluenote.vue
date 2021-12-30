@@ -46,10 +46,10 @@ export default {
     }
   },
   beforeMount() {
-    fetch('http://localhost:3000/cluelist')
-      .then(response => response.json())
-      .then(data => this.cluelist = data)
-      .catch(error => console.log(error.message))
+    // fetch('http://localhost:3000/cluelist')
+    //   .then(response => response.json())
+    //   .then(data => this.cluelist = data)
+    //   .catch(error => console.log(error.message))
   },
   methods: {
     showClue(story) {
@@ -60,11 +60,6 @@ export default {
 </script>
 
 <style scoped>
-body {
-  display: flex;
-  flex-direction: row;
-}
-
 ul#timeline {
   width: 150px;
   display: inline-block;

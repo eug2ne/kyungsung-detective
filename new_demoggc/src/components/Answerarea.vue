@@ -1,7 +1,7 @@
 <template>
   <div id="Answer-area">
-      <h2 ref="h2">{{ this.$data[this.id].answer }}</h2>
-      <p v-if="showdef">{{ this.$data[this.id].definition }}</p>
+      <h2 ref="h2">{{ this.$data['quiz_1'].answer }}</h2>
+      <p v-if="showdef">{{ this.$data['quiz_1'].definition }}</p>
   </div>
 </template>
 

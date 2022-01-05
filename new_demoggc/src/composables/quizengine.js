@@ -101,6 +101,7 @@ const quizengine = (reverse) => {
                 set[arr[0].row][arr[0].col].letter = Object.keys(wordlist)[index]
                 set[arr[0].row][arr[0].col].isWord = true
       
+                // delete letter in wordspace
                 delete set[arr[0].row][arr[0].col+1]
                 delete set[arr[0].row+1][arr[0].col]
                 delete set[arr[0].row+1][arr[0].col+1]
@@ -111,6 +112,7 @@ const quizengine = (reverse) => {
                 Error('WordError')
             }
         } catch (error) {
+            console.log(error)
             return error.message
         }
     }

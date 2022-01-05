@@ -16,14 +16,14 @@
     </div>
     <ErrorPopup/>
     <table ref="table" id="Quiz-area">
-      <tr v-for="(item, index) in this.quizletterset"
+      <tr v-for="item in Object.keys(this.quizletterset)"
         :key="item.id"
-        :aria-rowindex="index">
+        :aria-rowindex="item">
         <Letter
           @clickOnLetter="updateTarget"
           @toggleChoice="ppChoice"
-          :rowIndex="index"
-          v-for="(value, name) in item"
+          :rowIndex="item"
+          v-for="(value, name) in this.quizletterset[item]"
           :key="name.id" :colIndex="name"
           :letter="value.letter"
           :isTarget="value.isTarget"
@@ -39,10 +39,13 @@
 
 <script>
 import { ref } from 'vue'
+import { db } from '../firestoreDB'
+import 'firebase/compat/firestore'
 import Letter from './Letter.vue'
 import OptionsMenu from './OptionsMenu.vue'
 import ErrorPopup from './QuizError/ErrorPopup.vue'
 import quizengine from '../composables/quizengine'
+import quiz_1 from '../../data/quiz_1.json'
 
 export default {
     name: 'QuizArea',
@@ -58,12 +61,16 @@ export default {
     setup(props) {
       // import quizletterset
       const quizletterset = ref([])
-      if (props.id) {
+      if (props.set) {
         // if set imported, quizletterset = set
         quizletterset.value = props.set
         
       } else {
         // if id imported, use GET
+        const setRef = db.collection('QuizSet').doc(props.id)
+        setRef.get().then((set) => {
+          quizletterset.value = set.data()
+        })
       }
 
       // import engine
@@ -108,7 +115,7 @@ export default {
             this.chosen.push({'row': data.row, 'col': data.col, 'letter': data.letter})
 
             // reset any other target in quizletterset
-            for (let r=0;r<this.quizletterset.length;r++) {
+            for (let r=0;r<Object.keys(this.quizletterset).length;r++) {
               for (let c=0;c<Object.keys(this.quizletterset[r]).length;c++) {
                 if (r==data.row&&c==data.col) {
                   // pass

@@ -77,7 +77,7 @@ export default {
     },
     data() {
         return {
-            show_mergerule: true   
+            show_mergerule: false  
         }
     }
 }

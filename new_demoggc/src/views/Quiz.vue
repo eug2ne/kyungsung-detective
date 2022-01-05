@@ -44,6 +44,7 @@ export default {
 
 #help {
   align-self: center;
+  width: 932px;
   background-color: #84C0D5;
 }
 
@@ -68,7 +69,10 @@ img {
 }
 
 table {
-  display: block;
+  display: table;
+  table-layout: fixed;
+  width: auto;
+  height: auto;
   background-color: #914D44;
 }
 </style>

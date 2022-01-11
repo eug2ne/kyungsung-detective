@@ -7,20 +7,21 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@vue/cli": "^4.5.15",
     "core-js": "^3.6.5",
     "firebase": "^9.6.1",
-    "firestore-export-import": "^0.17.0",
     "lodash": "^4.17.21",
     "mitt": "^3.0.0",
     "phaser": "^3.55.2",
-    "vue": "^3.2.23",
+    "vue": "^3.1.0",
+    "@vue/compat":"^3.1.0",
     "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0"
+    "@vue/compiler-sfc": "^3.1.0"
   },
   "browserslist": [
     "> 1%",

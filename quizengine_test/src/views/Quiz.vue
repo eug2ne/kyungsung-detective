@@ -8,7 +8,7 @@
       </ul>
     <li id="rules"><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
   </ul>
-  <QuizArea :id="quiz_id" user_id="admin"/>
+  <QuizArea :id="quiz_id" :user="user_id"/>
   <OptionsMenu/>
 
   <div>Icons made by <a href="https://www.flaticon.com/authors/andy-horvath" title="Andy Horvath">Andy Horvath</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
@@ -20,11 +20,13 @@
 import Answerarea from '../components/Answerarea.vue'
 import QuizArea from '../components/QuizArea.vue'
 import OptionsMenu from '../components/OptionsMenu.vue'
+import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore'
+import { db } from '../firestoreDB'
 
 export default {
   name: 'Quiz',
   components: { QuizArea, Answerarea, OptionsMenu },
-  props: ['quiz_id'],
+  props: ['quiz_id', 'user_id'],
   data() {
     return {
       showHints: false

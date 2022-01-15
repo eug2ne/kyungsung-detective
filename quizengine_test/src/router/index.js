@@ -12,7 +12,7 @@ const routes = [
     component: Game
   },
   {
-    path: '/Quiz/:quiz_id',
+    path: '/Quiz/:quiz_id/:user_id',
     name: 'Quiz',
     component: Quiz,
     props: true

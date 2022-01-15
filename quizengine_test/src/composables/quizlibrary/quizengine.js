@@ -1,22 +1,19 @@
-// normal quizengine
-import { ref } from 'vue'
 import library from './library'
 import backforth from './backforth'
-import mergelist from '../assets/loadlists/valid_mergewordlist.json'
-import wordlist from '../assets/loadlists/wordlist.json'
+import mergelist from '../../assets/loadlists/valid_mergewordlist.json'
+import wordlist from '../../assets/loadlists/wordlist.json'
 
-const quizengine = (reverse) => {
+const quizengine = (reverse) => { 
     // import library
     const { regression, compare_obj, reset } = library()
 
     // import backforth
     const {
-        pastSet,
-        forwardSet,
         updatepastSet,
         updateforwardSet,
         back,
-        forward } = backforth()
+        forward
+    } = backforth()
 
     // showChoice funcs
     const useshowMerge = (set, row, col) => {
@@ -140,8 +137,6 @@ const quizengine = (reverse) => {
     }
 
     return {
-        pastSet,
-        forwardSet,
         back,
         forward,
         useshowMerge,

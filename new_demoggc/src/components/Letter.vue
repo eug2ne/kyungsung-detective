@@ -14,16 +14,16 @@ export default {
       if (this.isChoice||this.isChosen) {
         // update chosen
         if (this.isChoice) {
-          this.$emit('toggleChoice', {'choice':{'row':parseInt(this.rowIndex), 'col':parseInt(this.colIndex), 'letter':this.letter}, 'action':'push'})
+          this.$emit('toggleChoice', {'choice':{'row':this.rowIndex, 'col':parseInt(this.colIndex)}, 'action':'push'})
         } else {
-          this.$emit('toggleChoice', {'choice':{'row':parseInt(this.rowIndex), 'col':parseInt(this.colIndex), 'letter':this.letter}, 'action':'pop'})
+          this.$emit('toggleChoice', {'choice':{'row':this.rowIndex, 'col':parseInt(this.colIndex)}, 'action':'pop'})
         }
       }
       else if (this.isWord) {
         // pass
       } else {
         // toggletarget() || forceword()
-        this.$emit('clickOnLetter', {'row':parseInt(this.rowIndex), 'col':parseInt(this.colIndex), 'letter':this.letter, 'target':this.isTarget, 'x':event.clientX, 'y':event.clientY})
+        this.$emit('clickOnLetter', {'row':this.rowIndex, 'col':parseInt(this.colIndex), 'target':this.isTarget, 'x':event.clientX, 'y':event.clientY})
       }
     }
   },
@@ -33,7 +33,8 @@ export default {
         this.$refs.td.setAttribute('rowspan', 3)
         this.$refs.td.setAttribute('colspan', 2)
       } else {
-        // pass
+        this.$refs.td.setAttribute('rowspan', 1)
+        this.$refs.td.setAttribute('colspan', 1)
       }
     }
   }
@@ -42,35 +43,37 @@ export default {
 
 <style>
 td {
-  display: table-cell;
-  height: 60px;
-  width: 60px;
-  margin: 2px;
+  width: calc(885px / 15);
+  height: calc(885px / 15);
   text-align: center;
-  font-size: 25px;
-  color: #1D1009;
-  background-color: #E4B7AF;
+  font-family: "Sam3KRFont";
+  font-size: 30px;
+  color: #1d1009;
+  background-color: #ffe2b3;
 }
 
 td.target {
-  background-color: #B0EEFF;
+  background-color: #806233;
+  color: white;
 }
 
 td.choice {
-  background-color: #FFDFD9;
+  background-color: #ccb58f;
 }
 
 td.chosen {
-  background-color: #84C0D5;
+  background-color: #806233;
+  color: white;
 }
 
 td.word {
-  width: 120px;
-  height: 180px;
-  background-color: #275A68;
+  background-color: #b3976b;
+  color: white;
+  -ms-grid-row-span: 3;
+  -ms-grid-col-span: 2;
 }
 
 td.answer {
-  background-color: #FF7D6C;
+  background-color: #ffc466;
 }
 </style>

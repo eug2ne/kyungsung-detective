@@ -37,7 +37,7 @@ export default class BootScene extends Scene {
     this.load.image('back1', back1)
     this.load.image('back2', back2)
     this.load.image('treess', treess)
-    this.load.spritesheet('sami', sami, { frameWidth: 463, frameHeight: 500 })
+    this.load.spritesheet('sami', sami, { frameWidth: 7870 / 17, frameHeight: 500 })
     
 //충돌 이미지
     this.load.image('house1', house1)

@@ -1,5 +1,5 @@
 <template>
-  <div id="Answer-area">
+  <div id="Answer-area" class="pixel-borders--2">
       <h2 ref="h2">{{ this.$data[this.id].answer }}</h2>
       <p v-if="showdef">{{ this.$data[this.id].definition }}</p>
   </div>
@@ -35,24 +35,27 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #Answer-area {
     width: 600px;
     height: 200px;
     justify-self: center;
     text-align: center;
-    background-color: #FFDFD9;
+  background-color: rgb(243, 234, 221);
     margin-bottom: 20px;
+  padding: 35px;
+  box-shadow: 4px 4px rgba(0, 0, 0, 0.3) inset;
+  border-radius: 10px;
 }
 
 h2 {
     font-size: 45px;
-    margin: 30px;
+  padding: 10px;
+  margin-bottom: 5px;
 }
 
 p {
     font-size: 25px;
-    margin: 15px;
     padding: 10px;
 }
 </style>

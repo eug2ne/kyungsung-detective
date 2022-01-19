@@ -20,7 +20,7 @@ export default class PlayScene extends Scene {
     this.physics.world.setBounds(0, 0, 2800,1981)
     this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
 
-    this.minimap = this.cameras.add(15, 500, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
+    this.minimap = this.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
 
     this.minimap.setBackgroundColor(0xaca2a0)
     this.minimap.scrollX = 1306
@@ -147,30 +147,29 @@ export default class PlayScene extends Scene {
     this.anims.create({
       key: 'left',
       frames: this.anims.generateFrameNumbers('sami', { start: 1, end: 4 }),
-      frameRate: 10,
+      frameRate: 50,
       repeat: -1
     })
-
     this.anims.create({
         key: 'back',
         frames: this.anims.generateFrameNumbers('sami', { start: 5, end: 8 }),
-        frameRate: 10,
+        frameRate: 50,
         repeat: -1
     })
     this.anims.create({
         key: 'front',
         frames: this.anims.generateFrameNumbers('sami', { start: 9, end: 12 }),
-        frameRate: 10,
+        frameRate: 50,
+        repeat: -1
+    })
+    this.anims.create({
+        key: 'right',
+        frames: this.anims.generateFrameNumbers('sami', { start: 13, end: 16 }),
+        frameRate: 50,
         repeat: -1
     })
 
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('sami', { start: 13, end: 16  }),
-        frameRate: 10,
-        repeat: -1
-    })
-   
+
     cursors = this.input.keyboard.createCursorKeys()
     spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
@@ -212,10 +211,10 @@ export default class PlayScene extends Scene {
     this.physics.add.overlap(box, items, addItem, null, this);
 
     text = this.add.text(300, 900).setDepth(15);
-    text.setFontSize(30);
+    text.setFontSize(35);
     text.setColor('#fff');
-    text.setStroke('#000', 5);
-    text.setPadding(5);
+    text.setStroke('#000', 6);
+    text.setFontFamily('NeoDunggeunmo');
     
     function addItem(box, item) {
         text.setText("스페이스바를 눌러 '"+ item.name +"' 얻기");
@@ -243,26 +242,26 @@ export default class PlayScene extends Scene {
     const x = player.x, y = player.y;
     const distance = 30;
     const cameraX = this.cameras.main.worldView.x, cameraY = this.cameras.main.worldView.y;
-    text.x = cameraX + 250 ;
-    text.y = cameraY + 500 ;
+    text.x = cameraX + 220 ;
+    text.y = cameraY + 530 ;
     text.visible = this.physics.overlap(box, items) ? true : false;
 
     player.body.setVelocity(0);
 
     if (cursors.left.isDown){ 
-        player.body.setVelocityX(-160*2);
+        player.body.setVelocityX(-160*4);
         box.setPosition(x - distance, y);
     }
     else if (cursors.right.isDown){
-        player.body.setVelocityX(160*2);
+        player.body.setVelocityX(160*4);
         box.setPosition(x + distance, y);
     }
     if(cursors.up.isDown){
-        player.body.setVelocityY(-160*2);
+        player.body.setVelocityY(-160*4);
         box.setPosition(x, y - distance);
     }
     else if(cursors.down.isDown){
-        player.body.setVelocityY(160*2);
+        player.body.setVelocityY(160*4);
         box.setPosition(x, y + distance);
     }
     
@@ -277,7 +276,7 @@ export default class PlayScene extends Scene {
     } else {
         player.anims.stop();
     }
-    player.body.velocity.normalize().scale(160);
+    player.body.velocity.normalize().scale(160*4);
 
     if(spaceBar.isDown) spacebarKeydown = true;
     else spacebarKeydown = false;

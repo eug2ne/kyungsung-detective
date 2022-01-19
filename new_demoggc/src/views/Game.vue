@@ -1,12 +1,10 @@
 <template>
   <div :id="containerId" v-if="downloaded" />
-  <div class="placeholder" v-else>
-    Downloading ...
-  </div>
+  <div class="placeholder" v-else>로딩 중 ...</div>
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue'
+import Navbar from "../components/Navbar.vue";
 
 export default {
   components: { Navbar },
@@ -32,7 +30,12 @@ export default {
 
 <style>
 .placeholder {
+  color: white;
+  background: black;
   font-size: 2rem;
-  font-family: 'Courier New', Courier, monospace;
+  width: calc(2800px / 3);
+  height: calc(1981px / 3);
+  line-height: calc(1981px / 3);
+  text-align: center;
 }
 </style>

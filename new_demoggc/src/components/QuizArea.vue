@@ -1,22 +1,24 @@
 <template>
   <slot>
   <ul id="help">
-    <li id="hint" @click="showHints = !showHints">힌트</li>
+      <li id="hint" @click="showHints = !showHints" class="pixel-borders--1">
+        힌트
+      </li>
       <ul v-if="showHints" id="hints">
         <li @click="this.emitter.emit('hint_first')">초성 힌트</li>
         <li @click="this.emitter.emit('hint_def')">뜻 힌트</li>
       </ul>
   </ul>
   <div id="controls">
-    <button @click="refreshQuiz" id="refreshQuiz">
-      <img src="../assets/refresh-page-option.png" alt="초기화">
+      <button @click="refreshQuiz" id="refreshQuiz" class="icon">
+        <img src="../assets/refresh-page-option.png" alt="초기화" />
     </button>
     <ul>
-      <button @click="back" id="backQuiz">
-        <img src="../assets/return.png" alt="뒤로가기">
+        <button @click="back" id="backQuiz" class="icon">
+          <img src="../assets/return.png" alt="뒤로가기" />
       </button>
-      <button @click="forward" id="forwardQuiz">
-        <img src="../assets/next.png" alt="앞으로가기">
+        <button @click="forward" id="forwardQuiz" class="icon">
+          <img src="../assets/next.png" alt="앞으로가기" />
       </button>
     </ul>
   </div>

@@ -46,79 +46,95 @@ import Letter from './Letter.vue'
 import OptionsMenu from './OptionsMenu.vue'
 import ErrorPopup from './QuizError/ErrorPopup.vue'
 import quiz from '../composables/quiz'
+import importSet from '../composables/quizlibrary/importSet'
+import exportSet from '../composables/quizlibrary/exportSet'
 
 export default {
     name: 'QuizArea',
     components: { Letter, OptionsMenu, ErrorPopup },
     props: [ 'id', 'set', 'user' ],
-    data() {
+    setup(props) {
+      console.log('setup')
+      const d_Set = ref({})
+      const u_id = ref()
+      const q_instance = ref({})
+      const quizletterset = ref({})
+
+      // create async load func.
+      const load = async (id, user) => {
+          const {
+            defaultSet,
+            user_id,
+            quizinstance
+          } = await importSet(id, user)
+
+          d_Set.value = defaultSet
+          u_id.value = user_id
+          q_instance.value = quizinstance
+          quizletterset.value = q_instance.value.quizletterset
+      }
+      
+      // load data from db
+      load(props.id, props.user)
+
       return {
-        quizletterset: {}
+        d_Set,
+        u_id,
+        q_instance,
+        quizletterset
       }
     },
     methods: {
-      async updateTarget(data) {
+      updateTarget(data) {
         if (this.$refs.table.querySelector('td.choice,td.chosen')&&this.quizletterset[data.row][data.col].isTarget) {
           // word()
-          this.quizletterset = await quiz({'event':'Word'}, this.id, this.user)
+          quiz({'event':'Word'}, this.q_instance)
         } else {
           // toggle target
-          this.quizletterset = await quiz({'event':'toggleTarget', 'row':data.row, 'col':data.col}, this.id, this.user)
-          this.emitter.emit('toggleShow', {'show':this.quizletterset[data.row][data.col].isTarget, 'x':data.x, 'y':data.y, 'id':this.id})
+          quiz({'event':'toggleTarget', 'row':data.row, 'col':data.col, 'letter':data.letter},
+            this.q_instance)
+          this.emitter.emit('toggleShow', {'show':this.quizletterset[data.row][data.col].isTarget,
+            'x':data.x, 'y':data.y, 'id':this.id})
         }
       },
-      async ppChoice(data) {
-        if (data.action === 'push') {
-          // toggle isChoice/isChosen
-          this.quizletterset[data.choice.row][data.choice.col].isChosen = true
-          this.quizletterset[data.choice.row][data.choice.col].isChoice = false
-
-          this.chosen.push(data.choice)
-
-          if (this.chosen.length == this.max_chosen) {
-              // merge()
-              this.quizletterset = await quiz({'event':'Merge'}, this.id, this.user)
-          }
-        } else {
-          // data.type === 'pop'
-          // toggle isChoice/isChosen
-          this.quizletterset[data.choice.row][data.choice.col].isChosen = false
-          this.quizletterset[data.choice.row][data.choice.col].isChoice = true
-
-          const i = this.chosen.indexOf(data.choice)
-          this.chosen.splice(i,1)
-        }
+      ppChoice(data) {
+        quiz({'event':'ppChoice', 'action':data.action, 'choice':data.choice},
+          this.q_instance)
       },
-      async refreshQuiz() {
-        this.quizletterset = await quiz({'event':'refreshQuiz'}, this.id, this.user)
+      refreshQuiz() {
+        // set quizletterset to default
+        this.quizletterset = _.cloneDeep(this.d_Set.value)
       },
-      async reverseQuiz() {
+      reverseQuiz() {
         // switch engine
-        this.reverse = !this.reverse
+        quiz({'event':'reverse'}, this.q_instance)
       }
   },
   mounted() {
     this.emitter.on('clickOption', (data) => {
       if (data.id == this.id) {
         // id check
-        const target = this.chosen[0]
-        if (data.option == 'merge') {
-          // merge()
-          this.max_chosen = 2
-          this.useshowMerge(this.quizletterset, target.row, target.col)
-        } else if (data.option == 'word') {
-          // word()
-          this.max_chosen = 6
-          this.useshowWord(this.quizletterset, target.row, target.col)
-        } else {
-          // data == null
-          // space()
-          this.useSpace()
+        switch (data.option) {
+          case ('merge'):
+            quiz({'event':'showMerge'}, this.q_instance, this.quizletterset)
+            break
+          
+          case('word'):
+            quiz({'event':'showWord'}, this.q_instance, this.quizletterset)
+            break
+
+          default:
+            quiz({'event':'Space'}, this.q_instance, this.quizletterset)
+            break
         }
-        } else {
-          // pass
-        }
+      } else {
+        // pass
+      }
     })
+  },
+  beforeUnmounted() {
+    // update db when component destroyed
+    // exportSet({ quizinstance }, this.user)
   }
 }
 </script>

@@ -20,8 +20,6 @@
 import Answerarea from '../components/Answerarea.vue'
 import QuizArea from '../components/QuizArea.vue'
 import OptionsMenu from '../components/OptionsMenu.vue'
-import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore'
-import { db } from '../firestoreDB'
 
 export default {
   name: 'Quiz',

@@ -30,6 +30,8 @@ const quizengine = (reverse) => {
                 set[row][col-1].isChoice = true
                 set[row][col+1].isChoice = true
         }
+
+        return set
     }
 
     const useshowWord = (set, row, col) => {
@@ -39,17 +41,22 @@ const quizengine = (reverse) => {
             set[row+1][col+1].isChoice = true
             set[row+2][col].isChoice = true
             set[row+2][col+1].isChoice = true
-          } catch (Error) {
+        } catch (Error) {
             // WordSpaceError
             return 'WordSpaceError'
-          }
+        }
+
+        return set
     }
 
     // merge func
-    const useMerge = (arr, set) => {
+    const useMerge = (arr, set, pastSet) => {
+        console.log('usemerge')
         try {
             if (mergelist.valid[arr[0].letter].includes(arr[1].letter)) {
                 // update pastset
+                updatepastSet(pastSet, set)
+
                 if (reverse) {
                     // apply reverse-engine
                     set[arr[0].row][Math.max(arr[0].col, arr[1].col)].letter = mergelist.merge[`${arr[0].letter},${arr[1].letter}`]
@@ -73,12 +80,16 @@ const quizengine = (reverse) => {
                 Error('MergeError')
             }
         } catch (error) {
+            console.log(error)
             return error.message
         }
+
+        return arr, set, pastSet
     }
 
     // word func
-    const useWord = (arr, set) => {
+    const useWord = (arr, set, pastSet) => {
+        console.log('useword')
         let wordspace = {'0,0':null, '1,0':null, '0,1':null, '1,1':null, '0,2':null, '1,2':null}
 
         arr.forEach(element => {
@@ -93,7 +104,7 @@ const quizengine = (reverse) => {
         try {
             if (index != -1) {
                 // update pastset
-                updatepastSet(set)
+                updatepastSet(pastSet, set)
 
                 set[arr[0].row][arr[0].col].letter = Object.keys(wordlist)[index]
                 set[arr[0].row][arr[0].col].isWord = true
@@ -109,20 +120,21 @@ const quizengine = (reverse) => {
                 Error('WordError')
             }
         } catch (error) {
-            console.log(error)
             return error.message
         }
+
+        return arr, set, pastSet
     }
 
     //space func
-    const useSpace = (wordspace, set) => {
+    const useSpace = (wordspace, set, pastSet) => {
         try {
             if (wordspace in Object.values(wordlist.value)) {
                 // SpaceError
                 Error('SpaceError')
             } else {
                 // update pastset
-                updatepastSet(set)
+                updatepastSet(set, pastSet)
 
                 for (let coord in wordspace) {
                   let x = parseInt(coord.split(',')[0])
@@ -134,6 +146,8 @@ const quizengine = (reverse) => {
         } catch (error) {
             return error.message
         }
+
+        return set, pastSet
     }
 
     return {

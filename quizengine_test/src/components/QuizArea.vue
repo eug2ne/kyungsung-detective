@@ -14,7 +14,9 @@
       </button>
     </ul>
     </div>
-    <ErrorPopup/>
+    <ErrorPopup :type="showPopup"/>
+    <OptionsMenu v-if="showOption" :x="hint_x" :y="hint_y"
+      @clickOption="show"/>
     <table ref="table" id="Quiz-area">
       <tr v-for="item in Object.keys(this.quizletterset)"
         :key="item.id"
@@ -53,6 +55,14 @@ export default {
     name: 'QuizArea',
     components: { Letter, OptionsMenu, ErrorPopup },
     props: [ 'id', 'set', 'user' ],
+    data() {
+      return {
+        showOption: false,
+        hint_x: null,
+        hint_y: null,
+        showPopup: null
+      }
+    },
     setup(props) {
       console.log('setup')
       const d_Set = ref({})
@@ -60,22 +70,39 @@ export default {
       const q_instance = ref({})
       const quizletterset = ref({})
 
-      // create async load func.
-      const load = async (id, user) => {
-          const {
-            defaultSet,
-            user_id,
-            quizinstance
-          } = await importSet(id, user)
+      if (props.set) {
+        // if set imported, quizletterset = set
+        d_Set.value = props.set
+        quizletterset.value = _.cloneDeep(d_Set.value)
+        q_instance.value = {
+          'id':props.id,
+          'quizletterset': quizletterset.value,
+          'chosen': [],
+          'reverse': false,
+          'max_chosen': 6,
+          'backset': [],
+          'forwardset': []
+        }
+      } else {
+        // else, import set from db
+        
+        // create async load func.
+        const load = async (id, user) => {
+            const {
+              defaultSet,
+              user_id,
+              quizinstance
+            } = await importSet(id, user)
 
-          d_Set.value = defaultSet
-          u_id.value = user_id
-          q_instance.value = quizinstance
-          quizletterset.value = q_instance.value.quizletterset
+            d_Set.value = defaultSet.value
+            u_id.value = user_id
+            q_instance.value = quizinstance
+            quizletterset.value = q_instance.value.quizletterset
+        }
+        
+        // load data from db
+        load(props.id, props.user)
       }
-      
-      // load data from db
-      load(props.id, props.user)
 
       return {
         d_Set,
@@ -88,49 +115,92 @@ export default {
       updateTarget(data) {
         if (this.$refs.table.querySelector('td.choice,td.chosen')&&this.quizletterset[data.row][data.col].isTarget) {
           // word()
-          quiz({'event':'Word'}, this.q_instance)
+          try {
+            quiz({'event':'Word'}, this.q_instance)
+          } catch (error) {
+            // WordError
+            console.log(error.message)
+            this.showPopup = 'word'
+          }
         } else {
           // toggle target
           quiz({'event':'toggleTarget', 'row':data.row, 'col':data.col, 'letter':data.letter},
             this.q_instance)
-          this.emitter.emit('toggleShow', {'show':this.quizletterset[data.row][data.col].isTarget,
-            'x':data.x, 'y':data.y, 'id':this.id})
+
+          // toggle showHint
+          this.showOption = this.quizletterset[data.row][data.col].isTarget
+          this.hint_x = data.x
+          this.hint_y = data.y
         }
       },
       ppChoice(data) {
-        quiz({'event':'ppChoice', 'action':data.action, 'choice':data.choice},
+        try {
+          quiz({'event':'ppChoice', 'action':data.action, 'choice':data.choice},
           this.q_instance)
+        } catch (error) {
+          // MergeError
+          console.log(error.message)
+          this.showPopup = 'merge'
+        }
       },
-      refreshQuiz() {
-        // set quizletterset to default
-        this.quizletterset = _.cloneDeep(this.d_Set.value)
-      },
-      reverseQuiz() {
-        // switch engine
-        quiz({'event':'reverse'}, this.q_instance)
-      }
-  },
-  mounted() {
-    this.emitter.on('clickOption', (data) => {
-      if (data.id == this.id) {
-        // id check
+      show(data) {
+        this.showOption = false
         switch (data.option) {
           case ('merge'):
             quiz({'event':'showMerge'}, this.q_instance, this.quizletterset)
             break
           
           case('word'):
-            quiz({'event':'showWord'}, this.q_instance, this.quizletterset)
+            try {
+              quiz({'event':'showWord'}, this.q_instance, this.quizletterset)
+            } catch (error) {
+              // WordSpaceError
+              this.showPopup = 'wordspace'
+            }
             break
 
           default:
-            quiz({'event':'Space'}, this.q_instance, this.quizletterset)
+            try {
+              quiz({'event':'Space'}, this.q_instance, this.quizletterset)
+            } catch (error) {
+              console.log(error.message)
+              if (error.message == 'WordspaceError') {
+                // WordSpaceError
+                this.showPopup = 'wordspace'
+              } else {
+                // SpaceError
+                this.showPopup = 'space'
+              }
+            }
             break
         }
-      } else {
-        // pass
+      },
+      refreshQuiz() {
+        // set quizletterset to default
+        this.quizletterset = _.cloneDeep(this.d_Set)
+      },
+      reverseQuiz() {
+        // switch engine
+        this.q_instance.reverse = !this.q_instance.reverse
+      },
+      back() {
+        // backquiz()
+        try {
+          quiz({'event':'backQuiz'}, this.q_instance)
+          this.quizletterset = this.q_instance.quizletterset
+        } catch (error) {
+          // IndexError
+        }
+      },
+      forward() {
+        // forwardquiz()
+        try {
+          quiz({'event':'forwardQuiz'}, this.q_instance)
+          this.quizletterset = this.q_instance.quizletterset
+        } catch (error) {
+          // IndexError
+        }
       }
-    })
   },
   beforeUnmounted() {
     // update db when component destroyed

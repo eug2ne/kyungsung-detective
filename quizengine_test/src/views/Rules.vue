@@ -48,18 +48,16 @@
     </p>
     <QuizArea :set="this.space_set" id="rules_space"/>
 </div>
-<OptionsMenu @clickOption="showChoice"/>
 </template>
 
 <script>
 import { ref } from 'vue'
 import tutorialJSON from '../assets/tutorial.json'
 import QuizArea from '../components/QuizArea.vue'
-import OptionsMenu from '../components/OptionsMenu.vue'
 
 export default {
     name: 'Tutorial',
-    components: { QuizArea, OptionsMenu },
+    components: { QuizArea },
     setup() {
         const merge_set = ref([])
         const word_set = ref([])

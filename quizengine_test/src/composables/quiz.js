@@ -1,10 +1,11 @@
 import { ref } from 'vue'
 import _ from 'lodash'
 import quizengine from "./quizlibrary/quizengine"
+import { reset } from 'ansi-colors'
 
 const quizletterset = ref({})
 const chosen = ref([])
-const reverse = ref(Boolean)
+const reverse = ref()
 const backset = ref([])
 const forwardset = ref([])
 const target = ref({})
@@ -40,14 +41,30 @@ const quiz = (data, instance) => {
                 chosen.value.push({'row': data.row, 'col': data.col, 'letter': data.letter})
 
                 // reset any other target in set
-                for (let r=0;r<Object.keys(quizletterset.value).length;r++) {
-                    for (let c=0;c<Object.keys(quizletterset.value[r]).length;c++) {
-                        if (r==data.row&&c==data.col) {
-                        // pass
-                        } else {
-                            quizletterset.value[r][c].isTarget = false
-                            quizletterset.value[r][c].isChoice = false
-                            quizletterset.value[r][c].isChosen = false
+                if (instance.id) {
+                    // Rules page
+                    for (let r=0;r<3;r++) {
+                        for (let c=0;c<6;c++) {
+                            if (!quizletterset.value[r][c]||quizletterset.value[r][c].isWord||(r==data.row&&c==data.col)) {
+                                // pass
+                            } else {
+                                quizletterset.value[r][c].isTarget = false
+                                quizletterset.value[r][c].isChoice = false
+                                quizletterset.value[r][c].isChosen = false
+                            }
+                        }
+                    }
+                } else {
+                    // Quiz page
+                    for (let r=0;r<6;r++) {
+                        for (let c=0;c<15;c++) {
+                            if (!quizletterset.value[r][c]||quizletterset.value[r][c].isWord||(r==data.row&&c==data.col)) {
+                                // pass
+                            } else {
+                                quizletterset.value[r][c].isTarget = false
+                                quizletterset.value[r][c].isChoice = false
+                                quizletterset.value[r][c].isChosen = false
+                            }
                         }
                     }
                 }
@@ -68,7 +85,6 @@ const quiz = (data, instance) => {
       
                 if (chosen.value.length == instance.max_chosen) {
                     // merge()
-                    console.log(instance.backset)
                     useMerge(chosen.value, quizletterset.value, backset.value)
                 }
             } else {
@@ -82,19 +98,24 @@ const quiz = (data, instance) => {
             }
             break
 
-        case 'refreshQuiz':
-            console.log('refreshQuiz')
-            quizletterset.value = _.cloneDeep(defaultSet.value)
-            break
-
         case 'backQuiz':
             console.log('backQuiz')
-            quizletterset.value = back(backset.value, set)
+            if (backset.value.length !== 0) {
+                instance.quizletterset = _.cloneDeep(back(backset.value, forwardset.value, quizletterset.value))
+            } else {
+                // IndexError
+                throw Error('IndexError')
+            }
             break
 
         case 'forwardQuiz':
             console.log('forwardQuiz')
-            quizletterset.value = forward(backset.value, quizletterset.value)
+            if (forwardset.value.length !== 0) {
+                instance.quizletterset = _.cloneDeep(forward(backset.value, forwardset.value, quizletterset.value))
+            } else {
+                // IndexError
+                throw Error('IndexError')
+            }
             break
 
         case 'showMerge':
@@ -129,9 +150,9 @@ const quiz = (data, instance) => {
                 quizletterset.value[target.value.row+1][target.value.col+1].isChoice = true
                 quizletterset.value[target.value.row+2][target.value.col].isChoice = true
                 quizletterset.value[target.value.row+2][target.value.col+1].isChoice = true
-            } catch (Error) {
+            } catch (error) {
                 // WordSpaceError
-                return 'WordSpaceError'
+                throw Error('WordSpaceError')
             }
             break
 
@@ -145,24 +166,30 @@ const quiz = (data, instance) => {
             // create wordspace
             try {
                 let wordspace = {'0,0':null, '1,0':null, '0,1':null, '1,1':null, '0,2':null, '1,2':null}
-                const target = chosen.value[0]
+                target.value = chosen.value[0]
 
                 for (let r=0;r<3;r++) {
-                    let row = quizletterset.value[target.row+r]
+                    let row = quizletterset.value[target.value.row+r]
 
                     for (let c=0;c<2;c++) {
-                        if (row[target.col+c] == '') {
+                        if (row[target.value.col+c].letter == '') {
                             wordspace[`${c},${r}`] = null
                         } else {
-                            wordspace[`${c},${r}`] = row[target.col+c]
+                            wordspace[`${c},${r}`] = row[target.value.col+c].letter
                         }
                     }
                 }
 
-                useSpace(wordspace, quizletterset.value, backset.value)
-            } catch {
-                // WordSpaceError
-                return 'WordSpaceError'
+                useSpace(wordspace, quizletterset.value, target.value, backset.value)
+            } catch (error) {
+                if (error.message == 'SpaceError') {
+                    // SpaceError
+                    throw Error('SpaceError')                  
+                } else {
+                    // WordspaceError
+                    throw Error('WordspaceError')
+                }
+
             }
             break
     }

@@ -3,7 +3,6 @@ import Game from '../views/Game.vue'
 import Quiz from '../views/Quiz.vue'
 import Cluenote from '../views/Cluenote.vue'
 import Inventory from '../views/Inventory.vue'
-import Tutorial from '../views/Tutorial.vue'
 import Home from '../views/Home.vue'
 import License from '../views/License.vue'
 

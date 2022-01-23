@@ -11,38 +11,25 @@
 <script>
 export default {
     name: 'OptionsMenu',
-    data() {
-        return {
-            id: String
-        }
-    },
+    props: [ 'x', 'y' ],
     methods: {
         mergeOpt() {
-            this.$refs.optionsMenu.style.display = 'none'
-            this.emitter.emit('clickOption', {'option':'merge', 'id':this.id})
+            this.$emit('clickOption', {'option':'merge'})
         },
         wordOpt() {
-            this.$refs.optionsMenu.style.display = 'none'
-            this.emitter.emit('clickOption', {'option':'word', 'id':this.id})
+            this.$emit('clickOption', {'option':'word'})
         },
         spaceOpt() {
-            this.$refs.optionsMenu.style.display = 'none'
-            this.emitter.emit('clickOption', {'option':null, 'id':this.id})
+            this.$emit('clickOption', {'option':null})
         }
     },
     mounted() {
-        this.emitter.on('toggleShow', (data) => {
-            this.id = data.id
-            if (data.show) {
-                this.$refs.optionsMenu.style.top = `${data.y}px`
-                this.$refs.optionsMenu.style.left = `${data.x+10}px`
-
-                this.$refs.optionsMenu.style.display = 'block'
-                this.$refs.optionsMenu.classList.add('visible')
-            } else {
-                this.$refs.optionsMenu.style.display = 'none'
-            }
-        })
+        this.$refs.optionsMenu.style.left = `${this.x+10}px`    
+        this.$refs.optionsMenu.style.top = `${this.y}px`
+    },
+    updated() {
+        this.$refs.optionsMenu.style.left = `${this.x+10}px`    
+        this.$refs.optionsMenu.style.top = `${this.y}px`
     }
 }
 </script>
@@ -54,7 +41,6 @@ export default {
     width: 100px;
     height: fit-content;
     background-color: aliceblue;
-    display: none;
 }
 
 #optionsMenuList {

@@ -42,13 +42,19 @@ const library = () => {
 
     // reset func
     const reset = (set) => {
-        for (let r=0;r<6;r++) {
-            for (let c=0;c<15;c++) {
-                set[r][c].isTarget = false
-                set[r][c].isChoice = false
-                set[r][c].isChosen = false
-            }
-        }
+        Object.values(set).forEach((row) => {
+            Object.values(row).forEach((col) => {
+                if (col.isWord) {
+                    // pass
+                } else {
+                    col.isTarget = false
+                    col.isChoice = false
+                    col.isChosen = false
+                }
+            })
+        })
+
+        return set
     }
 
     return { regression, compare_obj, reset }

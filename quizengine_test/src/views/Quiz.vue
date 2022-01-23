@@ -9,7 +9,6 @@
     <li id="rules"><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
   </ul>
   <QuizArea :id="quiz_id" :user="user_id"/>
-  <OptionsMenu/>
 
   <div>Icons made by <a href="https://www.flaticon.com/authors/andy-horvath" title="Andy Horvath">Andy Horvath</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
   <div>Icons made by <a href="https://www.flaticon.com/authors/jesus-chavarria" title="Jesus Chavarria">Jesus Chavarria</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
@@ -19,11 +18,10 @@
 <script>
 import Answerarea from '../components/Answerarea.vue'
 import QuizArea from '../components/QuizArea.vue'
-import OptionsMenu from '../components/OptionsMenu.vue'
 
 export default {
   name: 'Quiz',
-  components: { QuizArea, Answerarea, OptionsMenu },
+  components: { QuizArea, Answerarea },
   props: ['quiz_id', 'user_id'],
   data() {
     return {

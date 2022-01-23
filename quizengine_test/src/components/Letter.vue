@@ -23,7 +23,7 @@ export default {
         // pass
       } else {
         // toggletarget() || forceword()
-        this.$emit('clickOnLetter', {'row':parseInt(this.rowIndex), 'col':parseInt(this.colIndex), 'letter':this.letter, 'target':this.isTarget, 'x':event.clientX, 'y':event.clientY})
+        this.$emit('clickOnLetter', {'row':parseInt(this.rowIndex), 'col':parseInt(this.colIndex), 'letter':this.letter, 'x':event.clientX, 'y':event.clientY})
       }
     }
   },

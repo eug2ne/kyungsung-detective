@@ -26,7 +26,9 @@ import gr2 from '@/game/assets/궁오른쪽2.png'
 import gr3 from '@/game/assets/궁오른쪽3.png'
 import gr4 from '@/game/assets/궁오른쪽4.png'
 
-
+import item3 from '@/assets/item/item3.png'
+import item4 from '@/assets/item/item4.png'
+import item5 from '@/assets/item/item5.png'
 
 export default class BootScene extends Scene {
   constructor () {
@@ -37,7 +39,7 @@ export default class BootScene extends Scene {
     this.load.image('back1', back1)
     this.load.image('back2', back2)
     this.load.image('treess', treess)
-    this.load.spritesheet('sami', sami, { frameWidth: 463, frameHeight: 500 })
+    this.load.spritesheet('sami', sami, { frameWidth: 7870 / 17, frameHeight: 500 })
     
 //충돌 이미지
     this.load.image('house1', house1)
@@ -60,6 +62,10 @@ export default class BootScene extends Scene {
     this.load.image('gr2', gr2)
     this.load.image('gr3', gr3)
     this.load.image('gr4', gr4)
+
+    this.load.image('item3', item3)
+    this.load.image('item4', item4)
+    this.load.image('item5', item5)
   }
 
   create () {

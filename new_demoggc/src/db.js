@@ -8,6 +8,6 @@ return {
     cluelist : route1,
     itemlist : route2,
     mergelist : route3,
-    wordlist : route4
+    wordlist : route4,
  }
 }

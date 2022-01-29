@@ -3,7 +3,7 @@ import Game from '../views/Game.vue'
 import Quiz from '../views/Quiz.vue'
 import Cluenote from '../views/Cluenote.vue'
 import Inventory from '../views/Inventory.vue'
-import Tutorial from '../views/Tutorial.vue'
+import Rules from '../views/Rules.vue'
 
 const routes = [
   {
@@ -12,7 +12,7 @@ const routes = [
     component: Game
   },
   {
-    path: '/Quiz/:quiz_id',
+    path: '/Quiz/:quiz_id/:user_id',
     name: 'Quiz',
     component: Quiz,
     props: true
@@ -28,9 +28,9 @@ const routes = [
     component: Inventory
   },
   {
-    path: '/Tutorial',
-    name: 'Tutorial',
-    component: Tutorial
+    path: '/Rules',
+    name: 'Rules',
+    component: Rules
   }
 ]
 

@@ -14,16 +14,16 @@ export default {
       if (this.isChoice||this.isChosen) {
         // update chosen
         if (this.isChoice) {
-          this.$emit('toggleChoice', {'choice':{'row':this.rowIndex, 'col':parseInt(this.colIndex)}, 'action':'push'})
+          this.$emit('toggleChoice', {'choice':{'row':parseInt(this.rowIndex), 'col':parseInt(this.colIndex), 'letter':this.letter}, 'action':'push'})
         } else {
-          this.$emit('toggleChoice', {'choice':{'row':this.rowIndex, 'col':parseInt(this.colIndex)}, 'action':'pop'})
+          this.$emit('toggleChoice', {'choice':{'row':parseInt(this.rowIndex), 'col':parseInt(this.colIndex), 'letter':this.letter}, 'action':'pop'})
         }
       }
       else if (this.isWord) {
         // pass
       } else {
         // toggletarget() || forceword()
-        this.$emit('clickOnLetter', {'row':this.rowIndex, 'col':parseInt(this.colIndex), 'target':this.isTarget, 'x':event.clientX, 'y':event.clientY})
+        this.$emit('clickOnLetter', {'row':parseInt(this.rowIndex), 'col':parseInt(this.colIndex), 'letter':this.letter, 'x':event.clientX, 'y':event.clientY})
       }
     }
   },
@@ -43,6 +43,7 @@ export default {
 
 <style>
 td {
+  display: table-cell;
   height: 60px;
   width: 60px;
   margin: 2px;
@@ -65,9 +66,9 @@ td.chosen {
 }
 
 td.word {
+  width: 120px;
+  height: 180px;
   background-color: #275A68;
-  -ms-grid-row-span: 3;
-  -ms-grid-col-span: 2;
 }
 
 td.answer {

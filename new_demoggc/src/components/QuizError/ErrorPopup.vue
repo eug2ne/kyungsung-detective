@@ -16,6 +16,7 @@ import ErrorsJSON from './Errors.json'
 
 export default {
     name: 'ErrorPopup',
+    props: [ 'type' ],
     data() {
         return {
             show: false,
@@ -31,17 +32,18 @@ export default {
             return this.message.descript.split('. ')
         }
     },
-    methods: {
-        vanishPopup() {
-            this.show = false
+    watch: {
+        type: function(newVal) {
+            this.show = true
+            this.message = ErrorsJSON[newVal]
+            this.$data[newVal] = true
         }
     },
-    mounted() {
-        this.emitter.on('showPopup', (error) => {
-            this.show = true
-            this.message = ErrorsJSON[error]
-            this.$data[error] = true
-        })
+    methods: {
+        vanishPopup() {
+            console.log('vanish')
+            this.show = false
+        }
     }
 }
 </script>

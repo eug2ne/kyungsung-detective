@@ -57,6 +57,8 @@ export default {
     margin: 100px auto;
     z-index: 1000;
     border-radius: 10px;
+  color: white;
+  background-color: #807159;
 }
 
 h3 {
@@ -66,24 +68,6 @@ h3 {
 
 p {
     font-size: 15px;
-}
-
-.wordspaceerror {
-    background-color: #FF7D6C;
-}
-
-.mergeerror {
-    background-color: #D65349;
-}
-
-.worderror {
-    color: white;
-    background-color: #914D44;
-}
-
-.spaceerror {
-    color: white;
-    background-color: #3B2F2C;
 }
 
 .backdrop {

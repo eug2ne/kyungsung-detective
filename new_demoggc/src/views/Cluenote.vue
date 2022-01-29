@@ -1,15 +1,26 @@
 <template>
   <ul id="timeline">
-    <li @click="showClue(story)" class="story" v-for="story in cluelist" :key="story.id">
+    <button
+      @click="showClue(story)"
+      class="story pixel-borders--2"
+      v-for="story in cluelist"
+      :key="story.id"
+      type="button"
+    >
       {{ story.story }}
-    </li>
+    </button>
   </ul>
 
-  <div id="clue-board">
-    <div class="clue" v-for="clue in this.show" :key="clue.id">
+  <div id="clue-board" class="pixel-borders--1">
+    <div v-if="!this.show.length" class="notice">
+      버튼을 눌러 단서를 확인하세요.
+    </div>
+    <div v-else class="clue" v-for="clue in this.show" :key="clue.id">
       <div class="cluewrapper" v-if="clue.achieve">
         <h3>{{ clue.title }}</h3>
-        <p><a v-if="clue.a" :href="clue.a">{{ clue.descript }}</a></p>
+        <p>
+          <a v-if="clue.a" :href="clue.a">{{ clue.descript }}</a>
+        </p>
       </div>
 
       <div class="cluewrapper" v-else>
@@ -33,30 +44,31 @@
       </div>
     </div>
   </div>
+  <div class="invisible-behind"></div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref } from "vue";
 
 export default {
   data() {
     return {
       cluelist: ref([]),
-      show: ref([])
-    }
+      show: ref([]),
+    };
   },
   beforeMount() {
-    fetch('http://localhost:3000/cluelist')
-      .then(response => response.json())
-      .then(data => this.cluelist = data)
-      .catch(error => console.log(error.message))
+    fetch("http://localhost:3000/cluelist")
+      .then((response) => response.json())
+      .then((data) => (this.cluelist = data))
+      .catch((error) => console.log(error.message));
   },
   methods: {
     showClue(story) {
-      this.show = story.clues
-    }
-  }
-}
+      this.show = story.clues;
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -65,23 +77,70 @@ body {
   flex-direction: row;
 }
 
-ul#timeline {
+.invisible-behind {
+  height: 600px;
+}
+
+#timeline {
   width: 150px;
   display: inline-block;
+  position: relative;
+  left: 60px;
+  float: left;
 }
 
-div#clue-board {
-  width: 400px;
+#timeline button {
+  font-family: "NeoDunggeunmo";
+  font-size: 27px;
+  width: 150px;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  margin: 30px 0;
+  background: #ad2f1f;
+  padding: 15px;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4), 0 5px 0 rgba(255, 255, 255, 0.4) inset,
+    0 -5px 0 rgba(0, 0, 0, 0.2) inset, 0 0 0 75px #ff7d6c inset;
+  border-radius: 5px;
+}
+
+#timeline button:focus {
+  box-shadow: none;
+  box-shadow: 0 5px 0 rgba(255, 255, 255, 0.4) inset,
+    0 -5px 0 rgba(0, 0, 0, 0.2) inset, 0 0 0 75px #ff7d6c inset;
+  position: relative;
+  bottom: -5px;
+}
+
+#clue-board {
+  width: 650px;
   height: 500px;
+  padding: 20px;
   display: inline-block;
+  position: relative;
+  right: 30px;
+  float: right;
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.4) inset;
+  border-radius: 0;
 }
 
-div.clue {
-  width: 250px;
-  height: 200px;
+.clue {
+  display: block;
+}
+
+.notice {
+  text-align: center;
+  line-height: 460px;
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 25px;
+}
+
+p {
+  font-size: 18px;
+  color: #419dbe;
   margin-bottom: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
 }
 </style>

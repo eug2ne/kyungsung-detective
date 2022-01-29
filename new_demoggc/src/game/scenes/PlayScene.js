@@ -1,7 +1,16 @@
-import { Scene } from 'phaser'
+import { BlendModes, Scene } from 'phaser'
+import { newItems } from '../components/Item'
 
-var player
-var cursors
+var player, box, items, text
+var cursors, spaceBar
+var spacebarKeydown
+var itemlist
+
+fetch("http://localhost:3000/itemlist")
+.then((response) => response.json())
+.then((data) => (itemlist = data))
+.catch((error) => console.log(error.message));
+
 export default class PlayScene extends Scene {
   constructor () {
     super({ key: 'PlayScene' })
@@ -11,7 +20,7 @@ export default class PlayScene extends Scene {
     this.physics.world.setBounds(0, 0, 2800,1981)
     this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
 
-    this.minimap = this.cameras.add(15, 500, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
+    this.minimap = this.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
 
     this.minimap.setBackgroundColor(0xaca2a0)
     this.minimap.scrollX = 1306
@@ -39,6 +48,8 @@ export default class PlayScene extends Scene {
     var col_gr2 = this.physics.add.staticGroup()
     var col_gr3 = this.physics.add.staticGroup()
     var col_gr4 = this.physics.add.staticGroup()
+    items = this.physics.add.staticGroup()
+
     house_m.create(1220*2, 775*2,'house1').refreshBody()
     tree_sss.create(700*2, 495.25*2,'treess').refreshBody().setDepth(10)
     platforms.create(700.45*2,495.25*2,'back2').refreshBody().setDepth(5)
@@ -136,31 +147,32 @@ export default class PlayScene extends Scene {
     this.anims.create({
       key: 'left',
       frames: this.anims.generateFrameNumbers('sami', { start: 1, end: 4 }),
-      frameRate: 10,
+      frameRate: 50,
       repeat: -1
     })
-
     this.anims.create({
         key: 'back',
         frames: this.anims.generateFrameNumbers('sami', { start: 5, end: 8 }),
-        frameRate: 10,
+        frameRate: 50,
         repeat: -1
     })
     this.anims.create({
         key: 'front',
         frames: this.anims.generateFrameNumbers('sami', { start: 9, end: 12 }),
-        frameRate: 10,
+        frameRate: 50,
+        repeat: -1
+    })
+    this.anims.create({
+        key: 'right',
+        frames: this.anims.generateFrameNumbers('sami', { start: 13, end: 16 }),
+        frameRate: 50,
         repeat: -1
     })
 
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('sami', { start: 13, end: 16  }),
-        frameRate: 10,
-        repeat: -1
-    })
-   
+
     cursors = this.input.keyboard.createCursorKeys()
+    spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
 
     this.physics.add.collider(player, house_m)
     this.physics.add.collider(player, trees)
@@ -181,27 +193,76 @@ export default class PlayScene extends Scene {
     this.physics.add.collider(player, col_gr2)
     this.physics.add.collider(player, col_gr3)
     this.physics.add.collider(player, col_gr4)
-   
+    this.physics.add.collider(player, items)
+
+    newItems.forEach(item => {
+        const { id, x, y } = item
+        items.create(x, y, 'item' + id).setScale(0.1).refreshBody()
+    })
+        
+    for(var i = 0; i < newItems.length; i++){
+        items.children.entries[i].id = newItems[i].id;
+        items.children.entries[i].name = newItems[i].name;
+        items.children.entries[i].descript = newItems[i].descript;
+        items.children.entries[i].imgURL = newItems[i].imgURL;
+    }
+
+    box = this.physics.add.existing(this.add.rectangle(0, 0, 40, 40));
+    this.physics.add.overlap(box, items, addItem, null, this);
+
+    text = this.add.text(300, 900).setDepth(15);
+    text.setFontSize(35);
+    text.setColor('#fff');
+    text.setStroke('#000', 6);
+    text.setFontFamily('NeoDunggeunmo');
+    
+    function addItem(box, item) {
+        text.setText("스페이스바를 눌러 '"+ item.name +"' 얻기");
+        if(spacebarKeydown === true){
+            item.disableBody(true, true);
+            fetch("http://localhost:3000/itemlist", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                id: item.id,
+                name: item.name,
+                descript: item.descript,
+                imgURL: item.imgURL
+                }),
+            })
+                .then((response) => response.json())
+            text.visible = false;
+        }
+    }
   }
 
   update () {
+    const x = player.x, y = player.y;
+    const distance = 30;
+    const cameraX = this.cameras.main.worldView.x, cameraY = this.cameras.main.worldView.y;
+    text.x = cameraX + 220 ;
+    text.y = cameraY + 530 ;
+    text.visible = this.physics.overlap(box, items) ? true : false;
+
     player.body.setVelocity(0);
-    if (cursors.left.isDown)
-    { 
-        player.body.setVelocityX(-160*2);
-    }
-    else if (cursors.right.isDown)
-    {
-        player.body.setVelocityX(160*2);
-    }
 
-    if(cursors.up.isDown)
-    {
-        player.body.setVelocityY(-160*2);
-
+    if (cursors.left.isDown){ 
+        player.body.setVelocityX(-160*4);
+        box.setPosition(x - distance, y);
+    }
+    else if (cursors.right.isDown){
+        player.body.setVelocityX(160*4);
+        box.setPosition(x + distance, y);
+    }
+    if(cursors.up.isDown){
+        player.body.setVelocityY(-160*4);
+        box.setPosition(x, y - distance);
     }
     else if(cursors.down.isDown){
-        player.body.setVelocityY(160*2);
+        player.body.setVelocityY(160*4);
+        box.setPosition(x, y + distance);
     }
     
     if (cursors.left.isDown) {
@@ -215,7 +276,14 @@ export default class PlayScene extends Scene {
     } else {
         player.anims.stop();
     }
-    player.body.velocity.normalize().scale(160);
-    
+    player.body.velocity.normalize().scale(160*4);
+
+    if(spaceBar.isDown) spacebarKeydown = true;
+    else spacebarKeydown = false;
+
+    for(var i = 0; i < newItems.length; i++){
+        if (itemlist[newItems[i].id] != undefined) 
+            items.children.entries[i].disableBody(true, true);
+    }
   }
 }

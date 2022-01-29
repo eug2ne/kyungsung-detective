@@ -1,3 +1,5 @@
+<template>
+  <pre>
 MIT License
 
 Copyright (c) 2021 Markus Appel
@@ -22,7 +24,7 @@ SOFTWARE.
 
 _____________________________________________________________________________________
 
-Copyright (c) 2017-2021, Eunbin Jeong (Dalgona.) <project-neodgm@dalgona.dev>
+Copyright (c) 2017-2021, Eunbin Jeong (Dalgona.)  &lt; project-neodgm@dalgona.dev &gt;
 with Reserved Font Name "Neo둥근모",
                         "Neo둥근모 Code",
                         "NeoDunggeunmo",
@@ -72,7 +74,7 @@ new environment.
 "Author" refers to any designer, engineer, programmer, technical
 writer or other person who contributed to the Font Software.
 
-PERMISSION & CONDITIONS
+PERMISSION &amp; CONDITIONS
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of the Font Software, to use, study, copy, merge, embed, modify,
 redistribute, and sell modified and unmodified copies of the Font
@@ -166,3 +168,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+</pre
+  >
+</template>
+
+<style scoped>
+pre {
+  margin: 50px 100px;
+}
+</style>

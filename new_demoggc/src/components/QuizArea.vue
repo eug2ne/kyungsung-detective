@@ -3,17 +3,20 @@
     <div id="controls">
     <button @click="refreshQuiz" id="refreshQuiz">
       <img src="../assets/refresh-page-option.png" alt="초기화">
+  <div id="controls">
+    <button @click="refreshQuiz" id="refreshQuiz" class="icon">
+      <img src="../assets/refresh-page-option.png" alt="초기화" />
     </button>
     <button ref="reverseButton" @click="reverseQuiz" id="reverseQuiz">
       <img v-if="this.q_instance.reverse" class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774733.png" alt="반전">
       <img v-else="this.q_instance.reverse" class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774765.png" alt="반전">
     </button>
     <ul>
-      <button @click="back" id="backQuiz">
-        <img src="../assets/return.png" alt="뒤로가기">
+        <button @click="back" id="backQuiz" class="icon">
+          <img src="../assets/return.png" alt="뒤로가기" />
       </button>
-      <button @click="forward" id="forwardQuiz">
-        <img src="../assets/next.png" alt="앞으로가기">
+        <button @click="forward" id="forwardQuiz" class="icon">
+          <img src="../assets/next.png" alt="앞으로가기" />
       </button>
     </ul>
     </div>

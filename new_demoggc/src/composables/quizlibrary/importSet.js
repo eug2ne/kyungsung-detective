@@ -6,6 +6,7 @@ const importSet = async (quiz_id, user) => {
     const defaultSet = ref({})
 
     // import set from db
+    console.log(user)
     const userRef = db.collection('Users').where('user_name', '==', user)
     const setRef = doc(db, 'QuizSet', quiz_id)
 

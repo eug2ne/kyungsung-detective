@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper">
     <p>
-      아직 얻지않은 <br />
+      아직 얻지않은 <br/>
       아이템입니다.
     </p>
   </div>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style scoped>

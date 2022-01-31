@@ -1,7 +1,6 @@
 <template>
-    <div v-if="this.show" class="backdrop" @click.self="vanishPopup">
-        <div id="error-popup"
-            :class="{ wordspaceerror:wordspace, mergeerror:merge, worderror:word, spaceerror:space }">
+    <div class="backdrop" v-if="this.show" @click.self="vanishPopup">
+        <div id="error-popup">
             <h3>{{ message.title }}</h3>
             <p v-for="s in descriptSplit" :key="s.index">
                 {{ s }} 
@@ -20,11 +19,7 @@ export default {
     data() {
         return {
             show: false,
-            message: ref({}),
-            wordspace: false,
-            merge: false,
-            word: false,
-            space: false
+            message: ref({})
         }
     },
     computed: {
@@ -49,16 +44,26 @@ export default {
 </script>
 
 <style scoped>
+.backdrop {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background: transparent;
+    backdrop-filter: blur(10px);
+}
+
 #error-popup {
+    position: absolute;
     width: 400px;
-    align-self: center;
     text-align: center;
     padding: 20px;
-    margin: 100px auto;
-    z-index: 1000;
     border-radius: 10px;
-  color: white;
-  background-color: #807159;
+    color: white;
+    background-color: #807159;
 }
 
 h3 {
@@ -68,11 +73,5 @@ h3 {
 
 p {
     font-size: 15px;
-}
-
-.backdrop {
-    position: fixed;
-    width: 950px;
-    height: 100vh;
 }
 </style>

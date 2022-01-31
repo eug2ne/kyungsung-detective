@@ -4,9 +4,6 @@
     <router-link :to="{ name: 'Map' }" class="link-button pixel-borders--2"
       >시작하기
     </router-link>
-    <router-link :to="{ name: 'Tutorial' }" class="link-button pixel-borders--2"
-      >게임설명
-    </router-link>
   </div>
 </template>
 

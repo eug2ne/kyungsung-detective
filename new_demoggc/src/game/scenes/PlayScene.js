@@ -1,15 +1,10 @@
 import { BlendModes, Scene } from 'phaser'
 import { newItems } from '../components/Item'
+import itemlist from '../../assets/itemlist.json'
 
 var player, box, items, text
 var cursors, spaceBar
 var spacebarKeydown
-var itemlist
-
-fetch("http://localhost:3000/itemlist")
-.then((response) => response.json())
-.then((data) => (itemlist = data))
-.catch((error) => console.log(error.message));
 
 export default class PlayScene extends Scene {
   constructor () {
@@ -147,25 +142,25 @@ export default class PlayScene extends Scene {
     this.anims.create({
       key: 'left',
       frames: this.anims.generateFrameNumbers('sami', { start: 1, end: 4 }),
-      frameRate: 50,
+      frameRate: 10,
       repeat: -1
     })
     this.anims.create({
         key: 'back',
         frames: this.anims.generateFrameNumbers('sami', { start: 5, end: 8 }),
-        frameRate: 50,
+        frameRate: 10,
         repeat: -1
     })
     this.anims.create({
         key: 'front',
         frames: this.anims.generateFrameNumbers('sami', { start: 9, end: 12 }),
-        frameRate: 50,
+        frameRate: 10,
         repeat: -1
     })
     this.anims.create({
         key: 'right',
         frames: this.anims.generateFrameNumbers('sami', { start: 13, end: 16 }),
-        frameRate: 50,
+        frameRate: 10,
         repeat: -1
     })
 
@@ -220,19 +215,6 @@ export default class PlayScene extends Scene {
         text.setText("스페이스바를 눌러 '"+ item.name +"' 얻기");
         if(spacebarKeydown === true){
             item.disableBody(true, true);
-            fetch("http://localhost:3000/itemlist", {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                id: item.id,
-                name: item.name,
-                descript: item.descript,
-                imgURL: item.imgURL
-                }),
-            })
-                .then((response) => response.json())
             text.visible = false;
         }
     }
@@ -276,7 +258,7 @@ export default class PlayScene extends Scene {
     } else {
         player.anims.stop();
     }
-    player.body.velocity.normalize().scale(160*4);
+    player.body.velocity.normalize().scale(50*4);
 
     if(spaceBar.isDown) spacebarKeydown = true;
     else spacebarKeydown = false;

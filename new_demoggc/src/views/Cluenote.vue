@@ -48,24 +48,18 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref } from 'vue'
+import cluelist from '../assets/cluelist.json'
 
 export default {
   data() {
     return {
-      cluelist: ref([]),
-      show: ref([]),
+      show: ref([])
     };
-  },
-  beforeMount() {
-    fetch("http://localhost:3000/cluelist")
-      .then((response) => response.json())
-      .then((data) => (this.cluelist = data))
-      .catch((error) => console.log(error.message));
   },
   methods: {
     showClue(story) {
-      this.show = story.clues;
+      this.show = story.clues
     },
   },
 };

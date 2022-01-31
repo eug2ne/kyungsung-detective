@@ -43,7 +43,6 @@ export default {
 
 <style>
 td {
-  display: table-cell;
   width: calc(885px / 15);
   height: calc(885px / 15);
   text-align: center;

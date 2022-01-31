@@ -7,9 +7,9 @@
         <li @click="this.emitter.emit('hint_first')">초성 힌트</li>
         <li @click="this.emitter.emit('hint_def')">뜻 힌트</li>
       </ul>
-    <li id="rules"><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
+    <li id="rules" v-else="showHints"><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
     </ul>
-    <QuizArea :id="quiz_id" />
+    <QuizArea :id="quiz_id" :user="user_id"/>
   </div>
 
   <div class="sources">
@@ -122,7 +122,7 @@ export default {
 }
 
 table {
-  display: block;
+  display: table;
   width: 885px;
   background-color: rgba(0, 0, 0, 0.8);
   border-spacing: 2px;

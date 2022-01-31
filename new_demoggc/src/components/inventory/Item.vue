@@ -12,10 +12,10 @@
 
 <script>
 export default {
-  props: ["item", "owned"],
+  props: [ 'item', 'owned' ],
   methods: {
     clickItem() {
-      this.$emit("addItem", {
+      this.$emit('addItem', {
         id: this.item.id,
       });
     },
@@ -26,7 +26,7 @@ export default {
       else return true;
     },
   },
-};
+}
 </script>
 
 <style>

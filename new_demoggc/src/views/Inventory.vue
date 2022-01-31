@@ -26,31 +26,25 @@
     />
     <!-- 존재하는 아이템 총 개수 = 6 -->
     <component
-      v-for="n in 6 - Object.keys(this.itemlist).length"
+      v-for="n in 6 - Object.keys(itemlist).length"
       :is="'None'"
     />
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import Item from "../components/inventory/Item.vue";
-import None from "../components/inventory/None.vue";
+import { ref } from 'vue'
+import Item from '../components/inventory/Item.vue'
+import None from '../components/inventory/None.vue'
 
 export default {
   data() {
     return {
       itemlist: ref([]),
-      owned: ref([]),
-    };
+      owned: ref([])
+    }
   },
   components: { Item, None },
-  beforeMount() {
-    fetch("http://localhost:3000/itemlist")
-      .then((response) => response.json())
-      .then((data) => (this.itemlist = data))
-      .catch((error) => console.log(error.message));
-  },
   methods: {
     toggleOwned(data) {
       var array = this.owned;
@@ -59,7 +53,7 @@ export default {
       else array.splice(index, 1);
     },
   },
-};
+}
 </script>
 
 <style>

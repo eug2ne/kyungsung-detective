@@ -27,7 +27,7 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Quiz', params: { quiz_id: 'quiz_1' } }">
+        <router-link :to="{ name: 'Quiz', params: { quiz_id: 'quiz_1', user_id: 'admin' } }">
           <p class="pixel-borders--2">단서판서</p>
         </router-link>
       </li>
@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  name: "Navbar",
+  name: 'Navbar',
 };
 </script>
 

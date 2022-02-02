@@ -27,7 +27,7 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Quiz', params: { quiz_id: 'quiz_1', user_id: 'admin' } }">
+        <router-link :to="{ name: 'Quiz', params: { quiz_id: '5pSYFHRok3Es4xw6XWcC', user_id: '탐졍' } }">
           <p class="pixel-borders--2">단서판서</p>
         </router-link>
       </li>

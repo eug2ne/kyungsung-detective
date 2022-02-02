@@ -6,8 +6,7 @@ const importSet = async (quiz_id, user) => {
     const defaultSet = ref({})
 
     // import set from db
-    console.log(user)
-    const userRef = db.collection('Users').where('user_name', '==', user)
+    const userRef = db.collection('Users').where('displayName', '==', user)
     const setRef = doc(db, 'QuizSet', quiz_id)
 
     const userSnap = await (await userRef.get()).docs[0]
@@ -17,7 +16,7 @@ const importSet = async (quiz_id, user) => {
 
     if (userSnap) {
         // if user already in Users
-        const user_id = userSnap.id
+        const user_id = userSnap.data().uid
 
         const user_quizstatusRef = db.collection('Users').doc('quizstatus')
             .collection('quizstatus').doc(user_id)
@@ -33,13 +32,15 @@ const importSet = async (quiz_id, user) => {
             }
         } else {
             // else, create new quizstatus subcollection for user
+            console.log(quiz_id)
             await setDoc(user_quizstatusRef, {
                 quizletterset: defaultSet.value,
                 chosen: [],
                 reverse: false,
                 max_chosen: 6,
                 backset: [],
-                forwardset: []
+                forwardset: [],
+                accomplish: false
             }) // default setting
 
             const quizinstance = user_quizstatusSnap.data()
@@ -53,7 +54,7 @@ const importSet = async (quiz_id, user) => {
     } else {
         // else, create new user info
         const newSnap = await db.collection('Users').add({
-            user_name: user
+            displayName: user
         })
 
         const user_id = newSnap.id

@@ -2,9 +2,6 @@
   <Navbar/>
   <div id="router-view" class="pixel-borders--1">
     <router-view />
-    <router-link :to="{ name: 'License' }" class="license"
-      >license
-    </router-link>
   </div>
 </template>
 
@@ -54,6 +51,7 @@ body {
 
 #router-view {
   width: 995px;
+  min-height: 725px;
   padding: 25px;
   padding-top: 60px;
   position: relative;
@@ -84,10 +82,5 @@ img {
   display: inherit;
   width: inherit;
   height: inherit;
-}
-
-.license {
-  text-decoration: underline;
-  position: absolute;
 }
 </style>

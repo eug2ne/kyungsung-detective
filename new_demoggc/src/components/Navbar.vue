@@ -6,7 +6,12 @@
     </button>
     <div class="between-box" />
     <ul class="navbar">
-      <li>
+        <li v-show="
+          $route.name === 'Home' ||
+          $route.name === 'License' ||
+          $route.name === 'Tutorial' ||
+          $route.name === 'Login' ||
+          $route.name === 'SignUp'">
         <router-link :to="{ name: 'Home' }">
           <p class="pixel-borders--2">홈</p>
         </router-link>

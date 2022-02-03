@@ -1,9 +1,10 @@
 <template>
   <div>
     <img src="../assets/logo/logo500px.png" alt="logo" />
-    <router-link :to="{ name: 'Map' }" class="link-button pixel-borders--2"
+    <router-link :to="{ name: 'Login' }" class="link-button pixel-borders--2"
       >시작하기
     </router-link>
+    <router-link :to="{ name: 'License' }" class="license">license</router-link>
   </div>
 </template>
 
@@ -35,5 +36,13 @@ img {
     0 -5px 0 rgba(0, 0, 0, 0.2) inset, 0 0 0 100px #1aa5cb inset;
   background-color: white;
   border-radius: 10px;
+}
+
+.license {
+  text-decoration: underline;
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  margin: 10px 30px;
 }
 </style>

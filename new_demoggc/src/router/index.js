@@ -6,6 +6,8 @@ import Inventory from '../views/Inventory.vue'
 import Rules from '../views/Rules.vue'
 import Home from '../views/Home.vue'
 import License from '../views/License.vue'
+import Login from '../views/auth/Login.vue'
+import SignUp from '../views/auth/SignUp.vue'
 
 const routes = [
   {
@@ -43,6 +45,16 @@ const routes = [
     path: '/License',
     name: 'License',
     component: License
+  },
+  {
+    path: '/Login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/SignUp',
+    name: 'SignUp',
+    component: SignUp
   }
 ]
 

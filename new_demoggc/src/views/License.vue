@@ -1,4 +1,5 @@
 <template>
+  <router-link :to="{ name: 'Home' }" class="x-button">x</router-link>
   <pre>
 MIT License
 
@@ -168,12 +169,22 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-</pre
-  >
+</pre>
 </template>
 
-<style scoped>
+<style>
 pre {
   margin: 50px 100px;
+  font-family: "NeoDunggeunmo";
+}
+
+.x-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 50px;
+  font-size: 50px;
+  color: white;
+  text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
 }
 </style>

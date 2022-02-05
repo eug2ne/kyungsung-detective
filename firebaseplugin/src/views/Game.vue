@@ -4,9 +4,15 @@
 </template>
 
 <script>
+import launch from '../game/game'
+
 export default {
   name: 'Game',
-  props: [ 'user_id' ],
+  props: {
+    user_id: {
+      default: 'mFyHJ9bNO9hdj4sC8CqVwt6xGLj2'
+    }
+  },
   data() {
     return {
       downloaded: false,
@@ -15,10 +21,10 @@ export default {
     }
   },
   async mounted() {
-    const game = await import(/* webpackChunkName: "game" */ '../game/game.js')
+    // const game = await import(/* webpackChunkName: "game" */ '../game/game.js')
     this.downloaded = true
     this.$nextTick(() => {
-      this.gameInstance = game.launch(this.containerId)
+      this.gameInstance = launch(this.containerId, this.user_id)
     })
   },
   destroyed() {

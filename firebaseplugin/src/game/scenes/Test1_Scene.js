@@ -1,15 +1,11 @@
 import { BlendModes, Scene } from 'phaser'
 
-var player, box
-var cursors
-
-export default class PlayScene extends Scene {
+export default class Test1_Scene extends Scene {
   constructor () {
-    super({ key: 'PlayScene' })
+    super({ key: 'Test1_Scene' })
   }
 
   create () {
-    console.log(this.plugins.firebase)
     this.physics.world.setBounds(0, 0, 2800,1981)
     this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
 
@@ -132,90 +128,90 @@ export default class PlayScene extends Scene {
     trees.create(2654, 1344,'tree').setScale(0.8).refreshBody()
     trees.create(2776, 1243,'tree').setScale(0.8).refreshBody()
 
-    player = this.physics.add.sprite(200, 900, 'sami').setScale(0.16)
-    this.cameras.main.startFollow(player, false, 0.2, 0.2)
-    //player.setCollideWorldBounds(true)
+    // player = this.physics.add.sprite(200, 900, 'sami').setScale(0.16)
+    // this.cameras.main.startFollow(player, false, 0.2, 0.2)
+    // //player.setCollideWorldBounds(true)
 
-    this.anims.create({
-      key: 'left',
-      frames: this.anims.generateFrameNumbers('sami', { start: 1, end: 4 }),
-      frameRate: 10,
-      repeat: -1
-    })
-    this.anims.create({
-        key: 'back',
-        frames: this.anims.generateFrameNumbers('sami', { start: 5, end: 8 }),
-        frameRate: 10,
-        repeat: -1
-    })
-    this.anims.create({
-        key: 'front',
-        frames: this.anims.generateFrameNumbers('sami', { start: 9, end: 12 }),
-        frameRate: 10,
-        repeat: -1
-    })
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('sami', { start: 13, end: 16 }),
-        frameRate: 10,
-        repeat: -1
-    })
-
-
-    cursors = this.input.keyboard.createCursorKeys()
+    // this.anims.create({
+    //   key: 'left',
+    //   frames: this.anims.generateFrameNumbers('sami', { start: 1, end: 4 }),
+    //   frameRate: 10,
+    //   repeat: -1
+    // })
+    // this.anims.create({
+    //     key: 'back',
+    //     frames: this.anims.generateFrameNumbers('sami', { start: 5, end: 8 }),
+    //     frameRate: 10,
+    //     repeat: -1
+    // })
+    // this.anims.create({
+    //     key: 'front',
+    //     frames: this.anims.generateFrameNumbers('sami', { start: 9, end: 12 }),
+    //     frameRate: 10,
+    //     repeat: -1
+    // })
+    // this.anims.create({
+    //     key: 'right',
+    //     frames: this.anims.generateFrameNumbers('sami', { start: 13, end: 16 }),
+    //     frameRate: 10,
+    //     repeat: -1
+    // })
 
 
-    this.physics.add.collider(player, house_m)
-    this.physics.add.collider(player, trees)
-    this.physics.add.collider(player, col_left_h_g)
-    this.physics.add.collider(player, col_mid_h)
-    this.physics.add.collider(player, col_mini_h)
-    this.physics.add.collider(player, col_left_h)
-    this.physics.add.collider(player, col_right_h)
-    this.physics.add.collider(player, col_north_o)
-    this.physics.add.collider(player, col_west_o)
-    this.physics.add.collider(player, col_fo1)
-    this.physics.add.collider(player, col_fo2)
-    this.physics.add.collider(player, col_fo3)
-    this.physics.add.collider(player, col_fo4)
-    this.physics.add.collider(player, col_fo5)
-    this.physics.add.collider(player, col_fo6)
-    this.physics.add.collider(player, col_gr1)
-    this.physics.add.collider(player, col_gr2)
-    this.physics.add.collider(player, col_gr3)
-    this.physics.add.collider(player, col_gr4)
+    // cursors = this.input.keyboard.createCursorKeys()
+
+
+    // this.physics.add.collider(player, house_m)
+    // this.physics.add.collider(player, trees)
+    // this.physics.add.collider(player, col_left_h_g)
+    // this.physics.add.collider(player, col_mid_h)
+    // this.physics.add.collider(player, col_mini_h)
+    // this.physics.add.collider(player, col_left_h)
+    // this.physics.add.collider(player, col_right_h)
+    // this.physics.add.collider(player, col_north_o)
+    // this.physics.add.collider(player, col_west_o)
+    // this.physics.add.collider(player, col_fo1)
+    // this.physics.add.collider(player, col_fo2)
+    // this.physics.add.collider(player, col_fo3)
+    // this.physics.add.collider(player, col_fo4)
+    // this.physics.add.collider(player, col_fo5)
+    // this.physics.add.collider(player, col_fo6)
+    // this.physics.add.collider(player, col_gr1)
+    // this.physics.add.collider(player, col_gr2)
+    // this.physics.add.collider(player, col_gr3)
+    // this.physics.add.collider(player, col_gr4)
   }
 
-  update () {
-    const x = player.x, y = player.y;
-    const distance = 30;
+//   update () {
+//     const x = player.x, y = player.y;
+//     const distance = 30;
 
-    player.body.setVelocity(0);
+//     player.body.setVelocity(0);
 
-    if (cursors.left.isDown){ 
-        player.body.setVelocityX(-160*4);
-    }
-    else if (cursors.right.isDown){
-        player.body.setVelocityX(160*4);
-    }
-    if(cursors.up.isDown){
-        player.body.setVelocityY(-160*4);
-    }
-    else if(cursors.down.isDown){
-        player.body.setVelocityY(160*4);
-    }
+//     if (cursors.left.isDown){ 
+//         player.body.setVelocityX(-160*4);
+//     }
+//     else if (cursors.right.isDown){
+//         player.body.setVelocityX(160*4);
+//     }
+//     if(cursors.up.isDown){
+//         player.body.setVelocityY(-160*4);
+//     }
+//     else if(cursors.down.isDown){
+//         player.body.setVelocityY(160*4);
+//     }
     
-    if (cursors.left.isDown) {
-        player.anims.play('left', true);
-    }else if (cursors.right.isDown) {
-        player.anims.play('right', true);
-    } else if (cursors.up.isDown) {
-        player.anims.play('back', true);
-    } else if (cursors.down.isDown) {
-        player.anims.play('front', true);
-    } else {
-        player.anims.stop();
-    }
-    player.body.velocity.normalize().scale(50*4);
-  }
+//     if (cursors.left.isDown) {
+//         player.anims.play('left', true);
+//     }else if (cursors.right.isDown) {
+//         player.anims.play('right', true);
+//     } else if (cursors.up.isDown) {
+//         player.anims.play('back', true);
+//     } else if (cursors.down.isDown) {
+//         player.anims.play('front', true);
+//     } else {
+//         player.anims.stop();
+//     }
+//     player.body.velocity.normalize().scale(50*4);
+//   }
 }

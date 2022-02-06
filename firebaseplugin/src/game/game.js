@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import FirebasePlugin from './FirebasePlugin'
 import Test1_Scene from './scenes/Test1_Scene'
+import BootScene from './scenes/BootScene'
 
 const launch = (containerId, userId) => {
   const config = {
@@ -16,30 +17,32 @@ const launch = (containerId, userId) => {
       }
     },
     scene: {
-      preload: preload,
-      create: create
+      preload: preload
+    },
+    plugins: {
+      global: [
+        {
+          key: 'FirebasePlugin',
+          plugin: FirebasePlugin,
+          start: true,
+          mapping: 'firebase'
+        }
+      ]
     }
-    // plugins: {
-    //   global: [
-    //     {
-    //       key: 'FirebasePlugin',
-    //       plugin: FirebasePlugin,
-    //       start: true,
-    //       mapping: 'firebase'
-    //     }
-    //   ]
-    // }
   }
 
-  let game = new Phaser.Game(config)
+  const game = new Phaser.Game(config)
 
-  function preload() {
+  async function preload() {
     console.log('preload')
-  }
+    const firestore = this.plugins.get('FirebasePlugin')
 
-  function create() {
-    console.log('create')
-    game.plugins.install('FirestorePlugin', FirebasePlugin, true, 'firestore')
+    let PlayScene_Key = await firestore.loadGameData(userId)
+
+    this.scene.add('Test1_Scene', Test1_Scene, false)
+    this.scene.add('BootScene', BootScene, true)
+
+    this.scene.switch(PlayScene_Key)
   }
 
   return game

@@ -1,6 +1,5 @@
 import Phaser from 'phaser'
-import Test1_Scene from './scenes/Test1_Scene.js'
-import db from '../firestoreDB.js'
+import firebase from '../firestoreDB.js'
 import {
 	getFirestore,
 	Firestore,
@@ -18,7 +17,7 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 	{
 		super(manager)
 
-		this.firestore = getFirestore(db)
+		this.firestore = firebase.firestore()
 	}
 
 	destroy()
@@ -37,17 +36,21 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 	async loadGameData(userId: string)
 	{
     // load user Game data from /Users/Games
+    console.log('loadData')
     const GamesRef = collection(doc(this.firestore, 'Users', 'Games'), 'Games')
     const user_GameRef = doc(GamesRef, userId)
     const user_GameSnap = await getDoc(user_GameRef)
 
     if (user_GameSnap.exists()) {
       // if user_Game data already exist, load data from db
-
+      return user_GameSnap.data().sceneKey
     } else {
       // else, create new doc for user
-      console.log(Test1_Scene)
-      setDoc(user_GameRef, Test1_Scene)
+      setDoc(user_GameRef, {
+        sceneKey: 'Test1_Scene'
+      })
+
+      return 'Test1_Scene'
     }
 	}
 }

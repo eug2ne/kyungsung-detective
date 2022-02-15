@@ -6,9 +6,9 @@ var player, box, items, text
 var cursors, spaceBar
 var spacebarKeydown
 
-export default class PlayScene extends Scene {
+export default class Test1Scene extends Scene {
   constructor () {
-    super({ key: 'PlayScene' })
+    super({ key: 'Test1Scene' })
   }
 
   create () {
@@ -137,30 +137,30 @@ export default class PlayScene extends Scene {
 
     player = this.physics.add.sprite(200, 900, 'sami').setScale(0.16)
     this.cameras.main.startFollow(player, false, 0.2, 0.2)
-    //player.setCollideWorldBounds(true)
+    player.body.collideWorldBounds = true
 
     this.anims.create({
       key: 'left',
       frames: this.anims.generateFrameNumbers('sami', { start: 1, end: 4 }),
-      frameRate: 10,
+      frameRate: 3,
       repeat: -1
     })
     this.anims.create({
         key: 'back',
         frames: this.anims.generateFrameNumbers('sami', { start: 5, end: 8 }),
-        frameRate: 10,
+        frameRate: 3,
         repeat: -1
     })
     this.anims.create({
         key: 'front',
         frames: this.anims.generateFrameNumbers('sami', { start: 9, end: 12 }),
-        frameRate: 10,
+        frameRate: 3,
         repeat: -1
     })
     this.anims.create({
         key: 'right',
         frames: this.anims.generateFrameNumbers('sami', { start: 13, end: 16 }),
-        frameRate: 10,
+        frameRate: 3,
         repeat: -1
     })
 
@@ -231,19 +231,19 @@ export default class PlayScene extends Scene {
     player.body.setVelocity(0);
 
     if (cursors.left.isDown){ 
-        player.body.setVelocityX(-160*4);
+        player.body.setVelocityX(-200);
         box.setPosition(x - distance, y);
     }
     else if (cursors.right.isDown){
-        player.body.setVelocityX(160*4);
+        player.body.setVelocityX(200);
         box.setPosition(x + distance, y);
     }
     if(cursors.up.isDown){
-        player.body.setVelocityY(-160*4);
+        player.body.setVelocityY(-200);
         box.setPosition(x, y - distance);
     }
     else if(cursors.down.isDown){
-        player.body.setVelocityY(160*4);
+        player.body.setVelocityY(200);
         box.setPosition(x, y + distance);
     }
     
@@ -258,7 +258,7 @@ export default class PlayScene extends Scene {
     } else {
         player.anims.stop();
     }
-    player.body.velocity.normalize().scale(50*4);
+    player.body.velocity.normalize().scale(200);
 
     if(spaceBar.isDown) spacebarKeydown = true;
     else spacebarKeydown = false;

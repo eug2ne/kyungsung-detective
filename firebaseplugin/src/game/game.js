@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import FirebasePlugin from './FirebasePlugin'
+import SceneLoadPlugin from './SceneLoadPlugin'
 import Test1_Scene from './scenes/Test1_Scene'
-import BootScene from './scenes/BootScene'
 
 const launch = (containerId, userId) => {
   const config = {
@@ -27,6 +27,14 @@ const launch = (containerId, userId) => {
           start: true,
           mapping: 'firebase'
         }
+      ],
+      scene: [
+        {
+          key: 'SceneLoadPlugin',
+          plugin: SceneLoadPlugin,
+          start: true,
+          mapping: 'sceneload'
+        }
       ]
     }
   }
@@ -37,12 +45,12 @@ const launch = (containerId, userId) => {
     console.log('preload')
     const firestore = this.plugins.get('FirebasePlugin')
 
-    let PlayScene_Key = await firestore.loadGameData(userId)
+    let player_config = await firestore.loadGameData(userId)
+    let PlayScene_Key = player_config.sceneKey
 
     this.scene.add('Test1_Scene', Test1_Scene, false)
-    this.scene.add('BootScene', BootScene, true)
 
-    this.scene.switch(PlayScene_Key)
+    this.scene.start(PlayScene_Key)
   }
 
   return game

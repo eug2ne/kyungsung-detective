@@ -43,7 +43,6 @@ export default {
                 displayName: document.getElementById("displayName").value
               })
               self.addUser()
-              alert("회원가입 완료!")
               self.$router.replace("/login")
             },
             function (err) {

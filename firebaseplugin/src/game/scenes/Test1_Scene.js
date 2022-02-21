@@ -1,11 +1,70 @@
-import { BlendModes, Scene } from 'phaser'
+import Phaser from 'phaser'
+import back1 from '@/game/assets/test1_map/궁정리.png'
+import back2 from '@/game/assets/test1_map/건물레이어(나무밑).png'
+import treess from '@/game/assets/test1_map/다리자른 나무.png'
+import house1 from '@/game/assets/test1_map/궁_0000s_0004_건물6_충돌버전.png'
+import tree from '@/game/assets/test1_map/궁_0004_나무한그루_충돌.png'
+import left_h_g from '@/game/assets/test1_map/경복궁왼쪽충돌.png'
+import mid_h from '@/game/assets/test1_map/경복궁 충돌 중앙.png'
+import mini_h from '@/game/assets/test1_map/미니집.png'
+import left_h from '@/game/assets/test1_map/왼쪽집.png'
+import tight_h from '@/game/assets/test1_map/오른쪽집.png'
+import north_o from '@/game/assets/test1_map/위에 충돌(궁하나 혼자).png'
+import west_o from '@/game/assets/test1_map/오른쪽에 충돌(궁하나 혼자).png'
 
-export default class Test1_Scene extends Scene {
+import fo1 from '@/game/assets/test1_map/오른쪽숲1.png'
+import fo2 from '@/game/assets/test1_map/오른쪽숲2.png'
+import fo3 from '@/game/assets/test1_map/오른쪽숲3.png'
+import fo4 from '@/game/assets/test1_map/오른쪽숲4.png'
+import fo5 from '@/game/assets/test1_map/오른쪽숲5.png'
+import fo6 from '@/game/assets/test1_map/오른쪽숲6.png'
+
+
+import gr1 from '@/game/assets/test1_map/궁오른쪽1.png'
+import gr2 from '@/game/assets/test1_map/궁오른쪽2.png'
+import gr3 from '@/game/assets/test1_map/궁오른쪽3.png'
+import gr4 from '@/game/assets/test1_map/궁오른쪽4.png'
+
+export default class Test1_Scene extends Phaser.Scene {
   constructor () {
-    super({ key: 'Test1_Scene' })
+    super('Test1_Scene')
+  }
+
+  preload() {
+    console.log('test1_preload')
+    // load map image
+    this.load.image('back1', back1)
+    this.load.image('back2', back2)
+    this.load.image('treess', treess)
+    
+    // collision image
+    this.load.image('house1', house1)
+    this.load.image('tree', tree)
+    this.load.image('left_h_g', left_h_g)
+    this.load.image('mid_h', mid_h)
+    this.load.image('mini_h', mini_h)
+    this.load.image('left_h', left_h)
+    this.load.image('right_h', tight_h)
+    this.load.image('north_o', north_o)
+    this.load.image('west_o', west_o)
+
+    this.load.image('fo1', fo1)
+    this.load.image('fo2', fo2)
+    this.load.image('fo3', fo3)
+    this.load.image('fo4', fo4)
+    this.load.image('fo5', fo5)
+    this.load.image('fo6', fo6)
+    this.load.image('gr1', gr1)
+    this.load.image('gr2', gr2)
+    this.load.image('gr3', gr3)
+    this.load.image('gr4', gr4)
+
+    // sceneload plugin preload()
+    this.sceneload.preload()
   }
 
   create () {
+    console.log('test1_create')
     this.physics.world.setBounds(0, 0, 2800,1981)
     this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
 
@@ -57,7 +116,7 @@ export default class Test1_Scene extends Scene {
     col_fo3.create(2330,123,'fo3').refreshBody()
     col_fo4.create(2398,229,'fo4').refreshBody()
     col_fo5.create(2340,325/2,'fo5').refreshBody()
-    col_fo5.create(2309.5,196/2,'fo6').refreshBody()
+    col_fo6.create(2309.5,196/2,'fo6').refreshBody()
 
     col_north_o.create(1574,470,'north_o').refreshBody()
     col_west_o.create(2570,948,'west_o').refreshBody()
@@ -128,90 +187,17 @@ export default class Test1_Scene extends Scene {
     trees.create(2654, 1344,'tree').setScale(0.8).refreshBody()
     trees.create(2776, 1243,'tree').setScale(0.8).refreshBody()
 
-    // player = this.physics.add.sprite(200, 900, 'sami').setScale(0.16)
-    // this.cameras.main.startFollow(player, false, 0.2, 0.2)
-    // //player.setCollideWorldBounds(true)
+    const colliders = [ house_m, trees, tree_sss,
+        col_left_h_g, col_left_h, col_mid_h, col_mini_h, col_north_o, col_right_h, col_west_o,
+        col_fo1, col_fo2, col_fo3, col_fo4, col_fo5, col_fo6,
+        col_gr1, col_gr2, col_gr3, col_gr4 ]
 
-    // this.anims.create({
-    //   key: 'left',
-    //   frames: this.anims.generateFrameNumbers('sami', { start: 1, end: 4 }),
-    //   frameRate: 10,
-    //   repeat: -1
-    // })
-    // this.anims.create({
-    //     key: 'back',
-    //     frames: this.anims.generateFrameNumbers('sami', { start: 5, end: 8 }),
-    //     frameRate: 10,
-    //     repeat: -1
-    // })
-    // this.anims.create({
-    //     key: 'front',
-    //     frames: this.anims.generateFrameNumbers('sami', { start: 9, end: 12 }),
-    //     frameRate: 10,
-    //     repeat: -1
-    // })
-    // this.anims.create({
-    //     key: 'right',
-    //     frames: this.anims.generateFrameNumbers('sami', { start: 13, end: 16 }),
-    //     frameRate: 10,
-    //     repeat: -1
-    // })
+    this.sceneload.create(colliders)
 
 
-    // cursors = this.input.keyboard.createCursorKeys()
-
-
-    // this.physics.add.collider(player, house_m)
-    // this.physics.add.collider(player, trees)
-    // this.physics.add.collider(player, col_left_h_g)
-    // this.physics.add.collider(player, col_mid_h)
-    // this.physics.add.collider(player, col_mini_h)
-    // this.physics.add.collider(player, col_left_h)
-    // this.physics.add.collider(player, col_right_h)
-    // this.physics.add.collider(player, col_north_o)
-    // this.physics.add.collider(player, col_west_o)
-    // this.physics.add.collider(player, col_fo1)
-    // this.physics.add.collider(player, col_fo2)
-    // this.physics.add.collider(player, col_fo3)
-    // this.physics.add.collider(player, col_fo4)
-    // this.physics.add.collider(player, col_fo5)
-    // this.physics.add.collider(player, col_fo6)
-    // this.physics.add.collider(player, col_gr1)
-    // this.physics.add.collider(player, col_gr2)
-    // this.physics.add.collider(player, col_gr3)
-    // this.physics.add.collider(player, col_gr4)
   }
 
-//   update () {
-//     const x = player.x, y = player.y;
-//     const distance = 30;
-
-//     player.body.setVelocity(0);
-
-//     if (cursors.left.isDown){ 
-//         player.body.setVelocityX(-160*4);
-//     }
-//     else if (cursors.right.isDown){
-//         player.body.setVelocityX(160*4);
-//     }
-//     if(cursors.up.isDown){
-//         player.body.setVelocityY(-160*4);
-//     }
-//     else if(cursors.down.isDown){
-//         player.body.setVelocityY(160*4);
-//     }
-    
-//     if (cursors.left.isDown) {
-//         player.anims.play('left', true);
-//     }else if (cursors.right.isDown) {
-//         player.anims.play('right', true);
-//     } else if (cursors.up.isDown) {
-//         player.anims.play('back', true);
-//     } else if (cursors.down.isDown) {
-//         player.anims.play('front', true);
-//     } else {
-//         player.anims.stop();
-//     }
-//     player.body.velocity.normalize().scale(50*4);
-//   }
+  update() {
+    this.sceneload.update()
+  }
 }

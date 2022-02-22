@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
+  public area: Phaser.GameObjects.Rectangle
+
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -46,9 +48,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         frameRate: 10,
         repeat: -1
     })
+
+    // create interaction area
+    const boxX = this.body.x+this.body.width/2, boxY = this.body.y+this.body.height/2
+    this.area = this.scene.add.rectangle(boxX, boxY, this.body.width+10, this.body.height+10)
+      .setStrokeStyle(4, 0x0099ff)
+    this.scene.physics.add.existing(this.area)
   }
 
   update(event: string) {
+    const boxX = this.body.x+this.body.width/2, boxY = this.body.y+this.body.height/2
+
+    // controls
     switch (event) {
       case 'up':
         // up
@@ -79,5 +90,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     this.body.velocity.normalize().scale(50*4)
+
+    // update area coord
+    this.area.setPosition(boxX, boxY)
   }
 }

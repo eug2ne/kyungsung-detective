@@ -99,14 +99,14 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
         json.texture
       ))
     })
+    this.scene.physics.add.overlap(this.player.area, this.items, (area, item) => {
+      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
 
-    this.scene.physics.add.collider(this.items, this.player, (item, player) => {
-      const text = this.scene.add.text(player.body.x, player.body.y, `스페이스 눌러 ${item.name} 얻기`).setDepth(15)
-      text.setFontSize(35)
-      text.setColor('#fff')
-      text.setStroke('#000', 6)
-      text.setFontFamily('NeoDunggeunmo')
-    })
+      const textX = cameraX + 220
+      const textY = cameraY + 530
+
+      item.update(textX, textY)
+    }) // add overlap
 
     // create npc on screen
     this.npcs_JSON.forEach((json: any) => {
@@ -127,11 +127,15 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     this.npcs.forEach((npc: NPC) => {
       npc.create()
-      this.scene.physics.add.collider(npc, this.player)
     })
+    this.scene.physics.add.overlap(this.player.area, this.npcs)
   }
 
   update() {
+    const x = this.player.x, y = this.player.y
+    const distance = 30
+    const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
+
     // set controls
     this.player.setVelocity(0)
 
@@ -153,8 +157,20 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.player.anims.stop()
     }
 
+    // npc animation
     this.npcs.forEach((npc: NPC) => {
       npc.update()
+    })
+
+    // item overlap/collide update
+    this.items.forEach((item: Item) => {
+      const textVisible = this.scene.physics.overlap(this.player.area, item) ? true:false
+      item.update(undefined, undefined, textVisible)
+
+      if (textVisible&&controls.space.isDown) {
+        // get item
+        item.destroy() // remove item from scene
+      }
     })
   }
 }

@@ -25,6 +25,10 @@ import gr2 from '@/game/assets/test1_map/궁오른쪽2.png'
 import gr3 from '@/game/assets/test1_map/궁오른쪽3.png'
 import gr4 from '@/game/assets/test1_map/궁오른쪽4.png'
 
+// npc image+spritesheet
+import npc1_neutral from '../assets/npc_log/npc1_neutral.png'
+import npc1_sprite from '../assets/npc_sprite/npc1_sprite.png'
+
 export default class Test1_Scene extends Phaser.Scene {
   constructor () {
     super('Test1_Scene')
@@ -59,6 +63,10 @@ export default class Test1_Scene extends Phaser.Scene {
     this.load.image('gr3', gr3)
     this.load.image('gr4', gr4)
 
+    // load npc image+spritesheet
+    this.load.image('npc1_neutral', npc1_neutral)
+    this.load.spritesheet('npc1_sprite', npc1_sprite, { frameWidth: 3808 / 17, frameHeight: 330 })
+
     // sceneload plugin preload()
     this.sceneload.preload()
   }
@@ -68,11 +76,11 @@ export default class Test1_Scene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, 2800,1981)
     this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
 
-    this.minimap = this.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
+    // this.minimap = this.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
 
-    this.minimap.setBackgroundColor(0xaca2a0)
-    this.minimap.scrollX = 1306
-    this.minimap.scrollY = 925
+    // this.minimap.setBackgroundColor(0xaca2a0)
+    // this.minimap.scrollX = 1306
+    // this.minimap.scrollY = 925
 
     this.add.image(2800/2,1981/2,'back1')
     var platforms = this.physics.add.staticGroup() //그룹으로 묶는다. 

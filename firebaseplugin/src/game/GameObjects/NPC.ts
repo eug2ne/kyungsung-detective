@@ -1,35 +1,47 @@
 import Phaser from 'phaser'
+import Player from './Player'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
-  private id: string
-  private dynamic: boolean
-  private logtexture: Phaser.Textures.Texture
-  private lines: {}
+  public readonly id: string
+  private sprite_key: string
+  private sprite_func: any
+  private text: Phaser.GameObjects.Text
+  private readonly _dialogue: any
+  private readonly _hint: {}|null
+  public talk_once: boolean
+  public talk_quest: boolean
 
   constructor(
     scene: Phaser.Scene,
     key: string,
-    type: string,
-    lines: {},
-    texture: Phaser.Textures.Texture,
-    logtexture: Phaser.Textures.Texture,
+    spritesheet_key: string,
+    sprite_func: any,
     x: number,
-    y: number
+    y: number,
+    dialogue: any,
+    hint: any
   ) {
     console.log('npc construct')
 
-    super(scene, x, y, texture)
-    scene.add.existing(this).setScale(0.32)
+    const spritesheet = scene.textures.get(spritesheet_key)
+    super(scene, x, y, spritesheet)
+    scene.add.existing(this).setScale(0.32).setDepth(10)
     scene.physics.add.existing(this, true)
-
+    
     this.id = key
-    this.logtexture = logtexture
-    this.lines = lines
+    this.sprite_key = spritesheet_key
+    this._dialogue = dialogue
+    this.sprite_func = sprite_func
+    this._hint = hint
+    this.talk_once = false // default
+    this.talk_quest = false // default
+  }
 
-    if (type == 'static') {
-      this.dynamic = false
+  public get dialogue() {
+    if (this.talk_once) {
+      return this._dialogue.repeat
     } else {
-      this.dynamic = true
+      return this._dialogue.once
     }
   }
 
@@ -39,35 +51,38 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
 
   create() {
     console.log('npc create')
+    this.debugShowBody = true
+    this.debugShowVelocity = true
+    this.debugBodyColor = 0x0033ff // debug option
 
     // create animation
     this.anims.create({
       key: 'left',
-      frames: this.anims.generateFrameNumbers(`${this.id}_scenetexture`, { start: 1, end: 4 }),
+      frames: this.anims.generateFrameNumbers(this.sprite_key, { start: 1, end: 4 }),
       frameRate: 10,
       repeat: -1
     })
     this.anims.create({
         key: 'back',
-        frames: this.anims.generateFrameNumbers(`${this.id}_scenetexture`, { start: 5, end: 8 }),
+        frames: this.anims.generateFrameNumbers(this.sprite_key, { start: 5, end: 8 }),
         frameRate: 10,
         repeat: -1
     })
     this.anims.create({
         key: 'front',
-        frames: this.anims.generateFrameNumbers(`${this.id}_scenetexture`, { start: 9, end: 12 }),
+        frames: this.anims.generateFrameNumbers(this.sprite_key, { start: 9, end: 12 }),
         frameRate: 10,
         repeat: -1
     })
     this.anims.create({
         key: 'right',
-        frames: this.anims.generateFrameNumbers(`${this.id}_scenetexture`, { start: 13, end: 16 }),
+        frames: this.anims.generateFrameNumbers(this.sprite_key, { start: 13, end: 16 }),
         frameRate: 10,
         repeat: -1
     })
   }
 
   update() {
-    this.anims.play('front', true)
+    this.anims.play('front')
   }
 }

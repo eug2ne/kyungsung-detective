@@ -1,20 +1,22 @@
-import npc1_sprite from '../assets/npc_sprite/npc1_sprite.png'
-import npc1_neutral from '../assets/npc_log/npc1_neutral.png'
-
 export default [
   {
     "name": "test npc1",
     "id": "test1-0",
-    "type": "static",
-    "lines": {
+    "sprite_func": null,
+    "dialogue": {
       "once": null,
       "repeat": [
-        "this line is repeated",
-        "it can be skipped by enter/space key"
+        {
+          "image": "npc1_neutral",
+          "line": "this line is repeated"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "it can be skipped by enter/space"
+        }
       ]
     },
-    "scenetexture": npc1_sprite,
-    "logtexture": npc1_neutral,
+    "spritesheet": "npc1_sprite",
     "hint": null,
     "x": 500,
     "y": 1000
@@ -22,23 +24,27 @@ export default [
   {
     "name": "test npc2",
     "id": "test1-1",
-    "type": "static",
-    "lines": {
+    "sprite_func": null,
+    "dialogue": {
       "once": [
-        "this line is said only once",
-        "you get a hint from this one"
+        {
+          "image": "npc1_neutral",
+          "lines": ["this line is said only once", "you get a hint when completed"]
+        }
       ],
       "repeat": [
-        "this line is repeated",
-        "it can be skipped by enter/space key"
+        {
+          "image": "npc1_neutral",
+          "lines": ["you already got the hint"]
+        }
       ]
     },
-    "scenetexture": npc1_sprite,
-    "logtexture": npc1_neutral,
+    "spritesheet": "npc1_sprite",
     "hint": {
       "title": "sample hint",
       "description": "sample description",
-      "quiz_link": null
+      "quiz_link": null,
+      "background_img": null
     },
     "x": 600,
     "y": 1100

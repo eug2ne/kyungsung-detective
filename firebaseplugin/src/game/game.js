@@ -13,7 +13,7 @@ const launch = (containerId, userId) => {
       default: 'arcade',
       arcade: {
         gravity: { y: 0 },
-        debug: false
+        debug: true
       }
     },
     scene: {

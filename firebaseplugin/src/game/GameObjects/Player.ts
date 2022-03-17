@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-  public area: Phaser.GameObjects.Rectangle
+  public interact_area: Phaser.Types.Physics.Arcade.ImageWithStaticBody
 
   constructor(
     scene: Phaser.Scene,
@@ -11,7 +11,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   ) {
     console.log('playerconstruct')
     super(scene, x, y, texture)
-    scene.add.existing(this).setScale(0.16)
+    scene.add.existing(this).setScale(0.16).setDepth(10)
     scene.physics.add.existing(this)
   }
 
@@ -21,6 +21,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   create() {
     console.log('playercreate')
+    this.debugShowBody = true
+    this.debugShowVelocity = true
+    this.debugBodyColor = 0x0033ff // debug option
     this.scene.cameras.main.startFollow(this, false, 0.2, 0.2)
 
     // create animation
@@ -50,15 +53,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     })
 
     // create interaction area
-    const boxX = this.body.x+this.body.width/2, boxY = this.body.y+this.body.height/2
-    this.area = this.scene.add.rectangle(boxX, boxY, this.body.width+10, this.body.height+10)
-      .setStrokeStyle(4, 0x0099ff)
-    this.scene.physics.add.existing(this.area)
+    const box = this.scene.add.rectangle(this.x, this.y, 40, 40)
+    this.scene.physics.add.existing(box)
+    this.interact_area = box as unknown as Phaser.Types.Physics.Arcade.ImageWithStaticBody
   }
 
   update(event: string) {
-    const boxX = this.body.x+this.body.width/2, boxY = this.body.y+this.body.height/2
-
     // controls
     switch (event) {
       case 'up':
@@ -92,6 +92,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.body.velocity.normalize().scale(50*4)
 
     // update area coord
-    this.area.setPosition(boxX, boxY)
+    const boxX = this.x+this.body.velocity.x*0.4, boxY = this.y+this.body.velocity.y*0.4
+    this.interact_area.setPosition(boxX, boxY)
   }
 }

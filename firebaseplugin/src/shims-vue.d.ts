@@ -8,3 +8,5 @@ declare module '*.vue' {
 declare module '*.js'
 declare module '*.png'
 declare module 'lodash'
+declare module '*.fnt'
+declare module '*.xml'

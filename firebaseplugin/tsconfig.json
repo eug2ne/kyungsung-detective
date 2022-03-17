@@ -34,7 +34,9 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "src/**/*.js",
-    "src/**/*.png"],
+    "src/**/*.png",
+    "src/**/*.fnt",
+    "src/**/*.xml"],
   "exclude": [
     "node_modules"
   ]

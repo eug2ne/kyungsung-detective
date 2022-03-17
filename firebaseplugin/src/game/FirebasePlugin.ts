@@ -10,7 +10,7 @@ import {
 
 export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 {
-	private readonly firestore: Firestore
+	private readonly firestore: any // error: cannot use Firestore as type
 
 	constructor(manager: Phaser.Plugins.PluginManager)
 	{

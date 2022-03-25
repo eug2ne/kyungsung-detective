@@ -1,11 +1,9 @@
 import Phaser from 'phaser'
-import Player from './Player'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
   public readonly id: string
   private sprite_key: string
   private sprite_func: any
-  private text: Phaser.GameObjects.Text
   private readonly _dialogue: any
   private readonly _hint: {}|null
   public talk_once: boolean
@@ -38,10 +36,10 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   }
 
   public get dialogue() {
-    if (this.talk_once) {
-      return this._dialogue.repeat
-    } else {
+    if (!this.talk_once&&this._dialogue.once) {
       return this._dialogue.once
+    } else {
+      return this._dialogue.repeat
     }
   }
 

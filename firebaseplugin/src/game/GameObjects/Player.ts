@@ -1,7 +1,9 @@
 import Phaser from 'phaser'
+import Item from './Item'
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
   public interact_area: Phaser.Types.Physics.Arcade.ImageWithStaticBody
+  public readonly hold_item: Item[]
 
   constructor(
     scene: Phaser.Scene,
@@ -13,6 +15,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, texture)
     scene.add.existing(this).setScale(0.16).setDepth(10)
     scene.physics.add.existing(this)
+
+    this.hold_item = [] // set hold_item list
   }
 
   destroy() {

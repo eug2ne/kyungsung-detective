@@ -13,6 +13,10 @@ export default [
         {
           "image": "npc1_neutral",
           "line": "it can be skipped by enter/space"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "try it yourself!"
         }
       ]
     },

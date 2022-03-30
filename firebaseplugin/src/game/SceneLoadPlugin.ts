@@ -133,17 +133,40 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       npc.create()
     })
     this.scene.physics.add.overlap(this.player.interact_area, this.npcs, (area, npc) => {
-      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-
       if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
-        const _Dialogue = new Dialogue(this.scene, cameraX, cameraY, npc)
-        _Dialogue.create()
-
-        while(_Dialogue.talking&&Phaser.Input.Keyboard.JustDown(this.controls.space)) {
-          _Dialogue.emit('update-line')
-        }
+        this.scene.events.emit('start-talking', npc)
+        this.controls.enter.isDown = false
+        // this.controls.space.isDown = false
       }
     }) // overlap-talk event
+    this.scene.events.on('start-talking', (npc: NPC) => {
+      console.log('start-talking')
+      this.minimap.visible = false // remove minimap
+      npc.anims.pause() // pause npc anim
+      this.controls.cursor.down.enabled = false
+      this.controls.cursor.left.enabled = false
+      this.controls.cursor.right.enabled = false 
+      this.controls.cursor.up.enabled = false // cursor disable
+
+      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
+      const dialogue = new Dialogue(this.scene, cameraX, cameraY, npc)
+      dialogue.create()
+
+      this.scene.input.keyboard.on('keydown-SPACE', () => {
+        dialogue.emit('update-line')
+      })
+    })
+    this.scene.events.on('end-talking', (dialogue: Dialogue, npc: NPC) => {
+      console.log('end talking')
+      this.minimap.visible = true // add minimap
+      npc.anims.restart() // restart npc anim
+      this.controls.cursor.down.enabled = true
+      this.controls.cursor.left.enabled = true
+      this.controls.cursor.right.enabled = true 
+      this.controls.cursor.up.enabled = true // cursor enable
+
+      dialogue.destroy()
+    })
     this.scene.physics.add.collider(this.player, this.npcs)
   }
 
@@ -172,24 +195,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     // npc animation
     this.npcs.forEach((npc: NPC) => {
       npc.anims.play('right')
-    })
-    this.scene.events.on('talking', (npc: NPC) => {
-      this.minimap.visible = false // remove minimap
-      npc.anims.pause() // pause npc anim
-      this.controls.cursor.down.enabled = false
-      this.controls.cursor.left.enabled = false
-      this.controls.cursor.right.enabled = false 
-      this.controls.cursor.up.enabled = false // cursor disable
-    })
-    this.scene.events.on('end-talk', (npc: NPC, dialogue: Dialogue) => {
-      console.log('end talking')
-      this.minimap.visible = true // add minimap
-      npc.anims.restart() // restart npc anim
-      this.controls.cursor.down.enabled = true
-      this.controls.cursor.left.enabled = true
-      this.controls.cursor.right.enabled = true 
-      this.controls.cursor.up.enabled = true // cursor enable
-      dialogue.destroy()
     })
   }
 }

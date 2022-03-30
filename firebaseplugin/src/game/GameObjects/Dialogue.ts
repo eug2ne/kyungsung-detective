@@ -2,7 +2,10 @@ import Phaser from 'phaser'
 import NPC from './NPC'
 
 export default class Dialogue extends Phaser.GameObjects.GameObject {
+  private line_box: Phaser.GameObjects.Rectangle
+  private image_box: Phaser.GameObjects.Rectangle
   private line: Phaser.GameObjects.Text
+  private image: Phaser.GameObjects.Image
   private npc: NPC
   private readonly dialogue: any
   private index: number = 0
@@ -18,16 +21,20 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
 
       // create dialogue-box on screen
       const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
-      this.scene.add.rectangle(cameraX+650, cameraY+600, 700, 200, white)
+      this.line_box = this.scene.add.rectangle(cameraX+650, cameraY+600, 700, 200, white)
         .setDepth(20) // line-box
-      this.scene.add.rectangle(cameraX+150, cameraY+600, 200, 200, white)
+      this.image_box = this.scene.add.rectangle(cameraX+150, cameraY+600, 200, 200, white)
         .setDepth(20) // image-box
 
+      this.image = new Phaser.GameObjects.Image(this.scene, cameraX+150, cameraY+600, this.texture)
+        .setDepth(20)
+        .setDisplaySize(200,200)
+      this.scene.add.existing(this.image)
       this.line = new Phaser.GameObjects.Text(
         this.scene,
-        cameraX+650,
-        cameraY+600,
-        'loading...',
+        cameraX+315,
+        cameraY+510,
+        this.line_text,
         {
           fontFamily: 'NeoDunggeunmo',
           fontSize: '30px',
@@ -36,11 +43,15 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
             x: 5,
             y: 5
         }
-      }).setWordWrapWidth(690)
+      }).setWordWrapWidth(685)
       this.scene.add.existing(this.line).setDepth(20)
   }
 
   destroy() {
+    this.line_box.destroy()
+    this.image_box.destroy()
+    this.line.destroy()
+    this.image.destroy()
     super.destroy()
   }
 
@@ -48,28 +59,48 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     if (this.index < this.dialogue.length) {
       return this.dialogue[this.index].line
     } else {
-      return this.scene.events.emit('end-talk', this.npc, this)
-    }
-  }
-
-  public get talking() {
-    if (this.index < this.dialogue.length) {
-      return true
-    } else {
+      // end of dialogue
       return false
     }
   }
 
+  private get texture() {
+    const key = this.dialogue[this.index].image
+    return this.scene.textures.get(key)
+  }
+
   create() {
-    let _line = this.line_text
-    this.line.text = _line
-
+    let writing = true
     this.on('update-line', () => {
-      console.log('update-line')
-      this.index++
-
-      _line = this.line_text
-      this.line.text = _line
+      if (!writing) {
+        // auto completion
+        this.scene.time.removeAllEvents()
+        this.line.text = this.line_text
+        writing = true
+      } else {
+        // skip to next line
+        this.index++
+        if (this.line_text) {
+          this.image.texture = this.texture // load image
+          
+          // typewriter effect
+          writing = false
+          const l = this.line_text.length
+          let i = 0
+          this.line.text = '' // reset line
+          this.scene.time.addEvent({
+            callback: () => {
+              this.line.text += this.line_text[i]
+              i++
+            },
+            repeat: l-1,
+            delay: 100
+          })
+        } else {
+          // end of dialogue
+          this.scene.events.emit('end-talking', this, this.npc)
+        }
+      }
     }, this)
   }
 }

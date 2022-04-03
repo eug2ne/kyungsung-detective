@@ -19,8 +19,6 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     dialogue: any,
     hint: any
   ) {
-    console.log('npc construct')
-
     const spritesheet = scene.textures.get(spritesheet_key)
     super(scene, x, y, spritesheet)
     scene.add.existing(this).setScale(0.32).setDepth(10)
@@ -48,7 +46,6 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   }
 
   create() {
-    console.log('npc create')
     this.debugShowBody = true
     this.debugShowVelocity = true
     this.debugBodyColor = 0x0033ff // debug option

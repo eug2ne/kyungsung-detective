@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import firebase from '../firestoreDB.js'
 import {
-	Firestore,
 	setDoc,
 	doc,
 	getDoc,
@@ -21,6 +20,9 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 
 	destroy()
 	{
+		// map data: map.key, npc.talking_data, player.coord
+		// inventory data
+		// hint data
 		super.destroy()
 	}
 
@@ -34,21 +36,24 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 
 	async loadGameData(userId: string)
 	{
-    // load user Game data from /Users/Games
-    const GamesRef = collection(doc(this.firestore, 'Users', 'Games'), 'Games')
-    const user_GameRef = doc(GamesRef, userId)
-    const user_GameSnap = await getDoc(user_GameRef)
+    // load user scene-data from /Users/Scene
+    const SceneRef = collection(doc(this.firestore, 'Users', 'Scene'), 'Scene')
+    const user_SceneRef = doc(SceneRef, userId)
+    const user_SceneSnap = await getDoc(user_SceneRef)
 
-    if (user_GameSnap.exists()) {
-      // if user_Game data already exist, load data from db
-      return user_GameSnap.data()
+    if (user_SceneSnap.exists()) {
+      // if user scene-data already exist, load data from db
+      return user_SceneSnap.data()
     } else {
-      // else, create new doc for user
-      setDoc(user_GameRef, {
+      // else, create new scene-data for user
+      setDoc(user_SceneRef, {
         sceneKey: 'Test1_Scene',
         x: 600,
-        y: 900
-      })
+        y: 900,
+				npc: null,
+				item: null,
+				item_carry: null
+      }) // default scene-data
 
       return 'Test1_Scene'
     }

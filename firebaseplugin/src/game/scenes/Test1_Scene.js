@@ -34,8 +34,11 @@ export default class Test1_Scene extends Phaser.Scene {
     super('Test1_Scene')
   }
 
+  init(config) {
+    this.sceneload.init(config)
+  }
+
   preload() {
-    console.log('test1_preload')
     // load map image
     this.load.image('back1', back1)
     this.load.image('back2', back2)
@@ -71,8 +74,7 @@ export default class Test1_Scene extends Phaser.Scene {
     this.sceneload.preload()
   }
 
-  create () {
-    console.log('test1_create')
+  create(config) {
     this.physics.world.setBounds(0, 0, 2800,1981)
     this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
 
@@ -200,7 +202,7 @@ export default class Test1_Scene extends Phaser.Scene {
         col_fo1, col_fo2, col_fo3, col_fo4, col_fo5, col_fo6,
         col_gr1, col_gr2, col_gr3, col_gr4 ]
 
-    this.sceneload.create(colliders)
+    this.sceneload.create(config, colliders)
 
 
   }

@@ -29,34 +29,52 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   }
 
   destroy() {
-    super.destroy()   
+    const data = {
+      sceneKey: this.scene.scene.key,
+      x: this.player.x,
+      y: this.player.y,
+      npc: this.npcs_JSON,
+      item: this.items_JSON,
+      item_carry: this.player.item_carry
+    }
+    console.log(data)
+    super.destroy()
+  }
+
+  init(config: any /* user scene-config from db */) {
+    if (config.npc == null) {
+      // create default scene
+      // import NPCs, Items JSON
+      const scene_id = _.split(this.scene.scene.key, '_')[0]
+
+      // create this.npcs_JSON
+      import(`./scenes/${scene_id}_NPCs.js`)
+        .then(Response => {
+          this.npcs_JSON = Response.default
+        })
+
+      // create this.items_npcs_JSON
+      import(`./scenes/${scene_id}_Items.js`)
+        .then(Response => {
+          this.items_JSON = Response.default
+          Response.default.forEach((item: any) => {
+            this.scene.load.image(item.texture, item.texture)
+          })
+        })
+    } else {
+      // create scene according to config
+      this.npcs_JSON = config.npc
+      this.items_JSON = config.item
+    }
   }
 
   preload() {
     // preload player spitesheet
     this.scene.load.spritesheet('sami', sami, { frameWidth: 7870 / 17, frameHeight: 500 })
-
-    // import NPCs, Items JSON
-    const scene_id = _.split(this.scene.scene.key, '_')[0]
-
-    // create this.npcs
-    import(`./scenes/${scene_id}_NPCs.js`)
-      .then(Response => {
-        this.npcs_JSON = Response.default
-      })
-
-    // create this.items
-    import(`./scenes/${scene_id}_Items.js`)
-      .then(Response => {
-        this.items_JSON = Response.default
-        Response.default.forEach((item: any) => {
-          this.scene.load.image(item.texture, item.texture)
-        })
-      })
+    
   }
 
-  create(colliders: [ Phaser.Physics.Arcade.StaticGroup ]) {
-    console.log('sceneload create')
+  create(config: any, colliders: [ Phaser.Physics.Arcade.StaticGroup ]) {
     // create minimap
     this.minimap = this.scene.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
 
@@ -75,9 +93,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     // create player on scene
     this.player = new Player(
       this.scene,
-      400,
-      900,
-      this.scene.textures.get('sami')
+      config.x,
+      config.y,
+      this.scene.textures.get('sami'),
+      config.item_carry
     )
     this.player.create()
     colliders.forEach(collider => {

@@ -213,7 +213,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     // npc animation
     this.npcs.forEach((npc: NPC) => {
-      npc.anims.play('right')
+      npc.update()
     })
   }
 }

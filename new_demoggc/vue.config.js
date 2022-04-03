@@ -20,5 +20,10 @@ module.exports = {
   },
   devServer: {
     hot: false
+  },
+  pages: {
+    index: {
+      entry: 'src/main.js'
+    }
   }
 }

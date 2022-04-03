@@ -17,15 +17,15 @@ const launch = (containerId, userId) => {
       }
     },
     scene: {
-      preload: preload
+      preload: preload,
+      destroy: destroy
     },
     plugins: {
       global: [
         {
           key: 'FirebasePlugin',
           plugin: FirebasePlugin,
-          start: true,
-          mapping: 'firebase'
+          start: true
         }
       ],
       scene: [
@@ -42,7 +42,6 @@ const launch = (containerId, userId) => {
   const game = new Phaser.Game(config)
 
   async function preload() {
-    console.log('preload')
     const firestore = this.plugins.get('FirebasePlugin')
 
     let player_config = await firestore.loadGameData(userId)
@@ -50,7 +49,12 @@ const launch = (containerId, userId) => {
 
     this.scene.add('Test1_Scene', Test1_Scene, false)
 
-    this.scene.start(PlayScene_Key)
+    this.scene.start(PlayScene_Key, player_config)
+  }
+
+  async function destroy(data) {
+    console.log('destroy')
+
   }
 
   return game

@@ -1,11 +1,9 @@
 import Phaser from 'phaser'
-import Player from './Player'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
   public readonly id: string
   private sprite_key: string
   private sprite_func: any
-  private text: Phaser.GameObjects.Text
   private readonly _dialogue: any
   private readonly _hint: {}|null
   public talk_once: boolean
@@ -21,8 +19,6 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     dialogue: any,
     hint: any
   ) {
-    console.log('npc construct')
-
     const spritesheet = scene.textures.get(spritesheet_key)
     super(scene, x, y, spritesheet)
     scene.add.existing(this).setScale(0.32).setDepth(10)
@@ -38,10 +34,10 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   }
 
   public get dialogue() {
-    if (this.talk_once) {
-      return this._dialogue.repeat
-    } else {
+    if (!this.talk_once&&this._dialogue.once) {
       return this._dialogue.once
+    } else {
+      return this._dialogue.repeat
     }
   }
 
@@ -50,7 +46,6 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   }
 
   create() {
-    console.log('npc create')
     this.debugShowBody = true
     this.debugShowVelocity = true
     this.debugBodyColor = 0x0033ff // debug option

@@ -4,6 +4,7 @@ import Player from './GameObjects/Player'
 import NPC from './GameObjects/NPC'
 import Item from './GameObjects/Item'
 import sami from './assets/sami_sprite/sami_frame1.png'
+import Dialogue from './GameObjects/Dialogue'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private player: Player
@@ -20,41 +21,60 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     strokeThickness: 6,
     color: '#fff'
   })
+  private readonly inventory: Item[]
 
   constructor(scene: Phaser.Scene, manager: Phaser.Plugins.PluginManager, key: string) {
     super(scene, manager, key)
-    // install dialogue-render plugin
+    this.inventory = []
   }
 
   destroy() {
-    super.destroy()   
+    const data = {
+      sceneKey: this.scene.scene.key,
+      x: this.player.x,
+      y: this.player.y,
+      npc: this.npcs_JSON,
+      item: this.items_JSON,
+      item_carry: this.player.item_carry
+    }
+    console.log(data)
+    super.destroy()
+  }
+
+  init(config: any /* user scene-config from db */) {
+    if (config.npc == null) {
+      // create default scene
+      // import NPCs, Items JSON
+      const scene_id = _.split(this.scene.scene.key, '_')[0]
+
+      // create this.npcs_JSON
+      import(`./scenes/${scene_id}_NPCs.js`)
+        .then(Response => {
+          this.npcs_JSON = Response.default
+        })
+
+      // create this.items_npcs_JSON
+      import(`./scenes/${scene_id}_Items.js`)
+        .then(Response => {
+          this.items_JSON = Response.default
+          Response.default.forEach((item: any) => {
+            this.scene.load.image(item.texture, item.texture)
+          })
+        })
+    } else {
+      // create scene according to config
+      this.npcs_JSON = config.npc
+      this.items_JSON = config.item
+    }
   }
 
   preload() {
     // preload player spitesheet
     this.scene.load.spritesheet('sami', sami, { frameWidth: 7870 / 17, frameHeight: 500 })
-
-    // import NPCs, Items JSON
-    const scene_id = _.split(this.scene.scene.key, '_')[0]
-
-    // create this.npcs
-    import(`./scenes/${scene_id}_NPCs.js`)
-      .then(Response => {
-        this.npcs_JSON = Response.default
-      })
-
-    // create this.items
-    import(`./scenes/${scene_id}_Items.js`)
-      .then(Response => {
-        this.items_JSON = Response.default
-        Response.default.forEach((item: any) => {
-          this.scene.load.image(item.texture, item.texture)
-        })
-      })
+    
   }
 
-  create(colliders: [ Phaser.Physics.Arcade.StaticGroup ]) {
-    console.log('sceneload create')
+  create(config: any, colliders: [ Phaser.Physics.Arcade.StaticGroup ]) {
     // create minimap
     this.minimap = this.scene.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
 
@@ -68,13 +88,15 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       space: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE, true, false),
       enter: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER, true, false)
     }
+    this.scene.input.keyboard.addCapture([this.controls.cursor, 'ENTER', 'SPACE']) // prevent event propagation
 
     // create player on scene
     this.player = new Player(
       this.scene,
-      400,
-      900,
-      this.scene.textures.get('sami')
+      config.x,
+      config.y,
+      this.scene.textures.get('sami'),
+      config.item_carry
     )
     this.player.create()
     colliders.forEach(collider => {
@@ -101,7 +123,16 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       const textY = cameraY + 530
 
       this.item_text.setPosition(textX, textY)
+
+      if (Phaser.Input.Keyboard.JustDown(this.controls.space)||Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
+        // add item to inventory
+        this.scene.events.emit('add-to-inventory', item)
+      }
     }) // add overlap callback
+    this.scene.events.on('add-to-inventory', (item: Item) => {
+      this.inventory.push(item)
+      item.destroy()
+    })
 
     // create npc on screen
     this.npcs_JSON.forEach((json: any) => {
@@ -121,35 +152,39 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       npc.create()
     })
     this.scene.physics.add.overlap(this.player.interact_area, this.npcs, (area, npc) => {
-      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-      if (Phaser.Input.Keyboard.JustDown(this.controls.space)||Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
-        console.log('talk to npc')
-        // create dialogue-box on screen
-        const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
-        this.scene.add.rectangle(cameraX+650, cameraY+600, 700, 200, white)
-          .setDepth(20) // line-box
-        this.scene.add.rectangle(cameraX+150, cameraY+600, 200, 200, white)
-          .setDepth(20) // image-box
-
-        const line = new Phaser.GameObjects.Text(
-          this.scene,
-          cameraX+310,
-          cameraY+510,
-          'loading...',
-          {
-            fontFamily: 'NeoDunggeunmo',
-            fontSize: '30px',
-            color: '#000',
-            padding: {
-              x: 5,
-              y: 5
-            }
-        }
-        ).setWordWrapWidth(690)
-        this.scene.add.existing(line).setDepth(20)
-
-        // choose dialogue
+      if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
+        this.scene.events.emit('start-talking', npc)
+        this.controls.enter.isDown = false
+        // this.controls.space.isDown = false
       }
+    }) // overlap-talk event
+    this.scene.events.on('start-talking', (npc: NPC) => {
+      console.log('start-talking')
+      this.minimap.visible = false // remove minimap
+      npc.anims.pause() // pause npc anim
+      this.controls.cursor.down.enabled = false
+      this.controls.cursor.left.enabled = false
+      this.controls.cursor.right.enabled = false 
+      this.controls.cursor.up.enabled = false // cursor disable
+
+      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
+      const dialogue = new Dialogue(this.scene, cameraX, cameraY, npc)
+      dialogue.create()
+
+      this.scene.input.keyboard.on('keydown-SPACE', () => {
+        dialogue.emit('update-line')
+      })
+    })
+    this.scene.events.on('end-talking', (dialogue: Dialogue, npc: NPC) => {
+      console.log('end talking')
+      this.minimap.visible = true // add minimap
+      npc.anims.restart() // restart npc anim
+      this.controls.cursor.down.enabled = true
+      this.controls.cursor.left.enabled = true
+      this.controls.cursor.right.enabled = true 
+      this.controls.cursor.up.enabled = true // cursor enable
+
+      dialogue.destroy()
     })
     this.scene.physics.add.collider(this.player, this.npcs)
   }
@@ -157,8 +192,9 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   update() {
     const x = this.player.x, y = this.player.y
     const distance = 30
+    let talking = false
     // update item_text.visible
-    this.item_text.visible = this.scene.physics.overlap(this.player.interact_area, this.items)
+    this.item_text.visible = this.scene.physics.overlap(this.player.interact_area, this.items) ? true:false
 
     // set controls
     this.player.setVelocity(0)
@@ -177,9 +213,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     // npc animation
     this.npcs.forEach((npc: NPC) => {
-      // this.minimap.visible = !startTalk // when talking to npc, remove minimap
-      // npc.anims.pause() // when talking to npc, pause npc anim
-      npc.update()
+      npc.anims.play('right')
     })
   }
 }

@@ -1,23 +1,23 @@
 import Phaser from 'phaser'
-import NPC from './NPC'
 
 export default class Dialogue extends Phaser.GameObjects.GameObject {
   private line_box: Phaser.GameObjects.Rectangle
   private image_box: Phaser.GameObjects.Rectangle
   private line: Phaser.GameObjects.Text
   private image: Phaser.GameObjects.Image
-  private npc: NPC
-  private readonly dialogue: any
+  private readonly dialogue: any /* dialogue from npc according to key */
   private index: number = 0
+  private npc_id: string
   
   constructor(scene: Phaser.Scene,
     cameraX: number,
     cameraY: number,
-    npc: any /* overlap-callback doesn't perceive type NPC */) {
+    dialogue: any /* overlap-callback doesn't perceive type NPC */,
+    npc_id: string) {
       super(scene, 'Dialogue')
-      this.scene.events.emit('talking', npc)
-      this.dialogue = npc.dialogue
-      this.npc = npc
+      // this.scene.events.emit('talking', npc)
+      this.dialogue = dialogue
+      this.npc_id = npc_id
 
       // create dialogue-box on screen
       const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
@@ -98,7 +98,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
           })
         } else {
           // end of dialogue
-          this.scene.events.emit('end-talking', this, this.npc)
+          this.scene.events.emit('end-talking', this, this.npc_id)
         }
       }
     }, this)

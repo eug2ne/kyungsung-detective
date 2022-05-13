@@ -2,8 +2,10 @@ import Phaser from 'phaser'
 import FirebasePlugin from './FirebasePlugin'
 import SceneLoadPlugin from './SceneLoadPlugin'
 import Test1_Scene from './scenes/Test1_Scene'
+import Village_Scene from './scenes/Village_Scene'
 
-const launch = (containerId, userId) => {
+export default class game extends Phaser.Game {
+ constructor(containerId) {
   const config = {
     type: Phaser.AUTO,
     width: 2800/3,
@@ -15,10 +17,6 @@ const launch = (containerId, userId) => {
         gravity: { y: 0 },
         debug: true
       }
-    },
-    scene: {
-      preload: preload,
-      destroy: destroy
     },
     plugins: {
       global: [
@@ -39,26 +37,33 @@ const launch = (containerId, userId) => {
     }
   }
 
-  const game = new Phaser.Game(config)
+  super(config)
+ }
 
-  async function preload() {
-    const firestore = this.plugins.get('FirebasePlugin')
+ async create(userId) {
+  console.log('game create')
+  const firestore = this.plugins.get('FirebasePlugin')
 
-    let player_config = await firestore.loadGameData(userId)
-    let PlayScene_Key = player_config.sceneKey
+  this.player_config = await firestore.loadGameData(userId)
+  this.active_scenes = this.player_config.scenes /* connected scenes */
 
-    this.scene.add('Test1_Scene', Test1_Scene, false)
+  let PlayScene_Key = this.player_config.p_scene.sceneKey /* present sceneKey */
 
-    this.scene.start(PlayScene_Key, player_config)
-  }
+  this.scene.add('Test1_Scene', Test1_Scene, false)
+  this.scene.add('Village_Scene', Village_Scene, false)
 
-  async function destroy(data) {
-    console.log('destroy')
+  this.scene.start(PlayScene_Key, this.player_config)
+ }
 
-  }
+ async pause(userId) {
+   console.log('game pause')
+   // pause all active scenes
+   for (scene in this.active_scenes) {
+    scene.pause()
+   }
 
-  return game
+   const firestore = this.plugins.get('FirebasePlugin')
+   // save player_config to db
+   // firestore.saveGameData(userId, this.active_scenes) 
+ }
 }
-
-export default launch
-export { launch }

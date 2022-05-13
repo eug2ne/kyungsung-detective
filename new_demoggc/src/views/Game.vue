@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import launch from '../game/game'
+import game from '../game/game'
 
 export default {
   name: 'Game',
@@ -21,14 +21,20 @@ export default {
     }
   },
   async mounted() {
-    // const game = await import(/* webpackChunkName: "game" */ '../game/game.js')
     this.downloaded = true
     this.$nextTick(() => {
-      this.gameInstance = launch(this.containerId, this.user_id)
+      this.gameInstance = new game(this.containerId)
+      // this.gameInstance == Phaser.Game
+    })
+    this.$nextTick(() => {
+      this.gameInstance.create(this.user_id)
     })
   },
-  destroyed() {
-    this.gameInstance.destroy(false)
+  async unmounted() {
+    this.downloaded = false
+    this.$nextTick(() => {
+      this.gameInstance.pause(this.user_id)
+    })
   }
 }
 </script>

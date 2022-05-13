@@ -46,16 +46,32 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
       return user_SceneSnap.data()
     } else {
       // else, create new scene-data for user
+			console.log('create user data')
       setDoc(user_SceneRef, {
-        sceneKey: 'Test1_Scene',
-        x: 600,
-        y: 900,
-				npc: null,
-				item: null,
-				item_carry: null
-      }) // default scene-data
+        p_scene: {'sceneKey': 'Test1_Scene', x: 600, y: 900}, /* present scene */
+				scenes: {
+					'Test1_Scene':
+					{'npc': {'test1npc-0':'pre_h_repeat', 'test1npc-1':'hint'},
+					'item': ['test1-0', 'test1-1', 'test1-2']},
+					'Village_Scene':
+					{'npc': null,
+					'item': []}
+				}, /* connected scenes (default config) */
+				item_carry: []
+      }) // default player_config
 
-      return 'Test1_Scene'
+      return {
+        p_scene: {'sceneKey': 'Test1_Scene', x: 600, y: 900}, /* present scene */
+				scenes: {
+					'Test1_Scene':
+					{'npc': {'test1npc-0':'pre_h_repeat', 'test1npc-1':'hint'},
+					'item': ['test1-0', 'test1-1', 'test1-2']},
+					'Village_Scene':
+					{'npc': null,
+					'item': []}
+				}, /* connected scenes (default config) */
+				item_carry: []
+      }
     }
 	}
 }

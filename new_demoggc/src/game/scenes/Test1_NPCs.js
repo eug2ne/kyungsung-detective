@@ -1,11 +1,10 @@
 export default [
   {
     "name": "test npc1",
-    "id": "test1-0",
+    "id": "test1npc-0",
     "sprite_func": null,
     "dialogue": {
-      "once": null,
-      "repeat": [
+      "pre_h_repeat": [
         {
           "image": "npc1_neutral",
           "line": "this line is repeated"
@@ -18,21 +17,22 @@ export default [
     },
     "spritesheet": "npc1_sprite",
     "hint": null,
+    "answer": null,
     "x": 500,
     "y": 1000
   },
   {
     "name": "test npc2",
-    "id": "test1-1",
+    "id": "test1npc-1",
     "sprite_func": null,
     "dialogue": {
-      "once": [
+      "hint": [
         {
           "image": "npc1_neutral",
           "lines": ["this line is said only once", "you get a hint when completed"]
         }
       ],
-      "repeat": [
+      "post_h_repeat": [
         {
           "image": "npc1_neutral",
           "lines": ["you already got the hint"]
@@ -44,8 +44,10 @@ export default [
       "title": "sample hint",
       "description": "sample description",
       "quiz_link": null,
-      "background_img": null
+      "background_img": null,
+      "require": null
     },
+    answer: null,
     "x": 600,
     "y": 1100
   }

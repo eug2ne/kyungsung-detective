@@ -1,4 +1,6 @@
 import Phaser from 'phaser'
+import Item from '../GameObjects/Item'
+import NPC from '../GameObjects/NPC'
 import back1 from '@/game/assets/test1_map/궁정리.png'
 import back2 from '@/game/assets/test1_map/건물레이어(나무밑).png'
 import treess from '@/game/assets/test1_map/다리자른 나무.png'
@@ -34,8 +36,24 @@ export default class Test1_Scene extends Phaser.Scene {
     super('Test1_Scene')
   }
 
-  init(config) {
-    this.sceneload.init(config)
+  init(player_config) {
+    // pass player_config to sceneload plugin
+    this.sceneload.init(player_config)
+
+    // import NPCs.js
+    import('./Test1_NPCs.js')
+      .then(Response => {
+        this.npcs_JSON = Response.default
+      })
+
+    // import Items.js
+    import('./Test1_Items.js')
+      .then(Response => {
+        this.items_JSON = Response.default
+        Response.default.forEach((item) => {
+          this.load.image(item.texture, item.texture)
+        })
+      })
   }
 
   preload() {
@@ -74,7 +92,7 @@ export default class Test1_Scene extends Phaser.Scene {
     this.sceneload.preload()
   }
 
-  create(config) {
+  create() {
     this.physics.world.setBounds(0, 0, 2800,1981)
     this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
 
@@ -202,12 +220,40 @@ export default class Test1_Scene extends Phaser.Scene {
         col_fo1, col_fo2, col_fo3, col_fo4, col_fo5, col_fo6,
         col_gr1, col_gr2, col_gr3, col_gr4 ]
 
-    this.sceneload.create(config, colliders)
+    // create items
+    this.items = []
+    this.items_JSON.forEach((json) => {
+      this.items.push(new Item(
+        this,
+        json.id,
+        json.x,
+        json.y,
+        json.name,
+        json.texture
+      ))
+    })
+    // create NPCs
+    this.npcs = []
+    this.npcs_JSON.forEach((json) => {
+      this.npcs.push(new NPC(
+        this,
+        json.id,
+        json.spritesheet,
+        json.sprite_func,
+        json.x,
+        json.y,
+        json.dialogue,
+        json.hint
+      ))
+    })
+    this.npcs.forEach((npc) => {
+      npc.create()
+    })
 
-
+    this.sceneload.create(colliders, this.items, this.npcs)
   }
 
   update() {
-    this.sceneload.update()
+    this.sceneload.update(this.items, this.npcs)
   }
 }

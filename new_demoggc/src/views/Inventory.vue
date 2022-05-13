@@ -27,6 +27,7 @@
     <!-- 존재하는 아이템 총 개수 = 6 -->
     <component
       v-for="n in 6 - Object.keys(itemlist).length"
+      :key="n.id"
       :is="'None'"
     />
   </div>
@@ -52,7 +53,7 @@ export default {
       if (index === -1) array.push(data.id);
       else array.splice(index, 1);
     },
-  },
+  }
 }
 </script>
 

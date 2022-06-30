@@ -4,15 +4,10 @@
 </template>
 
 <script>
-import launch from '../game/game'
+import game from '../game/game'
 
 export default {
   name: 'Game',
-  props: {
-    user_id: {
-      default: 'mFyHJ9bNO9hdj4sC8CqVwt6xGLj2'
-    }
-  },
   data() {
     return {
       downloaded: false,
@@ -20,15 +15,21 @@ export default {
       containerId: 'game-container'
     }
   },
-  async mounted() {
-    // const game = await import(/* webpackChunkName: "game" */ '../game/game.js')
-    this.downloaded = true
-    this.$nextTick(() => {
-      this.gameInstance = launch(this.containerId, this.user_id)
+  created() {
+    // save game data when page closed
+    window.addEventListener('beforeunload', () => {
+      this.gameInstance.destroy()
     })
   },
-  destroyed() {
-    this.gameInstance.destroy(false)
+  async mounted() {
+    this.downloaded = true
+    this.$nextTick(() => {
+      this.gameInstance = new game(this.containerId)
+      // this.gameInstance == Phaser.Game
+    })
+    this.$nextTick(() => {
+      this.gameInstance.create()
+    })
   }
 }
 </script>

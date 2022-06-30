@@ -20,7 +20,7 @@
 </template>
 
  <script>
-import firebase, { auth, db } from '../../firestoreDB'
+import { emailSignup } from '../../firestoreDB'
 
 export default {
   data() {
@@ -32,35 +32,13 @@ export default {
     }
   },
   methods: {
-    signUp() {
-      let self = this
+    async signUp() {
       if (this.password === this.passwordCheck) {
-        auth
-          .createUserWithEmailAndPassword(this.email, this.password)
-          .then(
-            function (result) {
-              result.user.updateProfile({
-                displayName: document.getElementById("displayName").value
-              })
-              self.addUser()
-              alert("회원가입 완료!")
-              self.$router.replace("/login")
-            },
-            function (err) {
-              alert("에러 : " + err.message)
-            }
-          )
+        await emailSignup(this.email, this.password)
+        this.$router.replace('app')
       } else {
         alert("비밀번호가 일치하지 않습니다.")
       }
-    },
-    addUser(){
-      const user = auth.currentUser
-      db.collection('Users').doc(user.uid).set({
-        uid: user.uid,
-    	  displayName: this.displayName,
-        email: user.email,
-      })
     }
   },
 }

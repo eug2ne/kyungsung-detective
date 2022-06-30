@@ -7,9 +7,9 @@
         <li @click="this.emitter.emit('hint_first')">초성 힌트</li>
         <li @click="this.emitter.emit('hint_def')">뜻 힌트</li>
       </ul>
-    <li id="rules" v-else="showHints"><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
+    <li id="rules" v-else><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
     </ul>
-    <QuizArea :id="quiz_id" :user="user_id"/>
+    <QuizArea :quiz_id="quiz_id"/>
   </div>
 
   <div class="sources">
@@ -51,7 +51,7 @@ import QuizArea from '../components/QuizArea.vue'
 export default {
   name: 'Quiz',
   components: { QuizArea, Answerarea },
-  props: ['quiz_id', 'user_id'],
+  props: ['quiz_id'],
   data() {
     return {
       showHints: false

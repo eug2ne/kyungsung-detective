@@ -1,4 +1,6 @@
 import Phaser from 'phaser'
+import Item from '../GameObjects/Item'
+import NPC from '../GameObjects/NPC'
 import back1 from '@/game/assets/test1_map/궁정리.png'
 import back2 from '@/game/assets/test1_map/건물레이어(나무밑).png'
 import treess from '@/game/assets/test1_map/다리자른 나무.png'
@@ -29,13 +31,101 @@ import gr4 from '@/game/assets/test1_map/궁오른쪽4.png'
 import npc1_neutral from '../assets/npc_log/npc1_neutral.png'
 import npc1_sprite from '../assets/npc_sprite/npc1_sprite.png'
 
+// item image
+import item0 from '../assets/item/item0.png'
+import item1 from '../assets/item/item1.png'
+import item2 from '../assets/item/item2.png'
+
+const npcs_JSON = [
+  {
+    "name": "test npc1",
+    "id": "test1npc-0",
+    "sprite_func": null,
+    "dialogue": {
+      "pre_h_repeat": [
+        {
+          "image": "npc1_neutral",
+          "line": "this line is repeated"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "it can be skipped by enter/space"
+        }
+      ]
+    },
+    "spritesheet": "npc1_sprite",
+    "hint": null,
+    "answer": null,
+    "x": 500,
+    "y": 1000
+  },
+  {
+    "name": "test npc2",
+    "id": "test1npc-1",
+    "sprite_func": null,
+    "dialogue": {
+      "hint": [
+        {
+          "image": "npc1_neutral",
+          "lines": ["this line is said only once", "you get a hint when completed"]
+        }
+      ],
+      "post_h_repeat": [
+        {
+          "image": "npc1_neutral",
+          "lines": ["you already got the hint"]
+        }
+      ]
+    },
+    "spritesheet": "npc1_sprite",
+    "hint": {
+      "title": "sample hint",
+      "description": "sample description",
+      "quiz_link": null,
+      "background_img": null,
+      "require": null
+    },
+    answer: null,
+    "x": 600,
+    "y": 1100
+  }
+]
+
+const items_JSON = [
+  {
+    "name": "item0",
+    "id": "test1-0",
+    "descript": "sample item description",
+    "texture": "item0",
+    "x": 600,
+    "y": 300
+  },
+  {
+    "name": "item1",
+    "id": "test1-1",
+    "descript": "another sample item description",
+    "texture": "item1",
+    "x": 700,
+    "y": 500
+  },
+  {
+    "name": "item2",
+    "id": "test1-2",
+    "descript": "the other sample item description",
+    "texture": "item2",
+    "x": 1000,
+    "y": 500
+  }
+]
+
 export default class Test1_Scene extends Phaser.Scene {
   constructor () {
     super('Test1_Scene')
   }
 
-  init(config) {
-    this.sceneload.init(config)
+  init(player_config) {
+    // pass player_config to sceneload plugin
+    this.sceneload.init(player_config)
   }
 
   preload() {
@@ -70,19 +160,18 @@ export default class Test1_Scene extends Phaser.Scene {
     this.load.image('npc1_neutral', npc1_neutral)
     this.load.spritesheet('npc1_sprite', npc1_sprite, { frameWidth: 3808 / 17, frameHeight: 330 })
 
+    // load item image
+    this.load.image('item0', item0)
+    this.load.image('item1', item1)
+    this.load.image('item2', item2)
+
     // sceneload plugin preload()
     this.sceneload.preload()
   }
 
-  create(config) {
+  create() {
     this.physics.world.setBounds(0, 0, 2800,1981)
     this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
-
-    // this.minimap = this.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
-
-    // this.minimap.setBackgroundColor(0xaca2a0)
-    // this.minimap.scrollX = 1306
-    // this.minimap.scrollY = 925
 
     this.add.image(2800/2,1981/2,'back1')
     var platforms = this.physics.add.staticGroup() //그룹으로 묶는다. 
@@ -202,12 +291,38 @@ export default class Test1_Scene extends Phaser.Scene {
         col_fo1, col_fo2, col_fo3, col_fo4, col_fo5, col_fo6,
         col_gr1, col_gr2, col_gr3, col_gr4 ]
 
-    this.sceneload.create(config, colliders)
+    // create items
+    this.items = []
+    items_JSON.forEach((json) => {
+      this.items.push(new Item(
+        this,
+        json.id,
+        json.x,
+        json.y,
+        json.name,
+        json.texture
+      ))
+    })
+    // create NPCs
+    this.npcs = []
+    npcs_JSON.forEach((npc) => {
+      this.npcs.push(new NPC(
+        this,
+        npc.id,
+        npc.spritesheet,
+        npc.sprite_func,
+        npc.x,
+        npc.y,
+        npc.dialogue,
+        npc.hint,
+        npc.answer
+      ))
+    })
 
-
+    this.sceneload.create(colliders, this.items, this.npcs)
   }
 
   update() {
-    this.sceneload.update()
+    this.sceneload.update(this.items, this.npcs)
   }
 }

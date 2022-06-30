@@ -1,31 +1,35 @@
-import { arrayUnion } from "firebase/firestore"
-import { db } from "../../firestoreDB"
+import { auth, db } from "../../firestoreDB"
+import { collection, doc, arrayUnion, updateDoc } from "firebase/firestore"
 
-const exportSet = async (instance, user_id) => {
-    const user_quizstatusRef = db.collection('Users').doc('quizstatus')
-        .collection('quizstatus').doc(user_id)
+const exportSet = async (quizinstance) => {
+    // get current user
+    const user = auth.currentUser
+    console.log(quizinstance.quizletterset)
 
-    await user_quizstatusRef.update({
-        quizletterset: instance.quizletterset,
-        reverse: instance.reverse,
-        max_chosen: instance.max_chosen
+    const QuizRef = collection(db, 'Users/Quizs/Quizs')
+    const user_QuizRef = doc(QuizRef, user.uid)
+
+    await updateDoc(user_QuizRef, {
+        quizletterset: quizinstance.quizletterset,
+        reverse: quizinstance.reverse,
+        max_chosen: quizinstance.max_chosen,
+        accomplish: quizinstance.accomplish
     })
 
-    for (let c in Object.values(instance.chosen)) {
-        console.log(c)
-        await user_quizstatusRef.update({
+    for (let c in Object.values(quizinstance.chosen)) {
+        await user_QuizRef.update({
             chosen: arrayUnion(c)
         })
     }
 
-    for (let b in instance.backset) {
-        await user_quizstatusRef.update({
+    for (let b in quizinstance.backset) {
+        await user_QuizRef.update({
             backset: arrayUnion(b)
         })
     }
 
-    for (let f in instance.forwardset) {
-        await user_quizstatusRef.update({
+    for (let f in quizinstance.forwardset) {
+        await user_QuizRef.update({
             forwardset: arrayUnion(f)
         })
     }

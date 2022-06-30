@@ -4,7 +4,7 @@
     <div v-if="owned.length > 0">
       <div v-for="ownedId in owned" :key="ownedId.id" id="owned-itemlist">
         <img
-          :src="require(`@/assets/item/${itemlist[ownedId].imgURL}`)"
+          :src="require(`@/assets/item/${ownedId.texture}`)"
           alt="loading"
           class="item"
         />
@@ -21,12 +21,11 @@
       v-for="item in itemlist"
       :key="item.id"
       :item="item"
-      :owned="owned"
       :is="'Item'"
     />
-    <!-- 존재하는 아이템 총 개수 = 6 -->
     <component
       v-for="n in 6 - Object.keys(itemlist).length"
+      :key="n.id"
       :is="'None'"
     />
   </div>
@@ -34,25 +33,57 @@
 
 <script>
 import { ref } from 'vue'
+import { auth, db } from '../firestoreDB'
+import { collection, doc, getDoc } from 'firebase/firestore'
 import Item from '../components/inventory/Item.vue'
 import None from '../components/inventory/None.vue'
 
 export default {
   data() {
     return {
-      itemlist: ref([]),
       owned: ref([])
     }
   },
   components: { Item, None },
-  methods: {
-    toggleOwned(data) {
-      var array = this.owned;
-      var index = array.indexOf(data.id);
-      if (index === -1) array.push(data.id);
-      else array.splice(index, 1);
-    },
+  setup() {
+    const itemlist = ref([])
+    
+    const user = auth.currentUser
+
+    // get itemlist from db
+    const load = async () => {
+      const UsersRef = collection(db, 'Users')
+      const user_Ref = doc(UsersRef, user.uid)
+      const user_Snap = await getDoc(user_Ref)
+
+      itemlist.value = user_Snap.data().inventory
+      console.log(itemlist.value)
+    }
+
+    load()
+    
+    return {
+      itemlist
+    }
   },
+  methods: {
+    toggleOwned(item) {
+      var index = this.owned.indexOf(item);
+      if (item in this.owned) {
+        // delete item in owned
+        array.splice(index, 1)
+        item.owned = false
+      } else {
+        // delete item in owned
+        this.owned[0].owned = false
+        this.owned.splice(0, 1)
+
+        // add new item to owned
+        array.push(item)
+        item.owned = true
+      }
+    },
+  }
 }
 </script>
 

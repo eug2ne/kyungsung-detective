@@ -49,13 +49,34 @@
 
 <script>
 import { ref } from 'vue'
-import cluelist from '../assets/cluelist.json'
+import { auth, db } from '../firestoreDB'
+import { collection, doc, getDoc } from 'firebase/firestore';
 
 export default {
   data() {
     return {
       show: ref([])
-    };
+    }
+  },
+  setup() {
+    const cluelist = ref({})
+
+    const user = auth.currentUser
+
+    // get user_cluelist from db
+    const load = async () => {
+      const CluelistRef = collection(db, 'Users/Cluelists/Cluelists')
+      const user_CluelistRef = doc(CluelistRef, user.uid)
+      const user_CluelistSnap = await getDoc(user_CluelistRef)
+
+      cluelist.value = user_CluelistSnap.data()
+    }
+
+    load()
+
+    return {
+      cluelist
+    }
   },
   methods: {
     showClue(story) {

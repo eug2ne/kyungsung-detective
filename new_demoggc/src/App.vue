@@ -1,16 +1,23 @@
 <template>
-  <Navbar/>
-  <div id="router-view" class="pixel-borders--1">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue'
+import { auth } from './firestoreDB'
+import { onAuthStateChanged } from 'firebase/auth'
 
 export default {
   name: 'app',
-  components: { Navbar }
+  created() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // login success
+        this.$router.replace('Map')
+      } else {
+        // before login
+      }
+    })
+  }
 }
 </script>
 

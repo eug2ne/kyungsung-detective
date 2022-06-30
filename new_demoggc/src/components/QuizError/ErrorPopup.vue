@@ -36,7 +36,6 @@ export default {
     },
     methods: {
         vanishPopup() {
-            console.log('vanish')
             this.show = false
         }
     }

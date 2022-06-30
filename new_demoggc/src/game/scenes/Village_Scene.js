@@ -52,8 +52,8 @@ export default class VillageScene extends Phaser.Scene {
     super('Village_Scene')
   }
 
-  init(config) {
-    this.sceneload.init(config)
+  init(player_config) {
+    this.sceneload.init(player_config)
   }
 
   preload() {

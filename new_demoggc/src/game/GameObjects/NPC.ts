@@ -48,6 +48,10 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     return this._dialogue_show
   }
 
+  public get keys() {
+    return Object.keys(this._dialogue)
+  }
+
   private get hint() {
     if (this._hint.require) {
       return false

@@ -7,7 +7,7 @@
     </button>
     <button ref="reverseButton" @click="reverseQuiz" class="icon" id="reverseQuiz">
       <img v-if="this.q_instance.reverse" class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774733.png" alt="반전">
-      <img v-else="this.q_instance.reverse" class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774765.png" alt="반전">
+      <img v-else class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774765.png" alt="반전">
     </button>
     <ul>
         <button @click="back" id="backQuiz" class="icon">
@@ -44,9 +44,7 @@
 
 <script>
 import { ref } from 'vue'
-import { db } from '../firestoreDB'
 import _ from 'lodash'
-import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore'
 import Letter from './Letter.vue'
 import OptionsMenu from './OptionsMenu.vue'
 import ErrorPopup from './QuizError/ErrorPopup.vue'
@@ -58,7 +56,7 @@ import exportSet from '../composables/quizlibrary/exportSet'
 export default {
     name: 'QuizArea',
     components: { Letter, OptionsMenu, ErrorPopup },
-    props: [ 'id', 'set', 'user' ],
+    props: [ 'set', 'quiz_id' ],
     data() {
       return {
         showOption: false,
@@ -68,9 +66,7 @@ export default {
       }
     },
     setup(props) {
-      console.log('setup')
       const d_Set = ref({})
-      const u_id = ref()
       const q_instance = ref({})
       const quizletterset = ref({})
 
@@ -79,7 +75,7 @@ export default {
         d_Set.value = props.set
         quizletterset.value = _.cloneDeep(d_Set.value)
         q_instance.value = {
-          'id':props.id,
+          'id':props.quiz_id,
           'quizletterset': quizletterset.value,
           'chosen': [],
           'reverse': false,
@@ -91,26 +87,23 @@ export default {
         // else, import set from db
         
         // create async load func.
-        const load = async (id, user) => {
+        const load = async (quizid) => {
             const {
               defaultSet,
-              user_id,
               quizinstance
-            } = await importSet(id, user)
+            } = await importSet(quizid)
 
             d_Set.value = defaultSet.value
-            u_id.value = user_id
             q_instance.value = quizinstance
             quizletterset.value = q_instance.value.quizletterset
         }
         
         // load data from db
-        load(props.id, props.user)
+        load(props.quiz_id)
       }
 
       return {
         d_Set,
-        u_id,
         q_instance,
         quizletterset
       }
@@ -205,9 +198,9 @@ export default {
         }
       }
   },
-  beforeUnmounted() {
+  unmounted() {
     // update db when component destroyed
-    // exportSet({ quizinstance }, this.user)
+    exportSet(this.q_instance)
   }
 }
 </script>

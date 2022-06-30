@@ -8,17 +8,18 @@ import game from '../game/game'
 
 export default {
   name: 'Game',
-  props: {
-    user_id: {
-      default: 'mFyHJ9bNO9hdj4sC8CqVwt6xGLj2'
-    }
-  },
   data() {
     return {
       downloaded: false,
       gameInstance: null,
       containerId: 'game-container'
     }
+  },
+  created() {
+    // save game data when page closed
+    window.addEventListener('beforeunload', () => {
+      this.gameInstance.destroy()
+    })
   },
   async mounted() {
     this.downloaded = true
@@ -27,13 +28,7 @@ export default {
       // this.gameInstance == Phaser.Game
     })
     this.$nextTick(() => {
-      this.gameInstance.create(this.user_id)
-    })
-  },
-  async unmounted() {
-    this.downloaded = false
-    this.$nextTick(() => {
-      this.gameInstance.pause(this.user_id)
+      this.gameInstance.create()
     })
   }
 }

@@ -5,7 +5,7 @@
     <div class="bl-line"></div>
     <input type="email" placeholder="아이디(이메일)" v-model="email" /> <br />
     <input type="password" placeholder="비밀번호" v-model="password" /> <br />
-    <button class="pixel-borders--1" @click="login">로그인</button>
+    <button class="pixel-borders--1" @click="clickOnEmailLogin">로그인</button>
     <div class="link">
       <router-link :to="{ name: 'SignUp' }"> 회원가입 하러 가기</router-link>
     </div>
@@ -14,14 +14,14 @@
     <img
       src="..\..\assets\btn_google_signin.png"
       alt="google-login"
-      @click="googleLogin"
+      @click="clickOnGoogleLogin"
       class="link-img"
     />
   </div>
 </template>
 
 <script>
-import firebase, { auth, db } from '../../firestoreDB'
+import { emailLogin, googleLogin } from '../../firestoreDB'
 
 export default {
   data() {
@@ -31,50 +31,12 @@ export default {
     };
   },
   methods: {
-    login() {
-      let self = this
-      auth
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(
-          function (result) {
-            alert("로그인 완료!")
-            self.$router.replace("/map")
-          },
-          function (err) {
-            alert("에러 : " + err.message)
-          }
-        )
+    async clickOnEmailLogin() {
+
+      await emailLogin(this.email, this.password)
     },
-    googleLogin() {
-      let self = this
-      let provider = new firebase.auth.GoogleAuthProvider()
-      auth
-        .signInWithPopup(provider)
-        .then(
-            function (result) {
-              const user = auth.currentUser
-              const usersRef = db.collection('Users').doc(user.uid)
-              usersRef.get()
-                .then((docSnapshot) => {
-                  if (!docSnapshot.exists) {
-                    self.addUser()
-                  }
-              })
-              alert("로그인 완료!")
-              self.$router.replace("/map")
-            },
-          function (err) {
-            alert("에러 : " + err.message)
-          }
-        )
-    },
-    addUser(){
-      const user = auth.currentUser
-      db.collection('Users').doc(user.uid).set({
-        uid: user.uid,
-    	  displayName: user.displayName,
-        email: user.email,
-     })
+    async clickOnGoogleLogin() {
+      await googleLogin()
     }
   },
 }

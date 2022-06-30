@@ -32,7 +32,6 @@ const quiz = (data, instance) => {
 
     switch (data.event) {
         case 'toggleTarget':
-            console.log('toggleTarget')
             quizletterset.value[data.row][data.col].isTarget = !quizletterset.value[data.row][data.col].isTarget
 
             if (quizletterset.value[data.row][data.col].isTarget) {
@@ -74,7 +73,6 @@ const quiz = (data, instance) => {
             break
 
         case 'ppChoice':
-            console.log('ppChoice')
             if (data.action === 'push') {
                 // toggle isChoice/isChosen
                 quizletterset.value[data.choice.row][data.choice.col].isChosen = true
@@ -98,7 +96,6 @@ const quiz = (data, instance) => {
             break
 
         case 'backQuiz':
-            console.log('backQuiz')
             if (backset.value.length !== 0) {
                 instance.quizletterset = _.cloneDeep(back(backset.value, forwardset.value, quizletterset.value))
             } else {
@@ -108,7 +105,6 @@ const quiz = (data, instance) => {
             break
 
         case 'forwardQuiz':
-            console.log('forwardQuiz')
             if (forwardset.value.length !== 0) {
                 instance.quizletterset = _.cloneDeep(forward(backset.value, forwardset.value, quizletterset.value))
             } else {
@@ -118,7 +114,6 @@ const quiz = (data, instance) => {
             break
 
         case 'showMerge':
-            console.log('showMerge')
             instance.max_chosen = 2
 
             target.value = chosen.value[0]
@@ -139,7 +134,6 @@ const quiz = (data, instance) => {
             break
 
         case 'showWord':
-            console.log('showWord')
             instance.max_chosen = 6
 
             target.value = chosen.value[0]
@@ -156,12 +150,10 @@ const quiz = (data, instance) => {
             break
 
         case 'Word':
-            console.log('Word')
             useWord(chosen.value, quizletterset.value, backset.value)
             break
 
         case 'Space':
-            console.log('Space')
             // create wordspace
             try {
                 let wordspace = {'0,0':null, '1,0':null, '0,1':null, '1,1':null, '0,2':null, '1,2':null}

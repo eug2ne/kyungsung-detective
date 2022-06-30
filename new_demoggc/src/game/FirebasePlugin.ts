@@ -1,21 +1,25 @@
 import Phaser from 'phaser'
-import firebase from '../firestoreDB.js'
+import { auth, db } from '../firestoreDB.js'
 import {
 	setDoc,
 	doc,
 	getDoc,
 	collection
 } from 'firebase/firestore'
+import { arrayUnion } from 'firebase/firestore'
+import Item from './GameObjects/Item'
 
 export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 {
 	private readonly firestore: any // error: cannot use Firestore as type
+	private readonly auth: any
 
 	constructor(manager: Phaser.Plugins.PluginManager)
 	{
 		super(manager)
 
-		this.firestore = firebase.firestore()
+		this.firestore = db
+		this.auth = auth
 	}
 
 	destroy()
@@ -26,19 +30,29 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 		super.destroy()
 	}
 
-	async saveGameData(userId: string, data: Object)
+	async saveGameData(player_config: any, inventory: [ Item ])
 	{
-    const GamesRef = collection(doc(this.firestore, 'Users', 'Games'), 'Games')
-    const user_GameRef = doc(GamesRef, userId)
+		const uid = this.auth.currentUser.uid
 
-		await setDoc(user_GameRef, data)
+    const SceneRef = collection(this.firestore, 'Users/Scene/Scene')
+    const user_SceneRef = doc(SceneRef, uid)
+
+		await setDoc(user_SceneRef, player_config) // update player config
+		for (let index in inventory) {
+			console.log(inventory[index])
+			await setDoc(user_SceneRef, {
+				inventory: arrayUnion(inventory[index])
+			})
+		} // update inventory
 	}
 
-	async loadGameData(userId: string)
+	async loadGameData()
 	{
+		// get current user.uid
+		const uid = this.auth.currentUser.uid
     // load user scene-data from /Users/Scene
-    const SceneRef = collection(doc(this.firestore, 'Users', 'Scene'), 'Scene')
-    const user_SceneRef = doc(SceneRef, userId)
+    const SceneRef = collection(this.firestore, 'Users/Scene/Scene')
+    const user_SceneRef = doc(SceneRef, uid)
     const user_SceneSnap = await getDoc(user_SceneRef)
 
     if (user_SceneSnap.exists()) {

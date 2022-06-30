@@ -6,33 +6,23 @@
     </button>
     <div class="between-box" />
     <ul class="navbar">
-        <li v-show="
-          $route.name === 'Home' ||
-          $route.name === 'License' ||
-          $route.name === 'Tutorial' ||
-          $route.name === 'Login' ||
-          $route.name === 'SignUp'">
-        <router-link :to="{ name: 'Home' }">
-          <p class="pixel-borders--2">홈</p>
-        </router-link>
-      </li>
       <li>
-        <router-link :to="{ name: 'Map' }">
+        <router-link :to="'/Map'">
           <p class="pixel-borders--2">맵</p>
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Inventory' }">
+        <router-link :to="'/Map/Inventory'">
           <p class="pixel-borders--2">인벤토리</p>
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Cluenote' }">
+        <router-link :to="'/Map/Cluenote'">
           <p class="pixel-borders--2">단서노트</p>
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Quiz', params: { quiz_id: '5pSYFHRok3Es4xw6XWcC', user_id: '탐졍' } }">
+        <router-link :to="{ path: '/Map/Quiz', params: { quiz_id: '5pSYFHRok3Es4xw6XWcC', user_id: '탐졍' } }">
           <p class="pixel-borders--2">단서판서</p>
         </router-link>
       </li>

@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <img src="../assets/logo/logo500px.png" alt="logo" />
-    <router-link :to="{ name: 'Login' }" class="link-button pixel-borders--2"
-      >시작하기
-    </router-link>
-    <router-link :to="{ name: 'License' }" class="license">license</router-link>
+  <div id="router-view" class="pixel-borders--1">
+    <div>
+      <img src="../assets/logo/logo500px.png" alt="logo" />
+      <router-link :to="{ name: 'Login' }" class="link-button pixel-borders--2"
+        >시작하기
+      </router-link>
+      <router-link :to="{ name: 'License' }" class="license">license</router-link>
+    </div>
   </div>
 </template>
 

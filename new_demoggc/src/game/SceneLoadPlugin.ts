@@ -7,9 +7,10 @@ import sami from './assets/sami_sprite/sami_frame1.png'
 import Dialogue from './GameObjects/Dialogue'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
-  private config: { scenes: any,
+  private player_config: { scenes: any,
     p_scene: {sceneKey: string, x: number, y: number},
     item_carry: [ Item ] }
+  private config: any
   private player: Player
   private minimap: Phaser.Cameras.Scene2D.Camera
   private controls: { cursor: any, space: Phaser.Input.Keyboard.Key, enter: Phaser.Input.Keyboard.Key }
@@ -29,20 +30,18 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
   destroy() {
     // save scene data to this.game.active_scenes
-    
+    super.destroy()
   }
 
-  public get scene_config() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-    return {
-      'x': this.player.x,
-      'y': this.player.y,
-      'npc': null,
-      'item': ['test1-0', 'test1-1', 'test1-2']
-    }
+  public get scene_config() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    return { 'config': this.config, 'x': this.player.x, 'y': this.player.y, 'inventory': this.inventory }
   }
 
   init(player_config: any) {
-    this.config = player_config
+    this.player_config = player_config
+
+    let current_sceneKey = player_config.p_scene.sceneKey
+    this.config = player_config.scenes[current_sceneKey]
   }
 
   preload() {
@@ -51,9 +50,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   }
 
   create(colliders: [ Phaser.Physics.Arcade.StaticGroup ], items: [ Item ], npcs: [ NPC ]) {
-    let current_sceneKey = this.config.p_scene.sceneKey
-    let current_sceneConfig = this.config.scenes[current_sceneKey]
-    
     // create minimap
     this.minimap = this.scene.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
 
@@ -72,10 +68,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     // create player on scene
     this.player = new Player(
       this.scene,
-      this.config.p_scene.x,
-      this.config.p_scene.y,
+      this.player_config.p_scene.x,
+      this.player_config.p_scene.y,
       this.scene.textures.get('sami'),
-      this.config.item_carry
+      this.player_config.item_carry
     )
     this.player.create()
     colliders.forEach(collider => {
@@ -84,14 +80,11 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     // show item on scene according to scene-config
     items.forEach((item: Item) => {
-      item.visible = false
-      current_sceneConfig.item.forEach((visible_item: string) => {
-        if (item.id == visible_item) {
-          item.visible = true
-        } else {
-          // pass
-        }
-      })
+      if (item.id in this.config.item) {
+        // pass
+      } else {
+        item.destroy()
+      }
     })
     this.scene.physics.add.collider(this.player, items) // add collider
     this.scene.add.existing(this.item_text).setDepth(15)
@@ -114,8 +107,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.inventory.push(item)
 
       // remove item.id from config
-      const remove_i = current_sceneConfig.item.indexOf(item.id)
-      current_sceneConfig.item.splice(remove_i, 1)
+      const remove_i = this.config.item.indexOf(item.id)
+      this.config.item.splice(remove_i, 1)
       item.destroy()
     })
 
@@ -127,7 +120,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       }
     }) // overlap-talk event
     this.scene.events.on('start-talking', (npc: NPC) => {
-      console.log('start-talking')
       this.minimap.visible = false // remove minimap
       npc.anims.pause() // pause npc anim
       this.controls.cursor.down.enabled = false
@@ -136,8 +128,12 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.controls.cursor.up.enabled = false // cursor disable
 
       const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-      const dialogueKey = current_sceneConfig.npc[npc.id]
-      npc.dialogue = dialogueKey /* choose dialogue according to npc dialogueKey */
+      const dialogueKey = this.config.npc[npc.id]
+      npc.dialogue = dialogueKey // choose dialogue according to npc dialogueKey
+      this.config.npc[npc.id] = npc.keys[npc.keys.findIndex((key: string) => {
+        key == dialogueKey
+      })+1] // update npc dialogue key
+      
       const dialogue = new Dialogue(this.scene, cameraX, cameraY, npc.dialogue, npc.id)
       dialogue.create()
 
@@ -146,7 +142,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       })
     })
     this.scene.events.on('end-talking', (dialogue: Dialogue, npc_id: string) => {
-      console.log('end talking')
       this.minimap.visible = true // add minimap
       npcs.find((npc: NPC) => {
         return npc.id == npc_id
@@ -161,7 +156,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.scene.physics.add.collider(this.player, npcs)
   }
 
-  update(items: [Item], npcs: [ NPC ]) {
+  update(items: [ Item ], npcs: [ NPC ]) {
     // update item_text.visible
     this.item_text.visible = this.scene.physics.overlap(this.player.interact_area, items) ? true:false
 

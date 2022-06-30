@@ -1,83 +1,47 @@
-import { db } from '../../firestoreDB'
+import { auth, db } from '../../firestoreDB'
 import { ref } from 'vue'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { collection, doc, setDoc, getDoc } from 'firebase/firestore'
 
-const importSet = async (quiz_id, user) => {
+const importSet = async (quiz_id) => {
     const defaultSet = ref({})
 
+    // get current user
+    const user = auth.currentUser
     // import set from db
-    const userRef = db.collection('Users').where('displayName', '==', user)
-    const setRef = doc(db, 'QuizSet', quiz_id)
+    const QuizRef = collection(db, 'Users/Quizs/Quizs')
+    const user_QuizRef = doc(QuizRef, user.uid)
+    const user_QuizSnap = await getDoc(user_QuizRef)
 
-    const userSnap = await (await userRef.get()).docs[0]
     // get defaultSet
-    const defaultSnap = await getDoc(setRef)
-    defaultSet.value = defaultSnap.data()
+    const defaultQuizRef = collection(db, 'QuizSet')
+    const defaultSetRef = doc(defaultQuizRef, quiz_id)
+    const defaultSetSnap = await getDoc(defaultSetRef)
+    defaultSet.value = defaultSetSnap.data()
 
-    if (userSnap) {
-        // if user already in Users
-        const user_id = userSnap.data().uid
-
-        const user_quizstatusRef = db.collection('Users').doc('quizstatus')
-            .collection('quizstatus').doc(user_id)
-        const user_quizstatusSnap = await getDoc(user_quizstatusRef)
-        if (user_quizstatusSnap.exists()) {
-            // if quizstatus for user exist, import set from user info
-            const quizinstance = user_quizstatusSnap.data()
-
-            return {
-                defaultSet,
-                user_id,
-                quizinstance
-            }
-        } else {
-            // else, create new quizstatus subcollection for user
-            console.log(quiz_id)
-            await setDoc(user_quizstatusRef, {
-                quizletterset: defaultSet.value,
-                chosen: [],
-                reverse: false,
-                max_chosen: 6,
-                backset: [],
-                forwardset: [],
-                accomplish: false
-            }) // default setting
-
-            const quizinstance = user_quizstatusSnap.data()
-
-            return {
-                defaultSet,
-                user_id,
-                quizinstance
-            }
-        }
-    } else {
-        // else, create new user info
-        const newSnap = await db.collection('Users').add({
-            displayName: user
-        })
-
-        const user_id = newSnap.id
-
-        // create new quizstatus subcollection for user
-        const user_quizstatusRef = db.collection('Users').doc('quizstatus')
-            .collection('quizstatus').doc(user_id)
-        
-        await setDoc(user_quizstatusRef, {
-                quizletterset: defaultSet.value,
-                chosen: [],
-                reverse: false,
-                max_chosen: 6,
-                backset: [],
-                forwardset: []
-        }) // default setting
-
-        const user_quizstatusSnap = await getDoc(user_quizstatusRef)
-        const quizinstance = user_quizstatusSnap.data()
+    if (user_QuizSnap.exists()) {
+        // if user has quizstatus, load quizstatus from db
+        const quizinstance = user_QuizSnap.data()
 
         return {
             defaultSet,
-            user_id,
+            quizinstance
+        }
+    } else {
+        // else, create new quizstatus
+        await setDoc(user_QuizRef, {
+            quizletterset: defaultSet.value,
+            chosen: [],
+            reverse: false,
+            max_chosen: 6,
+            backset: [],
+            forwardset: [],
+            accomplish: false
+        }) // default setting
+
+        const quizinstance = user_QuizSnap.data()
+
+        return {
+            defaultSet,
             quizinstance
         }
     }

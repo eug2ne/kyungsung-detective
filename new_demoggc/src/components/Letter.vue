@@ -28,14 +28,23 @@ export default {
     }
   },
   watch: {
-    isWord: function(val) {
+    isWord(val) {
       if (val) {
+        console.log('word span')
         this.$refs.td.setAttribute('rowspan', 3)
         this.$refs.td.setAttribute('colspan', 2)
       } else {
         this.$refs.td.setAttribute('rowspan', 1)
         this.$refs.td.setAttribute('colspan', 1)
       }
+    }
+  },
+  mounted() {
+    if (this.isWord) {
+      this.$refs.td.setAttribute('rowspan', 3)
+      this.$refs.td.setAttribute('colspan', 2)
+    } else {
+      // pass
     }
   }
 }
@@ -69,8 +78,6 @@ td.chosen {
 td.word {
   background-color: #275A68;
   color: white;
-  -ms-grid-row-span: 3;
-  -ms-grid-col-span: 2;
 }
 
 td.answer {

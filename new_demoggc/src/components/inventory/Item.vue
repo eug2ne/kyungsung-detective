@@ -1,8 +1,8 @@
 <template>
-  <div @click="clickItem" :class="{ wrapper: true, owned: isOwned() }">
+  <div @click="clickItem" :class="{ wrapper: true, owned: item.owned }">
     <h3>{{ item.name }}</h3>
     <img
-      :src="require(`@/assets/item/${item.imgURL}`)"
+      :src="require(`@/assets/item/${item.texture}`)"
       alt="loading"
       class="item"
     />
@@ -12,20 +12,14 @@
 
 <script>
 export default {
-  props: [ 'item', 'owned' ],
+  props: [ 'item' ],
   methods: {
     clickItem() {
       this.$emit('addItem', {
-        id: this.item.id,
-      });
-    },
-    isOwned() {
-      var array = this.owned;
-      var index = array.indexOf(this.item.id);
-      if (index === -1) return false;
-      else return true;
-    },
-  },
+        item: this.item
+      })
+    }
+  }
 }
 </script>
 

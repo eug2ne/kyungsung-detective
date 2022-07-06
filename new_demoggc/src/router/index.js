@@ -35,13 +35,13 @@ const routes = [
         path: 'Inventory',
         name: 'Inventory',
         component: Inventory
+      },
+      {
+        path: '/Rules',
+        name: 'Rules',
+        component: Rules
       }
     ]
-  },
-  {
-    path: '/Rules',
-    name: 'Rules',
-    component: Rules
   },
   {
     path: '/License',

@@ -30,7 +30,6 @@ export default {
   watch: {
     isWord(val) {
       if (val) {
-        console.log('word span')
         this.$refs.td.setAttribute('rowspan', 3)
         this.$refs.td.setAttribute('colspan', 2)
       } else {

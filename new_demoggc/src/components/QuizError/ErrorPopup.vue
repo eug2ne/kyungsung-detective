@@ -37,6 +37,7 @@ export default {
     methods: {
         vanishPopup() {
             this.show = false
+            this.$emit('ErrorPopupVanish')
         }
     }
 }

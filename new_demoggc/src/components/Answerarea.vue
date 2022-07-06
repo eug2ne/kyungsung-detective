@@ -1,32 +1,56 @@
 <template>
   <div id="Answer-area" class="pixel-borders--2">
-      <h2 ref="h2">{{ this.$data[this.id].answer }}</h2>
-      <p v-if="showdef">{{ this.$data[this.id].definition }}</p>
+      <h2 v-if="showAbbr">{{ this.answerSet.abbr }}</h2>
+      <h2 v-else>{{ this.answerLength }}</h2>
+      <p v-if="showdef">{{ this.answerSet.definition }}</p>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+import { db } from '../firestoreDB'
+import { collection, doc, getDoc } from 'firebase/firestore'
+
 export default {
     name: 'AnswerArea',
-    props: [ 'id' ],
+    props: [ 'quiz_id' ],
     data() {
         return {
-            quiz_1: {
-                'answer' : '_ _    _ _ _',
-                'first' : 'ㅂ ㅁ    ㅈ ㅂ ㅇ',
-                'definition' : '[합성어] 숨기어 남에게 드러내거나 알리지 말아야 할 정보가 흘러나오는 근원'
-            },
-            quiz_2: {
-                'answer' : '_ _ _ _',
-                'first' : 'ㅎ ㄹ ㅈ ㅈ',
-                'definition' : '무슨 일을 하는 데에 가장 중요한 부분을 완성함을 비유적으로 이르는 말'
-            },
-            showdef: false
+            showdef: false,
+            showAbbr: false
+        }
+    },
+    setup(props) {
+        const answerSet = ref({})
+
+        const load = async () => {
+            const AnswerSetRef = collection(db, 'AnswerSet')
+            const AnswerRef = doc(AnswerSetRef, props.quiz_id)
+            const AnswerSnap = await getDoc(AnswerRef)
+
+            answerSet.value = AnswerSnap.data()
+        }
+
+        load()
+
+        return {
+            answerSet
+        }
+    },
+    computed: {
+        answerLength() {
+            const abbr = this.answerSet.abbr
+
+            if (abbr) {
+                return '_ '.repeat(abbr.length)
+            } else {
+                // pass
+            }
         }
     },
     mounted() {
         this.emitter.on('hint_first', () => {
-            this.$refs.h2.innerHTML = this.$data[this.id].first
+            this.showAbbr = true
         }),
         this.emitter.on('hint_def', () => {
             this.showdef = true

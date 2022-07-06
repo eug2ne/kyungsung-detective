@@ -14,7 +14,6 @@ const backforth = () => {
     }
 
     const updateforwardSet = (forwardSet, set) => {
-        console.log('updateforward')
         const afterupdate = _.cloneDeep(set)
         forwardSet.push(afterupdate)
 
@@ -29,7 +28,6 @@ const backforth = () => {
     // back func
     const back = (pastSet, forwardSet, set) => {
         // set: present set
-        console.log('back')
         const before = pastSet.pop()
         updateforwardSet(forwardSet, set)
         return before
@@ -38,7 +36,6 @@ const backforth = () => {
     // forward func
     const forward = (pastSet, forwardSet, set) => {
         // set: present set
-        console.log('forward')
         const after = forwardSet.pop()
         updatepastSet(pastSet, set)
         return after

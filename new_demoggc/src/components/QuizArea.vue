@@ -1,5 +1,5 @@
 <template>
-  <ErrorPopup :type="showPopup"/>
+  <ErrorPopup :type="showPopup" @ErrorPopupVanish="refreshSet"/>
   <div class="contents">
     <div id="controls">
     <button @click="refreshQuiz" id="refreshQuiz" class="icon">
@@ -142,12 +142,12 @@ export default {
         this.showOption = false
         switch (data.option) {
           case ('merge'):
-            quiz({'event':'showMerge'}, this.q_instance, this.quizletterset)
+            quiz({'event':'showMerge'}, this.q_instance)
             break
           
           case('word'):
             try {
-              quiz({'event':'showWord'}, this.q_instance, this.quizletterset)
+              quiz({'event':'showWord'}, this.q_instance)
             } catch (error) {
               // WordSpaceError
               this.showPopup = 'wordspace'
@@ -156,7 +156,7 @@ export default {
 
           default:
             try {
-              quiz({'event':'Space'}, this.q_instance, this.quizletterset)
+              quiz({'event':'Space'}, this.q_instance)
             } catch (error) {
               if (error.message == 'WordspaceError') {
                 // WordSpaceError
@@ -171,7 +171,8 @@ export default {
       },
       refreshQuiz() {
         // set quizletterset to default
-        this.quizletterset = _.cloneDeep(this.d_Set)
+        quiz({'event':'Refresh', 'defaultSet':this.d_Set}, this.q_instance)
+        this.quizletterset = this.q_instance.quizletterset
       },
       reverseQuiz() {
         // switch engine
@@ -195,6 +196,15 @@ export default {
           this.quizletterset = this.q_instance.quizletterset
         } catch (error) {
           // IndexError
+        }
+      },
+      refreshSet() {
+        for (let r=0;r<6;r++) {
+          for (let c=0;c<15;c++) {
+            this.quizletterset[r][c].isTarget = false
+            this.quizletterset[r][c].isChoice = false
+            this.quizletterset[r][c].isChosen = false
+          }
         }
       }
   },

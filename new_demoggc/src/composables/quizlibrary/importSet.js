@@ -20,7 +20,7 @@ const importSet = async (quiz_id) => {
 
     if (user_QuizSnap.exists()) {
         // if user has quizstatus, load quizstatus from db
-        const quizinstance = user_QuizSnap.data().set[quiz_id]
+        const quizinstance = user_QuizSnap.data().sets[quiz_id]
 
         return {
             defaultSet,
@@ -44,7 +44,7 @@ const importSet = async (quiz_id) => {
             sets: set
         }) // default setting
 
-        const quizinstance = user_QuizSnap.data().set[quiz_id]
+        const quizinstance = user_QuizSnap.data().sets[quiz_id]
 
         return {
             defaultSet,

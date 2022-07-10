@@ -82,6 +82,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     items.forEach((item: Item) => {
       if (item.id in this.config.item) {
         // pass
+        console.log('item exsit')
       } else {
         item.destroy()
       }
@@ -126,20 +127,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.controls.cursor.left.enabled = false
       this.controls.cursor.right.enabled = false 
       this.controls.cursor.up.enabled = false // cursor disable
-
-      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-      const dialogueKey = this.config.npc[npc.id]
-      npc.dialogue = dialogueKey // choose dialogue according to npc dialogueKey
-      this.config.npc[npc.id] = npc.keys[npc.keys.findIndex((key: string) => {
-        key == dialogueKey
-      })+1] // update npc dialogue key
-      
-      const dialogue = new Dialogue(this.scene, cameraX, cameraY, npc.dialogue, npc.id)
-      dialogue.create()
-
-      this.scene.input.keyboard.on('keydown-SPACE', () => {
-        dialogue.emit('update-line')
-      })
     })
     this.scene.events.on('end-talking', (dialogue: Dialogue, npc_id: string) => {
       this.minimap.visible = true // add minimap
@@ -154,6 +141,13 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       dialogue.destroy()
     })
     this.scene.physics.add.collider(this.player, npcs)
+
+    // update user config when npc dialogue_key change
+    this.scene.events.on('update-config', (npc_id: string, d_key: string) => {
+      const p_scene_key = this.player_config.p_scene.sceneKey
+
+      this.player_config.scenes[p_scene_key].npc[npc_id] = d_key
+    })
   }
 
   update(items: [ Item ], npcs: [ NPC ]) {

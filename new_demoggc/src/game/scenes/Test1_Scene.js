@@ -1,6 +1,11 @@
+// mission: talk to test1npc-1 >> get hint+quiz
+// >> (if get answer to quiz) make portal to village_scene
+
 import Phaser from 'phaser'
+import { checkClue, addClue } from '../library'
 import Item from '../GameObjects/Item'
 import NPC from '../GameObjects/NPC'
+import Dialogue from '../GameObjects/Dialogue'
 import back1 from '@/game/assets/test1_map/궁정리.png'
 import back2 from '@/game/assets/test1_map/건물레이어(나무밑).png'
 import treess from '@/game/assets/test1_map/다리자른 나무.png'
@@ -42,19 +47,19 @@ const npcs_JSON = [
     "id": "test1npc-0",
     "sprite_func": null,
     "dialogue": {
-      "pre_h_repeat": [
+      "pre_c_repeat": [
         {
           "image": "npc1_neutral",
           "line": "this line is repeated"
         },
         {
           "image": "npc1_neutral",
-          "line": "it can be skipped by enter/space"
+          "line": "it can be skipped by space"
         }
       ]
     },
     "spritesheet": "npc1_sprite",
-    "hint": null,
+    "clue": null,
     "answer": null,
     "x": 500,
     "y": 1000
@@ -64,28 +69,42 @@ const npcs_JSON = [
     "id": "test1npc-1",
     "sprite_func": null,
     "dialogue": {
-      "hint": [
+      "clue": [
         {
           "image": "npc1_neutral",
-          "lines": ["this line is said only once", "you get a hint when completed"]
+          "line": "this line is said only once"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "you get a hint when completed"
         }
       ],
-      "post_h_repeat": [
+      "post_c_repeat": [
         {
           "image": "npc1_neutral",
-          "lines": ["you already got the hint"]
+          "line": "you already got the hint"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "now solve the puzzle"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "and go get the answer!"
         }
       ]
     },
     "spritesheet": "npc1_sprite",
-    "hint": {
+    "clue": {
+      "story": "sample story",
       "title": "sample hint",
       "description": "sample description",
-      "quiz_link": null,
+      "quiz_id": null,
       "background_img": null,
-      "require": null
+      "subClues": [],
+      "require": false
     },
-    answer: null,
+    "answer": null,
     "x": 600,
     "y": 1100
   }
@@ -314,12 +333,50 @@ export default class Test1_Scene extends Phaser.Scene {
         npc.x,
         npc.y,
         npc.dialogue,
-        npc.hint,
+        npc.clue,
         npc.answer
       ))
     })
 
     this.sceneload.create(colliders, this.items, this.npcs)
+
+    // NPC talking event
+    this.events.on('start-talking', async (npc) => {
+      const cameraX = this.cameras.main.worldView.x, cameraY = this.cameras.main.worldView.y
+
+      try {
+        if (npc.id == 'test1npc-0') {
+          // test1npc-0 repeats sample dialogue
+          const dialogueKey = 'pre_c_repeat'
+          npc.dialogue = dialogueKey // choose dialogue according to dialogueKey
+        } else if (npc.id == 'test1npc-1') {
+          const dialogueKey = await checkClue(npc.clue)
+          npc.dialogue = dialogueKey // choose dialogue according to npc dialogueKey
+
+          if (dialogueKey == 'clue') {
+            // test1npc-1 gives hint at first dialogue
+            addClue(npc.clue)
+          } else {
+            // >> repeats post_h_repeat dialogue
+            // >> until player solves puzzle
+          }
+
+          // update player_config
+          this.events.emit('update-config', npc.id, dialogueKey)
+        } else {
+          throw Error('NPCNotExistError')
+        }
+  
+        const dialogue = new Dialogue(this, cameraX, cameraY, npc.dialogue, npc.id)
+        dialogue.create()
+  
+        this.input.keyboard.on('keydown-SPACE', () => {
+          dialogue.emit('update-line')
+        })
+      } catch (Error) {
+        console.log(Error)
+      }
+    })
   }
 
   update() {

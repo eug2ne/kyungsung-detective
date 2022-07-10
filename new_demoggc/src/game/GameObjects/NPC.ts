@@ -6,7 +6,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   private sprite_func: any
   private readonly _dialogue: any
   private _dialogue_show: any
-  private readonly _hint: any|null
+  private readonly _clue: any|null
   private readonly _answer: any|null
 
   constructor(
@@ -17,7 +17,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     x: number,
     y: number,
     dialogue: any,
-    hint: any,
+    clue: any,
     answer: any
   ) {
     const spritesheet = scene.textures.get(spritesheet_key)
@@ -29,19 +29,12 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     this.sprite_key = spritesheet_key
     this._dialogue = dialogue
     this.sprite_func = sprite_func
-    this._hint = hint
+    this._clue = clue
     this._answer = answer
   }
 
   public set dialogue(key: string) {
-    if (key == 'hint') {
-      // check requirement
-      this._dialogue_show = this._dialogue.hint
-    } else if (key == 'answer') {
-      this._dialogue_show = this._answer.answer
-    } else {
-      this._dialogue_show = this._dialogue[key]
-    }
+    this._dialogue_show = this._dialogue[key]
   }
 
   public get dialogue() {
@@ -52,11 +45,11 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     return Object.keys(this._dialogue)
   }
 
-  private get hint() {
-    if (this._hint.require) {
+  private get clue() {
+    if (this._clue.require) {
       return false
     } else {
-      return this._hint
+      return this._clue
     }
   }
 

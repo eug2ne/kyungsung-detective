@@ -1,6 +1,6 @@
 import { auth, db } from '../../firestoreDB'
 import { ref } from 'vue'
-import { collection, doc, setDoc, getDoc } from 'firebase/firestore'
+import { collection, doc, setDoc, getDoc, arrayUnion } from 'firebase/firestore'
 
 const importSet = async (quiz_id) => {
     const defaultSet = ref({})
@@ -20,7 +20,7 @@ const importSet = async (quiz_id) => {
 
     if (user_QuizSnap.exists()) {
         // if user has quizstatus, load quizstatus from db
-        const quizinstance = user_QuizSnap.data()
+        const quizinstance = user_QuizSnap.data().set[quiz_id]
 
         return {
             defaultSet,
@@ -28,7 +28,8 @@ const importSet = async (quiz_id) => {
         }
     } else {
         // else, create new quizstatus
-        await setDoc(user_QuizRef, {
+        const set = {}
+        set[`${quiz_id}`] = {
             quizletterset: defaultSet.value,
             chosen: [],
             reverse: false,
@@ -36,9 +37,14 @@ const importSet = async (quiz_id) => {
             backset: [],
             forwardset: [],
             accomplish: false
+        }
+        await setDoc(user_QuizRef, {
+            present_id: quiz_id,
+            quiz_ids: arrayUnion(quiz_id),
+            sets: set
         }) // default setting
 
-        const quizinstance = user_QuizSnap.data()
+        const quizinstance = user_QuizSnap.data().set[quiz_id]
 
         return {
             defaultSet,

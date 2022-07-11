@@ -40,12 +40,12 @@ import npc1_sprite from '../assets/npc_sprite/npc1_sprite.png'
 import item0 from '../assets/item/item0.png'
 import item1 from '../assets/item/item1.png'
 import item2 from '../assets/item/item2.png'
+import { async } from '@firebase/util'
 
 const npcs_JSON = [
   {
     "name": "test npc1",
     "id": "test1npc-0",
-    "sprite_func": null,
     "dialogue": {
       "pre_c_repeat": [
         {
@@ -67,7 +67,6 @@ const npcs_JSON = [
   {
     "name": "test npc2",
     "id": "test1npc-1",
-    "sprite_func": null,
     "dialogue": {
       "clue": [
         {
@@ -91,6 +90,16 @@ const npcs_JSON = [
         {
           "image": "npc1_neutral",
           "line": "and go get the answer!"
+        }
+      ],
+      "answer": [
+        {
+          "image": "npc1_neutral",
+          "line": "you got the answer!"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "congratulations!"
         }
       ]
     },
@@ -325,11 +334,11 @@ export default class Test1_Scene extends Phaser.Scene {
     // create NPCs
     this.npcs = []
     npcs_JSON.forEach((npc) => {
+      console.log('create npc')
       this.npcs.push(new NPC(
         this,
         npc.id,
         npc.spritesheet,
-        npc.sprite_func,
         npc.x,
         npc.y,
         npc.dialogue,
@@ -340,41 +349,19 @@ export default class Test1_Scene extends Phaser.Scene {
 
     this.sceneload.create(colliders, this.items, this.npcs)
 
-    // NPC talking event
     this.events.on('start-talking', async (npc) => {
+      // create dialogue
       const cameraX = this.cameras.main.worldView.x, cameraY = this.cameras.main.worldView.y
+      console.log(npc.dialogue)
 
-      try {
-        if (npc.id == 'test1npc-0') {
-          // test1npc-0 repeats sample dialogue
-          const dialogueKey = 'pre_c_repeat'
-          npc.dialogue = dialogueKey // choose dialogue according to dialogueKey
-        } else if (npc.id == 'test1npc-1') {
-          const dialogueKey = await checkClue(npc.clue)
-          npc.dialogue = dialogueKey // choose dialogue according to npc dialogueKey
-
-          if (dialogueKey == 'clue') {
-            // test1npc-1 gives hint at first dialogue
-            addClue(npc.clue)
-          } else {
-            // >> repeats post_h_repeat dialogue
-            // >> until player solves puzzle
-          }
-
-          // update player_config
-          this.events.emit('update-config', npc.id, dialogueKey)
-        } else {
-          throw Error('NPCNotExistError')
-        }
-  
+      if (npc.dialogue) {
+        console.log(npc.dialogue)
         const dialogue = new Dialogue(this, cameraX, cameraY, npc.dialogue, npc.id)
         dialogue.create()
-  
+      
         this.input.keyboard.on('keydown-SPACE', () => {
           dialogue.emit('update-line')
         })
-      } catch (Error) {
-        console.log(Error)
       }
     })
   }

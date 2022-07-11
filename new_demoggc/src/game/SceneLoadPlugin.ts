@@ -5,6 +5,7 @@ import NPC from './GameObjects/NPC'
 import Item from './GameObjects/Item'
 import sami from './assets/sami_sprite/sami_frame1.png'
 import Dialogue from './GameObjects/Dialogue'
+import { noConflict } from 'lodash'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private player_config: { scenes: any,
@@ -141,13 +142,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       dialogue.destroy()
     })
     this.scene.physics.add.collider(this.player, npcs)
-
-    // update user config when npc dialogue_key change
-    this.scene.events.on('update-config', (npc_id: string, d_key: string) => {
-      const p_scene_key = this.player_config.p_scene.sceneKey
-
-      this.player_config.scenes[p_scene_key].npc[npc_id] = d_key
-    })
   }
 
   update(items: [ Item ], npcs: [ NPC ]) {

@@ -3,11 +3,11 @@
     <button
       @click="showClue(story)"
       class="story pixel-borders--2"
-      v-for="story in cluelist"
+      v-for="story in Object.keys(this.cluelist)"
       :key="story.id"
       type="button"
     >
-      {{ story.story }}
+      {{ story }}
     </button>
   </ul>
 
@@ -16,19 +16,16 @@
       버튼을 눌러 단서를 확인하세요.
     </div>
     <div v-else class="clue" v-for="clue in this.show" :key="clue.id">
-      <div class="cluewrapper" v-if="clue.achieve">
+      <div class="cluewrapper">
         <h3>{{ clue.title }}</h3>
         <p>
-          <a v-if="clue.a" :href="clue.a">{{ clue.descript }}</a>
+          {{ clue.description }}
+          <router-link v-if="clue.quiz_id" :to="{ path: '/Map/Quiz', params: { quiz_id: clue.quiz_id } }">(단서 해결하러 가기)</router-link>
         </p>
       </div>
 
-      <div class="cluewrapper" v-else>
-        <h3>아직 얻지못한 단서입니다</h3>
-      </div>
-
-      <div class="subclue" v-for="subclue in clue.subclue" :key="subclue.id">
-        <div class="subcluewrapper" v-if="subclue.achieve">
+      <div class="subclue" v-for="subclue in clue.subClues" :key="subclue.id">
+        <div class="subcluewrapper" v-if="subclue.require">
           <h3>{{ subclue.title }}</h3>
           <p>{{ subclue.descript }}</p>
         </div>
@@ -36,7 +33,7 @@
         <div class="subcluewrapper" v-else>
           <h3>아직 잠겨있습니다</h3>
           <p>
-            <router-link :to="subclue.link">
+            <router-link :to="{ path: '/Map/Quiz', params: { quiz_id: clue.quiz_id } }">
               퍼즐 풀고 단서 얻으러가기
             </router-link>
           </p>
@@ -65,11 +62,11 @@ export default {
 
     // get user_cluelist from db
     const load = async () => {
-      const CluelistRef = collection(db, 'Users/Cluelists/Cluelists')
-      const user_CluelistRef = doc(CluelistRef, user.uid)
-      const user_CluelistSnap = await getDoc(user_CluelistRef)
+      const UsersRef = collection(db, 'Users')
+      const userRef = doc(UsersRef, user.uid)
+      const userSnap = await getDoc(userRef)
 
-      cluelist.value = user_CluelistSnap.data()
+      cluelist.value = userSnap.data().clues
     }
 
     load()
@@ -80,7 +77,7 @@ export default {
   },
   methods: {
     showClue(story) {
-      this.show = story.clues
+      this.show = this.cluelist[story]
     },
   },
 };

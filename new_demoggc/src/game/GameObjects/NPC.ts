@@ -1,12 +1,10 @@
 import Phaser from 'phaser'
-import { auth, db } from '../../firestoreDB.js'
-import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
   public readonly id: string
   private sprite_key: string
-  private readonly _dialogue: any
-  private readonly clue: any
+  public readonly dialogue: any
+  public readonly clue: any
   private readonly answer: any|null
 
   constructor(
@@ -26,58 +24,9 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     
     this.id = key
     this.sprite_key = spritesheet_key
-    this._dialogue = dialogue
+    this.dialogue = dialogue
     this.clue = clue
     this.answer = answer
-  }
-
-  public get dialogue() {
-    // check clue
-    if (this.clue) {
-      const user = auth.currentUser
-      const UsersRef = collection(db, 'Users')
-      const userRef = doc(UsersRef, user.uid)
-
-      const check = async () => {
-        const userSnap = await getDoc(userRef)
-        if (userSnap.data().clues[this.clue.story]) {
-          // clue acquired
-          try {
-            const userQuizsRef = collection(userRef, 'Quizs')
-            const userquizRef = doc(userQuizsRef, this.clue.quiz_id)
-            const userQuizSnap = await getDoc(userquizRef)
-            
-            if (userQuizSnap.data().accomplished) {
-              // clue acquired + quiz solved
-              return this._dialogue['answer']
-            } else {
-              // clue acquired + quiz not solved
-              return this._dialogue['post_c_repeat']
-            }
-          } catch (error) {
-            // this.clue.quiz_id == null
-            // >> answer_check not needed
-            return this._dialogue['post_c_repeat']
-          }
-        } else {
-          // clue not acquired
-          // add clue to user doc
-          const Clue = this.clue
-          let set: Partial<Record<keyof typeof Clue, string>> = {}
-          set[this.clue.story] = this.clue
-          
-          await updateDoc(userRef, {
-            clues: set
-          })
-
-          return this._dialogue['clue']
-        }
-      }
-
-      check()
-    } else {
-      return this._dialogue['pre_c_repeat']
-    }
   }
 
   destroy() {

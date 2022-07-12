@@ -348,22 +348,6 @@ export default class Test1_Scene extends Phaser.Scene {
     })
 
     this.sceneload.create(colliders, this.items, this.npcs)
-
-    this.events.on('start-talking', async (npc) => {
-      // create dialogue
-      const cameraX = this.cameras.main.worldView.x, cameraY = this.cameras.main.worldView.y
-      console.log(npc.dialogue)
-
-      if (npc.dialogue) {
-        console.log(npc.dialogue)
-        const dialogue = new Dialogue(this, cameraX, cameraY, npc.dialogue, npc.id)
-        dialogue.create()
-      
-        this.input.keyboard.on('keydown-SPACE', () => {
-          dialogue.emit('update-line')
-        })
-      }
-    })
   }
 
   update() {

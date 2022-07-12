@@ -37,12 +37,25 @@ export const addClue = async (Clue) => {
   const user = auth.currentUser
   const UsersRef = collection(db, 'Users')
   const userRef = doc(UsersRef, user.uid)
+  const userSnap = await getDoc(userRef)
 
   // add clue to story
-  const set = {}
-  set[Clue.story] = Clue
-  
-  await updateDoc(userRef, {
-    clues: set
-  })
+  try {
+    const cluelist = userSnap.data().clues[Clue.story]
+    const set = {}
+    cluelist.append(Clue)
+    set[Clue.story] = cluelist
+    
+    await updateDoc(userRef, {
+      clues: set
+    })
+  } catch {
+    // story not exist in user data
+    const set = {}
+    set[Clue.story] = [Clue]
+    
+    await updateDoc(userRef, {
+      clues: set
+    })
+  }
 }

@@ -34,11 +34,17 @@ const npcs_JSON = [
     "dialogue": {
       /* breakfast(x) */ "pre_c_repeat": [
         {
+          "to": "default"
+        },
+        {
           "image": "maid_neutral",
           "line": "뭘 하시는건 좋은데 일단은 뭐든 드시고 하시지요."
         }
       ],
       /* breakfast (o), newspaper (x) */ "post_c_repeat": [
+        {
+          "to": "default"
+        },
         {
           "image": "maid_neutral",
           "line": "뭘 할지 계획은 있으신가요?"
@@ -53,6 +59,9 @@ const npcs_JSON = [
         }
       ],
       /* breakfast (o), newspaper (o) */ "answer": [
+        {
+          "to": "default"
+        },
         {
           "image": "maid_neutral",
           "line": "뭘 할지 계획은 있으신가요?"
@@ -121,7 +130,7 @@ const npcs_JSON = [
     },
     "question": {
       /* always show question before dialogue */ "default": {
-        "dialogue": [
+        "question": [
           {
             "image": "maid_neutral",
             "line": "아직 여독이 가시지 않아 피곤하실텐데 오늘은 쉬시는게 어떤가요?"
@@ -134,7 +143,7 @@ const npcs_JSON = [
           },
           {
             "answer": "아니. 나가보려고.",
-            "to": "dialogue" /* check status >> choose dialogue */
+            "to": "dialogue" /* back to dialogue */
           }
         ]
       }
@@ -155,6 +164,68 @@ const npcs_JSON = [
     "answer": null,
     "x": 425,
     "y": 220
+  }
+]
+
+const items_JSON = [
+  {
+    "name": "newspaper",
+    "id": "breakfast_item0",
+    "x": 100,
+    "y": 100,
+    "texture": "newspaper",
+    "interact": {
+      "type": "read",
+      "content": [
+        "아침 신문이다.",
+        "..`경성 최고의 탐정 별세`",
+        "`범인은 현장에서 같이 죽은채로 발견된 40세 윤 모씨로 추정`",
+        "`현장에서 윤 모씨의 지문이 묻은 권총이 발견되고,`",
+        "`부검결과 범행 시각 당시 지첨초 중독 상태였던 것으로 미루어보아`",
+        "`우발적 살해 후 실족사 혹은 자살로 추정`",
+        "`특히 경찰은 윤 씨가 지첨초 밀매에 종사했다는 근거로 미루어보아`",
+        "`평소 사마전씨에게 앙심을 품고 있었을 걸로 보고`",
+        "`수사를 종결했다.`",
+        "..역시나 어머니의 부고 소식으로 떠들썩하다.",
+        "그 아래 새로운 소식이 눈에 띈다.",
+        "`탐정 시험 xx월 xx일 경무대에서 진행`",
+        {
+          "image": "sami_neutral",
+          "line": "xx월 xx일이라니. 오늘이잖아?"
+        },
+        {
+          "image": "sami_neutral",
+          "line": "...."
+        }
+      ],
+      "to": "update.breakfast_maid.answer.==post_c_repeat" /* update npc dialogueKey to answer if dialogueKey == post_c_repeat */
+    }
+  },
+  {
+    "name": "b_meal",
+    "id": "breakfast_item1",
+    "x": 300,
+    "y": 300,
+    "texture": "b_meal",
+    "interact": {
+      "type": "question",
+      "question": {
+        "question": {
+          "image": null,
+          "line": "아침이 차려져있다."
+        },
+        "options": [
+          {
+            "answer": "별로 입맛이 없다.",
+            "to": null /* end of interaction */
+          },
+          {
+            "answer": "먹는다.",
+            "to": "update.breakfast_maid.post_c_repeat" /* update npc dialogueKey */
+          }
+        ] 
+      }
+    }
   }
 ]
 
@@ -232,6 +303,17 @@ export default class Breakfast extends Phaser.Scene {
     this.add.existing(closet_r).setDepth(15)
 
     this.items = []
+    items_JSON.forEach((item) => {
+      this.items.push(new Item(
+        this,
+        item.id,
+        item.x,
+        item.y,
+        item.name,
+        item.texture,
+        item.interact
+      ))
+    })
     this.npcs = []
     npcs_JSON.forEach((npc) => {
       this.npcs.push(new NPC(
@@ -251,6 +333,11 @@ export default class Breakfast extends Phaser.Scene {
 
     const colliders = [ cupboard, sink, glasscloset, table, closet_l, closet_r ]
     this.sceneload.create(colliders, this.items, this.npcs)
+
+    // update npc.dialogueKey when interact with item
+    this.events.on('interact', (item) => {
+
+    })
   }
 
   update() {

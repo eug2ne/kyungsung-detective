@@ -91,7 +91,12 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.scene.physics.add.collider(this.player, items) // add collider
     this.scene.add.existing(this.item_text).setDepth(15)
     this.item_text.visible = false // add item_text
-    this.scene.physics.add.overlap(this.player.interact_area, items, (area, item) => {
+    this.scene.physics.add.overlap(this.player.interact_area, items, (area: any, item: any) => {
+      this.scene.events.emit(`interact-${item.id}`)
+    }) // add overlap callback
+
+    // item interact type: get
+    this.scene.events.on('show-item-text', (item: Item) => {
       const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
       
       const textX = cameraX + 220
@@ -103,7 +108,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
         // add item to inventory
         this.scene.events.emit('add-to-inventory', item)
       }
-    }) // add overlap callback
+    })
     this.scene.events.on('add-to-inventory', (item: Item) => {
       // add item to inventory
       this.inventory.push(item)
@@ -133,22 +138,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.controls.cursor.up.enabled = false // cursor disable
 
       // create dialogue using player_config
-      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
       const dialogueKey = this.config.npc[npc.id]
-      
-      const dialogue = new Dialogue(this.scene, cameraX, cameraY, npc.dialogue[dialogueKey], npc.id)
-      dialogue.create()
-      
-      this.scene.input.keyboard.on('keydown-SPACE', () => {
-        dialogue.emit('update-line')
-      })
-
-      if (dialogueKey == 'clue') {
-        // update player_config
-        this.player_config.scenes[this.player_config.p_scene.sceneKey].npc[npc.id] = 'post_c_repeat'
-        // add clue to user data
-        addClue(npc.clue)
-      }
+      this.scene.events.emit('create-dialogue', npc, dialogueKey)
     })
     this.scene.events.on('end-talking', (dialogue: Dialogue, npc_id: string) => {
       this.minimap.visible = true // add minimap
@@ -162,7 +153,28 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
       dialogue.destroy()
     })
+    
     this.scene.physics.add.collider(this.player, npcs)
+
+    // create dialogue func.
+    this.scene.events.on('create-dialogue', (npc: NPC, key: string) => {
+      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
+      
+      const dialogue = new Dialogue(this.scene, cameraX, cameraY, npc.dialogue[key], npc.id)
+      dialogue.create()
+      
+      this.scene.input.keyboard.on('keydown-SPACE', () => {
+        dialogue.emit('update-line')
+      })
+
+      if (key == 'clue') {
+        // update player_config
+        this.player_config.scenes[this.player_config.p_scene.sceneKey].npc[npc.id] = 'post_c_repeat'
+        // add clue to user data
+        addClue(npc.clue)
+      }
+    })
+    
   }
 
   update(items: [ Item ], npcs: [ NPC ]) {

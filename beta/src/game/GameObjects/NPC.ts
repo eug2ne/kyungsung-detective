@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Dialogue from './Dialogue'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
   public readonly id: string
@@ -55,6 +56,32 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
         frameRate: 10,
         repeat: this.anim_config.repeat[key]
       })
+    })
+
+    // start-talking event
+    this.on('start-talking', (key: string, cameraX: number, cameraY: number) => {
+      // pause npc anim
+      this.anims.pause()
+
+      // create dialogue
+      const _dialogue = this.dialogue[key]
+      const dialogue = new Dialogue(this.scene, cameraX, cameraY, _dialogue, this.question)
+      dialogue.create()
+
+      this.scene.input.keyboard.on('keydown-SPACE', () => {
+        dialogue.emit('update-line')
+      })
+
+      if (key == 'clue'||key == 'answer') {
+        // update user_ config
+        this.scene.events.emit('update-userconfig', this.id, `post_${key[0]}_repeat`)
+      }
+    })
+
+    // end-talking event
+    this.scene.events.on('end-talking', () => {
+      // restart npc enim
+      this.anims.resume()
     })
   }
 

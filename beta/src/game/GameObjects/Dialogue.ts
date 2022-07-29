@@ -4,47 +4,91 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
   private line_box: Phaser.GameObjects.Rectangle
   private image_box: Phaser.GameObjects.Rectangle
   private line: Phaser.GameObjects.Text
+  private options: [ Phaser.GameObjects.Text? ] = []
   private image: Phaser.GameObjects.Image
-  private readonly dialogue: any /* dialogue from npc according to key */
+  private readonly dialogue: any /* npc.dialogue|item.content */
+  private readonly question: any
   private index: number = 0
-  private npc_id: string
   
   constructor(scene: Phaser.Scene,
     cameraX: number,
     cameraY: number,
-    dialogue: any /* overlap-callback doesn't perceive type NPC */,
-    npc_id: string) {
+    dialogue?: any,
+    question?: any
+  ) {
       super(scene, 'Dialogue')
       // this.scene.events.emit('talking', npc)
       this.dialogue = dialogue
-      this.npc_id = npc_id
+      this.question = question
 
       // create dialogue-box on screen
       const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
-      this.line_box = this.scene.add.rectangle(cameraX+650, cameraY+600, 700, 200, white)
+      this.line_box = this.scene.add.rectangle(cameraX+570, cameraY+550, 645, 200, white)
         .setDepth(20) // line-box
-      this.image_box = this.scene.add.rectangle(cameraX+150, cameraY+600, 200, 200, white)
+      this.image_box = this.scene.add.rectangle(cameraX+120, cameraY+550, 200, 200, white)
         .setDepth(20) // image-box
 
-      this.image = new Phaser.GameObjects.Image(this.scene, cameraX+150, cameraY+600, this.texture)
-        .setDepth(20)
-        .setDisplaySize(200,200)
-      this.scene.add.existing(this.image)
-      this.line = new Phaser.GameObjects.Text(
-        this.scene,
-        cameraX+315,
-        cameraY+510,
-        this.line_text,
-        {
-          fontFamily: 'NeoDunggeunmo',
-          fontSize: '30px',
-          color: '#000',
-          padding: {
-            x: 5,
-            y: 5
-        }
-      }).setWordWrapWidth(685)
-      this.scene.add.existing(this.line).setDepth(20)
+      if (this.dialogue[this.index].to) {
+        // shift from dialogue to question
+        this.dialogue[this.index] = this.question[this.dialogue[this.index].to]
+
+        // create question+options
+        this.line = new Phaser.GameObjects.Text(
+          this.scene,
+          cameraX+260,
+          cameraY+460,
+          this.dialogue[this.index].question[0].line,
+          {
+            fontFamily: 'NeoDunggeunmo',
+            fontSize: '25px',
+            color: '#000',
+            padding: {
+              x: 5,
+              y: 5
+          }
+        }).setWordWrapWidth(640)
+        // this.dialogue[this.index].options.forEach((option: any) => {
+        //   this.options.push(new Phaser.GameObjects.Text(
+        //     this.scene,
+        //     cameraX+315,
+        //     cameraY+550,
+        //     option.answer,
+        //     {
+        //       fontFamily: 'NeoDunggeunmo',
+        //       fontSize: '30px',
+        //       color: '#000',
+        //       padding: {
+        //         x: 5,
+        //         y: 5
+        //       }
+        //     }
+        //   ).setWordWrapWidth(685))
+
+          this.scene.add.existing(this.line).setDepth(20)
+          // this.scene.add.existing(this.options as unknown as Phaser.GameObjects.Group).setDepth(20)
+      } else if (this.dialogue) {
+        // npc-talking event|item.interact.type == read
+
+      } else {
+        // item.interact.type == question
+
+      }
+
+      // this.line = new Phaser.GameObjects.Text(
+      //   this.scene,
+      //   cameraX+315,
+      //   cameraY+510,
+      //   this.line_text,
+      //   {
+      //     fontFamily: 'NeoDunggeunmo',
+      //     fontSize: '30px',
+      //     color: '#000',
+      //     padding: {
+      //       x: 5,
+      //       y: 5
+      //   }
+      // }).setWordWrapWidth(685)
+      // this.scene.add.existing(this.line).setDepth(20)
   }
 
   destroy() {
@@ -57,7 +101,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
 
   private get line_text() {
     if (this.index < this.dialogue.length) {
-      return this.dialogue[this.index].line
+      return (this.dialogue[this.index].line) ? this.dialogue[this.index].line:this.dialogue[this.index]
     } else {
       // end of dialogue
       return false
@@ -98,7 +142,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
           })
         } else {
           // end of dialogue
-          this.scene.events.emit('end-talking', this, this.npc_id)
+          this.scene.events.emit('end-talking', this)
         }
       }
     }, this)

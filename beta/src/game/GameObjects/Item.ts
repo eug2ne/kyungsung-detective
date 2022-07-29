@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Dialogue from './Dialogue'
 
 export default class Item extends Phaser.GameObjects.Image {
   public readonly id: string
@@ -25,19 +26,24 @@ export default class Item extends Phaser.GameObjects.Image {
   }
 
   create() {
-    this.scene.events.on(`interact-${this.id}`, () => {
+    this.on(`interact-item`, (cameraX: number, cameraY: number) => {
       switch (this.interact.type) {
         case 'get':
           // add to inventory when space-down
           this.scene.events.emit('show-item-text', this)
         
-        case 'question':
-          // show question + options
-          this.scene.events.emit('create-dialogue', this.interact.question)
+        case 'question'||'read':
+          const pass = (this.interact.type == 'question')
+            ? { 'question': this.interact.question }:{ 'dialogue': this.interact.content }
 
-        case 'read':
-          // show content
-          this.scene.events.emit('create-dialogue', this.interact.content, this.interact.to)
+          const dialogue = new Dialogue(this.scene, cameraX, cameraY, pass)
+          dialogue.create()
+
+          this.scene.input.keyboard.on('keydown-SPACE', () => {
+            dialogue.emit('update-line')
+          })
+
+        break
       }
     })
   }

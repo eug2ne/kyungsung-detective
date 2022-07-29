@@ -92,7 +92,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.scene.add.existing(this.item_text).setDepth(15)
     this.item_text.visible = false // add item_text
     this.scene.physics.add.overlap(this.player.interact_area, items, (area: any, item: any) => {
-      this.scene.events.emit(`interact-${item.id}`)
+      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
+      item.emit('item-interact', cameraX, cameraY)
     }) // add overlap callback
 
     // item interact type: get
@@ -123,29 +124,25 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     npcs.forEach((npc: NPC) => {
       npc.create()
     })
-    this.scene.physics.add.overlap(this.player.interact_area, npcs, (area, npc) => {
+    this.scene.physics.add.overlap(this.player.interact_area, npcs, (area, npc: any) => {
       if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
-        this.scene.events.emit('start-talking', npc)
+        this.scene.events.emit('start-talking')
         this.controls.enter.isDown = false
+
+        const dialogueKey = this.config.npc[npc.id]
+        const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
+        npc.emit('start-talking', 'pre_c_repeat', cameraX, cameraY)
       }
     }) // overlap-talk event
-    this.scene.events.on('start-talking', (npc: NPC) => {
+    this.scene.events.on('start-talking', () => {
       this.minimap.visible = false // remove minimap
-      npc.anims.pause() // pause npc anim
       this.controls.cursor.down.enabled = false
       this.controls.cursor.left.enabled = false
       this.controls.cursor.right.enabled = false 
       this.controls.cursor.up.enabled = false // cursor disable
-
-      // create dialogue using player_config
-      const dialogueKey = this.config.npc[npc.id]
-      this.scene.events.emit('create-dialogue', npc, dialogueKey)
     })
-    this.scene.events.on('end-talking', (dialogue: Dialogue, npc_id: string) => {
+    this.scene.events.on('end-talking', (dialogue: Dialogue) => {
       this.minimap.visible = true // add minimap
-      npcs.find((npc: NPC) => {
-        return npc.id == npc_id
-      })?.anims.restart() // restart npc anim
       this.controls.cursor.down.enabled = true
       this.controls.cursor.left.enabled = true
       this.controls.cursor.right.enabled = true 
@@ -155,26 +152,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     })
     
     this.scene.physics.add.collider(this.player, npcs)
-
-    // create dialogue func.
-    this.scene.events.on('create-dialogue', (npc: NPC, key: string) => {
-      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-      
-      const dialogue = new Dialogue(this.scene, cameraX, cameraY, npc.dialogue[key], npc.id)
-      dialogue.create()
-      
-      this.scene.input.keyboard.on('keydown-SPACE', () => {
-        dialogue.emit('update-line')
-      })
-
-      if (key == 'clue') {
-        // update player_config
-        this.player_config.scenes[this.player_config.p_scene.sceneKey].npc[npc.id] = 'post_c_repeat'
-        // add clue to user data
-        addClue(npc.clue)
-      }
-    })
-    
   }
 
   update(items: [ Item ], npcs: [ NPC ]) {

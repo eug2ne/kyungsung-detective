@@ -130,12 +130,10 @@ const npcs_JSON = [
     },
     "question": {
       /* always show question before dialogue */ "default": {
-        "question": [
-          {
+        "question": {
             "image": "maid_neutral",
             "line": "아직 여독이 가시지 않아 피곤하실텐데 오늘은 쉬시는게 어떤가요?"
-          } 
-        ],
+        },
         "options": [
           {
             "answer": "그럴까?",
@@ -269,6 +267,7 @@ export default class Breakfast extends Phaser.Scene {
   }
 
   create() {
+    console.log(this.textures.exists('maid_neutral'))
     this.physics.world.setBounds(150,100, 628,446)
     this.cameras.main.setBounds(0, 0, 2800/3, 1981/3).setName('main')
 

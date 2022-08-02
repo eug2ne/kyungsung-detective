@@ -68,10 +68,6 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
       const dialogue = new Dialogue(this.scene, cameraX, cameraY, _dialogue, this.question)
       dialogue.create()
 
-      this.scene.input.keyboard.on('keydown-SPACE', () => {
-        dialogue.emit('update-line')
-      })
-
       if (key == 'clue'||key == 'answer') {
         // update user_ config
         this.scene.events.emit('update-userconfig', this.id, `post_${key[0]}_repeat`)

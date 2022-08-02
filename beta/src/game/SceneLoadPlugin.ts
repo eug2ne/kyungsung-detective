@@ -52,11 +52,11 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
   create(colliders: [ Phaser.Physics.Arcade.StaticGroup ], items: [ Item ], npcs: [ NPC ]) {
     // create minimap
-    this.minimap = this.scene.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.065).setName('mini');
+    this.minimap = this.scene.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.25).setName('mini');
 
     this.minimap.setBackgroundColor(0xaca2a0)
-    this.minimap.scrollX = 1306
-    this.minimap.scrollY = 925
+    this.minimap.scrollX = 400
+    this.minimap.scrollY = 300
 
     // create controls
     this.controls = {

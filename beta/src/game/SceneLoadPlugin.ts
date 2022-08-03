@@ -5,11 +5,10 @@ import NPC from './GameObjects/NPC'
 import Item from './GameObjects/Item'
 import sami from './assets/sami_sprite/sami_frame1.png'
 import Dialogue from './GameObjects/Dialogue'
-import { addClue } from './library.js'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private player_config: { scenes: any,
-    p_scene: {sceneKey: string, x: number, y: number},
+    p_scene: { sceneKey: string, x: number, y: number },
     item_carry: [ Item ] }
   private config: any
   private player: Player

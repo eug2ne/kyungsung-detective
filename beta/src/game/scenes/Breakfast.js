@@ -4,7 +4,6 @@ import Phaser from "phaser"
 import Item from "../GameObjects/Item"
 import NPC from "../GameObjects/NPC"
 import kitchen from '../assets/breakfast/식당.png'
-import kitchen_resize from '../assets/breakfast/kitchen.png'
 import wallfloor from '../assets/breakfast/벽+바닥.png'
 import cupboard from '../assets/breakfast/선반.png'
 import sink from '../assets/breakfast/싱크대.png'

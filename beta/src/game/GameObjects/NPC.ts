@@ -76,7 +76,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
 
     // end-talking event
     this.scene.events.on('end-talking', () => {
-      // restart npc enim
+      // resume npc anims
       this.anims.resume()
     })
   }

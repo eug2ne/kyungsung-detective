@@ -1,13 +1,14 @@
 import Phaser from 'phaser'
 import { auth, db } from '../firestoreDB.js'
 import {
-	setDoc,
+	updateDoc,
 	doc,
 	getDoc,
 	collection
 } from 'firebase/firestore'
 import { arrayUnion } from 'firebase/firestore'
 import Item from './GameObjects/Item'
+import Stage from './stages/Stage'
 
 export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 {
@@ -34,58 +35,48 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 	{
 		const uid = this.auth.currentUser.uid
 
-    const SceneRef = collection(this.firestore, 'Users/Scene/Scene')
-    const user_SceneRef = doc(SceneRef, uid)
+    const UsersRef = collection(this.firestore, 'Users')
+    const user_UsersRef = doc(UsersRef, uid)
 
-		await setDoc(user_SceneRef, player_config) // update player config
+		await updateDoc(user_UsersRef, {
+			Stage: {
+
+			}
+		}) // update player config
 		for (let index in inventory) {
 			console.log(inventory[index])
-			await setDoc(user_SceneRef, {
+			await updateDoc(user_UsersRef, {
 				inventory: arrayUnion(inventory[index])
 			})
 		} // update inventory
 	}
 
-	async loadGameData()
+	async loadGameData(stage: Stage)
 	{
 		// get current user.uid
 		const uid = this.auth.currentUser.uid
-    // load user scene-data from /Users/Scene
-    const SceneRef = collection(this.firestore, 'Users/Scene/Scene')
-    const user_SceneRef = doc(SceneRef, uid)
-    const user_SceneSnap = await getDoc(user_SceneRef)
+    // load user scene-data from /Users
+    const UsersRef = collection(this.firestore, 'Users')
+    const user_UsersRef = doc(UsersRef, uid)
+    const user_UsersSnap = await getDoc(user_UsersRef)
 
-    if (user_SceneSnap.exists()) {
-      // if user scene-data already exist, load data from db
-      return user_SceneSnap.data()
+		stage.player_config = user_UsersSnap.data().Stage
+
+    if (user_UsersSnap.data().Stage.key == stage.key) {
+      // if user stage-data already exist, load data from db
+      return user_UsersSnap.data().Stage
     } else {
       // else, create new scene-data for user
-			console.log('create user data')
-      setDoc(user_SceneRef, {
-        p_scene: {'sceneKey': 'Test1_Scene', x: 600, y: 900}, /* present scene */
-				scenes: {
-					'Test1_Scene':
-					{'npc': {'test1npc-0':'pre_c_repeat', 'test1npc-1':'clue'},
-					'item': ['test1-0', 'test1-1', 'test1-2']},
-					'Village_Scene':
-					{'npc': null,
-					'item': []}
-				}, /* connected scenes (default config) */
-				item_carry: []
+      updateDoc(user_UsersRef, {
+				Stage: {
+					item_carry: [],
+					key: stage.key,
+					p_scene: stage.default_config.p_scene,
+					scenes: stage.default_config.scenes
+				},
       }) // default player_config
 
-      return {
-        p_scene: {'sceneKey': 'Test1_Scene', x: 600, y: 900}, /* present scene */
-				scenes: {
-					'Test1_Scene':
-					{'npc': {'test1npc-0':'pre_c_repeat', 'test1npc-1':'clue'},
-					'item': ['test1-0', 'test1-1', 'test1-2']},
-					'Village_Scene':
-					{'npc': null,
-					'item': []}
-				}, /* connected scenes (default config) */
-				item_carry: []
-      }
+      return stage.default_config
     }
 	}
 }

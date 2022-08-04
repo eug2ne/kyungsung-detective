@@ -13,6 +13,8 @@ export default class Item extends Phaser.GameObjects.Image {
     x: number,
     y: number,
     name: string,
+    scale: number,
+    depth: number,
     texture: string,
     interact: any
   ) {
@@ -21,7 +23,7 @@ export default class Item extends Phaser.GameObjects.Image {
     this.name = name
     this.id = id
     this.interact = interact
-    scene.add.existing(this).setScale(0.1)
+    scene.add.existing(this).setScale(scale).setDepth(depth)
     scene.physics.add.existing(this, true)
   }
 

@@ -31,7 +31,7 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 		super.destroy()
 	}
 
-	async saveGameData(player_config: any, inventory: [ Item ])
+	async saveGameData(stage: Stage, inventory: [ Item? ])
 	{
 		const uid = this.auth.currentUser.uid
 
@@ -39,14 +39,12 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
     const user_UsersRef = doc(UsersRef, uid)
 
 		await updateDoc(user_UsersRef, {
-			Stage: {
-
-			}
+			Stage: stage
 		}) // update player config
+		
 		for (let index in inventory) {
-			console.log(inventory[index])
 			await updateDoc(user_UsersRef, {
-				inventory: arrayUnion(inventory[index])
+				Inventory: arrayUnion(inventory[index])
 			})
 		} // update inventory
 	}
@@ -55,18 +53,17 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 	{
 		// get current user.uid
 		const uid = this.auth.currentUser.uid
-    // load user scene-data from /Users
+    // load user stage-data from /Users
     const UsersRef = collection(this.firestore, 'Users')
     const user_UsersRef = doc(UsersRef, uid)
     const user_UsersSnap = await getDoc(user_UsersRef)
 
 		stage.player_config = user_UsersSnap.data().Stage
+			// if stage-data already on user db, load stage-data from db
+			// else, stage-data == stage.default_config
 
     if (user_UsersSnap.data().Stage.key == stage.key) {
-      // if user stage-data already exist, load data from db
-      return user_UsersSnap.data().Stage
-    } else {
-      // else, create new scene-data for user
+      // if stage-date do not exist on db, update user-info
       updateDoc(user_UsersRef, {
 				Stage: {
 					item_carry: [],
@@ -74,9 +71,7 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 					p_scene: stage.default_config.p_scene,
 					scenes: stage.default_config.scenes
 				},
-      }) // default player_config
-
-      return stage.default_config
+      }) // default_config
     }
 	}
 }

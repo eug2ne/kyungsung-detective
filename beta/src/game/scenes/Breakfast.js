@@ -168,8 +168,10 @@ const items_JSON = [
   {
     "name": "newspaper",
     "id": "breakfast_item0",
-    "x": 100,
-    "y": 100,
+    "x": 560,
+    "y": 400,
+    "scale": 0.25,
+    "depth": 15,
     "texture": "newspaper",
     "interact": {
       "type": "read",
@@ -201,8 +203,10 @@ const items_JSON = [
   {
     "name": "b_meal",
     "id": "breakfast_item1",
-    "x": 300,
-    "y": 300,
+    "x": 460,
+    "y": 425,
+    "scale": 0.25,
+    "depth": 15,
     "texture": "b_meal",
     "interact": {
       "type": "question",
@@ -266,7 +270,6 @@ export default class Breakfast extends Phaser.Scene {
   }
 
   create() {
-    console.log(this.textures.exists('maid_neutral'))
     this.physics.world.setBounds(150,100, 628,446)
     this.cameras.main.setBounds(0, 0, 2800/3, 1981/3).setName('main')
 
@@ -308,6 +311,8 @@ export default class Breakfast extends Phaser.Scene {
         item.x,
         item.y,
         item.name,
+        item.scale,
+        item.depth,
         item.texture,
         item.interact
       ))
@@ -331,11 +336,6 @@ export default class Breakfast extends Phaser.Scene {
 
     const colliders = [ cupboard, sink, glasscloset, table, closet_l, closet_r ]
     this.sceneload.create(colliders, this.items, this.npcs)
-
-    // update npc.dialogueKey when interact with item
-    this.events.on('interact', (item) => {
-
-    })
   }
 
   update() {

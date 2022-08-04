@@ -41,13 +41,13 @@ export const addClue = async (Clue) => {
 
   // add clue to story
   try {
-    const cluelist = userSnap.data().clues[Clue.story]
+    const cluelist = userSnap.data().Clues[Clue.story]
     const set = {}
     cluelist.append(Clue)
     set[Clue.story] = cluelist
     
     await updateDoc(userRef, {
-      clues: set
+      Clues: set
     })
   } catch {
     // story not exist in user data

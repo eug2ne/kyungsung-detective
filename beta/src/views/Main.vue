@@ -30,7 +30,6 @@
       </ul>
       <div class="invisible-box" />
     </nav>
-    <Game v-show="show_Game"/>
     <router-view/>
   </div>
 </template>

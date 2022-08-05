@@ -28,7 +28,8 @@ export default class Item extends Phaser.GameObjects.Image {
   }
 
   create() {
-    this.on(`interact-item`, (cameraX: number, cameraY: number) => {
+    this.on('interact-item', (cameraX: number, cameraY: number) => {
+      console.log('item interact')
       switch (this.interact.type) {
         case 'get':
           // add to inventory when space-down

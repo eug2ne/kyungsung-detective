@@ -15,21 +15,19 @@ export default {
       containerId: 'game-container'
     }
   },
-  created() {
-    // save game data when page closed
-    window.addEventListener('beforeunload', () => {
-      this.gameInstance.destroy()
-    })
-  },
-  async mounted() {
+  mounted() {
     this.downloaded = true
     this.$nextTick(() => {
       this.gameInstance = new game(this.containerId)
-      // this.gameInstance == Phaser.Game
+      // this.gameInstance: Phaser.Game
     })
     this.$nextTick(() => {
       this.gameInstance.create()
     })
+  },
+  async beforeUnmount() {
+    console.log('before unmount')
+    await this.gameInstance.destroy() 
   }
 }
 </script>

@@ -45,16 +45,16 @@ export default class game extends Phaser.Game {
 
   async destroy() {
     // update p_scene config
-    const player_config = this.scene.getScene(this.player_config.sceneKey).sceneload.player_config
+    const player_config = this.scene.getScene(this.stage.player_config.sceneKey).sceneload.player_config
     this.stage.item_carry = player_config.item_carry
     this.stage.p_scene.sceneKey = player_config.sceneKey
     this.stage.p_scene.x = player_config.x
     this.stage.p_scene.y = player_config.y
-    this.stage.scenes[player_config.sceneKey] = player_config.scene_config
+    this.stage.scenes_config[player_config.sceneKey] = player_config.scene_config
 
     const firestore = this.plugins.get('FirebasePlugin')
     // save player_config + inventory to db
-    firestore.saveGameData(this.stage, player_config.inventory)
+    await firestore.saveGameData(this.stage, player_config.inventory)
     super.destroy()
   }
 

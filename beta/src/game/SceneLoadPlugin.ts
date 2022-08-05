@@ -25,6 +25,15 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     strokeThickness: 6,
     color: '#fff'
   })
+  private keyboard_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene, 0, 0,
+    '방향키:이동   Enter:상호작용   Space:대사 건너뛰기',
+    {
+      fontFamily: 'NeoDunggeunmo',
+      fontSize: '20px',
+      stroke: '#fff',
+      strokeThickness: 5,
+      color: '#000'
+    })
   private readonly inventory: [ Item? ]
 
   constructor(scene: Phaser.Scene, manager: Phaser.Plugins.PluginManager, key: string) {
@@ -47,13 +56,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     }
   }
 
-  // this._player_config = {
-  //   'sceneKey': sceneKey,
-  //   'x': value.p_scene.x,
-  //   'y': value.p_scene.y,
-  //   'item_carry': value.item_carry,
-  //   'scene_config': value.scenes[sceneKey]
-  // }
+  
   init(player_config: {
     sceneKey: string,
     x: number,
@@ -72,13 +75,22 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   }
 
   create(colliders: [ Phaser.Physics.Arcade.StaticGroup ], items: [ Item ], npcs: [ NPC ]) {
+    this.scene.cameras.main
+      .setBounds(0, 0, 2800, 1981)
+      .setSize(2800/3, 1981/3)
+      .setZoom(1)
+      .setName('main')
+    
     // create minimap
-    this.minimap = this.scene.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.25).setName('mini');
+    this.minimap = this.scene.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.25).setName('mini')
 
     this.minimap.setBackgroundColor(0xaca2a0)
     this.minimap.scrollX = 400
     this.minimap.scrollY = 300
+    this.minimap.ignore([ this.item_text, this.keyboard_text ]) // item_text, keyboard_text invisible in minimap
 
+    // add keyboard_text to scene
+    this.scene.add.existing(this.keyboard_text).setDepth(30)
     // create controls
     this.controls = {
       cursor: this.scene.input.keyboard.createCursorKeys(),
@@ -96,6 +108,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this._player_config.item_carry
     )
     this.player.create()
+    this.minimap.startFollow(this.player) // minimap follow player
     colliders.forEach(collider => {
       this.scene.physics.add.collider(this.player, collider)
     }) // add collider physics on player
@@ -120,8 +133,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.scene.events.on('show-item-text', (item: Item) => {
       const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
       
-      const textX = cameraX + 220
-      const textY = cameraY + 530
+      const textX = cameraX + 260
+      const textY = cameraY + 200
 
       this.item_text.setPosition(textX, textY)
 
@@ -177,6 +190,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   update(items: [ Item ], npcs: [ NPC ]) {
     // update item_text.visible
     this.item_text.visible = this.scene.physics.overlap(this.player.interact_area, items) ? true:false
+
+    // update keyboard_text.x,y
+    const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
+    this.keyboard_text.setPosition(cameraX + 410, cameraY + 10)
 
     // set controls
     this.player.setVelocity(0)

@@ -4,9 +4,9 @@ import {
 	updateDoc,
 	doc,
 	getDoc,
-	collection
+	collection,
+	arrayUnion
 } from 'firebase/firestore'
-import { arrayUnion } from 'firebase/firestore'
 import Item from './GameObjects/Item'
 import Stage from './stages/Stage'
 
@@ -39,14 +39,18 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
     const user_UsersRef = doc(UsersRef, uid)
 
 		await updateDoc(user_UsersRef, {
-			Stage: stage
+			Stage: {
+				key: stage.key,
+				p_scene: stage.p_scene,
+				scenes: stage.scenes_config
+			}
 		}) // update player config
 		
-		for (let index in inventory) {
-			await updateDoc(user_UsersRef, {
-				Inventory: arrayUnion(inventory[index])
-			})
-		} // update inventory
+		// inventory.forEach( async (item?: Item) => {
+		// 	await updateDoc(user_UsersRef, {
+		// 		Inventory: arrayUnion(item)
+		// 	})
+		// }) // update inventory
 	}
 
 	async loadGameData(stage: Stage)

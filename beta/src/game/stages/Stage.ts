@@ -6,6 +6,11 @@ interface StageInterface {
   player_config: any,
   scenes: [ Phaser.Scene ] /* [ Scene ] */,
   scenes_config: any /* { scene_key: scene_config } */,
+  p_scene: {
+    sceneKey: string,
+    x: number,
+    y: number
+  },
   default_config: {
     p_scene: { sceneKey: string, x: number, y: number },
     scenes: any /* { scene_key: scene_config } */
@@ -16,6 +21,7 @@ interface StageInterface {
 
 export default class Stage implements StageInterface {
   public key: string
+  public item_carry: [ Item? ]
   private _player_config: {
     sceneKey: string,
     x: number,
@@ -25,6 +31,11 @@ export default class Stage implements StageInterface {
   }|null
   public scenes: [ Phaser.Scene ]
   public scenes_config: any /* { scene_key: scene_config, ... } */
+  public p_scene: {
+    sceneKey: string,
+    x: number,
+    y: number
+  } = { sceneKey: '', x: 0, y: 0}
   public default_config: {
     p_scene: { sceneKey: string, x: number, y: number },
     scenes: any /* { scene_key: scene_config } */
@@ -43,7 +54,7 @@ export default class Stage implements StageInterface {
   }
 
   public set player_config(value: any) {
-    if (!value||value.key == this.key) {
+    if (!value||value.key != this.key) {
       // stage_info not existing in user db
       // set default_config as player_config
       const sceneKey = this.default_config.p_scene.sceneKey
@@ -54,6 +65,7 @@ export default class Stage implements StageInterface {
         'item_carry': [],
         'scene_config': this.default_config.scenes[sceneKey]
       }
+      this.scenes_config = this.default_config.scenes
     } else {
       // set value as player_config
       const sceneKey = value.p_scene.sceneKey
@@ -64,6 +76,7 @@ export default class Stage implements StageInterface {
         'item_carry': value.item_carry,
         'scene_config': value.scenes[sceneKey]
       }
+      this.scenes_config = value.scenes_config
     }
   }
 

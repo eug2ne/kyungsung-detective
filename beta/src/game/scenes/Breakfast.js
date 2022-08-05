@@ -271,7 +271,7 @@ export default class Breakfast extends Phaser.Scene {
 
   create() {
     this.physics.world.setBounds(150,100, 628,446)
-    this.cameras.main.setBounds(0, 0, 2800/3, 1981/3).setName('main')
+    // this.cameras.main.setBounds(0, 0, 2800/3, 1981/3).setName('main')
 
     this.add.image(150, 100, 'wallfloor').setOrigin(0, 0).setScale(2)
 

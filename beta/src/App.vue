@@ -12,7 +12,7 @@ export default {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // login success
-        this.$router.replace('Map')
+        this.$router.replace('Game')
       } else {
         // before login
       }

@@ -46,11 +46,11 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 			}
 		}) // update player config
 		
-		// inventory.forEach( async (item?: Item) => {
-		// 	await updateDoc(user_UsersRef, {
-		// 		Inventory: arrayUnion(item)
-		// 	})
-		// }) // update inventory
+		inventory.forEach( async (item?: Item) => {
+			await updateDoc(user_UsersRef, {
+				Inventory: arrayUnion(item)
+			})
+		}) // update inventory
 	}
 
 	async loadGameData(stage: Stage)

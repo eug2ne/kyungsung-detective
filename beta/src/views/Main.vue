@@ -8,7 +8,7 @@
       <div class="between-box" />
       <ul class="navbar">
         <li>
-          <router-link :to="{ name: 'Map' }">
+          <router-link :to="{ name: 'Game' }">
             <p class="pixel-borders--2">맵</p>
           </router-link>
         </li>
@@ -30,6 +30,7 @@
       </ul>
       <div class="invisible-box" />
     </nav>
+    <Game v-show="this.show_Game"/>
     <router-view/>
   </div>
 </template>
@@ -42,7 +43,7 @@ export default {
   components: { Game },
   computed: {
     show_Game() {
-      if (this.$route.path == '/Map') {
+      if (this.$route.path == '/Game') {
         return true
       } else {
         return false

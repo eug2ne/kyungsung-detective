@@ -28,24 +28,31 @@ export default class Item extends Phaser.GameObjects.Image {
   }
 
   create() {
-    this.on('interact-item', (cameraX: number, cameraY: number) => {
-      console.log('item interact')
+    // this.on('item-touch', (cameraX: number, cameraY: number, item_text: Phaser.GameObjects.Text) => {
+    //   console.log('item touch')
+    //   // if (this.interact.type != 'get') return
+
+    //   // show item_text if user overlap with item + item.interact.type == get
+    //   item_text.setPosition(cameraX + 260, cameraY + 200)
+    //   item_text.visible = true
+    // })
+
+    this.on('item-interact', (cameraX: number, cameraY: number) => {
+      let dialogue: Dialogue|null = null
       switch (this.interact.type) {
         case 'get':
-          // add to inventory when space-down
-          this.scene.events.emit('show-item-text', this)
+          // add to inventory
+          this.scene.events.emit('add-to-inventory', this)
+        break
         
-        case 'question'||'read':
-          const pass = (this.interact.type == 'question')
-            ? { 'question': this.interact.question }:{ 'dialogue': this.interact.content }
-
-          const dialogue = new Dialogue(this.scene, cameraX, cameraY, pass)
+        case 'question':
+          dialogue = new Dialogue(this.scene, cameraX, cameraY, [], this.interact.question)
           dialogue.create()
+        break
 
-          this.scene.input.keyboard.on('keydown-SPACE', () => {
-            dialogue.emit('update-line')
-          })
-
+        case 'read':
+          dialogue = new Dialogue(this.scene, cameraX, cameraY, this.interact.content, {})
+          dialogue.create()
         break
       }
     })

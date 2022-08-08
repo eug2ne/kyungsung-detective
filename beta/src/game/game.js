@@ -45,6 +45,7 @@ export default class game extends Phaser.Game {
 
   async destroy() {
     // update p_scene config
+    console.log('game destroy')
     const player_config = this.scene.getScene(this.stage.player_config.sceneKey).sceneload.player_config
     this.stage.item_carry = player_config.item_carry
     this.stage.p_scene.sceneKey = player_config.sceneKey

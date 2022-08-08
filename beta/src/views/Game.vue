@@ -15,6 +15,11 @@ export default {
       containerId: 'game-container'
     }
   },
+  created() {
+    window.addEventListener('beforeunload', () => {
+      this.gameInstance.destroy()
+    })
+  },
   mounted() {
     this.downloaded = true
     this.$nextTick(() => {
@@ -25,10 +30,11 @@ export default {
       this.gameInstance.create()
     })
   },
-  async beforeUnmount() {
-    console.log('before unmount')
-    await this.gameInstance.destroy() 
-  }
+  // beforeUnmount() {
+  //   this.$nextTick(async () => {
+  //     await this.gameInstance.destroy()
+  //   })
+  // }
 }
 </script>
 

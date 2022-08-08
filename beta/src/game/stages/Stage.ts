@@ -76,7 +76,7 @@ export default class Stage implements StageInterface {
         'item_carry': value.item_carry,
         'scene_config': value.scenes[sceneKey]
       }
-      this.scenes_config = value.scenes_config
+      this.scenes_config = value.scenes
     }
   }
 

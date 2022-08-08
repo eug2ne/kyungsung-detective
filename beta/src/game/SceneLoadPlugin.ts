@@ -18,9 +18,9 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private player: Player
   private minimap: Phaser.Cameras.Scene2D.Camera
   private controls: { cursor: any, space: Phaser.Input.Keyboard.Key, enter: Phaser.Input.Keyboard.Key }
-  private item_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene, 0, 0, '스페이스를 눌러 아이템을 얻으시오', {
+  private item_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene, 0, 0, '엔터를 눌러 아이템 얻기', {
     fontFamily: 'NeoDunggeunmo',
-    fontSize: '35px',
+    fontSize: '20px',
     stroke: '#000',
     strokeThickness: 6,
     color: '#fff'
@@ -114,35 +114,28 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     }) // add collider physics on player
 
     // show item on scene according to scene-config
-    // items.forEach((item: Item) => {
-    //   if (item.id in this.config.item) {
-    //     // pass
-    //   } else {
-    //     item.destroy()
-    //   }
-    // })
+    items.forEach((item: Item) => {
+      if (_.includes(this.config.item, item.id)) {
+        // pass
+        item.create()
+      } else {
+        item.destroy()
+      }
+    })
     this.scene.physics.add.collider(this.player, items) // add collider
     this.scene.add.existing(this.item_text).setDepth(15)
     this.item_text.visible = false // add item_text
     this.scene.physics.add.overlap(this.player.interact_area, items, (area: any, item: any) => {
-      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-      item.emit('item-interact', cameraX, cameraY)
+      // item-interact event
+      if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
+        this.controls.enter.isDown = false
+        
+        const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
+        item.emit('item-interact', cameraX, cameraY)
+      }
     }) // add overlap callback
 
     // item interact type: get
-    this.scene.events.on('show-item-text', (item: Item) => {
-      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-      
-      const textX = cameraX + 260
-      const textY = cameraY + 200
-
-      this.item_text.setPosition(textX, textY)
-
-      if (Phaser.Input.Keyboard.JustDown(this.controls.space)||Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
-        // add item to inventory
-        this.scene.events.emit('add-to-inventory', item)
-      }
-    })
     this.scene.events.on('add-to-inventory', (item: Item) => {
       // add item to inventory
       this.inventory.push(item)
@@ -164,7 +157,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
         const dialogueKey = this.config.npc[npc.id]
         const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-        npc.emit('start-talking', 'pre_c_repeat', cameraX, cameraY)
+        npc.emit('start-talking', dialogueKey, cameraX, cameraY)
       }
     }) // overlap-talk event
     this.scene.events.on('start-talking', () => {
@@ -188,9 +181,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   }
 
   update(items: [ Item ], npcs: [ NPC ]) {
-    // update item_text.visible
-    this.item_text.visible = this.scene.physics.overlap(this.player.interact_area, items) ? true:false
-
     // update keyboard_text.x,y
     const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
     this.keyboard_text.setPosition(cameraX + 410, cameraY + 10)

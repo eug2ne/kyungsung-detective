@@ -68,29 +68,12 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
   }
 
   private get line_text() {
-    // if (this.index >= this.dialogue.length) {
-    //   // end of dialogue
-    //   return false
-    // } else {
-    //   // update dialogue
-    //   if (this.dialogue[this.index].to) {
-    //     // shift from dialogue to question
-    //     this.dialogue[this.index] = this.question[this.dialogue[this.index].to]
-    //   } else if ((!this.dialogue[this.index])&&this.question) {
-    //     // item-interact event: question
-    //     this.dialogue[this.index] = this.question
-    //   }
-
-    //   // return line_text
-    //   if (this.dialogue[this.index].question) {
-    //     return this.dialogue[this.index].question.line
-    //   } else {
-    //     return (this.dialogue[this.index].line) ? this.dialogue[this.index].line:this.dialogue[this.index]
-    //   }
-    // }
-
-    return (this.dialogue[this.index].question)
-      ? this.dialogue[this.index].question.line:this.dialogue[this.index].line
+    if (this.dialogue[this.index].question) {
+      return this.dialogue[this.index].question.line
+    } else {
+      return (this.dialogue[this.index].line) ?
+        this.dialogue[this.index].line : this.dialogue[this.index]
+    }
   }
 
   private get texture() {
@@ -99,12 +82,12 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
       return false
     } else {
       // update dialogue
-      if (this.dialogue[this.index].to) {
-        // shift from dialogue to question
-        this.dialogue[this.index] = this.question[this.dialogue[this.index].to]
-      } else if ((!this.dialogue[this.index])&&this.question) {
+      if ((!this.dialogue[this.index])&&this.question) {
         // item-interact event: question
         this.dialogue[this.index] = this.question
+      } else if (this.dialogue[this.index].to) {
+        // shift from dialogue to question
+        this.dialogue[this.index] = this.question[this.dialogue[this.index].to]
       }
 
       // return image-key
@@ -199,6 +182,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
             }) // destroy options
             this.options = [] // reset this.options
 
+            writing = true
             this.emit('update-line') // this.index++
           } else {
             // update user-config according to value
@@ -209,83 +193,97 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
           }
         })
       })
+    } else {
+      new Phaser.Input.Keyboard.Key(this.scene.input.keyboard, Phaser.Input.Keyboard.KeyCodes.SPACE).isDown = false
+      this.scene.input.keyboard.on('keydown-SPACE', () => {
+        this.emit('update-line')
+      })
     }
 
     this.on('update-line', () => {
-      this.index++
-
-      if (!this.texture) {
-        // end of dialogue
-        this.scene.events.emit('end-talking', this)
-      } else if (this.dialogue[this.index].question) {
-        // disable update-line event
-        this.scene.input.keyboard.off('keydown-SPACE')
-        // create question
+      console.log(writing)
+      if (!writing) {
+        // auto-completion
         renderTextImage()
-
-        // create options
-        this.dialogue[this.index].options.forEach((option: any, index: number) => {
-          this.options.push(new Phaser.GameObjects.Text(
-            this.scene,
-            this.line_x,
-            this.line_y+this.line.height+10+35*index,
-            `>> ${option.answer}`,
-            {
-              fontFamily: 'NeoDunggeunmo',
-              fontSize: '25px',
-              color: '#000',
-              padding: {
-                x: 5,
-                y: 5
-              }
-            }
-            )
-            .setData('to', option.to)
-            .setInteractive()
-            .setWordWrapWidth(685)
-          )
-        })
-        this.options.forEach((option: any) => {
-          this.scene.add.existing(option).setDepth(20)
-          // mouse over/out event
-          option.on('pointerover', () => {
-            option.setBackgroundColor('#c0c6ce')
-          })
-          option.on('pointerout', () => {
-            option.setBackgroundColor(null)
-          })
-      
-          // mouse click event
-          option.on('pointerdown', () => {
-            if (!option.data.values.to) {
-              // end of question/dialogue
-              this.scene.events.emit('end-talking', this)
-            } else if (option.data.values.to == 'dialogue') {
-              // continue to dialogue
-              this.options.forEach((option: any) => {
-                option.destroy()
-              }) // destroy options
-              this.options = [] // reset this.options
-  
-              this.emit('update-line') // this.index++
-            } else {
-              // update user-config according to value
-              this.scene.events.emit(`to-${option.data.values.to}`)
-
-              // end of question/dialogue
-              this.scene.events.emit('end-talking', this)
-            }
-          })
-        })
       } else {
-        // set update-line event
-        this.scene.input.keyboard.on('keydown-SPACE', () => {
-          this.emit('update-line')
-        })
+        // update-line
+        this.index++
+        writing = true
 
-        // create dialogue
-        renderTextImage()
-      }
+        if (!this.texture) {
+          // end of dialogue
+          this.scene.events.emit('end-talking', this)
+        } else if (this.dialogue[this.index].question) {
+          // disable update-line event
+          this.scene.input.keyboard.off('keydown-SPACE')
+          // create question
+          renderTextImage()
+
+          // create options
+          this.dialogue[this.index].options.forEach((option: any, index: number) => {
+            this.options.push(new Phaser.GameObjects.Text(
+              this.scene,
+              this.line_x,
+              this.line_y+this.line.height+10+35*index,
+              `>> ${option.answer}`,
+              {
+                fontFamily: 'NeoDunggeunmo',
+                fontSize: '25px',
+                color: '#000',
+                padding: {
+                  x: 5,
+                  y: 5
+                }
+              }
+              )
+              .setData('to', option.to)
+              .setInteractive()
+              .setWordWrapWidth(685)
+            )
+          })
+          this.options.forEach((option: any) => {
+            this.scene.add.existing(option).setDepth(20)
+            // mouse over/out event
+            option.on('pointerover', () => {
+              option.setBackgroundColor('#c0c6ce')
+            })
+            option.on('pointerout', () => {
+              option.setBackgroundColor(null)
+            })
+        
+            // mouse click event
+            option.on('pointerdown', () => {
+              if (!option.data.values.to) {
+                // end of question/dialogue
+                this.scene.events.emit('end-talking', this)
+              } else if (option.data.values.to == 'dialogue') {
+                // continue to dialogue
+                this.options.forEach((option: any) => {
+                  option.destroy()
+                }) // destroy options
+                this.options = [] // reset this.options
+    
+                this.emit('update-line') // this.index++
+              } else {
+                // update user-config according to value
+                this.scene.events.emit(`to-${option.data.values.to}`)
+
+                // end of question/dialogue
+                this.scene.events.emit('end-talking', this)
+              }
+            })
+          })
+        } else {
+          // set update-line event
+          new Phaser.Input.Keyboard.Key(this.scene.input.keyboard, Phaser.Input.Keyboard.KeyCodes.SPACE).isDown = false
+          this.scene.input.keyboard.on('keydown-SPACE', () => {
+            this.emit('update-line')
+          })
+
+          // create line + image
+          renderTextImage()
+        }
+        }
     }, this)
   }
 }

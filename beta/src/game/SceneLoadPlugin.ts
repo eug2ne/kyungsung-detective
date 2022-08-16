@@ -17,7 +17,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private config: any
   private player: Player
   private minimap: Phaser.Cameras.Scene2D.Camera
-  private controls: { cursor: any, space: Phaser.Input.Keyboard.Key, enter: Phaser.Input.Keyboard.Key }
+  private controls: { cursor: any, enter: Phaser.Input.Keyboard.Key } = {
+    cursor: this.scene.input.keyboard.createCursorKeys(),
+    enter: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER, true, false)
+  }
   private item_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene, 0, 0, '엔터를 눌러 아이템 얻기', {
     fontFamily: 'NeoDunggeunmo',
     fontSize: '20px',
@@ -91,12 +94,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     // add keyboard_text to scene
     this.scene.add.existing(this.keyboard_text).setDepth(30)
-    // create controls
-    this.controls = {
-      cursor: this.scene.input.keyboard.createCursorKeys(),
-      space: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE, true, false),
-      enter: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER, true, false)
-    }
     this.scene.input.keyboard.addCapture([this.controls.cursor, 'ENTER', 'SPACE']) // prevent event propagation
 
     // create player on scene
@@ -108,6 +105,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this._player_config.item_carry
     )
     this.player.create()
+    this.player.setCollideWorldBounds(true) // set player world bound
     this.minimap.startFollow(this.player) // minimap follow player
     colliders.forEach(collider => {
       this.scene.physics.add.collider(this.player, collider)
@@ -167,14 +165,14 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.controls.cursor.right.enabled = false 
       this.controls.cursor.up.enabled = false // cursor disable
     })
-    this.scene.events.on('end-talking', (dialogue: Dialogue) => {
+    this.scene.events.on('end-talking', (dialogue?: Dialogue) => {
       this.minimap.visible = true // add minimap
       this.controls.cursor.down.enabled = true
       this.controls.cursor.left.enabled = true
       this.controls.cursor.right.enabled = true 
       this.controls.cursor.up.enabled = true // cursor enable
 
-      dialogue.destroy()
+      dialogue?.destroy()
     })
     
     this.scene.physics.add.collider(this.player, npcs)

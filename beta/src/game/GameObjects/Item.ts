@@ -48,11 +48,13 @@ export default class Item extends Phaser.GameObjects.Image {
         case 'question':
           dialogue = new Dialogue(this.scene, cameraX, cameraY, [], this.interact.question)
           dialogue.create()
+          this.scene.events.emit('start-talking')
         break
 
         case 'read':
           dialogue = new Dialogue(this.scene, cameraX, cameraY, this.interact.content, {})
           dialogue.create()
+          this.scene.events.emit('start-talking')
         break
       }
     })

@@ -3,7 +3,7 @@ import Stage from "./Stage"
 import Breakfast from '../scenes/Breakfast.js'
 
 const default_config = {
-  'p_scene': { 'sceneKey': 'Breakfast' , 'x': 150, 'y': 150 },
+  'p_scene': { 'sceneKey': 'Breakfast' , 'x': 663, 'y': 472 },
   'scenes': {
     'Breakfast': {
       'npc': { 'breakfast_maid': 'pre_c_repeat' },

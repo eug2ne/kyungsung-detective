@@ -7,6 +7,7 @@ import kitchen from '../assets/breakfast/식당.png'
 import wallfloor from '../assets/breakfast/벽+바닥.png'
 import cupboard from '../assets/breakfast/선반.png'
 import sink from '../assets/breakfast/싱크대.png'
+import stairs from '../assets/breakfast/계단.png'
 import glasscloset from '../assets/breakfast/벽장.png'
 import chair1 from '../assets/breakfast/뒷의자.png'
 import chair2 from '../assets/breakfast/오른의자.png'
@@ -146,7 +147,7 @@ const npcs_JSON = [
       }
     },
     "spritesheet": "maid_dishwash",
-    "scale": 1,
+    "scale": 1.1,
     "anim_config": {
       "frames": {
         "0,7": "dishwash"
@@ -159,8 +160,8 @@ const npcs_JSON = [
     },
     "clue": null,
     "answer": null,
-    "x": 425,
-    "y": 220
+    "x": 389,
+    "y": 211
   }
 ]
 
@@ -245,6 +246,7 @@ export default class Breakfast extends Phaser.Scene {
     this.load.image('kitchen', kitchen)
     this.load.image('wallfloor', wallfloor)
     this.load.image('cupboard', cupboard)
+    this.load.image('stairs', stairs)
     this.load.image('sink', sink)
     this.load.image('glasscloset', glasscloset)
     this.load.image('chair1', chair1)
@@ -273,13 +275,16 @@ export default class Breakfast extends Phaser.Scene {
     this.physics.world.setBounds(150,100, 628,446)
     // this.cameras.main.setBounds(0, 0, 2800/3, 1981/3).setName('main')
 
-    this.add.image(150, 100, 'wallfloor').setOrigin(0, 0).setScale(2)
+    // add background image + set world bound
+    const background = this.add.image(150, 100, 'wallfloor').setOrigin(0, 0).setScale(2)
+    this.physics.world.setBounds(150, 100, background.width*2, background.height*2, true, true, true, true)
 
     // add obstacle image + adjust body
-    const cupboard = this.physics.add.staticImage(150,100,'cupboard').setOrigin(0,0).setScale(2)
-    cupboard.body.x = 150, cupboard.body.y = 100, cupboard.body.setSize(283,65,false)
-    const sink = this.physics.add.staticImage(150,100,'sink').setOrigin(0,0).setScale(2)
-    sink.body.x = 240, sink.body.y = 210, sink.body.setSize(300,50,false)
+    const cupboard = this.physics.add.staticImage(220,100,'cupboard').setOrigin(0,0).setScale(1.8)
+    cupboard.body.x = 200, cupboard.body.y = 100, cupboard.body.setSize(400,100,false)
+    const sink = this.physics.add.staticImage(140,100,'sink').setOrigin(0,0).setScale(1.8)
+    sink.body.x = 225, sink.body.y = 200, sink.body.setSize(250,40,false)
+    this.add.image(93, 53, 'stairs').setOrigin(0,0).setScale(2.2)  // no body for stairs
     const glasscloset = this.physics.add.staticImage(150,100,'glasscloset').setOrigin(0,0).setScale(2)
     glasscloset.body.x = 650, glasscloset.body.y = 100, glasscloset.body.setSize(125,135,false)
     const table = this.physics.add.staticImage(150,100,'table').setOrigin(0,0).setScale(2)

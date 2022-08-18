@@ -1,9 +1,11 @@
 import Phaser from 'phaser'
 import FirebasePlugin from './FirebasePlugin'
 import SceneLoadPlugin from './SceneLoadPlugin'
+import StageManager from './StageManager'
 
 // import stages
 import BreakfastStage from './stages/BreakfastStage'
+import Stage from './stages/Stage'
 
 export default class game extends Phaser.Game {
   constructor(containerId) {
@@ -40,6 +42,7 @@ export default class game extends Phaser.Game {
     }
 
     super(config)
+    this.scene = new StageManager(this, {})
     this.stage = new BreakfastStage
   }
 

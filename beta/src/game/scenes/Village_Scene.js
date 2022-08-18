@@ -108,9 +108,8 @@ export default class VillageScene extends Phaser.Scene {
     this.sceneload.preload()
   }
 
-  create (config) {
+  create () {
     this.physics.world.setBounds(0, 0, 2800, 1981)
-    this.cameras.main.setBounds(0, 0, 2800, 1981).setZoom(0.9).setName('main')
 
     this.add.image(2800/2, 1981/2,'vback1')
 
@@ -187,7 +186,14 @@ export default class VillageScene extends Phaser.Scene {
 
     const colliders = [ floatGroup, fields, trees, grass, houses ]
 
-    this.sceneload.create(config, colliders)
+    const camera_config = {
+      'main_zoom': 0.9,
+      'mini_zoom': 0.065,
+      'mini_scrollX': 1306,
+      'mini_scrollY': 925
+    }
+
+    this.sceneload.create(colliders, [], [], camera_config)
   }
 
   update() {

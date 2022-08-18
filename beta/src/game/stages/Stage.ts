@@ -19,7 +19,7 @@ interface StageInterface {
   event(): void /* handle scene events */
 }
 
-export default class Stage implements StageInterface {
+export default class Stage extends Phaser.Plugins.ScenePlugin implements StageInterface {
   public key: string
   public item_carry: [ Item? ]
   private _player_config: {
@@ -41,13 +41,14 @@ export default class Stage implements StageInterface {
     scenes: any /* { scene_key: scene_config } */
   }
 
-  constructor(scenes: [ Phaser.Scene ]
-    , default_config: {
+  constructor(scenes: [ Phaser.Scene ],
+    default_config: {
       p_scene: { sceneKey: string, x: number, y: number },
       scenes: any /* { scene_key: scene_config } */
     },
     key: string
   ) {
+    super()
     this.scenes = scenes
     this.default_config = default_config
     this.key = key

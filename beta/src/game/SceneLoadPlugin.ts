@@ -77,19 +77,22 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.scene.load.spritesheet('sami', sami, { frameWidth: 7870 / 17, frameHeight: 500 })
   }
 
-  create(colliders: [ Phaser.Physics.Arcade.StaticGroup ], items: [ Item ], npcs: [ NPC ]) {
+  create(colliders: [ Phaser.Physics.Arcade.StaticGroup ],
+    items: [ Item ],
+    npcs: [ NPC ],
+    camera_config: { main_zoom: number, mini_zoom: number, mini_scrollX: number, mini_scrollY: number}) {
     this.scene.cameras.main
       .setBounds(0, 0, 2800, 1981)
       .setSize(2800/3, 1981/3)
-      .setZoom(1)
+      .setZoom(camera_config.main_zoom)
       .setName('main')
     
     // create minimap
-    this.minimap = this.scene.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(0.25).setName('mini')
+    this.minimap = this.scene.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(camera_config.mini_zoom).setName('mini')
 
     this.minimap.setBackgroundColor(0xaca2a0)
-    this.minimap.scrollX = 400
-    this.minimap.scrollY = 300
+    this.minimap.scrollX = camera_config.mini_scrollX
+    this.minimap.scrollY = camera_config.mini_scrollY
     this.minimap.ignore([ this.item_text, this.keyboard_text ]) // item_text, keyboard_text invisible in minimap
 
     // add keyboard_text to scene

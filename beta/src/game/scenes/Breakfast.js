@@ -272,9 +272,6 @@ export default class Breakfast extends Phaser.Scene {
   }
 
   create() {
-    this.physics.world.setBounds(150,100, 628,446)
-    // this.cameras.main.setBounds(0, 0, 2800/3, 1981/3).setName('main')
-
     // add background image + set world bound
     const background = this.add.image(150, 100, 'wallfloor').setOrigin(0, 0).setScale(2)
     this.physics.world.setBounds(150, 100, background.width*2, background.height*2, true, true, true, true)
@@ -340,7 +337,14 @@ export default class Breakfast extends Phaser.Scene {
     })
 
     const colliders = [ cupboard, sink, glasscloset, table, closet_l, closet_r ]
-    this.sceneload.create(colliders, this.items, this.npcs)
+    
+    const camera_config = {
+      'main_zoom': 1,
+      'mini_zoom': 0.25,
+      'mini_scrollX': 400,
+      'mini_scrollY': 300
+    }
+    this.sceneload.create(colliders, this.items, this.npcs, camera_config)
   }
 
   update() {

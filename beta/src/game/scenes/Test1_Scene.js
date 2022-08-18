@@ -196,7 +196,6 @@ export default class Test1_Scene extends Phaser.Scene {
 
   create() {
     this.physics.world.setBounds(0, 0, 2800,1981)
-    this.cameras.main.setBounds(0, 0, 2800,1981).setZoom(0.9).setName('main')
 
     this.add.image(2800/2,1981/2,'back1')
     var platforms = this.physics.add.staticGroup() //그룹으로 묶는다. 
@@ -344,7 +343,14 @@ export default class Test1_Scene extends Phaser.Scene {
       ))
     })
 
-    this.sceneload.create(colliders, this.items, this.npcs)
+    const camera_config = {
+      'main_zoom': 0.9,
+      'mini_zoom': 0.065,
+      'mini_scrollX': 1306,
+      'mini_scrollY': 925
+    }
+
+    this.sceneload.create(colliders, this.items, this.npcs, camera_config)
   }
 
   update() {

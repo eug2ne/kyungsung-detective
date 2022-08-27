@@ -66,7 +66,7 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 			// if stage-data already on user db, load stage-data from db
 			// else, stage-data == stage.default_config
 
-    if (!user_UsersSnap.data().Stage.key||user_UsersSnap.data().Stage.key == stage.key) {
+    if (!user_UsersSnap.data().Stage.key||user_UsersSnap.data().Stage.key != stage.key) {
       // if stage-date do not exist on db, update user-info
       updateDoc(user_UsersRef, {
 				Stage: {

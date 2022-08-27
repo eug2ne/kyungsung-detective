@@ -3,6 +3,7 @@ import Item from "../GameObjects/Item"
 
 interface StageInterface {
   key: string,
+  readonly next: Stage|null, /* key of next stage */
   player_config: any,
   scenes: [ Phaser.Scene ] /* [ Scene ] */,
   scenes_config: any /* { scene_key: scene_config } */,
@@ -15,12 +16,13 @@ interface StageInterface {
     p_scene: { sceneKey: string, x: number, y: number },
     scenes: any /* { scene_key: scene_config } */
   },
-  clear(): void /* check stage clear terms */,
-  event(): void /* handle scene events */
+  clear(): Promise<void> /* check stage clear terms */,
+  event(scene: Phaser.Scene): void /* handle scene events */
 }
 
-export default class Stage extends Phaser.Plugins.ScenePlugin implements StageInterface {
+export default class Stage extends Phaser.Plugins.BasePlugin implements StageInterface {
   public key: string
+  public readonly next: Stage|null
   public item_carry: [ Item? ]
   private _player_config: {
     sceneKey: string,
@@ -41,17 +43,20 @@ export default class Stage extends Phaser.Plugins.ScenePlugin implements StageIn
     scenes: any /* { scene_key: scene_config } */
   }
 
-  constructor(scenes: [ Phaser.Scene ],
+  constructor(manager: Phaser.Plugins.PluginManager,
+    scenes: [ Phaser.Scene ],
     default_config: {
       p_scene: { sceneKey: string, x: number, y: number },
       scenes: any /* { scene_key: scene_config } */
     },
-    key: string
+    key: string,
+    next: Stage|null
   ) {
-    super()
+    super(manager)
     this.scenes = scenes
     this.default_config = default_config
     this.key = key
+    this.next = next
   }
 
   public set player_config(value: any) {
@@ -85,7 +90,24 @@ export default class Stage extends Phaser.Plugins.ScenePlugin implements StageIn
     return this._player_config
   }
 
-  clear(): void {}
+  async clear(): Promise<void> {
+    if (!this.next) {
+      // end of game
+    } else {
+      // stage clear >> move to next stage
+      const firestore: any = this.game.plugins.get('FirebasePlugin')
+      
+      await firestore.saveGameData(this.next, []) // save next-stage data to db
 
-  event(): void {}
+      this.next.scenes.forEach((scene: any) => {
+        console.log(scene.key)
+        this.game.scene.add(scene.key, scene, false)
+      })
+
+      let PlayScene_Key = this.next.player_config.sceneKey /* present sceneKey */
+      this.game.scene.start(PlayScene_Key, this.next.player_config)
+      }
+  }
+
+  event(scene: Phaser.Scene): void {}
 }

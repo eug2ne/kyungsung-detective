@@ -132,7 +132,6 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
       })
     }
     const renderTextImage = (writing: boolean) => {
-      console.log(this.texture)
       this.image_box.visible = (this.texture) ? true:false
       this.image.setTexture(this.texture)
         .setDisplaySize(200, 200)
@@ -184,6 +183,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
         
             // mouse click event
             option.on('pointerdown', () => {
+              console.log(option.data.values.to)
               if (!option.data.values.to) {
                 // end of question/dialogue
                 this.scene.events.emit('end-talking', this)
@@ -198,7 +198,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
                 this.emit('update-line')
               } else {
                 // update user-config according to value
-                this.scene.events.emit(`to-${option.data.to}`)
+                this.scene.events.emit(`to-${option.data.values.to}`)
     
                 // end of question/dialogue
                 this.scene.events.emit('end-talking', this)

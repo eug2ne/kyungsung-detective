@@ -5,6 +5,7 @@ import NPC from './GameObjects/NPC'
 import Item from './GameObjects/Item'
 import sami from './assets/sami_sprite/sami_frame1.png'
 import Dialogue from './GameObjects/Dialogue'
+import Stage from './stages/Stage'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private _player_config!: {

@@ -55,6 +55,12 @@ export default class Item extends Phaser.GameObjects.Image {
           dialogue = new Dialogue(this.scene, cameraX, cameraY, this.interact.content, {})
           dialogue.create()
           this.scene.events.emit('start-talking')
+
+          if (this.interact.to) {
+            this.scene.events.on('end-talking', () => {
+              this.scene.events.emit(`to-${this.interact.to}`)
+            })
+          }
         break
       }
     })

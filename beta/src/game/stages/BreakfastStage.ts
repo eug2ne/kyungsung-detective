@@ -13,30 +13,20 @@ const default_config = {
 }
 
 export default class BreakfastStage extends Stage {
-  constructor() {
-    super([ Breakfast ], default_config, 'BreakfastStage')
-  }
-  
-  clear(): void {
-    if (this.scenes_config.npc['breakfast_maid'] == 'answer') {
-      // stage clear
-      Breakfast.events.on('end-talking', () => {
-        // after talking to breakfast_maid
-        console.log('stage clear!')
-      })
-    }
+  constructor(manager: Phaser.Plugins.PluginManager) {
+    super(manager, [ Breakfast ], default_config, 'BreakfastStage', null)
   }
 
-  event(): void {
+  event(scene: Phaser.Scene): void {
     // update player_config after eating breakfast
-    Breakfast.events.on('to-update.breakfast_maid.post_c_repeat', () => {
-      this.player_config.scenes['Breakfast'].npc['breakfast_maid'] = 'post_c_repeat'
+    scene.events.on('to-update.breakfast_maid.post_c_repeat', () => {
+      this.player_config.scene_config.npc['breakfast_maid'] = 'post_c_repeat'
     })
 
     // update player_config after reading newspaper
-    Breakfast.events.on('to-update.breakfast_maid.answer.==post_c_repeat', () => {
-      if (this.player_config.scenes['Breakfast'].npc['breakfast_maid'] == 'post_c_repeat') {
-        this.player_config.scenes['Breakfast'].npc['breakfast_maid'] = 'answer'
+    scene.events.on('to-update.breakfast_maid.answer.==post_c_repeat', () => {
+      if (this.player_config.scene_config.npc['breakfast_maid'] == 'post_c_repeat') {
+        this.player_config.scene_config.npc['breakfast_maid'] = 'answer'
       } else {
         // pass
       }

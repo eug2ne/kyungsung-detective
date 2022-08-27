@@ -1,11 +1,9 @@
 import Phaser from 'phaser'
 import FirebasePlugin from './FirebasePlugin'
 import SceneLoadPlugin from './SceneLoadPlugin'
-import StageManager from './StageManager'
 
 // import stages
 import BreakfastStage from './stages/BreakfastStage'
-import Stage from './stages/Stage'
 
 export default class game extends Phaser.Game {
   constructor(containerId) {
@@ -42,13 +40,11 @@ export default class game extends Phaser.Game {
     }
 
     super(config)
-    this.scene = new StageManager(this, {})
-    this.stage = new BreakfastStage
+    this.stage = new BreakfastStage(this.plugins) // default first stage
   }
 
   async destroy() {
     // update p_scene config
-    console.log('game destroy')
     const player_config = this.scene.getScene(this.stage.player_config.sceneKey).sceneload.player_config
     this.stage.item_carry = player_config.item_carry
     this.stage.p_scene.sceneKey = player_config.sceneKey
@@ -70,9 +66,11 @@ export default class game extends Phaser.Game {
     this.stage.scenes.forEach((scene) => {
       this.scene.add(scene.key, scene, false)
     })
-    console.log(this.stage)
 
     let PlayScene_Key = this.stage.player_config.sceneKey /* present sceneKey */
+
+    // start stage
     this.scene.start(PlayScene_Key, this.stage.player_config)
+    this.stage.event(this.scene.getScene(PlayScene_Key))
   }
 }

@@ -1,5 +1,6 @@
-// mission: talk to test1npc-1 >> get hint+quiz
-// >> (if get answer to quiz) make portal to village_scene
+// mission: talk to inspector >> get hint+quiz
+// >> (if solve quiz) talk to newspaper stand >> get item (마패)
+// >> talk to inspector with item
 
 import Phaser from 'phaser'
 import Item from '../GameObjects/Item'
@@ -30,122 +31,145 @@ import gr2 from '@/game/assets/test1_map/궁오른쪽2.png'
 import gr3 from '@/game/assets/test1_map/궁오른쪽3.png'
 import gr4 from '@/game/assets/test1_map/궁오른쪽4.png'
 
-// npc image+spritesheet
-import npc1_neutral from '../assets/npc_log/npc1_neutral.png'
-import npc1_sprite from '../assets/npc_sprite/npc1_sprite.png'
+// import npc spritesheet
+import inspector_sprite from '../assets/npc_sprite/맵 관리자.png'
 
-// item image
-import item0 from '../assets/item/item0.png'
-import item1 from '../assets/item/item1.png'
-import item2 from '../assets/item/item2.png'
+// import npc log image
+import inspector_neutral from '../assets/npc_log/관리자.png'
+import inspector_smile from '../assets/npc_log/관리자_웃음.png'
 
 const npcs_JSON = [
   {
-    "name": "test npc1",
-    "id": "test1npc-0",
-    "dialogue": {
-      "pre_c_repeat": [
-        {
-          "image": "npc1_neutral",
-          "line": "this line is repeated"
-        },
-        {
-          "image": "npc1_neutral",
-          "line": "it can be skipped by space"
-        }
-      ]
-    },
-    "spritesheet": "npc1_sprite",
-    "clue": null,
-    "answer": null,
-    "x": 500,
-    "y": 1000
-  },
-  {
-    "name": "test npc2",
-    "id": "test1npc-1",
+    "name": "감독관",
+    "id": "test1_inspector",
     "dialogue": {
       "clue": [
         {
-          "image": "npc1_neutral",
-          "line": "this line is said only once"
+          "image": "inspector_neutral",
+          "line": "탐정 시험을 보러 온건가?"
         },
         {
-          "image": "npc1_neutral",
-          "line": "you get a hint when completed"
+          "image": "inspector_neutral",
+          "line": "받아라. 첫 번째 문제다."
         }
       ],
       "post_c_repeat": [
         {
-          "image": "npc1_neutral",
-          "line": "you already got the hint"
+          "image": "inspector_neutral",
+          "line": "뭐지."
         },
         {
-          "image": "npc1_neutral",
-          "line": "now solve the puzzle"
-        },
-        {
-          "image": "npc1_neutral",
-          "line": "and go get the answer!"
+          "image": "inspector_neutral",
+          "line": "정답을 알아낸게 아니면 말을 걸지말라."
         }
       ],
       "answer": [
         {
-          "image": "npc1_neutral",
-          "line": "you got the answer!"
+          "image": "inspector_smile",
+          "line": "오호. 제법이군. 정답이다."
         },
         {
-          "image": "npc1_neutral",
-          "line": "congratulations!"
+          "image": "inspector_smile",
+          "line": "두 번째 문제는 나를 따라오도록."
         }
       ]
     },
-    "spritesheet": "npc1_sprite",
+    "question": null,
+    "spritesheet": "inspector_sprite",
+    "scale": 1.2,
+    "anim_config": {
+      "frames": {
+        "1,4": "left",
+        "5,8": "back",
+        "9,12": "front",
+        "13,16": "right"
+      },
+      "repeat": {
+        "left": false,
+        "back": false,
+        "front": true,
+        "right": false
+      },
+      "default": "front",
+      "auto_start": true
+    },
     "clue": {
-      "story": "sample story",
-      "title": "sample hint",
-      "description": "sample description",
-      "quiz_id": null,
-      "background_img": null,
-      "subClues": [],
-      "require": false
+      "story": "시작",
+      "title": "붉은 마패를 찾아라.",
+      "description": "탐정시험의 첫 번째 문제는 붉은 마패를 찾아오는 것이다. 붉은 마패는 어디 있을까?",
+      "background_img": "../assets/item/붉은마패_배경투명화.png",
+      "subClues": [
+        {
+          "title": "붉은 마패를 찾았다!",
+          "description": "붉은 마패는 황실에서 발행하는 신문을 말하는 것이다. 신문팔이에게 가서 붉은 마패를 달라고 해보자!",
+          "quiz_id": null,
+          "background_img": null,
+          "require": false
+        }
+      ]
     },
     "answer": null,
-    "x": 600,
-    "y": 1100
-  }
-]
-
-const items_JSON = [
-  {
-    "name": "item0",
-    "id": "test1-0",
-    "descript": "sample item description",
-    "texture": "item0",
-    "x": 600,
-    "y": 300
-  },
-  {
-    "name": "item1",
-    "id": "test1-1",
-    "descript": "another sample item description",
-    "texture": "item1",
-    "x": 700,
-    "y": 500
-  },
-  {
-    "name": "item2",
-    "id": "test1-2",
-    "descript": "the other sample item description",
-    "texture": "item2",
     "x": 1000,
-    "y": 500
+    "y": 1600
+  },
+  {
+    "name": "신문팔이",
+    "id": "test1_newpaperstand",
+    "dialogue": {
+      "post_c_repeat": [
+        {
+          "image": null,
+          "line": "신문 사세요."
+        },
+        {
+          "image": null,
+          "line": "오늘자 신문 팝니다. 신문 사세요."
+        }
+      ],
+      "answer": [
+        {
+          "image": null,
+          "line": "'붉은 마패' 한 부 주세요."
+        },
+        {
+          "image": null,
+          "line": "탐정 시험 보러오셨군요."
+        },
+        {
+          "image": null,
+          "line": "여깄습니다. 남은 시험도 잘 보세요!"
+        }
+      ]
+    },
+    "question": null,
+    "spritesheet": "inspector_sprite",
+    "scale": 1.2,
+    "anim_config": {
+      "frames": {
+        "1,4": "left",
+        "5,8": "back",
+        "9,12": "front",
+        "13,16": "right"
+      },
+      "repeat": {
+        "left": false,
+        "back": false,
+        "front": true,
+        "right": false
+      },
+      "default": "front",
+      "auto_start": true
+    },
+    "clue": null,
+    "answer": null,
+    "x": 2000,
+    "y": 900
   }
 ]
 
 export default class Test1_Scene extends Phaser.Scene {
   constructor () {
-    super('Test1_Scene')
+    super({'key':'Test1'})
   }
 
   init(player_config) {
@@ -182,13 +206,9 @@ export default class Test1_Scene extends Phaser.Scene {
     this.load.image('gr4', gr4)
 
     // load npc image+spritesheet
-    this.load.image('npc1_neutral', npc1_neutral)
-    this.load.spritesheet('npc1_sprite', npc1_sprite, { frameWidth: 3808 / 17, frameHeight: 330 })
-
-    // load item image
-    this.load.image('item0', item0)
-    this.load.image('item1', item1)
-    this.load.image('item2', item2)
+    this.load.image('inspector_neutral', inspector_neutral)
+    this.load.image('inspector_smile', inspector_smile)
+    this.load.spritesheet('inspector_sprite', inspector_sprite, { frameWidth: 6528 / 17, frameHeight: 558 })
 
     // sceneload plugin preload()
     this.sceneload.preload()
@@ -315,34 +335,24 @@ export default class Test1_Scene extends Phaser.Scene {
         col_fo1, col_fo2, col_fo3, col_fo4, col_fo5, col_fo6,
         col_gr1, col_gr2, col_gr3, col_gr4 ]
 
-    // create items
-    this.items = []
-    items_JSON.forEach((json) => {
-      this.items.push(new Item(
-        this,
-        json.id,
-        json.x,
-        json.y,
-        json.name,
-        json.texture
-      ))
-    })
     // create NPCs
     this.npcs = []
     npcs_JSON.forEach((npc) => {
-      console.log('create npc')
       this.npcs.push(new NPC(
         this,
         npc.id,
         npc.spritesheet,
+        npc.scale,
+        npc.anim_config,
         npc.x,
         npc.y,
         npc.dialogue,
+        npc.question,
         npc.clue,
         npc.answer
       ))
     })
-
+    
     const camera_config = {
       'main_zoom': 0.9,
       'mini_zoom': 0.065,
@@ -350,10 +360,10 @@ export default class Test1_Scene extends Phaser.Scene {
       'mini_scrollY': 925
     }
 
-    this.sceneload.create(colliders, this.items, this.npcs, camera_config)
+    this.sceneload.create(colliders, [], this.npcs, camera_config)
   }
 
   update() {
-    this.sceneload.update(this.items, this.npcs)
+    this.sceneload.update([], this.npcs)
   }
 }

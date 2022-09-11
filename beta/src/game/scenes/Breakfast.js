@@ -23,7 +23,9 @@ import newspaper from '../assets/breakfast/newspaper.png'
 import maid_dishwash from '../assets/npc_sprite/maid_dishwash.png'
 
 // import npc+sami log image
-import maid_neutral from '../assets/npc_log/npc1_neutral.png'
+import maid_neutral from '../assets/npc_log/maid_neutral.png'
+import maid_surprise from '../assets/npc_log/maid_surprise.png'
+import maid_smile from '../assets/npc_log/maid_smile.png'
 import sami_neutral from '../assets/sami_log/sami_무표정.png'
 import sami_smile from '../assets/sami_log/sami_웃음.png'
 
@@ -37,7 +39,7 @@ const npcs_JSON = [
           "to": "default"
         },
         {
-          "image": "maid_neutral",
+          "image": "maid_smile",
           "line": "뭘 하시는건 좋은데 일단은 뭐든 드시고 하시지요."
         }
       ],
@@ -46,7 +48,7 @@ const npcs_JSON = [
           "to": "default"
         },
         {
-          "image": "maid_neutral",
+          "image": "maid_smile",
           "line": "뭘 할지 계획은 있으신가요?"
         },
         {
@@ -63,7 +65,7 @@ const npcs_JSON = [
           "to": "default"
         },
         {
-          "image": "maid_neutral",
+          "image": "maid_smile",
           "line": "뭘 할지 계획은 있으신가요?"
         },
         {
@@ -71,11 +73,11 @@ const npcs_JSON = [
           "line": "나, 탐정 시험을 보려고."
         },
         {
-          "image": "maid_neutral",
+          "image": "maid_surprise",
           "line": ".."
         },
         {
-          "image": "maid_neutral",
+          "image": "maid_surprise",
           "line": "..아"
         },
         {
@@ -91,7 +93,7 @@ const npcs_JSON = [
           "line": "어머니를 위해 할 수 있는 일을 하고 싶어졌어."
         },
         {
-          "image": "maid_neutral",
+          "image": "maid_surprise",
           "line": "설마 어머님의 죽음이 의심스러우신가요?"
         },
         {
@@ -119,7 +121,7 @@ const npcs_JSON = [
           "line": "...."
         },
         {
-          "image": "maid_neutral",
+          "image": "maid_smile",
           "line": "..저는 주인님이 어떤 길을 가시든 진심으로 응원해요."
         },
         {
@@ -131,7 +133,7 @@ const npcs_JSON = [
     "question": {
       /* always show question before dialogue */ "default": {
         "question": {
-            "image": "maid_neutral",
+            "image": "maid_smile",
             "line": "아직 여독이 가시지 않아 피곤하실텐데 오늘은 쉬시는게 어떤가요?"
         },
         "options": [
@@ -233,7 +235,7 @@ const items_JSON = [
 
 export default class Breakfast extends Phaser.Scene {
   constructor () {
-    super('Breakfast')
+    super({'key':'Breakfast'})
   }
 
   init(player_config) {
@@ -259,6 +261,8 @@ export default class Breakfast extends Phaser.Scene {
 
     // load npc+sami image+spritesheet
     this.load.image('maid_neutral', maid_neutral)
+    this.load.image('maid_surprise', maid_surprise)
+    this.load.image('maid_smile', maid_smile)
     this.load.image('sami_neutral', sami_neutral)
     this.load.image('sami_smile', sami_smile)
     this.load.spritesheet('maid_dishwash', maid_dishwash, { frameWidth: 2800 / 8, frameHeight: 495 })

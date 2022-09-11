@@ -1,4 +1,6 @@
 import Phaser from 'phaser'
+import { db, auth } from '../../firestoreDB.js'
+import { collection, doc, getDoc } from 'firebase/firestore'
 import Dialogue from './Dialogue'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
@@ -6,9 +8,10 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   private sprite_key: string
   private anim_config: any
   public readonly dialogue: any
+  private _dialogueKey: string
   public readonly question: any
   public readonly clue: any
-  private readonly answer: any|null
+  private readonly answer: string|null
 
   constructor(
     scene: Phaser.Scene,
@@ -21,7 +24,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     dialogue: any,
     question: any,
     clue: any,
-    answer: any
+    answer: string|null
   ) {
     const spritesheet = scene.textures.get(spritesheet_key)
     super(scene, x, y, spritesheet)
@@ -39,6 +42,35 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
 
   destroy() {
     super.destroy()
+  }
+
+  public set dialogueKey(key: string) {
+    if (key == 'post_c_repeat'&&this.answer) {
+      // check if user solved quiz for this.answer
+      const user = auth.currentUser // get current user
+
+      const check = async () => {
+        const UsersRef = collection(db, 'Users')
+        const userRef = doc(UsersRef, user.uid)
+        const QuizsRef = collection(userRef, 'Quizs')
+        const quizSnap = await getDoc(QuizsRef, this.answer)
+
+        if (quizSnap.data().accomplish) {
+          // if user solved quiz for this.answer, dialogueKey == answer
+          this._dialogueKey = 'answer'
+        } else {
+          this._dialogueKey = key
+        }
+      }
+
+      check()
+    } else {
+      this._dialogueKey = key
+    }
+  }
+
+  public get dialogueKey() {
+    return this._dialogueKey
   }
 
   create() {
@@ -67,17 +99,17 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
       const _dialogue = this.dialogue[key]
       const dialogue = new Dialogue(this.scene, cameraX, cameraY, _dialogue, this.question)
       dialogue.create()
-
-      if (key == 'clue'||key == 'answer') {
-        // update user_ config
-        this.scene.events.emit('update-userconfig', this.id, `post_${key[0]}_repeat`)
-      }
     })
 
     // end-talking event
     this.scene.events.on('end-talking', () => {
       // resume npc anims
       this.anims.resume()
+
+      // if dialogueKey == clue|answer, update user_config
+      if (this.dialogueKey == 'clue'||this.dialogueKey == 'answer') {
+        this.scene.events.emit('update-userconfig', this.id, `post_${this.dialogueKey[0]}_repeat`, this.clue)
+      }
     })
   }
 

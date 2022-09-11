@@ -5,7 +5,6 @@ import NPC from './GameObjects/NPC'
 import Item from './GameObjects/Item'
 import sami from './assets/sami_sprite/sami_frame1.png'
 import Dialogue from './GameObjects/Dialogue'
-import Stage from './stages/Stage'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private _player_config!: {
@@ -70,7 +69,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   }) {
     this._player_config = player_config
     this.config = player_config.scene_config
-    console.log(player_config)
   }
 
   preload() {
@@ -79,8 +77,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   }
 
   create(colliders: [ Phaser.Physics.Arcade.StaticGroup ],
-    items: [ Item ],
-    npcs: [ NPC ],
+    items: [ Item ]|[],
+    npcs: [ NPC ]|[],
     camera_config: { main_zoom: number, mini_zoom: number, mini_scrollX: number, mini_scrollY: number}) {
     this.scene.cameras.main
       .setBounds(0, 0, 2800, 1981)
@@ -116,15 +114,17 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     }) // add collider physics on player
 
     // show item on scene according to scene-config
-    items.forEach((item: Item) => {
-      if (_.includes(this.config.item, item.id)) {
-        // pass
-        item.create()
-      } else {
-        item.destroy()
-      }
-    })
-    this.scene.physics.add.collider(this.player, items) // add collider
+    if (this.config.item.length != 0) {
+      items.forEach((item: Item) => {
+        if (_.includes(this.config.item, item.id)) {
+          // pass
+          item.create()
+        } else {
+          item.destroy()
+        }
+      })
+    }
+    this.scene.physics.add.collider(this.player, items) // add collider 
     this.scene.add.existing(this.item_text).setDepth(15)
     this.item_text.visible = false // add item_text
     this.scene.physics.add.overlap(this.player.interact_area, items, (area: any, item: any) => {
@@ -138,28 +138,30 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     }) // add overlap callback
 
     // item interact type: get
-    this.scene.events.on('add-to-inventory', (item: Item) => {
+    this.scene.events.on('add-to-inventory', (item?: Item) => {
       // add item to inventory
       this.inventory.push(item)
 
       // remove item.id from config
-      const remove_i = this.config.item.indexOf(item.id)
+      const remove_i = this.config.item.indexOf(item?.id)
       this.config.item.splice(remove_i, 1)
-      item.destroy()
+      item?.destroy()
     })
 
     // create npc on screen
-    npcs.forEach((npc: NPC) => {
-      npc.create()
-    })
+    if (Object.keys(this.config.npc).length != 0) {
+      npcs.forEach((npc: NPC) => {
+        npc.create()
+      })
+    }
     this.scene.physics.add.overlap(this.player.interact_area, npcs, (area, npc: any) => {
       if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
         this.scene.events.emit('start-talking')
         this.controls.enter.isDown = false
 
-        const dialogueKey = this.config.npc[npc.id]
+        npc.dialogueKey = this.config.npc[npc.id]
         const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-        npc.emit('start-talking', dialogueKey, cameraX, cameraY)
+        npc.emit('start-talking', npc.dialogueKey, cameraX, cameraY)
       }
     }) // overlap-talk event
     this.scene.events.on('start-talking', () => {

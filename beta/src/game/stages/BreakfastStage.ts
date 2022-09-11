@@ -1,6 +1,7 @@
 import Phaser from "phaser"
-import Stage from "./Stage"
+import Stage from "./Stage.js"
 import Breakfast from '../scenes/Breakfast.js'
+import Test1Stage from "./Test1Stage"
 
 const default_config = {
   'p_scene': { 'sceneKey': 'Breakfast' , 'x': 663, 'y': 472 },
@@ -14,7 +15,7 @@ const default_config = {
 
 export default class BreakfastStage extends Stage {
   constructor(manager: Phaser.Plugins.PluginManager) {
-    super(manager, [ Breakfast ], default_config, 'BreakfastStage', null)
+    super(manager, [ Breakfast ], default_config, 'BreakfastStage', new Test1Stage(manager))
   }
 
   event(scene: Phaser.Scene): void {
@@ -30,6 +31,11 @@ export default class BreakfastStage extends Stage {
       } else {
         // pass
       }
+    })
+
+    // if player talk to maid when maid.dialogueKey == answer, stage clear
+    scene.events.on('update-userconfig', (id: string, to: string, clue: any) => {
+      this.clear()
     })
   }
 }

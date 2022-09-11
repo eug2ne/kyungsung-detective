@@ -65,7 +65,7 @@ export default {
       const userRef = doc(UsersRef, user.uid)
       const userSnap = await getDoc(userRef)
 
-      cluelist.value = userSnap.data().clues
+      cluelist.value = userSnap.data().Clues
     }
 
     load()

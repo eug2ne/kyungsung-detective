@@ -5,10 +5,12 @@ const exportSet = async (quizinstance) => {
     // get current user
     const user = auth.currentUser
 
-    const QuizRef = collection(db, 'Users/Quizs/Quizs')
-    const user_QuizRef = doc(QuizRef, user.uid)
+    const UsersRef = collection(db, 'Users')
+    const userRef = doc(UsersRef, user.uid)
+    const QuizsRef = collection(userRef, 'Quizs')
+    const quizRef = doc(QuizsRef, quizinstance.id)
 
-    await updateDoc(user_QuizRef, {
+    await updateDoc(quizRef, {
         quizletterset: quizinstance.quizletterset,
         reverse: quizinstance.reverse,
         max_chosen: quizinstance.max_chosen,
@@ -16,19 +18,19 @@ const exportSet = async (quizinstance) => {
     })
 
     for (let c in quizinstance.chosen) {
-        await updateDoc(user_QuizRef, {
+        await updateDoc(quizRef, {
             chosen: arrayUnion(quizinstance.chosen[c])
         })
     }
 
     for (let b in quizinstance.backset) {
-        await updateDoc(user_QuizRef, {
+        await updateDoc(quizRef, {
             backset: arrayUnion(quizinstance.backset[b])
         })
     }
 
     for (let f in quizinstance.forwardset) {
-        await updateDoc(user_QuizRef, {
+        await updateDoc(quizRef, {
             forwardset: arrayUnion(quizinstance.forwardset[f])
         })
     }

@@ -4,6 +4,7 @@ import SceneLoadPlugin from './SceneLoadPlugin'
 
 // import stages
 import BreakfastStage from './stages/BreakfastStage'
+import Test1Stage from './stages/Test1Stage'
 
 export default class game extends Phaser.Game {
   constructor(containerId) {
@@ -40,6 +41,8 @@ export default class game extends Phaser.Game {
     }
 
     super(config)
+    this.key = 'k_detective_beta'
+    this.stage_keys = {'BreakfastStage':BreakfastStage, 'Test1Stage':Test1Stage}
     this.stage = new BreakfastStage(this.plugins) // default first stage
   }
 
@@ -54,18 +57,20 @@ export default class game extends Phaser.Game {
 
     const firestore = this.plugins.get('FirebasePlugin')
     // save player_config + inventory to db
-    await firestore.saveGameData(this.stage, player_config.inventory)
+    await firestore.saveGameData(this.stage, player_config.inventory, this.key)
     super.destroy()
   }
 
-  async create() {
+  async create(update = false /* boolean */) {
     const firestore = this.plugins.get('FirebasePlugin')
 
-    await firestore.loadGameData(this.stage)
+    await firestore.loadGameData(this, update)
 
+    this.scene.scenes = []
     this.stage.scenes.forEach((scene) => {
-      this.scene.add(scene.key, scene, false)
+      this.scene.add('', scene, false)
     })
+    console.log(this.stage)
 
     let PlayScene_Key = this.stage.player_config.sceneKey /* present sceneKey */
 

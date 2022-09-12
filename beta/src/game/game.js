@@ -70,7 +70,6 @@ export default class game extends Phaser.Game {
     this.stage.scenes.forEach((scene) => {
       this.scene.add('', scene, false)
     })
-    console.log(this.stage)
 
     let PlayScene_Key = this.stage.player_config.sceneKey /* present sceneKey */
 

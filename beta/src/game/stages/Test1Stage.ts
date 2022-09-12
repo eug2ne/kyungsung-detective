@@ -4,7 +4,6 @@ import { collection, doc, getDoc, updateDoc } from "firebase/firestore"
 import Stage from "./Stage.js"
 import Test1 from '../scenes/Test1_Scene.js'
 import { arrayUnion } from "firebase/firestore"
-import { setDoc } from "firebase/firestore"
 import _ from "lodash"
 
 const default_config = {
@@ -35,21 +34,27 @@ export default class Test1Stage extends Stage {
 
           const UsersRef = collection(db, 'Users')
           const userRef = doc(UsersRef, user.uid)
-          const userSnap = await getDoc(userRef)
 
-          if (!userSnap.data().Clues||!_.includes(Object.keys(userSnap.data.Clues), clue.story)) {
-            await setDoc(userRef.Clues[clue.story], arrayUnion({
-              'title': clue.title,
-              'description': clue.description,
-              'subClues': clue.subClues
-            }))
-          } else {
-            await updateDoc(userRef.Clues[clue.story], arrayUnion({
-              'title': clue.title,
-              'description': clue.description,
-              'subClues': clue.subClues
-            }))
-          }
+          const data: any = {}
+          data[clue.story] = arrayUnion({
+            'title': clue.title,
+            'description': clue.description,
+            'subClues': clue.subClues
+          })
+          await updateDoc(userRef, {
+            'Clues': data
+          })
+
+          // add subclue quiz-accomplishment to user.quiz_accs
+          clue.subClues.forEach(async (subClue: any) => {
+            if (!subClue.quiz_id) return
+
+            const data: any = {}
+            data[subClue.quiz_id] = false
+            await updateDoc(userRef, {
+              'quiz_accs': data
+            })
+          })
         }
 
         save()

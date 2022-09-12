@@ -32,7 +32,7 @@
         <div class="subclue_lock" v-else>
           <h3>아직 잠겨있습니다</h3>
           <p>
-            <router-link :to="{ name: 'Quiz', params: { quiz_id: subclue.quiz_id } }">
+            <router-link v-if="subclue.quiz_id" :to="{ name: 'Quiz', params: { quiz_id: subclue.quiz_id } }">
               (퍼즐 풀고 단서 얻으러가기)
             </router-link>
           </p>
@@ -56,6 +56,7 @@ export default {
   },
   setup() {
     const cluelist = ref({})
+    const requires = ref({})
 
     const user = auth.currentUser
 
@@ -66,6 +67,7 @@ export default {
       const userSnap = await getDoc(userRef)
 
       cluelist.value = userSnap.data().Clues
+      requires.value = userSnap.data().requires
     }
 
     load()
@@ -77,18 +79,12 @@ export default {
   methods: {
     showClue(story) {
       this.show = this.cluelist[story]
-      const load = async (subclue) => {
-        const QuizsRef = collection(db, 'Users/Quizs/Quizs')
-        const userRef = doc(QuizsRef)
-        const userSnap = await getDoc(userRef)
 
-        if (subclue.quiz_id in userSnap.data().quiz_ids) {
-          subclue.require = userSnap.data().sets[subclue.quiz_id].accomplish
-          await updateDoc(userRef, {
-            present_id: subclue.quiz_id
-          })
+      const load = async (subclue) => {
+        if (!subclue.quiz_id) {
+          subclue.require = true
         } else {
-          subclue.require = false
+          subclue.require = userSnap.data().quiz_accs[subclue.quiz_id]
           await updateDoc(userRef, {
             present_id: subclue.quiz_id
           })

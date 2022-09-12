@@ -50,7 +50,11 @@ const addData = async (userCredential) => {
         email: user.email,
         emailVerified: user.emailVerified,
         displayName: user.displayName,
-        inventory: [] 
+        Stages: {},
+        Inventory: [],
+        Clues: {},
+        quiz_accs: {},
+        present_quizID: ''
     })
     .catch((error) => {
         console.log(error)

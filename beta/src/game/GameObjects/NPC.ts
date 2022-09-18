@@ -96,8 +96,9 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
       this.anims.pause()
 
       // create dialogue
+      const zoom = this.scene.cameras.main.zoom
       const _dialogue = this.dialogue[key]
-      const dialogue = new Dialogue(this.scene, cameraX, cameraY, _dialogue, this.question)
+      const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, _dialogue, this.question)
       dialogue.create()
     })
 

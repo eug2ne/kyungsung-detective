@@ -114,7 +114,7 @@ const npcs_JSON = [
   },
   {
     "name": "신문팔이",
-    "id": "test1_newpaperstand",
+    "id": "test1_newspaperstand",
     "dialogue": {
       "post_c_repeat": [
         {
@@ -352,7 +352,7 @@ export default class Test1_Scene extends Phaser.Scene {
         npc.answer
       ))
     })
-    
+
     const camera_config = {
       'main_zoom': 0.9,
       'mini_zoom': 0.065,

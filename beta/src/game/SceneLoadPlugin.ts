@@ -156,7 +156,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     }
     this.scene.physics.add.overlap(this.player.interact_area, npcs, (area, npc: any) => {
       if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
-        this.scene.events.emit('start-talking')
         this.controls.enter.isDown = false
 
         npc.dialogueKey = this.config.npc[npc.id]

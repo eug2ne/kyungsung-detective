@@ -17,6 +17,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
   constructor(scene: Phaser.Scene,
     cameraX: number,
     cameraY: number,
+    zoom: number,
     dialogue?: any,
     question?: any
   ) {
@@ -27,19 +28,19 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
 
     // create dialogue-box on screen
     const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
-    this.line_box = this.scene.add.rectangle(cameraX+570, cameraY+550, 645, 200, white)
+    this.line_box = this.scene.add.rectangle(cameraX+570/zoom, cameraY+550/zoom, 645/zoom, 200/zoom, white)
       .setDepth(20) // line-box
-    this.image_box = this.scene.add.rectangle(cameraX+120, cameraY+550, 200, 200, white)
+    this.image_box = this.scene.add.rectangle(cameraX+120/zoom, cameraY+550/zoom, 200/zoom, 200/zoom, white)
       .setDepth(20) // image-box
 
     // create image
     this.image = this.scene.add.image(this.image_box.x, this.image_box.y
       , (this.texture) ? this.texture:'undefined')
-      .setDisplaySize(200,200).setDepth(20)
+      .setDisplaySize(200/zoom,200/zoom).setDepth(20)
 
     // create line
-    this.line_x = cameraX+260
-    this.line_y = cameraY+460
+    this.line_x = cameraX+260/zoom
+    this.line_y = cameraY+460/zoom
     this.line = new Phaser.GameObjects.Text(
       this.scene,
       this.line_x,
@@ -134,7 +135,6 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     const renderTextImage = (writing: boolean) => {
       this.image_box.visible = (this.texture) ? true:false
       this.image.setTexture(this.texture)
-        .setDisplaySize(200, 200)
       this.image.visible = (this.texture) ? true:false
 
       if (!writing) {

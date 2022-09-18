@@ -39,6 +39,7 @@ export default class Item extends Phaser.GameObjects.Image {
 
     this.on('item-interact', (cameraX: number, cameraY: number) => {
       let dialogue: Dialogue|null = null
+      const zoom = this.scene.cameras.main.zoom
       switch (this.interact.type) {
         case 'get':
           // add to inventory
@@ -46,13 +47,13 @@ export default class Item extends Phaser.GameObjects.Image {
         break
         
         case 'question':
-          dialogue = new Dialogue(this.scene, cameraX, cameraY, [], this.interact.question)
+          dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, [], this.interact.question)
           dialogue.create()
           this.scene.events.emit('start-talking')
         break
 
         case 'read':
-          dialogue = new Dialogue(this.scene, cameraX, cameraY, this.interact.content, {})
+          dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, this.interact.content, {})
           dialogue.create()
           this.scene.events.emit('start-talking')
 

@@ -31,24 +31,59 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 		super.destroy()
 	}
 
-	async saveGameData(stage: any /* Stage */, inventory: [ Item? ], game_key: string)
-	{
+	async saveGameData(
+		stage: {
+			key: string,
+			item_carry: [ Item? ],
+			player_config: any,
+			scenes_config: any
+		},
+		inventory: [ Item ]|[],
+		game_key: string,
+		clue?: any /* Clue */
+	) {
 		const uid = this.auth.currentUser.uid
 
     const UsersRef = collection(this.firestore, 'Users')
     const user_UsersRef = doc(UsersRef, uid)
 
-		await updateDoc(user_UsersRef.Stages[game_key], {
-			key: stage.key,
-			p_scene: stage.p_scene,
-			scenes: stage.scenes_config
-		}) // update player config
-		
-		inventory.forEach( async (item?: Item) => {
-			await updateDoc(user_UsersRef.Stages[game_key], {
-				Inventory: arrayUnion(item)
+		if (clue) {
+			const data: any = {}
+			data[clue.story] = arrayUnion({
+				'title': clue.title,
+				'description': clue.description,
+				'subClues': clue.subClues
 			})
-		}) // update inventory
+			await updateDoc(user_UsersRef, {
+				'Clues': data
+			})
+
+			// add subclue quiz-accomplishment to user.quiz_accs
+			clue.subClues.forEach(async (subClue: any) => {
+				if (!subClue.quiz_id) return
+
+				const data: any = {}
+				data[subClue.quiz_id] = false
+				await updateDoc(user_UsersRef, {
+					'quiz_accs': data
+				})
+			})
+		} // upload clue to user db
+
+		const data: any = {}
+		data[game_key] = {
+			'key': stage.key,
+			'player_config': stage.player_config,
+			'scenes_config': stage.scenes_config,
+			'item_carry': arrayUnion('item0')
+		}
+		await updateDoc(user_UsersRef, { Stages: data }) // update player config
+		
+		if (inventory.length != 0) {
+			inventory.forEach( async (item: Item) => {
+				await updateDoc(user_UsersRef.Inventory, arrayUnion(item))
+			}) // update inventory
+		}
 	}
 
 	async loadGameData(game: any, update: boolean /* update flag */)
@@ -64,13 +99,13 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 		if (update||!_.includes(Object.keys(user_Stages), game.key)) {
 			game.stage.player_config = null // stage-data == stage.default_config
 
-			// new game started >> add new game stage-data
+			// new game/stage started >> add new stage-data
 			const data: any = {}
 			data[game.key] = {
 				item_carry: [],
 				key: game.stage.key,
-				p_scene: game.stage.default_config.p_scene,
-				scenes: game.stage.default_config.scenes
+				player_config: game.stage.player_config,
+				scenes_config: game.stage.scenes_config
 			}
 			updateDoc(user_UsersRef, {
 				Stages: data
@@ -89,11 +124,11 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 				data[game.key] = {
 					item_carry: [],
 					key: game.stage.key,
-					p_scene: game.stage.default_config.p_scene,
-					scenes: game.stage.default_config.scenes
+					player_config: game.stage.default_config.player_config,
+					scenes_config: game.stage.default_config.scenes_config
 				}
 				updateDoc(user_UsersRef, {
-					Stages: data,
+					Stages: data
 				}) // default_config
 			}
 		}

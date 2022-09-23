@@ -94,6 +94,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     this.on('start-talking', (key: string, cameraX: number, cameraY: number) => {
       // pause npc anim
       this.anims.pause()
+      this.scene.events.emit('start-talking') // emit talking event to scene
 
       // create dialogue
       const zoom = this.scene.cameras.main.zoom

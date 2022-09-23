@@ -42,8 +42,8 @@ export default class Item extends Phaser.GameObjects.Image {
       const zoom = this.scene.cameras.main.zoom
       switch (this.interact.type) {
         case 'get':
-          // add to inventory
-          this.scene.events.emit('add-to-inventory', this)
+          // add to inventory (update db)
+          this.scene.events.emit('pause', this)
         break
         
         case 'question':

@@ -172,10 +172,10 @@ export default class Test1_Scene extends Phaser.Scene {
     super({'key':'Test1'})
   }
 
-  init(player_config) {
-    // pass player_config to sceneload plugin
-    this.sceneload.init(player_config)
-  }
+  // init(player_config) {
+  //   // pass player_config to sceneload plugin
+  //   this.sceneload.init(player_config)
+  // }
 
   preload() {
     // load map image

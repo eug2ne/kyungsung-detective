@@ -6,14 +6,9 @@ import Phaser from "phaser"
 //   player_config: any,
 //   scenes: [ Phaser.Scene ] /* [ Scene ] */,
 //   scenes_config: any /* { scene_key: scene_config } */,
-//   p_scene: {
-//     sceneKey: string,
-//     x: number,
-//     y: number
-//   },
 //   default_config: {
-//     p_scene: { sceneKey: string, x: number, y: number },
-//     scenes: any /* { scene_key: scene_config } */
+//     player_cofig: { sceneKey: string, x: number, y: number },
+//     scenes_config: any /* { scene_key: scene_config } */
 //   },
 //   clear(): Promise<void> /* check stage clear terms */,
 //   event(scene: Phaser.Scene): void /* handle scene events */
@@ -26,27 +21,20 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
   // private _player_config: {
   //   sceneKey: string,
   //   x: number,
-  //   y: number,
-  //   item_carry: [ Item? ],
-  //   scene_config: any
+  //   y: number
   // }|null
   // public scenes: [ Phaser.Scene ]
   // public scenes_config: any /* { scene_key: scene_config, ... } */
-  // public p_scene: {
-  //   sceneKey: string,
-  //   x: number,
-  //   y: number
-  // } = { sceneKey: '', x: 0, y: 0}
   // public default_config: {
-  //   p_scene: { sceneKey: string, x: number, y: number },
-  //   scenes: any /* { scene_key: scene_config } */
+  //   player_config: { sceneKey: string, x: number, y: number },
+  //   scenes_config: any /* { scene_key: scene_config } */
   // }
 
   constructor(manager /*: Phaser.Plugins.PluginManager*/,
     scenes /*: [ Phaser.Scene ]*/,
     default_config, //: {
-    //   p_scene: { sceneKey: string, x: number, y: number },
-    //   scenes: any /* { scene_key: scene_config } */
+    //   player_config: { sceneKey: string, x: number, y: number },
+    //   scenes_config: any /* { scene_key: scene_config } */
     // },
     key /*: string*/,
     next /*: Stage|null*/
@@ -62,26 +50,25 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
     if (!value) {
       // stage_info not existing in user db
       // set default_config as player_config
-      const sceneKey = this.default_config.p_scene.sceneKey
+      const sceneKey = this.default_config.player_config.sceneKey
       this._player_config = {
         'sceneKey': sceneKey,
-        'x': this.default_config.p_scene.x,
-        'y': this.default_config.p_scene.y,
-        'item_carry': [],
-        'scene_config': this.default_config.scenes[sceneKey]
+        'x': this.default_config.player_config.x,
+        'y': this.default_config.player_config.y
       }
-      this.scenes_config = this.default_config.scenes
+      this.item_carry = []
+      this.scenes_config = this.default_config.scenes_config
     } else {
       // set value as player_config
-      const sceneKey = value.p_scene.sceneKey
+      const sceneKey = value.player_config.sceneKey
       this._player_config = {
         'sceneKey': sceneKey,
-        'x': value.p_scene.x,
-        'y': value.p_scene.y,
-        'item_carry': value.item_carry,
-        'scene_config': value.scenes[sceneKey]
+        'x': value.player_config.x,
+        'y': value.player_config.y,
+        'item_carry': value.item_carry
       }
-      this.scenes_config = value.scenes
+      this.item_carry = value.item_carry
+      this.scenes_config = value.scenes_config
     }
   }
 
@@ -95,8 +82,18 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
     } else {
       // stage clear >> move to next stage
       this.game.stage = this.next
-      await this.game.create(this.game, true)
+      await this.game.create(true)
     }
+  }
+
+  pause(clue /* Clue */, item /* Item */) {
+    if (item) {
+      // remove item.id from scenes_config
+      const remove_i = scenes_config[this.player_config.sceneKey].item.indexOf(item?.id)
+      scenes_config[this.player_config.sceneKey].item.splice(remove_i, 1)
+      item?.destroy() // destroy item from scene
+    }
+    this.game.pause(clue, item) // upload clue to user db + save progress
   }
 
   event(scene /*: Phaser.Scene*/) {}

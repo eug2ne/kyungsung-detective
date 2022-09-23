@@ -46,22 +46,11 @@ export default class game extends Phaser.Game {
     this.stage = new BreakfastStage(this.plugins) // default first stage
   }
 
-  async destroy() {
-    // update p_scene config
-    const player_config = this.scene.getScene(this.stage.player_config.sceneKey).sceneload.player_config
-    this.stage.item_carry = player_config.item_carry
-    this.stage.p_scene.sceneKey = player_config.sceneKey
-    this.stage.p_scene.x = player_config.x
-    this.stage.p_scene.y = player_config.y
-    this.stage.scenes_config[player_config.sceneKey] = player_config.scene_config
-
-    const firestore = this.plugins.get('FirebasePlugin')
-    // save player_config + inventory to db
-    await firestore.saveGameData(this.stage, player_config.inventory, this.key)
+  destroy() {
     super.destroy()
   }
 
-  async create(update = false /* boolean */) {
+  async create(update = false /* update flag */) {
     const firestore = this.plugins.get('FirebasePlugin')
 
     await firestore.loadGameData(this, update)
@@ -74,7 +63,35 @@ export default class game extends Phaser.Game {
     let PlayScene_Key = this.stage.player_config.sceneKey /* present sceneKey */
 
     // start stage
-    this.scene.start(PlayScene_Key, this.stage.player_config)
+    const config = {
+      player_config: this.stage.player_config,
+      scenes_config: this.stage.scenes_config,
+      item_carry: this.stage.item_carry
+    }
+    this.scene.getScene(PlayScene_Key).sceneload.config = config
+    this.scene.start(PlayScene_Key)
     this.stage.event(this.scene.getScene(PlayScene_Key))
+  }
+
+  async pause(clue, item) {
+    this.scene.pause() // pause game
+
+    // update stage data
+    const config = this.scene.getScene(this.stage.player_config.sceneKey).sceneload.config
+    this.stage.player_config = config
+
+    const firestore = this.plugins.get('FirebasePlugin')
+    // save player_config + inventory to db
+    const stage = {
+      'item_carry': this.stage.item_carry,
+      'key': this.stage.key,
+      'player_config': this.stage.player_config,
+      'scenes_config': this.stage.scenes_config
+    }
+    await firestore.saveGameData(stage, [], this.key, null)
+
+    setTimeout(() => {
+      this.scene.resume()
+    },)
   }
 }

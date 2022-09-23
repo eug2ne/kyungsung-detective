@@ -7,6 +7,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
   private line: Phaser.GameObjects.Text
   private image_box: Phaser.GameObjects.Rectangle
   private image: Phaser.GameObjects.Image
+  private zoom: number
   private options: [ Phaser.GameObjects.Text? ] = []
   private readonly dialogue: any /* npc.dialogue|item.content */
   private readonly question: any
@@ -25,6 +26,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
 
     this.dialogue = dialogue
     this.question = question
+    this.zoom = zoom
 
     // create dialogue-box on screen
     const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
@@ -36,7 +38,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     // create image
     this.image = this.scene.add.image(this.image_box.x, this.image_box.y
       , (this.texture) ? this.texture:'undefined')
-      .setDisplaySize(200/zoom,200/zoom).setDepth(20)
+      .setDepth(20)
 
     // create line
     this.line_x = cameraX+260/zoom
@@ -134,7 +136,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     }
     const renderTextImage = (writing: boolean) => {
       this.image_box.visible = (this.texture) ? true:false
-      this.image.setTexture(this.texture)
+      this.image.setTexture(this.texture).setDisplaySize(200/this.zoom, 200/this.zoom)
       this.image.visible = (this.texture) ? true:false
 
       if (!writing) {
@@ -183,7 +185,6 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
         
             // mouse click event
             option.on('pointerdown', () => {
-              console.log(option.data.values.to)
               if (!option.data.values.to) {
                 // end of question/dialogue
                 this.scene.events.emit('end-talking', this)

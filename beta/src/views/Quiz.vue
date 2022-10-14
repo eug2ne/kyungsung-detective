@@ -1,15 +1,19 @@
 <template>
   <div class="contents">
-    <Answerarea :quiz_id="quiz_id" />
+    <div id="accomplishedPopup" v-if="accs">
+      <h2>해결!</h2>
+    </div>
+    <Answerarea :quiz_id="_quiz_id" />
     <ul id="help">
-    <li id="hint" @click="showHints = !showHints">힌트</li>
+    <!-- if this.accs, disable all click events -->
+    <li id="hint" @click="accs ? null : showHints = !showHints">힌트</li>
       <ul v-if="showHints" id="hints">
-        <li @click="this.emitter.emit('hint_first')">초성 힌트</li>
-        <li @click="this.emitter.emit('hint_def')">뜻 힌트</li>
+        <li @click="accs ? null : this.emitter.emit('hint_first')">초성 힌트</li>
+        <li @click="accs ? null : this.emitter.emit('hint_def')">뜻 힌트</li>
       </ul>
     <li id="rules" v-else><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
     </ul>
-    <QuizArea :quiz_id="quiz_id"/>
+    <QuizArea :quiz_id="_quiz_id" :accs="accs" @quiz-accomplish="showAccomplish" />
   </div>
 
   <div class="sources">
@@ -51,10 +55,16 @@ import QuizArea from '../components/QuizArea.vue'
 export default {
   name: 'Quiz',
   components: { QuizArea, Answerarea },
-  props: ['quiz_id'],
+  props: ['_quiz_id'],
   data() {
     return {
-      showHints: false
+      showHints: false,
+      accs: false
+    }
+  },
+  methods: {
+    showAccomplish() {
+      this.accs = true
     }
   }
 }
@@ -63,6 +73,27 @@ export default {
 <style>
 .contents {
   position: relative;
+}
+
+#accomplishedPopup {
+  position: fixed;
+  top: 250px;
+  right: 420px;
+  z-index: 1000;
+  width: 300px;
+  height: 150px;
+  transform: rotate(-25deg);
+  background-color: #fff1ea;
+  border-radius: 10px;
+  box-shadow: 0 0 0 3px rgba(221, 96, 96, 0.8), 5px 5px 0 5px #c9a7a7,
+    0 0 0 10px #e1cfcf;
+  text-align: center;
+  text-shadow: 4px 4px #e73939ae;
+  font-size: 30px;
+}
+
+#accomplishedPopup h2 {
+  margin-top: 50px;
 }
 
 #controls {

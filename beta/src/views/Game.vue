@@ -1,5 +1,5 @@
 <template>
-  <div :id="containerId" v-if="downloaded" />
+  <div :id="containerId" v-if="downloaded" class="contents" />
   <div class="placeholder" v-else>로딩 중 ...</div>
 </template>
 

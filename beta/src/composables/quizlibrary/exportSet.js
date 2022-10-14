@@ -7,6 +7,16 @@ const exportSet = async (quizinstance) => {
 
     const UsersRef = collection(db, 'Users')
     const userRef = doc(UsersRef, user.uid)
+
+    // if quiz accomplished, update user-config on db
+    if (quizinstance.accomplish) {
+        let accs = {}
+        accs[quizinstance.id] = true
+        await updateDoc(userRef, {
+            quiz_accs: accs
+        })
+    }
+
     const QuizsRef = collection(userRef, 'Quizs')
     const quizRef = doc(QuizsRef, quizinstance.id)
 

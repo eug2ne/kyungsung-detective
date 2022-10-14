@@ -7,22 +7,22 @@
     <div class="between-box" />
     <ul class="navbar">
       <li>
-        <router-link :to="'/Map'">
+        <router-link :to="'/Game'">
           <p class="pixel-borders--2">맵</p>
         </router-link>
       </li>
       <li>
-        <router-link :to="'/Map/Inventory'">
+        <router-link :to="'/Game/Inventory'">
           <p class="pixel-borders--2">인벤토리</p>
         </router-link>
       </li>
       <li>
-        <router-link :to="'/Map/Cluenote'">
+        <router-link :to="'/Game/Cluenote'">
           <p class="pixel-borders--2">단서노트</p>
         </router-link>
       </li>
       <li>
-        <router-link :to="{ path: '/Map/Quiz', params: { quiz_id: '5pSYFHRok3Es4xw6XWcC' } }">
+        <router-link :to="{ name: 'Quiz', params: { _quiz_id: 'default' } }">
           <p class="pixel-borders--2">단서판서</p>
         </router-link>
       </li>

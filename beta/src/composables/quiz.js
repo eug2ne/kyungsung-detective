@@ -13,7 +13,7 @@ const target = ref({})
 // import event, data
 // >> update db
 // >> return quizletterset
-const quiz = (data, instance) => {
+const quiz = (data, instance, answerset) => {
     quizletterset.value = instance.quizletterset
     chosen.value = instance.chosen
     reverse.value = instance.reverse
@@ -126,18 +126,12 @@ const quiz = (data, instance) => {
 
             target.value = chosen.value[0]
 
-            switch (target.value.col) {
-                case 0:
-                    quizletterset.value[target.value.row][target.value.col+1].isChoice = true
-                    break
-      
-                case 14:
-                    quizletterset.value[target.value.row][target.value.col-1].isChoice = true
-                    break
-      
-                default:
-                    quizletterset.value[target.value.row][target.value.col-1].isChoice = true
-                    quizletterset.value[target.value.row][target.value.col+1].isChoice = true
+            try {
+                quizletterset.value[target.value.row][target.value.col+1].isChoice = true
+                quizletterset.value[target.value.row][target.value.col-1].isChoice = true
+            } catch (err) {
+                (quizletterset.value[target.value.row][target.value.col+1]) ? 
+                    quizletterset.value[target.value.row][target.value.col+1].isChoice = true : quizletterset.value[target.value.row][target.value.col-1].isChoice = true
             }
             break
 
@@ -158,7 +152,7 @@ const quiz = (data, instance) => {
             break
 
         case 'Word':
-            useWord(chosen.value, quizletterset.value, backset.value)
+            useWord(chosen.value, quizletterset.value, backset.value, answerset)
             break
 
         case 'Space':

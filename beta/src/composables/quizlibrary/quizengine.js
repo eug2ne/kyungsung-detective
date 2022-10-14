@@ -83,7 +83,7 @@ const quizengine = (reverse) => {
     }
 
     // word func
-    const useWord = (arr, set, pastSet) => {
+    const useWord = (arr, set, pastSet, answerset) => {
         let wordspace = {'0,0':null, '1,0':null, '0,1':null, '1,1':null, '0,2':null, '1,2':null}
 
         arr.forEach(element => {
@@ -108,6 +108,13 @@ const quizengine = (reverse) => {
             delete set[arr[0].row+1][arr[0].col+1]
             delete set[arr[0].row+2][arr[0].col]
             delete set[arr[0].row+2][arr[0].col+1]
+
+            // check answer match in answerset.word
+            if (set[arr[0].row][arr[0].col].letter == answerset.word[`${arr[0].row},${arr[0].col}`]) {
+                set[arr[0].row][arr[0].col].isAnswer = true
+            } else {
+                set[arr[0].row][arr[0].col].isAnswer = false
+            }
         } else {
             // WordError
             throw Error('WordError')

@@ -13,6 +13,8 @@ const default_config = {
   }
 }
 
+const event_dial = {}
+
 export default class Test1Stage extends Stage {
   constructor(manager: Phaser.Plugins.PluginManager) {
     super(manager, [ Test1 ], default_config, 'Test1Stage', null)

@@ -1,14 +1,16 @@
 <template>
   <div id="Answer-area" class="pixel-borders--2">
-      <h2 v-if="showAbbr">{{ this.answerSet.abbr }}</h2>
-      <h2 v-else>{{ this.answerLength }}</h2>
-      <p v-if="showdef">{{ this.answerSet.definition }}</p>
+    <!-- if this.accs, show answer + def -->
+    <h2 v-if="accs">{{ this.answerSet.answer }}</h2>
+    <h2 v-if="accs ? false : showAbbr">{{ this.answerSet.abbr }}</h2>
+    <h2 v-if="accs ? false : !showAbbr">{{ this.answerLength }}</h2>
+    <p v-if="accs ? true : showdef">{{ this.answerSet.definition }}</p>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
-import { db } from '../firestoreDB'
+import { auth, db } from '../firestoreDB'
 import { collection, doc, getDoc } from 'firebase/firestore'
 
 export default {
@@ -21,31 +23,60 @@ export default {
         }
     },
     setup(props) {
+        const accs = ref(false) // quiz accomplishment
         const answerSet = ref({})
 
         const load = async () => {
-            const AnswerSetRef = collection(db, 'AnswerSet')
-            const AnswerRef = doc(AnswerSetRef, props.quiz_id)
-            const AnswerSnap = await getDoc(AnswerRef)
+            try {
+                const AnswerSetRef = collection(db, 'AnswerSet')
+                let quiz_id = ''
+                // get current user
+                const user = auth.currentUser
+                // import user-config from db
+                const UsersRef = collection(db, 'Users')
+                const user_Ref = doc(UsersRef, user.uid)
+                const user_Snap = await getDoc(user_Ref)
+                if (props.quiz_id == 'default') {
+                    quiz_id = user_Snap.data().present_id
+                } else {
+                    quiz_id = props.quiz_id
+                }
+                // get quiz accomplishment from user-config
+                accs.value = user_Snap.data().quiz_accs[quiz_id]
 
-            answerSet.value = AnswerSnap.data()
+                const AnswerRef = doc(AnswerSetRef, quiz_id)
+                const AnswerSnap = await getDoc(AnswerRef)
+
+                answerSet.value = AnswerSnap.data()
+            } catch (err) {
+                // if present_id do not exist in user-config, show default-page
+                answerSet.value = {}
+            }
         }
 
         load()
 
         return {
-            answerSet
+            answerSet,
+            accs
         }
     },
     computed: {
         answerLength() {
             const abbr = this.answerSet.abbr
 
-            if (abbr) {
-                return '_ '.repeat(abbr.length)
-            } else {
-                // pass
+            if (!abbr) return
+
+            let length = ''
+            for (const l of abbr) {
+                if (l == ' ') {
+                    length += ' '
+                } else {
+                    length += '_ '
+                }
             }
+
+            return length
         }
     },
     mounted() {

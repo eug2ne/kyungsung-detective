@@ -1,35 +1,52 @@
 import { auth, db } from '../../firestoreDB'
-import { ref } from 'vue'
-import { collection, doc, setDoc, getDoc, arrayUnion } from 'firebase/firestore'
+import { collection, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore'
 
-const importSet = async (quiz_id) => {
-    const defaultSet = ref({})
-
+const importSet = async (_quiz_id) => {
     // get current user
     const user = auth.currentUser
     // import set from db
-    const QuizRef = collection(db, 'Users/Quizs/Quizs')
-    const user_QuizRef = doc(QuizRef, user.uid)
+    const UsersRef = collection(db, 'Users')
+    const user_Ref = doc(UsersRef, user.uid)
+
+    const QuizsRef = collection(user_Ref, 'Quizs')
+    let quiz_id = ''
+    if (_quiz_id == 'default') {
+        const user_Snap = await getDoc(user_Ref)
+        quiz_id = user_Snap.data().present_id
+    } else {
+        quiz_id = _quiz_id
+        await updateDoc(user_Ref, {
+            present_id: quiz_id
+        }) // user-config.present_id to quiz_id
+    }
+    const user_QuizRef = doc(QuizsRef, quiz_id)
     const user_QuizSnap = await getDoc(user_QuizRef)
 
     // get defaultSet
     const defaultQuizRef = collection(db, 'QuizSet')
     const defaultSetRef = doc(defaultQuizRef, quiz_id)
     const defaultSetSnap = await getDoc(defaultSetRef)
-    defaultSet.value = defaultSetSnap.data()
+    const defaultSet = defaultSetSnap.data()
+
+    // get answerSet
+    const answerSetRef = collection(db, 'AnswerSet')
+    const answerDocRef = doc(answerSetRef, quiz_id)
+    const answerSnap = await getDoc(answerDocRef)
+    const answerSet = answerSnap.data().set
 
     if (user_QuizSnap.exists()) {
         // if user has quizstatus, load quizstatus from db
-        const quizinstance = user_QuizSnap.data().sets[quiz_id]
+        const quizinstance = user_QuizSnap.data()
 
         return {
             defaultSet,
-            quizinstance
+            quizinstance,
+            answerSet
         }
     } else {
         // else, create new quizstatus
-        const set = {}
-        set[`${quiz_id}`] = {
+        await setDoc(user_QuizRef, {
+            id: quiz_id,
             quizletterset: defaultSet.value,
             chosen: [],
             reverse: false,
@@ -37,18 +54,20 @@ const importSet = async (quiz_id) => {
             backset: [],
             forwardset: [],
             accomplish: false
-        }
-        await setDoc(user_QuizRef, {
-            present_id: quiz_id,
-            quiz_ids: arrayUnion(quiz_id),
-            sets: set
+        })
+
+        const accs_set = {}
+        accs_set[quiz_id] = false
+        await updateDoc(user_Ref, {
+            quiz_accs: accs_set
         }) // default setting
 
-        const quizinstance = user_QuizSnap.data().sets[quiz_id]
+        const quizinstance = user_QuizSnap.data()
 
         return {
             defaultSet,
-            quizinstance
+            quizinstance,
+            answerSet
         }
     }
 }

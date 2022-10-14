@@ -9,6 +9,7 @@ import {
 	arrayUnion
 } from 'firebase/firestore'
 import Item from './GameObjects/Item'
+import { addDoc } from 'firebase/firestore'
 
 export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 {

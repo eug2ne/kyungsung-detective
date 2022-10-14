@@ -32,7 +32,7 @@
         <div class="subclue_lock" v-else>
           <h3>아직 잠겨있습니다</h3>
           <p>
-            <router-link v-if="subclue.quiz_id" :to="{ name: 'Quiz', params: { quiz_id: subclue.quiz_id } }">
+            <router-link v-if="subclue.quiz_id" :to="{ name: 'Quiz', params: { _quiz_id: subclue.quiz_id } }">
               (퍼즐 풀고 단서 얻으러가기)
             </router-link>
           </p>
@@ -67,33 +67,27 @@ export default {
       const userSnap = await getDoc(userRef)
 
       cluelist.value = userSnap.data().Clues
-      requires.value = userSnap.data().requires
+      requires.value = userSnap.data().quiz_accs
     }
 
     load()
 
     return {
-      cluelist
+      cluelist,
+      requires
     }
   },
   methods: {
     showClue(story) {
       this.show = this.cluelist[story]
 
-      const load = async (subclue) => {
-        if (!subclue.quiz_id) {
-          subclue.require = true
-        } else {
-          subclue.require = userSnap.data().quiz_accs[subclue.quiz_id]
-          await updateDoc(userRef, {
-            present_id: subclue.quiz_id
-          })
-        }
-      }
-
-      for (let clue in this.cluelist) {
-        for (let subclue in clue.subClues) {
-          load(subclue)
+      for (let clue of this.show) {
+        for (let subclue of clue.subClues) {
+          if (!subclue.quiz_id) {
+            subclue.require = true
+          } else {
+            subclue.require = this.requires[subclue.quiz_id]
+          }
         }
       }
     },
@@ -114,10 +108,10 @@ body {
 
 #timeline {
   width: 150px;
-  display: inline-block;
+  display: block;
   position: relative;
-  left: 60px;
   float: left;
+  margin-left: 20px;
 }
 
 #timeline button {
@@ -149,7 +143,7 @@ body {
   padding: 20px;
   display: inline-block;
   position: absolute;
-  right: 30px;
+  right: 10px;
   border-radius: 0;
   overflow: scroll;
 }
@@ -162,8 +156,10 @@ body {
 }
 
 .clue {
-  height: 120px;
-  width: 300px;
+  min-height: 120px;
+  min-width: 380px;
+  max-height: 150px;
+  max-width: 500px;
   display: block;
   margin: 30px 15px;
   padding: 15px;
@@ -174,8 +170,10 @@ body {
 }
 
 .subclue_unlock {
-  height: 120px;
-  width: 300px;
+  min-height: 120px;
+  min-width: 380px;
+  max-height: 150px;
+  max-width: 500px;
   display: block;
   margin: 40px 15px;
   padding: 10px;

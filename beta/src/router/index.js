@@ -21,7 +21,7 @@ const routes = [
     component: Main,
     children: [
       {
-        path: 'Quiz/:quiz_id',
+        path: 'Quiz/:_quiz_id',
         name: 'Quiz',
         component: Quiz,
         props: true

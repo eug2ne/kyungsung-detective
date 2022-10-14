@@ -1,46 +1,20 @@
 <template>
   <div id="router-view" class="pixel-borders--1">
-    <nav>
-      <div class="invisible-box" />
-      <button class="navbar icon" id="terminate">
-        <img src="../assets/refresh.png" alt="새로고침" />
-      </button>
-      <div class="between-box" />
-      <ul class="navbar">
-        <li>
-          <router-link :to="{ name: 'Game' }">
-            <p class="pixel-borders--2">맵</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'Inventory' }">
-            <p class="pixel-borders--2">인벤토리</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'Cluenote' }">
-            <p class="pixel-borders--2">단서노트</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'Quiz', params: { quiz_id: '5pSYFHRok3Es4xw6XWcC' } }">
-            <p class="pixel-borders--2">단서판서</p>
-          </router-link>
-        </li>
-      </ul>
-      <div class="invisible-box" />
-    </nav>
-    <Game v-show="this.show_Game"/>
-    <router-view/>
+    <Navbar/>
+    <div class="contents">
+      <Game v-show="this.show_Game"/>
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
+import Navbar from '../components/Navbar.vue'
 import Game from './Game.vue'
 
 export default {
   name: 'Main',
-  components: { Game },
+  components: { Navbar, Game },
   computed: {
     show_Game() {
       if (this.$route.path == '/Game') {
@@ -62,6 +36,10 @@ nav {
   display: flex;
   margin: 15px 0 0 0;
   z-index: 1;
+}
+
+.contents {
+  margin-top: 10px;
 }
 
 .icon {

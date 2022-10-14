@@ -50,7 +50,19 @@ const npcs_JSON = [
         },
         {
           "image": "inspector_neutral",
-          "line": "받아라. 첫 번째 문제다."
+          "line": "시험은 총 세 단계로 구성된다."
+        },
+        {
+          "image": "inspector_neutral",
+          "line": "첫 번째 시험과 두 번째 시험을 이곳, 경무대에서 오늘 중으로 모두 치를 것이고,"
+        },
+        {
+          "image": "inspector_neutral",
+          "line": "세 번째 시험은 실제 현장에서 파견 감독관의 동행 하에 3일간 치러질 것이다."
+        },
+        {
+          "image": "inspector_neutral",
+          "line": "받아라. 첫 번째 시험이다."
         }
       ],
       "post_c_repeat": [
@@ -70,7 +82,7 @@ const npcs_JSON = [
         },
         {
           "image": "inspector_smile",
-          "line": "두 번째 문제는 나를 따라오도록."
+          "line": "두 번째 시험은 나를 따라오도록."
         }
       ]
     },
@@ -102,7 +114,7 @@ const npcs_JSON = [
         {
           "title": "붉은 마패를 찾았다!",
           "description": "붉은 마패는 황실에서 발행하는 신문을 말하는 것이다. 신문팔이에게 가서 붉은 마패를 달라고 해보자!",
-          "quiz_id": null,
+          "quiz_id": "cJ89EcZyF5EHwElEGRGZ",
           "background_img": null,
           "require": false
         }

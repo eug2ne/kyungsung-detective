@@ -2,25 +2,30 @@
   <ErrorPopup :type="showPopup" @ErrorPopupVanish="refreshSet"/>
   <div class="contents">
     <div id="controls">
-    <button @click="refreshQuiz" id="refreshQuiz" class="icon">
+    <!-- if this.accs, disable click-event -->
+    <button v-on="accs ? {} : { click: refreshQuiz }" id="refreshQuiz" class="icon">
       <img src="../assets/refresh-page-option.png" alt="초기화" title="초기화"/>
     </button>
-    <button ref="reverseButton" @click="reverseQuiz" class="icon" id="reverseQuiz">
+    <button ref="reverseButton" v-on="accs ? {} : { click: reverseQuiz }" class="icon" id="reverseQuiz">
       <img v-if="this.q_instance.reverse" class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774733.png" alt="반전">
       <img v-else class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774765.png" alt="반전">
     </button>
     <ul>
-        <button @click="back" id="backQuiz" class="icon">
+        <button v-on="accs ? {} : { click: back }" id="backQuiz" class="icon">
           <img src="../assets/return.png" alt="뒤로가기" title="실행취소"/>
         </button>
-        <button @click="forward" id="forwardQuiz" class="icon">
+        <button v-on="accs ? {} : { click: forward }" id="forwardQuiz" class="icon">
           <img src="../assets/next.png" alt="앞으로가기" title="되돌리기"/>
         </button>
     </ul>
     </div>
-    <OptionsMenu v-if="showOption" :x="hint_x" :y="hint_y"
-      @clickOption="show"/>
-    <table ref="table" id="Quiz-area">
+    <OptionsMenu v-if="!accs ? showOption : false" :x="hint_x" :y="hint_y"
+      @clickOption="show" />
+    <div v-if="showDefault" id="default_page">
+      <h2>아직 추리 중인 단서가 없습니다!</h2>
+      <h3>맵을 돌아다니며 단서를 얻거나 단서 노트에서 추리하고 싶은 단서를 선택해주세요!</h3>
+    </div>
+    <table v-else ref="table" id="Quiz-area">
       <tr v-for="item in Object.keys(this.quizletterset)"
         :key="item.id"
         :aria-rowindex="item">
@@ -56,7 +61,7 @@ import exportSet from '../composables/quizlibrary/exportSet'
 export default {
     name: 'QuizArea',
     components: { Letter, OptionsMenu, ErrorPopup },
-    props: [ 'set', 'quiz_id' ],
+    props: [ 'set', 'quiz_id', 'accs' ],
     data() {
       return {
         showOption: false,
@@ -69,14 +74,16 @@ export default {
       const d_Set = ref({})
       const q_instance = ref({})
       const quizletterset = ref({})
+      const showDefault = ref(false)
+      const answerset = ref({})
 
       if (props.set) {
         // if set imported, quizletterset = set
         d_Set.value = props.set
-        quizletterset.value = _.cloneDeep(d_Set.value)
+        quizletterset.value = props.set
         q_instance.value = {
           'id':props.quiz_id,
-          'quizletterset': quizletterset.value,
+          'quizletterset': d_Set.value,
           'chosen': [],
           'reverse': false,
           'max_chosen': 6,
@@ -88,14 +95,20 @@ export default {
         
         // create async load func.
         const load = async (quizid) => {
+          try {
             const {
               defaultSet,
-              quizinstance
+              quizinstance,
+              answerSet
             } = await importSet(quizid)
 
-            d_Set.value = defaultSet.value
+            d_Set.value = defaultSet
             q_instance.value = quizinstance
-            quizletterset.value = q_instance.value.quizletterset
+            quizletterset.value = quizinstance.quizletterset
+            answerset.value = answerSet
+          } catch (err) {
+            showDefault.value = true
+          }
         }
         
         // load data from db
@@ -105,7 +118,9 @@ export default {
       return {
         d_Set,
         q_instance,
-        quizletterset
+        quizletterset,
+        showDefault,
+        answerset
       }
     },
     methods: {
@@ -113,7 +128,7 @@ export default {
         if (this.$refs.table.querySelector('td.choice,td.chosen')&&this.quizletterset[data.row][data.col].isTarget) {
           // word()
           try {
-            quiz({'event':'Word'}, this.q_instance)
+            quiz({'event':'Word'}, this.q_instance, this.answerset)
           } catch (error) {
             // WordError
             this.showPopup = 'word'
@@ -208,9 +223,70 @@ export default {
         }
       }
   },
+  updated() {
+    try {
+      // check quiz-accomplishment
+      const accomplish = Object.keys(this.answerset.word).every((coord) => {
+        const [ x, y ] = coord.split(',')
+        const word = this.answerset.word[coord]
+
+        if (this.quizletterset[x][y].letter == word) {
+          return true
+        } else {
+          return false
+        }
+      })
+
+      if (accomplish) {
+        this.q_instance.accomplish = true // set q_instance.accomplish to true
+        exportSet(this.q_instance) // update user-status on db
+
+        this.$emit('quiz-accomplish') // emit quiz-accomplish event
+      }
+
+      // check answer match in answerset.letter
+      for (const coord in this.answerset.letter) {
+        const [ x, y ] = coord.split(',')
+        const letter = this.answerset.letter[coord]
+
+        try {
+          if (this.q_instance.quizletterset[x][y].letter == letter) {
+            this.q_instance.quizletterset[x][y].isAnswer = true
+          }
+        } catch (err) {
+          // this.quizletterset[x][y] not exist (deleted wordspace)
+          // pass
+        }
+      }
+    } catch (err) {
+      // no user-q_instance imported (show default page)
+      // pass
+    }
+  },
   unmounted() {
     // update db when component destroyed
     exportSet(this.q_instance)
   }
 }
 </script>
+
+<style scoped>
+div#default_page {
+  display: block;
+  width: 885px;
+  height: 400px;
+  text-align: center;
+  text-shadow: 4px 2px #f5f1f0;
+  font-size: 25px;
+  background-color: #ffcf87;
+  border-spacing: 2px;
+  box-shadow: 0 0 0 4px #ffe2b3, 0 0 0 calc(4px + 6px) rgba(0, 0, 0, 0.8),
+    0 0 0 calc(4px + 6px + 15px) #ffe2b3;
+  margin: 15px 25px 35px 25px;
+  padding: 50px;
+}
+
+h2 {
+  margin: 20px;
+}
+</style>

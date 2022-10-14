@@ -29,7 +29,7 @@
             <li class="moeum">ㅔ + ㆍ → ㅖ</li>
         </ul>
     </p>
-    <QuizArea :set="this.merge_set" id="rules_merge"/>
+    <QuizArea :set="this.merge_set" quiz_id="rules_merge"/>
 </div>
 <div class="contents" id="word-area">
     <h3>[단어 조합]</h3>
@@ -37,7 +37,7 @@
         - 단어 조합을 할 때는 가장 맨 위의 왼쪽 칸을 기준으로 오른쪽으로 2칸, 아래로 3칸(2x3)의 자음 모음을 골라 단어를 만들 수 있습니다. <br>
         - 단어가 만들어지면 6칸이 하나로 합쳐지며, 분해가 불가능합니다.
     </p>
-    <QuizArea :set="this.word_set" id="rules_word"/>
+    <QuizArea :set="this.word_set" quiz_id="rules_word"/>
 </div>
 <div class="contents" id="space-area">
     <h3>[빈칸]</h3>
@@ -45,7 +45,7 @@
         - 빈칸은 빈칸이라는 행동을 했을 때 2x3 범위 내에 있는 글자들을 조합해 단어를 만들 수 없을 때 해당 단위에 있는 모든 칸을 빈칸으로 만들 수 있습니다.<br>
         - 만약 단어 조합에 사용되는 영역의 글자들로 단어를 만들 수 있으면 빈칸을 만들 수 없습니다.
     </p>
-    <QuizArea :set="this.space_set" id="rules_space"/>
+    <QuizArea :set="this.space_set" quiz_id="rules_space"/>
 </div>
 </template>
 

@@ -47,7 +47,7 @@ const importSet = async (_quiz_id) => {
         // else, create new quizstatus
         await setDoc(user_QuizRef, {
             id: quiz_id,
-            quizletterset: defaultSet.value,
+            quizletterset: defaultSet,
             chosen: [],
             reverse: false,
             max_chosen: 6,
@@ -62,7 +62,17 @@ const importSet = async (_quiz_id) => {
             quiz_accs: accs_set
         }) // default setting
 
-        const quizinstance = user_QuizSnap.data()
+        const quizinstance = {
+            id: quiz_id,
+            quizletterset: defaultSet,
+            chosen: [],
+            reverse: false,
+            max_chosen: 6,
+            backset: [],
+            forwardset: [],
+            accomplish: false
+        }
+        console.log(quizinstance)
 
         return {
             defaultSet,

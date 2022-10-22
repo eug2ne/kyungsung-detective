@@ -70,6 +70,7 @@ export default {
         showPopup: null
       }
     },
+    emits: [ 'quizAccomplish' ],
     setup(props) {
       const d_Set = ref({})
       const q_instance = ref({})
@@ -107,6 +108,7 @@ export default {
             quizletterset.value = quizinstance.quizletterset
             answerset.value = answerSet
           } catch (err) {
+            console.log(err)
             showDefault.value = true
           }
         }
@@ -224,8 +226,14 @@ export default {
       }
   },
   updated() {
+    // check quiz-accomplishment before play
+    if (this.q_instance.accomplish) {
+      this.$emit('quizAccomplish')
+      return
+    }
+
     try {
-      // check quiz-accomplishment
+      // check quiz-accomplishment during play
       const accomplish = Object.keys(this.answerset.word).every((coord) => {
         const [ x, y ] = coord.split(',')
         const word = this.answerset.word[coord]
@@ -241,7 +249,7 @@ export default {
         this.q_instance.accomplish = true // set q_instance.accomplish to true
         exportSet(this.q_instance) // update user-status on db
 
-        this.$emit('quiz-accomplish') // emit quiz-accomplish event
+        this.$emit('quizAccomplish', this.q_instance.story) // emit quiz-accomplish event
       }
 
       // check answer match in answerset.letter

@@ -31,5 +31,8 @@ export default class Test1Stage extends Stage {
       // upload clue to user db + save progress
       this.pause(clue, null)
     })
+
+    // after accomplishing quiz
+    // update player_config
   }
 }

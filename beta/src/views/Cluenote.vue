@@ -31,10 +31,8 @@
 
         <div class="subclue_lock" v-else>
           <h3>아직 잠겨있습니다</h3>
-          <p>
-            <router-link v-if="subclue.quiz_id" :to="{ name: 'Quiz', params: { _quiz_id: subclue.quiz_id } }">
-              (퍼즐 풀고 단서 얻으러가기)
-            </router-link>
+          <p @click="this.$emit('subclueQuiz', subclue.quiz_id)">
+            (퍼즐 풀고 단서 얻으러가기)
           </p>
         </div>
       </div>
@@ -46,7 +44,7 @@
 <script>
 import { ref } from 'vue'
 import { auth, db } from '../firestoreDB'
-import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { collection, doc, getDoc } from 'firebase/firestore'
 
 export default {
   data() {
@@ -92,6 +90,14 @@ export default {
       }
     },
   },
+  mounted() {
+    this.emitter.on('clueAccomplish', (story) => {
+      this.showClue(story) // manually assigning which story to open
+      setTimeout(() => {
+        this.$emit('clueProgress', story)
+      }, 3000 )
+    })
+  }
 };
 </script>
 
@@ -197,6 +203,10 @@ body {
 
 .subclue_lock h3 {
   font-size: 20px;
+}
+
+.subclue_lock p {
+  cursor: pointer;
 }
 
 .notice {

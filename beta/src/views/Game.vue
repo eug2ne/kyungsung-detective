@@ -8,17 +8,13 @@ import game from '../game/game'
 
 export default {
   name: 'Game',
+  props: ['progress'],
   data() {
     return {
       downloaded: false,
       gameInstance: null,
       containerId: 'game-container'
     }
-  },
-  created() {
-    window.addEventListener('beforeunload', () => {
-      this.gameInstance.destroy()
-    })
   },
   mounted() {
     this.downloaded = true

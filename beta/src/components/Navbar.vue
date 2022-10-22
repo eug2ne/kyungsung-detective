@@ -7,9 +7,7 @@
     <div class="between-box" />
     <ul class="navbar">
       <li>
-        <router-link :to="'/Game'">
-          <p class="pixel-borders--2">맵</p>
-        </router-link>
+        <p @click="this.$emit('showMap')" class="pixel-borders--2">맵</p>
       </li>
       <li>
         <router-link :to="'/Game/Inventory'">
@@ -17,14 +15,10 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="'/Game/Cluenote'">
-          <p class="pixel-borders--2">단서노트</p>
-        </router-link>
+        <p @click="this.$emit('showCluenote')" class="pixel-borders--2">단서노트</p>
       </li>
       <li>
-        <router-link :to="{ name: 'Quiz', params: { _quiz_id: 'default' } }">
-          <p class="pixel-borders--2">단서판서</p>
-        </router-link>
+        <p @click="this.$emit('showQuiz')" class="pixel-borders--2">단서판서</p>
       </li>
     </ul>
     <div class="invisible-box" />
@@ -87,7 +81,7 @@ p {
   font-size: 28px;
 }
 
-.router-link-exact-active p {
+p:hover {
   color: black;
   text-shadow: 2px 2px rgba(255, 255, 255, 0.7);
   background: white;

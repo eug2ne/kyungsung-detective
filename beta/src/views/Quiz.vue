@@ -1,7 +1,7 @@
 <template>
   <div class="contents">
     <div id="accomplishedPopup" v-if="accs">
-      <h2>해결!</h2>
+      <h2>해 결!</h2>
     </div>
     <Answerarea :quiz_id="_quiz_id" />
     <ul id="help">
@@ -13,7 +13,7 @@
       </ul>
     <li id="rules" v-else><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
     </ul>
-    <QuizArea :quiz_id="_quiz_id" :accs="accs" @quiz-accomplish="showAccomplish" />
+    <QuizArea :quiz_id="_quiz_id" :accs="accs" @quizAccomplish="showAccomplish" />
   </div>
 
   <div class="sources">
@@ -63,8 +63,13 @@ export default {
     }
   },
   methods: {
-    showAccomplish() {
+    showAccomplish(story) {
       this.accs = true
+
+      if (!story) return
+      setTimeout(() => {
+        this.$emit('stageProgress', story)
+      }, 3000 ) // show quiz-accomplish event on Quiz
     }
   }
 }

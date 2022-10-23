@@ -26,6 +26,11 @@ export default {
       this.gameInstance.create()
     })
   },
+  updated() {
+    if (!this.progress) return
+
+    this.gameInstance.progress(this.progress)
+  }
   // beforeUnmount() {
   //   this.$nextTick(async () => {
   //     await this.gameInstance.destroy()

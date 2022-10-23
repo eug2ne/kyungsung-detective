@@ -94,4 +94,9 @@ export default class game extends Phaser.Game {
       this.scene.resume()
     },)
   }
+
+  progress(progress) {
+    // pass outer-game progress
+    this.stage.event(progress)
+  }
 }

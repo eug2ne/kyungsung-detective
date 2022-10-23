@@ -146,7 +146,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
         this.controls.enter.isDown = false
 
-        npc.dialogueKey = scene_config.npc[npc.id]
+        npc.dialogueKey =  scene_config.npc[npc.id]
+        console.log(npc.dialogueKey)
         const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
         npc.emit('start-talking', npc.dialogueKey, cameraX, cameraY)
       }

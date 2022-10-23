@@ -46,24 +46,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
 
   public set dialogueKey(key: string) {
     if (key == 'post_c_repeat'&&this.answer) {
-      // check if user solved quiz for this.answer
-      const user = auth.currentUser // get current user
-
-      const check = async () => {
-        const UsersRef = collection(db, 'Users')
-        const userRef = doc(UsersRef, user.uid)
-        const QuizsRef = collection(userRef, 'Quizs')
-        const quizSnap = await getDoc(QuizsRef, this.answer)
-
-        if (quizSnap.data().accomplish) {
-          // if user solved quiz for this.answer, dialogueKey == answer
-          this._dialogueKey = 'answer'
-        } else {
-          this._dialogueKey = key
-        }
-      }
-
-      check()
+      
     } else {
       this._dialogueKey = key
     }

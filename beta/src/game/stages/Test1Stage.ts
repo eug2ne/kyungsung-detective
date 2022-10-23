@@ -20,19 +20,25 @@ export default class Test1Stage extends Stage {
     super(manager, [ Test1 ], default_config, 'Test1Stage', null)
   }
 
-  event(scene: Phaser.Scene): void {
-    // after talking to inspector
-    // update player_config
-    scene.events.on('update-userconfig', (id: string, to: string, clue?: {story: string, title: string, description: string, subClues: any}) => {
-      this.scenes_config['Test1'].npc[id] = to
+  event(scene: Phaser.Scene|string): void {
+    if (typeof scene == 'string') {
+      console.log(scene)
+      // outer-game event progress
 
-      if (!clue) return
+      this.scenes_config['Test1'].npc['test1_newspaperstand'] = 'answer'
+    } else {
+      // in-game event progress
 
-      // upload clue to user db + save progress
-      this.pause(clue, null)
-    })
+      // after talking to inspector
+      // update player_config
+      scene.events.on('update-userconfig', (id: string, to: string, clue?: {story: string, title: string, description: string, subClues: any}) => {
+        this.scenes_config['Test1'].npc[id] = to
 
-    // after accomplishing quiz
-    // update player_config
+        if (!clue) return
+
+        // upload clue to user db + save progress
+        this.pause(clue, null)
+      })
+    }
   }
 }

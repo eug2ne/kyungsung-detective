@@ -1,8 +1,5 @@
 <template>
   <div class="contents">
-    <div id="accomplishedPopup" v-if="accs">
-      <h2>해 결!</h2>
-    </div>
     <Answerarea :quiz_id="_quiz_id" />
     <ul id="help">
     <!-- if this.accs, disable all click events -->
@@ -13,7 +10,7 @@
       </ul>
     <li id="rules" v-else><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
     </ul>
-    <QuizArea :quiz_id="_quiz_id" :accs="accs" @quizAccomplish="showAccomplish" />
+    <QuizArea :quiz_id="_quiz_id" />
   </div>
 
   <div class="sources">
@@ -51,25 +48,16 @@
 <script>
 import Answerarea from '../components/Answerarea.vue'
 import QuizArea from '../components/QuizArea.vue'
+import AccsModal from '../components/AccsModal.vue'
 
 export default {
   name: 'Quiz',
-  components: { QuizArea, Answerarea },
+  components: { QuizArea, Answerarea, AccsModal },
   props: ['_quiz_id'],
   data() {
     return {
       showHints: false,
       accs: false
-    }
-  },
-  methods: {
-    showAccomplish(story) {
-      this.accs = true
-
-      if (!story) return
-      setTimeout(() => {
-        this.$emit('stageProgress', story)
-      }, 3000 ) // show quiz-accomplish event on Quiz
     }
   }
 }
@@ -78,27 +66,6 @@ export default {
 <style>
 .contents {
   position: relative;
-}
-
-#accomplishedPopup {
-  position: fixed;
-  top: 250px;
-  right: 420px;
-  z-index: 1000;
-  width: 300px;
-  height: 150px;
-  transform: rotate(-25deg);
-  background-color: #fff1ea;
-  border-radius: 10px;
-  box-shadow: 0 0 0 3px rgba(221, 96, 96, 0.8), 5px 5px 0 5px #c9a7a7,
-    0 0 0 10px #e1cfcf;
-  text-align: center;
-  text-shadow: 4px 4px #e73939ae;
-  font-size: 30px;
-}
-
-#accomplishedPopup h2 {
-  margin-top: 50px;
 }
 
 #controls {

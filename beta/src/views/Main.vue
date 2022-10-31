@@ -3,8 +3,8 @@
     <Navbar @showMap="this.showGCQ('map')" @showCluenote="this.showGCQ('cluenote')" @showQuiz="this.showGCQ('quiz')"/>
     <div class="contents">
       <Game v-show="this.show&&this.showGame" :progress="progress"/>
-      <Cluenote v-if="this.show&&this.showCluenote" @subclueQuiz="setQuizID" @clueProgress="openGame"/>
-      <Quiz v-if="this.show&&this.showQuiz" @stageProgress="openCluenote" :_quiz_id="_quiz_id"/>
+      <Cluenote v-if="this.show&&this.showCluenote" @subclueQuiz="setQuizID" />
+      <Quiz v-if="this.show&&this.showQuiz" @toGame="openGame" :_quiz_id="_quiz_id"/>
       <router-view/>
     </div>
   </div>
@@ -25,7 +25,7 @@ export default {
       showCluenote: false,
       showQuiz: false,
       _quiz_id: 'default',
-      progress: ''
+      progress: null
     }
   },
   computed: {
@@ -66,19 +66,11 @@ export default {
       this.showCluenote = false
       this.showQuiz = true
     },
-    openCluenote(story) {
+    openGame(id) {
       this.showQuiz = false
-      this.showCluenote = true // switch to Cluenote
-
-      setTimeout(() => {
-        this.emitter.emit('clueAccomplish', story)
-      }, 1000)
-    },
-    openGame(story) {
-      this.showCluenote = false
       this.showGame = true // switch to Game
 
-      this.progress = story
+      this.progress = id
     }
   }
 }

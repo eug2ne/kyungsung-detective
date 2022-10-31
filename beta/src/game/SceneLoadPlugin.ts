@@ -147,7 +147,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
         this.controls.enter.isDown = false
 
         npc.dialogueKey =  scene_config.npc[npc.id]
-        console.log(npc.dialogueKey)
         const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
         npc.emit('start-talking', npc.dialogueKey, cameraX, cameraY)
       }
@@ -170,6 +169,18 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     })
     
     this.scene.physics.add.collider(this.player, npcs)
+
+  /* outer-game progress event */
+
+    this.scene.events.on('progress-event', (_dialogue: any) => {
+      this.scene.events.emit('start-talking') // emit talking event to scene
+      
+      // create dialogue
+      const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
+      const zoom = this.scene.cameras.main.zoom
+      const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, _dialogue, {})
+      dialogue.create()
+    }) // progress-dialogue event
   }
 
   update(items: [ Item ], npcs: [ NPC ]) {

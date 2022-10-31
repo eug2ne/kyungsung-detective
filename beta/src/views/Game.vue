@@ -29,13 +29,12 @@ export default {
   updated() {
     if (!this.progress) return
 
+    console.log(this.progress)
     this.gameInstance.progress(this.progress)
+  },
+  unmounted() {
+    this.gameInstance.destroy() // practically useless
   }
-  // beforeUnmount() {
-  //   this.$nextTick(async () => {
-  //     await this.gameInstance.destroy()
-  //   })
-  // }
 }
 </script>
 

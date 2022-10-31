@@ -1,25 +1,29 @@
 <template>
+  <AccsModal />
+    <div id="accomplishedSign" v-if="this.q_instance.accomplish">
+      <h2>해 결!</h2>
+    </div>
   <ErrorPopup :type="showPopup" @ErrorPopupVanish="refreshSet"/>
   <div class="contents">
     <div id="controls">
     <!-- if this.accs, disable click-event -->
-    <button v-on="accs ? {} : { click: refreshQuiz }" id="refreshQuiz" class="icon">
+    <button v-on="this.q_instance.accomplish ? {} : { click: refreshQuiz }" id="refreshQuiz" class="icon">
       <img src="../assets/refresh-page-option.png" alt="초기화" title="초기화"/>
     </button>
-    <button ref="reverseButton" v-on="accs ? {} : { click: reverseQuiz }" class="icon" id="reverseQuiz">
+    <button ref="reverseButton" v-on="this.q_instance.accomplish ? {} : { click: reverseQuiz }" class="icon" id="reverseQuiz">
       <img v-if="this.q_instance.reverse" class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774733.png" alt="반전">
       <img v-else class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774765.png" alt="반전">
     </button>
     <ul>
-        <button v-on="accs ? {} : { click: back }" id="backQuiz" class="icon">
+        <button v-on="this.q_instance.accomplish ? {} : { click: back }" id="backQuiz" class="icon">
           <img src="../assets/return.png" alt="뒤로가기" title="실행취소"/>
         </button>
-        <button v-on="accs ? {} : { click: forward }" id="forwardQuiz" class="icon">
+        <button v-on="this.q_instance.accomplish ? {} : { click: forward }" id="forwardQuiz" class="icon">
           <img src="../assets/next.png" alt="앞으로가기" title="되돌리기"/>
         </button>
     </ul>
     </div>
-    <OptionsMenu v-if="!accs ? showOption : false" :x="hint_x" :y="hint_y"
+    <OptionsMenu v-if="!this.q_instance.accomplish ? showOption : false" :x="hint_x" :y="hint_y"
       @clickOption="show" />
     <div v-if="showDefault" id="default_page">
       <h2>아직 추리 중인 단서가 없습니다!</h2>
@@ -53,6 +57,7 @@ import _ from 'lodash'
 import Letter from './Letter.vue'
 import OptionsMenu from './OptionsMenu.vue'
 import ErrorPopup from './QuizError/ErrorPopup.vue'
+import AccsModal from './AccsModal.vue'
 import button_soundeffect from '../assets/button-soundeffect1.mp3'
 import quiz from '../composables/quiz'
 import importSet from '../composables/quizlibrary/importSet'
@@ -60,8 +65,8 @@ import exportSet from '../composables/quizlibrary/exportSet'
 
 export default {
     name: 'QuizArea',
-    components: { Letter, OptionsMenu, ErrorPopup },
-    props: [ 'set', 'quiz_id', 'accs' ],
+    components: { Letter, OptionsMenu, ErrorPopup, AccsModal },
+    props: [ 'set', 'quiz_id' ],
     data() {
       return {
         showOption: false,
@@ -70,7 +75,6 @@ export default {
         showPopup: null
       }
     },
-    emits: [ 'quizAccomplish' ],
     setup(props) {
       const d_Set = ref({})
       const q_instance = ref({})
@@ -108,7 +112,6 @@ export default {
             quizletterset.value = quizinstance.quizletterset
             answerset.value = answerSet
           } catch (err) {
-            console.log(err)
             showDefault.value = true
           }
         }
@@ -226,11 +229,7 @@ export default {
       }
   },
   updated() {
-    // check quiz-accomplishment before play
-    if (this.q_instance.accomplish) {
-      this.$emit('quizAccomplish')
-      return
-    }
+    if (this.q_instance.accomplish) return
 
     try {
       // check quiz-accomplishment during play
@@ -249,7 +248,7 @@ export default {
         this.q_instance.accomplish = true // set q_instance.accomplish to true
         exportSet(this.q_instance) // update user-status on db
 
-        this.$emit('quizAccomplish', this.q_instance.story) // emit quiz-accomplish event
+        this.emitter.emit('quizAccomplish', { story: this.q_instance.story, id: this.q_instance.id }) // emit quiz-accomplish event
       }
 
       // check answer match in answerset.letter
@@ -279,7 +278,28 @@ export default {
 </script>
 
 <style scoped>
-div#default_page {
+#accomplishedPopup {
+  width: 935px;
+  height: 150px;
+  position: fixed;
+  clip: calc(400px, 20px, 20px, 20px);
+  top: 800px;
+  left: 100px;
+  z-index: 1000;
+  align-self: center;
+  text-align: center;
+  text-shadow: 4px 2px #f5f1f0;
+  font-size: 25px;
+  background-color: #ffcf87;
+  margin: 15px 25px 35px 25px;
+  padding: 50px;
+}
+
+#accomplishedPopup h2 {
+  margin-top: 50px;
+}
+
+#default_page {
   display: block;
   width: 885px;
   height: 400px;
@@ -294,7 +314,7 @@ div#default_page {
   padding: 50px;
 }
 
-h2 {
+#default_page h2 {
   margin: 20px;
 }
 </style>

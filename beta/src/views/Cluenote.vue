@@ -89,14 +89,6 @@ export default {
         }
       }
     },
-  },
-  mounted() {
-    this.emitter.on('clueAccomplish', (story) => {
-      this.showClue(story) // manually assigning which story to open
-      setTimeout(() => {
-        this.$emit('clueProgress', story)
-      }, 3000 )
-    })
   }
 };
 </script>

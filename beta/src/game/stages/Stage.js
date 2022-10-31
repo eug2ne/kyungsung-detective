@@ -96,7 +96,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
     this.game.pause(clue, item) // upload clue to user db + save progress
   }
 
-  event(scene /*: Phaser.Scene|string (if string, game progress event)*/) {}
+  event(scene /*: Phaser.Scene */, progress /*: string|null */) {}
 }
 
 export default Stage

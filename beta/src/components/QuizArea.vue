@@ -1,10 +1,10 @@
 <template>
-  <AccsModal />
-    <div id="accomplishedSign" v-if="this.q_instance.accomplish">
-      <h2>해 결!</h2>
-    </div>
   <ErrorPopup :type="showPopup" @ErrorPopupVanish="refreshSet"/>
   <div class="contents">
+    <AccsModal />
+    <div class="popup" id="accomplishedSign" v-if="this.q_instance.accomplish">
+      <h2>해 결!</h2>
+    </div>
     <div id="controls">
     <!-- if this.accs, disable click-event -->
     <button v-on="this.q_instance.accomplish ? {} : { click: refreshQuiz }" id="refreshQuiz" class="icon">
@@ -248,7 +248,9 @@ export default {
         this.q_instance.accomplish = true // set q_instance.accomplish to true
         exportSet(this.q_instance) // update user-status on db
 
-        this.emitter.emit('quizAccomplish', { story: this.q_instance.story, id: this.q_instance.id }) // emit quiz-accomplish event
+        setTimeout(() => {
+          this.emitter.emit('quizAccomplish', { story: this.q_instance.story, id: this.q_instance.id }) // emit quiz-accomplish event
+        }, 3000)
       }
 
       // check answer match in answerset.letter
@@ -277,26 +279,27 @@ export default {
 }
 </script>
 
-<style scoped>
-#accomplishedPopup {
+<style>
+.popup {
   width: 935px;
-  height: 150px;
-  position: fixed;
-  clip: calc(400px, 20px, 20px, 20px);
-  top: 800px;
-  left: 100px;
+  min-height: 100px;
+  position: absolute;
+  display: block;
+  top: 160px;
   z-index: 1000;
   align-self: center;
+}
+
+#accomplishedSign {
   text-align: center;
-  text-shadow: 4px 2px #f5f1f0;
-  font-size: 25px;
-  background-color: #ffcf87;
-  margin: 15px 25px 35px 25px;
+  text-shadow: 2px 2px 0 #ffff, -2px -2px 0 #ffff;
+  font-size: 40px;
+  background-color: rgba(244, 63, 63, 0.6);
   padding: 50px;
 }
 
-#accomplishedPopup h2 {
-  margin-top: 50px;
+#accomplishedSign h2 {
+  margin-top: 12px;
 }
 
 #default_page {

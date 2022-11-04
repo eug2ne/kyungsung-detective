@@ -85,6 +85,9 @@ export default {
         }),
         this.emitter.on('hint_def', () => {
             this.showdef = true
+        }),
+        this.emitter.on('quizAccomplish', () => {
+            this.accs = true
         })
     }
 }

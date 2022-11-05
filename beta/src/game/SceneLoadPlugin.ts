@@ -172,15 +172,25 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
   /* outer-game progress event */
 
-    this.scene.events.on('progress-event', (_dialogue: any) => {
+    this.scene.events.on('progress-event', (progress_config: {
+      sceneKey: string,
+      x: number|null,
+      y: number|null,
+      dialogue: any,
+      update: any
+    }) => {
+      // set player.position to given value
+      this.player.x = progress_config.x ?? this.player.x
+      this.player.y = progress_config.y ?? this.player.y
+
       this.scene.events.emit('start-talking') // emit talking event to scene
       
       // create dialogue
       const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
       const zoom = this.scene.cameras.main.zoom
-      const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, _dialogue, {})
+      const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, progress_config.dialogue, {})
       dialogue.create()
-    }) // progress-dialogue event
+    }) // create progress-event dialogue
   }
 
   update(items: [ Item ], npcs: [ NPC ]) {

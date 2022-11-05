@@ -34,9 +34,14 @@ import gr4 from '@/game/assets/test1_map/궁오른쪽4.png'
 // import npc spritesheet
 import inspector_sprite from '../assets/npc_sprite/맵 관리자.png'
 
-// import npc log image
+// import npc_sami log image
 import inspector_neutral from '../assets/npc_log/관리자.png'
 import inspector_smile from '../assets/npc_log/관리자_웃음.png'
+import sami_smile from '../assets/sami_log/sami_웃음.png'
+import sami_smile2 from '../assets/sami_log/sami_웃음2.png'
+import sami_smile3 from '../assets/sami_log/sami_웃음3.png'
+import sami_sus from '../assets/sami_log/sami_의심.png'
+import sami_sure2 from '../assets/sami_log/sami_확신2.png'
 
 const npcs_JSON = [
   {
@@ -217,10 +222,15 @@ export default class Test1_Scene extends Phaser.Scene {
     this.load.image('gr3', gr3)
     this.load.image('gr4', gr4)
 
-    // load npc image+spritesheet
+    // load npc+sami image+spritesheet
     this.load.image('inspector_neutral', inspector_neutral)
     this.load.image('inspector_smile', inspector_smile)
     this.load.spritesheet('inspector_sprite', inspector_sprite, { frameWidth: 6528 / 17, frameHeight: 558 })
+    this.load.image('sami_smile', sami_smile)
+    this.load.image('sami_smile2', sami_smile2)
+    this.load.image('sami_smile3', sami_smile3)
+    this.load.image('sami_sus', sami_sus)
+    this.load.image('sami_sure2', sami_sure2)
 
     // sceneload plugin preload()
     this.sceneload.preload()

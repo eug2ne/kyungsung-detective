@@ -15,7 +15,7 @@ const default_config = {
 
 export default class BreakfastStage extends Stage {
   constructor(manager: Phaser.Plugins.PluginManager) {
-    super(manager, [ Breakfast ], default_config, 'BreakfastStage', new Test1Stage(manager))
+    super(manager, [ Breakfast ], default_config, null, 'BreakfastStage', new Test1Stage(manager))
   }
 
   event(scene: Phaser.Scene): void {

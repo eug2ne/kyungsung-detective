@@ -41,8 +41,8 @@ export default {
 
     this.$nextTick(() => {
       setTimeout(() => {
-        this.$emit('toGame', data.id)
-      }, 10000 ) // show quiz-accomplish event on Quiz
+        this.$emit('afterHint', data.id)
+      }, 1000 ) // show quiz-accomplish event on Quiz
     })
     })
   }

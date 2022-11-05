@@ -1,7 +1,7 @@
 <template>
   <ErrorPopup :type="showPopup" @ErrorPopupVanish="refreshSet"/>
   <div class="contents">
-    <AccsModal />
+    <AccsModal @afterHint="(id) => {$emit('toGame', id)}"/>
     <div class="popup" id="accomplishedSign" v-if="this.q_instance.accomplish">
       <h2>해 결!</h2>
     </div>
@@ -250,7 +250,7 @@ export default {
 
         setTimeout(() => {
           this.emitter.emit('quizAccomplish', { story: this.q_instance.story, id: this.q_instance.id }) // emit quiz-accomplish event
-        }, 3000)
+        }, 1000)
       }
 
       // check answer match in answerset.letter

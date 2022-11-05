@@ -10,7 +10,7 @@
       </ul>
     <li id="rules" v-else><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
     </ul>
-    <QuizArea :quiz_id="_quiz_id" />
+    <QuizArea :quiz_id="_quiz_id" @toGame="(id) => {$emit('toGame', id)}" />
   </div>
 
   <div class="sources">

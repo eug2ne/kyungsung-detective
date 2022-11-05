@@ -1,5 +1,5 @@
 <template>
-  <div :id="containerId" v-if="downloaded" class="contents" />
+  <div ref="game-container" id="game-container" v-if="downloaded" class="contents" />
   <div class="placeholder" v-else>로딩 중 ...</div>
 </template>
 
@@ -12,14 +12,13 @@ export default {
   data() {
     return {
       downloaded: false,
-      gameInstance: null,
-      containerId: 'game-container'
+      gameInstance: null
     }
   },
   mounted() {
     this.downloaded = true
     this.$nextTick(() => {
-      this.gameInstance = new game(this.containerId)
+      this.gameInstance = new game('game-container')
       // this.gameInstance: Phaser.Game
     })
     this.$nextTick(() => {
@@ -29,7 +28,6 @@ export default {
   updated() {
     if (!this.progress) return
 
-    console.log(this.progress)
     this.gameInstance.progress(this.progress)
   },
   unmounted() {

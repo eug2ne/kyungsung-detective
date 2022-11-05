@@ -36,12 +36,14 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
     //   player_config: { sceneKey: string, x: number, y: number },
     //   scenes_config: any /* { scene_key: scene_config } */
     // },
+    progress,
     key /*: string*/,
     next /*: Stage|null*/
   ) {
     super(manager)
     this.scenes = scenes
     this.default_config = default_config
+    this.progress = progress
     this.key = key
     this.next = next
   }
@@ -96,7 +98,41 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
     this.game.pause(clue, item) // upload clue to user db + save progress
   }
 
+  // in-game event progress
   event(scene /*: Phaser.Scene */, progress /*: string|null */) {}
+
+  // outer-game event progress
+  progressEvent(id /*: string */) {
+    // get progress-scene
+    const p_scene = this.game.scene.getScene(this.progress[id].sceneKey)
+    if (this.progress[id].sceneKey != this.player_config.sceneKey) {
+      // pause current-scene >> start progress-scene
+      const c_scene = this.game.scene.getScene(this.player_config.sceneKey)
+      this.game.scene.pause(c_scene) // pause current-scene
+      this.game.scene.bringToTop(p_scene) // render progress-scene on top
+      p_scene.events.emit('progress-event', this.progress[id]) // emit progress-event + pass progress-config
+
+      // after dialogue-event, update scenes_config + save to dB
+      p_scene.events.on('end-talking', () => {
+        const update = this.progress[id].update
+        // update inventory
+        
+        // update npc-config
+        for (const n of update.npc) {
+          this.scenes_config[n.scene].npc[n.id] = n.to
+        }
+        this.game.pause()
+      })
+
+      // after progress-event, resume to current-scene
+      this.game.scene.stop(p_scene)
+      this.game.scene.bringToTop(c_scene)
+      this.game.scene.resume(c_scene)
+    } else {
+      // start progress-event on current-scene
+      p_scene.events.emit('progress-event', this.progress[id])
+    }
+  }
 }
 
 export default Stage

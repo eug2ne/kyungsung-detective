@@ -33,7 +33,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     this.line_box = this.scene.add.rectangle(cameraX+570/zoom, cameraY+550/zoom, 645/zoom, 200/zoom, white)
       .setDepth(20) // line-box
     this.image_box = this.scene.add.rectangle(cameraX+120/zoom, cameraY+550/zoom, 200/zoom, 200/zoom, white)
-      .setDepth(20) // image-box
+      .setDepth(20) // image-boxl
 
     // create image
     this.image = this.scene.add.image(this.image_box.x, this.image_box.y
@@ -50,14 +50,14 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
       'loading...',
       {
         fontFamily: 'NeoDunggeunmo',
-        fontSize: '25px',
+        fontSize: `${25/zoom}px`,
         color: '#000',
         padding: {
           x: 5,
           y: 5
         }
       }
-    ).setWordWrapWidth(640)
+    ).setWordWrapWidth(640/zoom)
     this.scene.add.existing(this.line).setDepth(20)
   }
 
@@ -160,7 +160,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
               `>> ${option.answer}`,
               {
                 fontFamily: 'NeoDunggeunmo',
-                fontSize: '25px',
+                fontSize: `${25/this.zoom}px`,
                 color: '#000',
                 padding: {
                   x: 5,

@@ -97,7 +97,6 @@ export default class game extends Phaser.Game {
 
   progress(progress) {
     // pass outer-game progress
-    let PlayScene_Key = this.stage.player_config.sceneKey
-    this.stage.event(this.scene.getScene(PlayScene_Key), progress)
+    this.stage.progressEvent(progress)
   }
 }

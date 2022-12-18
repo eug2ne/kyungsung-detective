@@ -1,20 +1,27 @@
 <template>
-  <router-view />
+  <router-view></router-view>
 </template>
 
 <script>
 import { auth } from './firestoreDB'
+import { useGameStore } from './game/game'
 import { onAuthStateChanged } from 'firebase/auth'
 
 export default {
   name: 'app',
   created() {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         // login success
-        this.$router.replace('Game')
+        console.log(useGameStore().$state.booted)
+        if (!useGameStore().$state.booted) {
+          // boot useGameStore()
+          await useGameStore().boot('k_detective_beta')
+        } // load stage-data from db + save to game-store
+        // direct to main.vue
+        this.$router.replace('/Game')
       } else {
-        // before login
+        // before login / user-auth data expired
       }
     })
   }

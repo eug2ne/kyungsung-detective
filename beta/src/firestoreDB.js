@@ -4,12 +4,14 @@ import { getAuth,
     createUserWithEmailAndPassword,
     setPersistence, 
     browserSessionPersistence,
+    inMemoryPersistence,
     GoogleAuthProvider,
     signInWithPopup } from 'firebase/auth'
 import { getFirestore,
     doc,
     setDoc, 
     collection } from 'firebase/firestore'
+import { defineStore } from 'pinia'
 
 const config = {
     apiKey: "AIzaSyAnZSZIc9CQqAx_ilFeyzWrzGHUn68r19k",
@@ -36,7 +38,7 @@ export const emailLogin = async (loginEmail, loginPassword) => {
                 })
                 .catch((error) => {
                     // login fail
-                    alert('로그인 실패: ' + err.message)  
+                    alert('로그인 실패: ' + error.message)  
                 })
         })
 }
@@ -77,6 +79,7 @@ export const googleLogin = async () => {
                     alert('로그인 실패: ' + error.message)
                 })
         })
+
 }
 
 // email signup func.

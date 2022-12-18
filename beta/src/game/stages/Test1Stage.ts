@@ -1,14 +1,14 @@
 import Phaser from "phaser"
 import Stage from "./Stage.js"
-import Test1 from '../scenes/Test1_Scene.js'
+import Test1 from "../scenes/Test1_Scene.js"
 import _ from "lodash"
 
 const default_config = {
-  'player_config': { 'sceneKey': 'Test1' , 'x': 700, 'y': 700 },
-  'scenes_config': {
+  player_config: { 'sceneKey': 'Test1' , 'x': 700, 'y': 700 },
+  scenes_config: {
     'Test1': {
-      'npc': { 'test1_inspector': 'clue', 'test1_newspaperstand': 'post_c_repeat' },
-      'item': []
+      npc: { 'test1_inspector': 'clue', 'test1_newspaperstand': 'post_c_repeat' },
+      item: []
     }
   }
 }
@@ -61,13 +61,22 @@ export default class Test1Stage extends Stage {
 
     // after talking to inspector
     // update player_config
-    scene.events.on('update-userconfig', (id: string, to: string, clue?: {story: string, title: string, description: string, subClues: any}) => {
+    scene.events.on('update-userconfig', (id: string, to: string, data?: any /* clue|item */) => {
       this.scenes_config['Test1'].npc[id] = to
 
-      if (!clue) return
+      if (!data) return
 
-      // upload clue to user db + save progress
-      this.pause(clue, null)
+      // update player_config
+      if (id == 'test1_inspector'&&to == 'post_c_repeat') {
+        // after talking to inspector
+        this.game.pause(data, null)
+      } else if (id == 'test1_newspaperstand'&&to == 'post_a_repeat') {
+        // after getting newspaper item from newspaperstand
+        this.game.pause(null, data)
+      }
     })
+
+    // after getting newpaper item from newspaperstand
+    // update player_config
   }
 }

@@ -1,5 +1,4 @@
 <template>
-  <router-link :to="{ name: 'Home' }" class="x-button">x</router-link>
   <div class="auth-contents">
     <h2>회원가입</h2>
     <div class="bl-line"></div>
@@ -23,6 +22,7 @@
 import { emailSignup } from '../../firestoreDB'
 
 export default {
+  name: 'SignUp',
   data() {
     return {
       displayName: '',

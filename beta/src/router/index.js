@@ -1,7 +1,6 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Main from '../views/Main.vue'
-import Inventory from '../views/Inventory.vue'
 import Rules from '../views/Rules.vue'
 import License from '../views/License.vue'
 import Login from '../views/auth/Login.vue'
@@ -15,16 +14,11 @@ const routes = [
   },
   {
     path: '/Game',
-    name: 'Game',
+    name: 'Main',
     component: Main,
     children: [
       {
-        path: 'Inventory',
-        name: 'Inventory',
-        component: Inventory
-      },
-      {
-        path: '/Rules',
+        path: '/Game/Rules',
         name: 'Rules',
         component: Rules
       }
@@ -48,7 +42,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 })
 

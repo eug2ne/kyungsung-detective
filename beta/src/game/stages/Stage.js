@@ -1,4 +1,5 @@
 import Phaser from "phaser"
+import _ from 'lodash'
 
 // interface StageInterface {
 //   key: string,
@@ -58,7 +59,6 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
         'x': this.default_config.player_config.x,
         'y': this.default_config.player_config.y
       }
-      this.item_carry = []
       this.scenes_config = this.default_config.scenes_config
     } else {
       // set value as player_config
@@ -66,10 +66,8 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
       this._player_config = {
         'sceneKey': sceneKey,
         'x': value.player_config.x,
-        'y': value.player_config.y,
-        'item_carry': value.item_carry
+        'y': value.player_config.y
       }
-      this.item_carry = value.item_carry
       this.scenes_config = value.scenes_config
     }
   }
@@ -84,8 +82,16 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
     } else {
       // stage clear >> move to next stage
       this.game.stage = this.next
-      await this.game.create(true)
+      await this.game.preload()
     }
+  }
+
+  preload() {
+    // add stage.scenes to game.scene
+    this.scenes.forEach((scene, index) => {
+      const sceneKey = Object.keys(this.scenes_config)[index+1] // because store patches data (original data is left in state)
+      this.game.scene.add(sceneKey, scene, false)
+    })
   }
 
   pause(clue /* Clue */, item /* Item */) {
@@ -100,6 +106,11 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
 
   // in-game event progress
   event(scene /*: Phaser.Scene */, progress /*: string|null */) {}
+
+  // pass item-config to player-config
+  itemCarry(carry_item /* [ Item? ] */) {
+    this.item_carry = carry_item
+  }
 
   // outer-game event progress
   progressEvent(id /*: string */) {

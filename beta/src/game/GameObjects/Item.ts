@@ -43,7 +43,7 @@ export default class Item extends Phaser.GameObjects.Image {
       switch (this.interact.type) {
         case 'get':
           // add to inventory (update db)
-          this.scene.events.emit('pause', this)
+          this.scene.events.emit('update-userconfig', this.id, 'update-inventory',  { type: "item", id: this.id, name: this.name, descript: this.descript, texture: this.texture })
         break
         
         case 'question':

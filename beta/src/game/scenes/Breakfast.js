@@ -162,6 +162,7 @@ const npcs_JSON = [
     },
     "clue": null,
     "answer": null,
+    "check": null,
     "x": 389,
     "y": 211
   }
@@ -234,8 +235,8 @@ const items_JSON = [
 ]
 
 export default class Breakfast extends Phaser.Scene {
-  constructor () {
-    super({'key':'Breakfast'})
+  constructor() {
+    super({key: 'Breakfast'})
   }
 
   // init(player_config) {
@@ -275,7 +276,7 @@ export default class Breakfast extends Phaser.Scene {
     this.sceneload.preload()
   }
 
-  create() {
+  create(data) {
     // add background image + set world bound
     const background = this.add.image(150, 100, 'wallfloor').setOrigin(0, 0).setScale(2)
     this.physics.world.setBounds(150, 100, background.width*2, background.height*2, true, true, true, true)
@@ -327,6 +328,7 @@ export default class Breakfast extends Phaser.Scene {
     npcs_JSON.forEach((npc) => {
       this.npcs.push(new NPC(
         this,
+        this.sceneload,
         npc.id,
         npc.spritesheet,
         npc.scale,
@@ -348,7 +350,7 @@ export default class Breakfast extends Phaser.Scene {
       'mini_scrollX': 400,
       'mini_scrollY': 300
     }
-    this.sceneload.create(colliders, this.items, this.npcs, camera_config)
+    this.sceneload.create(colliders, this.items, this.npcs, camera_config, data)
   }
 
   update() {

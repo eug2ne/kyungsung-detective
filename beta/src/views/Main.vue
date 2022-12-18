@@ -1,77 +1,50 @@
 <template>
   <div id="router-view" class="pixel-borders--1">
-    <Navbar @showMap="this.showGCQ('map')" @showCluenote="this.showGCQ('cluenote')" @showQuiz="this.showGCQ('quiz')"/>
+    <Navbar @toContent="changeContent" />
     <div class="contents">
-      <Game v-show="this.show&&this.showGame" :progress="progress"/>
-      <Cluenote v-if="this.show&&this.showCluenote" @subclueQuiz="setQuizID" />
-      <Quiz v-if="this.show&&this.showQuiz" @toGame="openGame" :_quiz_id="_quiz_id"/>
-      <router-view/>
+      <Game v-show="showContent.game&&this.$route.path=='/Game'" />
+      <Inventory v-if="showContent.inventory&&this.$route.path=='/Game'" />
+      <Cluenote v-if="showContent.cluenote&&this.$route.path=='/Game'" />
+      <Quiz v-if="showContent.quiz&&this.$route.path=='/Game'" />
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
+import { auth } from '../firestoreDB'
 import Navbar from '../components/Navbar.vue'
 import Game from './Game.vue'
+import Inventory from './Inventory.vue'
 import Cluenote from './Cluenote.vue'
 import Quiz from './Quiz.vue'
 
 export default {
   name: 'Main',
-  components: { Navbar, Game, Cluenote, Quiz },
+  components: { Navbar, Game, Inventory, Cluenote, Quiz },
   data() {
     return {
-      showGame: true,
-      showCluenote: false,
-      showQuiz: false,
-      _quiz_id: 'default',
-      progress: null
-    }
-  },
-  computed: {
-    show() {
-      if (this.$route.path == '/Game') {
-        return true
-      } else {
-        return false
+      showContent: {
+        game: true,
+        inventory: false,
+        cluenote: false,
+        quiz: false
       }
-    },
+    }
   },
   methods: {
-    showGCQ(name) {
-      this.$router.push('/Game') // set router-route to /Game
+    changeContent(content) {
+      this.showContent.game = false
+      this.showContent.inventory = false
+      this.showContent.cluenote = false
+      this.showContent.quiz = false
 
-      switch (name) {
-        case 'map':
-          this.showGame = true
-          this.showCluenote = false
-          this.showQuiz = false
-          break
-
-        case 'cluenote':
-          this.showGame = false
-          this.showCluenote = true
-          this.showQuiz = false
-          break
-
-        case 'quiz':
-          this.showGame = false
-          this.showCluenote = false
-          this.showQuiz = true
-          break
-      }
-    },
-    setQuizID(quiz_id) {
-      this._quiz_id = quiz_id
-      this.showCluenote = false
-      this.showQuiz = true
-    },
-    openGame(id) {
-      this.showQuiz = false
-      this.showGame = true // switch to Game
-
-      this.progress = id
+      this.showContent[content] = true
     }
+  },
+  beforeCreate() {
+    // console.log(auth.currentUser)
+    // if (!auth.currentUser) this.$router.replace('/')
   }
 }
 </script>

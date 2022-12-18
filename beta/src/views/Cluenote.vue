@@ -24,16 +24,19 @@
       </div>
 
       <div class="subclue" v-for="subclue in clue.subClues" :key="subclue.id">
-        <div class="subclue_unlock" v-if="subclue.require">
+        <div class="subclue_unlock" v-if="subclue.get">
+          <img :src="require(`@/assets/subclue_background/${subclue.background_img}`)" alt="" srcset="">
           <h3>{{ subclue.title }}</h3>
           <p>{{ subclue.description }}</p>
         </div>
 
         <div class="subclue_lock" v-else>
           <h3>아직 잠겨있습니다</h3>
-          <p @click="this.$emit('subclueQuiz', subclue.quiz_id)">
-            (퍼즐 풀고 단서 얻으러가기)
-          </p>
+          <router-link :to="{ name: 'Quiz', params: {quiz_id: subclue.quiz_id} }" >
+            <p>
+              (퍼즐 풀고 단서 얻으러가기)
+            </p>
+          </router-link>
         </div>
       </div>
     </div>
@@ -82,9 +85,9 @@ export default {
       for (let clue of this.show) {
         for (let subclue of clue.subClues) {
           if (!subclue.quiz_id) {
-            subclue.require = true
+            subclue.get = true
           } else {
-            subclue.require = this.requires[subclue.quiz_id]
+            subclue.get = this.requires[subclue.quiz_id]
           }
         }
       }
@@ -156,8 +159,8 @@ body {
 .clue {
   min-height: 120px;
   min-width: 380px;
-  max-height: 150px;
   max-width: 500px;
+  height: fit-content;
   display: block;
   margin: 30px 15px;
   padding: 15px;
@@ -170,8 +173,8 @@ body {
 .subclue_unlock {
   min-height: 120px;
   min-width: 380px;
-  max-height: 150px;
   max-width: 500px;
+  height: fit-content;
   display: block;
   margin: 40px 15px;
   padding: 10px;
@@ -179,6 +182,16 @@ body {
   box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4), 0 5px 0 rgba(255, 255, 255, 0.4) inset,
     0 -5px 0 rgba(0, 0, 0, 0.2) inset, 0 0 0 75px #84C0D5 inset;
   border-radius: 5px;
+}
+
+.subclue_unlock img {
+  display: block;
+  float: right;
+  left: 10px;
+  z-index: -1;
+  height: 150px;
+  width: 150px;
+  opacity: 0.6;
 }
 
 .subclue_lock {
@@ -195,6 +208,7 @@ body {
 
 .subclue_lock h3 {
   font-size: 20px;
+  margin-bottom: 10px;
 }
 
 .subclue_lock p {
@@ -209,12 +223,19 @@ body {
 
 h3 {
   font-size: 25px;
+  text-align: left;
+  padding: 5px;
 }
 
 p {
+  display: block;
   font-size: 18px;
+  text-align: left;
   color: #3B2F2C;
+  margin: 10px;
   margin-bottom: 20px;
+  padding: 5px;
+  box-shadow: -5px 0 0 rgba(0, 0, 0, 0.3);
 }
 
 a {

@@ -1,13 +1,14 @@
 <template>
-  <router-link :to="{ name: 'Home' }" class="x-button">x</router-link>
-  <div class="auth-contents">
+  <span @click="$emit('toHome')" class="x-button">x</span>
+  <SignUp v-if="toSignUp" />
+  <div class="auth-contents" v-else>
     <h2>로그인</h2>
     <div class="bl-line"></div>
     <input type="email" placeholder="아이디(이메일)" v-model="email" /> <br />
     <input type="password" placeholder="비밀번호" v-model="password" /> <br />
     <button class="pixel-borders--1" @click="clickOnEmailLogin">로그인</button>
     <div class="link">
-      <router-link :to="{ name: 'SignUp' }"> 회원가입 하러 가기</router-link>
+      <span class="link" @click="toSignUp=true">회원가입 하러 가기</span>
     </div>
     <div class="gr-line"></div>
     <p class="title">간편 로그인</p>
@@ -22,12 +23,17 @@
 
 <script>
 import { emailLogin, googleLogin } from '../../firestoreDB'
+import SignUp from './SignUp.vue'
 
 export default {
+  name: 'Login',
+  components: { SignUp },
+  emits: [ 'toHome' ],
   data() {
     return {
       email: '',
       password: '',
+      toSignUp: false
     };
   },
   methods: {
@@ -50,6 +56,10 @@ export default {
   transform: translate(-50%, -50%);
   text-align: center;
   line-height: 130%;
+}
+
+span {
+  cursor: pointer;
 }
 
 button,

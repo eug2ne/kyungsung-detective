@@ -1,6 +1,6 @@
 <template>
   <div class="contents">
-    <Answerarea :quiz_id="_quiz_id" />
+    <Answerarea :quiz_id="quiz_id" />
     <ul id="help">
     <!-- if this.accs, disable all click events -->
     <li id="hint" @click="accs ? null : showHints = !showHints">힌트</li>
@@ -10,7 +10,7 @@
       </ul>
     <li id="rules" v-else><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
     </ul>
-    <QuizArea :quiz_id="_quiz_id" @toGame="(id) => {$emit('toGame', id)}" />
+    <QuizArea :quiz_id="quiz_id" />
   </div>
 
   <div class="sources">
@@ -53,7 +53,7 @@ import AccsModal from '../components/AccsModal.vue'
 export default {
   name: 'Quiz',
   components: { QuizArea, Answerarea, AccsModal },
-  props: ['_quiz_id'],
+  props: ['quiz_id'],
   data() {
     return {
       showHints: false,

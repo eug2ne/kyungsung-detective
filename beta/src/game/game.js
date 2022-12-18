@@ -1,13 +1,59 @@
 import Phaser from 'phaser'
-import FirebasePlugin from './FirebasePlugin'
+import { defineStore } from 'pinia'
+import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { auth, db } from '../firestoreDB'
 import SceneLoadPlugin from './SceneLoadPlugin'
+import Test1 from './scenes/Test1_Scene'
 
 // import stages
 import BreakfastStage from './stages/BreakfastStage'
 import Test1Stage from './stages/Test1Stage'
 
+export const useGameStore = defineStore('game', {
+  state: () => ({ stage: {
+    key: 'BreakfastStage',
+    player_config: { sceneKey: 'Breakfast' , x: 663, y: 472 },
+    scenes_config: {
+      Breakfast: {
+        npc: { 'breakfast_maid': 'pre_c_repeat' },
+        item: [ 'breakfast_item0', 'breakfast_item1' ]
+      }
+    } // default: BreakfastStage
+  }, carry_item: [], inventory: [], booted: false }),
+  actions: {
+    async boot(gameKey) {
+      // load stage-data from db
+      const uid = auth.currentUser.uid
+      const UsersRef = collection(db, 'Users')
+      const user_UsersRef = doc(UsersRef, uid)
+      const user_UsersSnap = await getDoc(user_UsersRef)
+
+      const user_Stages = user_UsersSnap.data().Stages
+      if (!_.includes(Object.keys(user_Stages), gameKey)||!user_Stages[gameKey]) {
+        // stage-data == stage.default_config
+        // new game/stage started >> add new stage-data to db
+        const data = {}
+        data[gameKey] = {
+          key: this.stage.key,
+          player_config: this.stage.player_config,
+          scenes_config: this.stage.scenes_config
+        }
+        await updateDoc(user_UsersRef, {
+          Stages: data
+        })
+      } else {
+        // read stage-data from db
+        this.$patch({ stage: user_Stages[gameKey] })
+      }
+      this.booted = true
+    }
+  },
+  persist: { storage: sessionStorage }
+})
+
 export default class game extends Phaser.Game {
   constructor(containerId) {
+    console.log('game construct')
     const config = {
       type: Phaser.AUTO,
       width: 2800/3,
@@ -22,13 +68,6 @@ export default class game extends Phaser.Game {
         }
       },
       plugins: {
-        global: [
-          {
-            key: 'FirebasePlugin',
-            plugin: FirebasePlugin,
-            start: true
-          }
-        ],
         scene: [
           {
             key: 'SceneLoadPlugin',
@@ -43,33 +82,24 @@ export default class game extends Phaser.Game {
     super(config)
     this.key = 'k_detective_beta'
     this.stage_keys = {'BreakfastStage':BreakfastStage, 'Test1Stage':Test1Stage}
-    this.stage = new BreakfastStage(this.plugins) // default first stage
   }
 
-  destroy() {
-    super.destroy()
-  }
-
-  async create(update = false /* update flag */) {
-    const firestore = this.plugins.get('FirebasePlugin')
-
-    await firestore.loadGameData(this, update)
-
-    this.scene.scenes = []
-    this.stage.scenes.forEach((scene) => {
-      this.scene.add('', scene, false)
-    })
-
-    let PlayScene_Key = this.stage.player_config.sceneKey /* present sceneKey */
-
-    // start stage
+  create() {
+    console.log('game create')
+    // pass stage-data to game.stage
+    const stage_class = this.stage_keys[useGameStore().stage.key]
+    this.stage = new stage_class(this.plugins) // create game.stage
+    this.stage.player_config = useGameStore().stage // pass player-config to game.stage
+    this.stage.preload()
+    
+    const PlayScene_Key = this.stage.player_config.sceneKey // present sceneKey
+    // set stage-data
     const config = {
       player_config: this.stage.player_config,
       scenes_config: this.stage.scenes_config,
-      item_carry: this.stage.item_carry
+      item_carry: useGameStore().carry_item
     }
-    this.scene.getScene(PlayScene_Key).sceneload.config = config
-    this.scene.start(PlayScene_Key)
+    this.scene.start(PlayScene_Key, config) // pass stage-data to scene
     this.stage.event(this.scene.getScene(PlayScene_Key))
   }
 
@@ -88,7 +118,8 @@ export default class game extends Phaser.Game {
       'player_config': this.stage.player_config,
       'scenes_config': this.stage.scenes_config
     }
-    await firestore.saveGameData(stage, [], this.key, null)
+
+    await firestore.saveGameData(stage, this.key, clue, item)
 
     setTimeout(() => {
       this.scene.resume()
@@ -96,7 +127,12 @@ export default class game extends Phaser.Game {
   }
 
   progress(progress) {
-    // pass outer-game progress
-    this.stage.progressEvent(progress)
+    if (progress.split('.').length > 1) {
+      // item-hold event >> pass item to player-config + update user-config on db
+      this.stage.itemHold(progress)
+    } else {
+      // pass outer-game progress
+      this.stage.progressEvent(progress)
+    }
   }
 }

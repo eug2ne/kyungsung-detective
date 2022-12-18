@@ -59,7 +59,7 @@ const npcs_JSON = [
         },
         {
           "image": "inspector_neutral",
-          "line": "첫 번째 시험과 두 번째 시험을 이곳, 경무대에서 오늘 중으로 모두 치를 것이고,"
+          "line": "첫 번째 시험과 두 번째 시험은 이곳, 경무대에서 오늘 중으로 모두 치를 것이고,"
         },
         {
           "image": "inspector_neutral",
@@ -120,12 +120,15 @@ const npcs_JSON = [
           "title": "붉은 마패를 찾았다!",
           "description": "붉은 마패는 황실에서 발행하는 신문을 말하는 것이다. 신문팔이에게 가서 붉은 마패를 달라고 해보자!",
           "quiz_id": "cJ89EcZyF5EHwElEGRGZ",
-          "background_img": null,
-          "require": false
+          "background_img": "붉은마패.png"
         }
       ]
     },
     "answer": null,
+    "check": {
+      "pre_c_check": null,
+      "pre_a_check": "k_detective_beta.test1_newspaper"
+    },
     "x": 1000,
     "y": 1600
   },
@@ -178,15 +181,21 @@ const npcs_JSON = [
       "auto_start": true
     },
     "clue": null,
-    "answer": null,
+    "answer": {
+      "name": "신문",
+      "id": "k_detective_beta.test1_newspaper",
+      "descript": "오늘자 제국익문사 신문이자, '붉은 마패'이다",
+      "texture": null
+    },
+    "check": null,
     "x": 2000,
     "y": 900
   }
 ]
 
-export default class Test1_Scene extends Phaser.Scene {
-  constructor () {
-    super({'key':'Test1'})
+export default class Test1 extends Phaser.Scene {
+  constructor() {
+    super({key: 'Test1'})
   }
 
   // init(player_config) {
@@ -236,7 +245,7 @@ export default class Test1_Scene extends Phaser.Scene {
     this.sceneload.preload()
   }
 
-  create() {
+  create(data) {
     this.physics.world.setBounds(0, 0, 2800,1981)
 
     this.add.image(2800/2,1981/2,'back1')
@@ -362,6 +371,7 @@ export default class Test1_Scene extends Phaser.Scene {
     npcs_JSON.forEach((npc) => {
       this.npcs.push(new NPC(
         this,
+        this.sceneload,
         npc.id,
         npc.spritesheet,
         npc.scale,
@@ -382,7 +392,7 @@ export default class Test1_Scene extends Phaser.Scene {
       'mini_scrollY': 925
     }
 
-    this.sceneload.create(colliders, [], this.npcs, camera_config)
+    this.sceneload.create(colliders, [], this.npcs, camera_config, data)
   }
 
   update() {

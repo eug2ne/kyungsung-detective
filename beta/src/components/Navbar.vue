@@ -7,18 +7,16 @@
     <div class="between-box" />
     <ul class="navbar">
       <li>
-        <p @click="this.$emit('showMap')" class="pixel-borders--2">맵</p>
+        <p class="pixel-borders--2" @click="this.$emit('toContent', 'game')">맵</p>
       </li>
       <li>
-        <router-link :to="'/Game/Inventory'">
-          <p class="pixel-borders--2">인벤토리</p>
-        </router-link>
+        <p class="pixel-borders--2" @click="this.$emit('toContent', 'inventory')">인벤토리</p>
       </li>
       <li>
-        <p @click="this.$emit('showCluenote')" class="pixel-borders--2">단서노트</p>
+        <p class="pixel-borders--2" @click="this.$emit('toContent', 'cluenote')">단서노트</p>
       </li>
       <li>
-        <p @click="this.$emit('showQuiz')" class="pixel-borders--2">단서판서</p>
+        <p class="pixel-borders--2" @click="this.$emit('toContent', 'quiz')">단서판서</p>
       </li>
     </ul>
     <div class="invisible-box" />
@@ -28,6 +26,7 @@
 <script>
 export default {
   name: 'Navbar',
+  emits: [ 'changeContent' ]
 };
 </script>
 
@@ -81,7 +80,7 @@ p {
   font-size: 28px;
 }
 
-p:hover {
+.router-link-exact-active p, p:hover {
   color: black;
   text-shadow: 2px 2px rgba(255, 255, 255, 0.7);
   background: white;

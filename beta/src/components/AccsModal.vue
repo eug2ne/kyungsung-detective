@@ -42,7 +42,7 @@ export default {
     this.$nextTick(() => {
       setTimeout(() => {
         this.$emit('afterHint', data.id)
-      }, 1000 ) // show quiz-accomplish event on Quiz
+      }, 3000 ) // show quiz-accomplish event on Quiz
     })
     })
   }

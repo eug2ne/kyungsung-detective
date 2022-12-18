@@ -49,7 +49,7 @@ import vgrass_12 from '@/game/assets/villagescene/풀_12.png'
 
 export default class VillageScene extends Phaser.Scene {
   constructor () {
-    super('Village_Scene')
+    super({key: 'Village'})
   }
 
   init(player_config) {
@@ -108,7 +108,7 @@ export default class VillageScene extends Phaser.Scene {
     this.sceneload.preload()
   }
 
-  create () {
+  create(data) {
     this.physics.world.setBounds(0, 0, 2800, 1981)
 
     this.add.image(2800/2, 1981/2,'vback1')
@@ -193,7 +193,7 @@ export default class VillageScene extends Phaser.Scene {
       'mini_scrollY': 925
     }
 
-    this.sceneload.create(colliders, [], [], camera_config)
+    this.sceneload.create(colliders, [], [], camera_config, data)
   }
 
   update() {

@@ -1,9 +1,11 @@
 <template>
-  <div ref="game-container" id="game-container" v-if="downloaded" class="contents" />
-  <div class="placeholder" v-else>로딩 중 ...</div>
+  <div id="game">
+    <div ref="game-container" id="game-container" class="contents" />
+  </div>
 </template>
 
 <script>
+import { auth } from '../firestoreDB'
 import game from '../game/game'
 
 export default {
@@ -11,27 +13,25 @@ export default {
   props: ['progress'],
   data() {
     return {
-      downloaded: false,
       gameInstance: null
     }
   },
   mounted() {
-    this.downloaded = true
+    // page reload >> redirect to Home.vue to refresh user-auth
+    if (!auth.currentUser) {
+      this.$router.replace('/')
+      return
+    }
+
     this.$nextTick(() => {
       this.gameInstance = new game('game-container')
-      // this.gameInstance: Phaser.Game
-    })
-    this.$nextTick(() => {
       this.gameInstance.create()
     })
   },
-  updated() {
-    if (!this.progress) return
+  beforeUnmount() {
+    if (!this.gameInstance) return
 
-    this.gameInstance.progress(this.progress)
-  },
-  unmounted() {
-    this.gameInstance.destroy() // practically useless
+    this.gameInstance.destroy()
   }
 }
 </script>

@@ -9,12 +9,11 @@ import {
 	arrayUnion
 } from 'firebase/firestore'
 import Item from './GameObjects/Item'
-import { addDoc } from 'firebase/firestore'
 
 export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 {
 	private readonly firestore: any // error: cannot use Firestore as type
-	private readonly auth: any
+	private auth: any
 
 	constructor(manager: Phaser.Plugins.PluginManager)
 	{
@@ -39,12 +38,11 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 			player_config: any,
 			scenes_config: any
 		},
-		inventory: [ Item ]|[],
 		game_key: string,
-		clue?: any /* Clue */
+		clue?: any, /* Clue */
+		item?: { type?: string, id: string, name: string, descript: string } /* Item */
 	) {
 		const uid = this.auth.currentUser.uid
-
     const UsersRef = collection(this.firestore, 'Users')
     const user_UsersRef = doc(UsersRef, uid)
 
@@ -71,30 +69,35 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
 			})
 		} // upload clue to user db
 
+		if (item) {
+			// save to inventory
+			await updateDoc(user_UsersRef, {
+				Inventory: arrayUnion({ id: item.id, name: item.name, descript: item.descript })
+			})
+		} // upload item to user db
+
 		const data: any = {}
 		data[game_key] = {
 			'key': stage.key,
 			'player_config': stage.player_config,
 			'scenes_config': stage.scenes_config,
-			'item_carry': arrayUnion('item0')
+			'item_carry': stage.player_config.item_carry
 		}
 		await updateDoc(user_UsersRef, { Stages: data }) // update player config
-		
-		if (inventory.length != 0) {
-			inventory.forEach( async (item: Item) => {
-				await updateDoc(user_UsersRef.Inventory, arrayUnion(item))
-			}) // update inventory
-		}
+	}
+
+	async saveClueItem()
+	{
+
 	}
 
 	async loadGameData(game: any, update: boolean /* update flag */)
 	{
-		// get current user.uid
+		// load user stage-data from /Users
 		const uid = this.auth.currentUser.uid
-    // load user stage-data from /Users
-    const UsersRef = collection(this.firestore, 'Users')
-    const user_UsersRef = doc(UsersRef, uid)
-    const user_UsersSnap = await getDoc(user_UsersRef)
+		const UsersRef = collection(this.firestore, 'Users')
+		const user_UsersRef = doc(UsersRef, uid)
+		const user_UsersSnap = await getDoc(user_UsersRef)
 
 		const user_Stages = user_UsersSnap.data().Stages
 		if (update||!_.includes(Object.keys(user_Stages), game.key)) {

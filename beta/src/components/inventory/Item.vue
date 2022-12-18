@@ -15,9 +15,7 @@ export default {
   props: [ 'item' ],
   methods: {
     clickItem() {
-      this.$emit('addItem', {
-        item: this.item
-      })
+      this.$emit('addItem', this.item)
     }
   }
 }
@@ -43,12 +41,16 @@ export default {
   border-image-source: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M2 2h2v2H2zM4 0h2v2H4zM10 4h2v2h-2zM0 4h2v2H0zM6 0h2v2H6zM8 2h2v2H8zM8 8h2v2H8zM6 10h2v2H6zM0 6h2v2H0zM10 6h2v2h-2zM4 10h2v2H4zM2 8h2v2H2z' fill='%232983a3' /></svg>");
 }
 
+.wrapper:hover {
+  opacity: 0.6;
+}
+
 .wrapper h3 {
   font-weight: normal;
-  height: 120px;
+  height: 80px;
   width: 190px;
   font-size: 30px;
-  padding: 20px;
+  padding: 10px 20px 10px 20px;
   text-align: center;
   display: table-cell;
   vertical-align: middle;
@@ -57,30 +59,31 @@ export default {
 
 .wrapper .hover {
   display: none;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .wrapper:hover .hover {
-  background: #93d4ec;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.6);
   top: 0px;
   left: 0px;
   right: 0px;
   bottom: 0px;
   position: absolute;
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: center;
-  padding: 30px;
+  padding: 80px 20px 0 20px;
   border-radius: 10px;
   box-shadow: 0 10px 0 rgba(255, 255, 255, 0.4) inset,
     0 -10px 0 rgba(0, 0, 0, 0.2) inset;
 }
 
 .wrapper img {
-  width: 130px;
-  height: 130px;
+  width: 140px;
+  height: 140px;
   position: absolute;
-  top: 42%;
+  top: 35%;
   left: 50%;
   transform: translateX(-50%);
 }

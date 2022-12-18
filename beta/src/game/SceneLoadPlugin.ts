@@ -22,6 +22,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     cursor: this.scene.input.keyboard.createCursorKeys(),
     enter: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER, true, false)
   }
+  private carry_item_box: Phaser.GameObjects.Rectangle = new Phaser.GameObjects.Rectangle(this.scene, 10, 220, 60, 60)
+  private carry_item: Phaser.GameObjects.Image = new Phaser.GameObjects.Image(this.scene, 10, 220, 'undefined')
   private item_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene, 0, 0, '엔터를 눌러 아이템 얻기', {
     fontFamily: 'NeoDunggeunmo',
     fontSize: '20px',
@@ -38,11 +40,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       strokeThickness: 5,
       color: '#000'
     })
-  private readonly inventory: [ Item? ]
+  private inventory: any /* [ {id: string, name: string, descript: string, texture: string }? ] */
 
   constructor(scene: Phaser.Scene, manager: Phaser.Plugins.PluginManager, key: string) {
     super(scene, manager, key)
-    this.inventory = []
   }
 
   destroy() {
@@ -60,14 +61,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     return this._config
   }
-  
-  // init(config: {
-  //   player_config: { sceneKey: string, x: number, y: number },
-  //   item_carry: [ Item? ],
-  //   scenes_config: any
-  // }) {
-  //   this._config = config
-  // }
 
   preload() {
     // preload player spitesheet
@@ -77,7 +70,12 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   create(colliders: [ Phaser.Physics.Arcade.StaticGroup ],
     items: [ Item ]|[],
     npcs: [ NPC ]|[],
-    camera_config: { main_zoom: number, mini_zoom: number, mini_scrollX: number, mini_scrollY: number}) {
+    camera_config: { main_zoom: number, mini_zoom: number, mini_scrollX: number, mini_scrollY: number},
+    data: {
+      player_config: {x: number, y: number, sceneKey: string},
+      scenes_config: any,
+      item_carry: any
+    }) {
     this.scene.cameras.main
       .setBounds(0, 0, 2800, 1981)
       .setSize(2800/3, 1981/3)
@@ -99,10 +97,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     // create player on scene
     this.player = new Player(
       this.scene,
-      this._config.player_config.x,
-      this._config.player_config.y,
+      data.player_config.x,
+      data.player_config.y,
       this.scene.textures.get('sami'),
-      this._config.item_carry
+      data.item_carry
     )
     this.player.create()
     this.player.setCollideWorldBounds(true) // set player world bound
@@ -111,8 +109,12 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.scene.physics.add.collider(this.player, collider)
     }) // add collider physics on player
 
+    // show carry-item on scene
+    this.carry_item_box.visible = (data.item_carry.length != 0) ? true : false   
+    this.carry_item.visible = (data.item_carry.length != 0) ? true : false   
+
     // show item on scene according to scene-config
-    const scene_config = this._config.scenes_config[this._config.player_config.sceneKey]
+    const scene_config = data.scenes_config[data.player_config.sceneKey]
     if (scene_config.item.length != 0) {
       items.forEach((item: Item) => {
         if (_.includes(scene_config.item, item.id)) {
@@ -146,7 +148,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
         this.controls.enter.isDown = false
 
-        npc.dialogueKey =  scene_config.npc[npc.id]
+        npc.dialogueKey = scene_config.npc[npc.id]
         const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
         npc.emit('start-talking', npc.dialogueKey, cameraX, cameraY)
       }

@@ -1,16 +1,28 @@
 <template>
   <div id="router-view" class="pixel-borders--1">
-    <div>
+    <Login @toHome="toLogin=false" v-if="toLogin" />
+    <div v-else>
       <img src="../assets/logo/logo500px.png" alt="logo" />
-      <router-link :to="{ name: 'Login' }" class="link-button pixel-borders--2"
+      <button @click="this.toLogin=true" class="link-button pixel-borders--2"
         >시작하기
-      </router-link>
+      </button>
       <router-link :to="{ name: 'License' }" class="license">license</router-link>
     </div>
   </div>
 </template>
 
 <script>
+import Login from './auth/Login.vue'
+
+export default {
+  name: 'Home',
+  components: { Login },
+  data() {
+    return {
+      toLogin: false
+    }
+  }
+}
 </script>
 
 <style scoped>

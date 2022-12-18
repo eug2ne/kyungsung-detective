@@ -112,6 +112,7 @@ export default {
             quizletterset.value = quizinstance.quizletterset
             answerset.value = answerSet
           } catch (err) {
+            console.log(err)
             showDefault.value = true
           }
         }

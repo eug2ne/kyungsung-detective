@@ -1,11 +1,11 @@
 <template>
   <div id="owned-item" class="pixel-borders--2">
-    <h4>소지하고 있는 아이템</h4>
-    <div v-if="owned.length > 0">
-      <div v-for="ownedId in owned" :key="ownedId.id" id="owned-itemlist">
+    <h4>소지하고 있는 아이템 :</h4>
+    <div v-if="inventoryStore.carry_item.length > 0">
+      <div v-for="carryId in inventoryStore.carry_item" :key="carryId.id" id="carry-itemlist">
         <img
-          :src="require(`@/assets/item/${ownedId.texture}`)"
-          alt="loading"
+          :src="require(`@/assets/item/${carryId.texture}`)"
+          alt="carry-item"
           class="item"
         />
       </div>
@@ -17,14 +17,14 @@
 
   <div id="inventory">
     <component
-      @addItem="toggleOwned"
-      v-for="item in itemlist"
+      @addItem="toggleCarry"
+      v-for="item in inventoryStore.inventory"
       :key="item.id"
       :item="item"
       :is="'Item'"
     />
     <component
-      v-for="n in 6 - Object.keys(itemlist).length"
+      v-for="n in 6 - Object.keys(inventoryStore.inventory).length"
       :key="n.id"
       :is="'None'"
     />
@@ -35,18 +35,14 @@
 import { ref } from 'vue'
 import { auth, db } from '../firestoreDB'
 import { collection, doc, getDoc } from 'firebase/firestore'
+import { useInventoryStore } from './inventory/InventoryStore'
 import Item from '../components/inventory/Item.vue'
 import None from '../components/inventory/None.vue'
 
 export default {
-  data() {
-    return {
-      owned: ref([])
-    }
-  },
   components: { Item, None },
   setup() {
-    const itemlist = ref([])
+    const inventoryStore = useInventoryStore()
     
     const user = auth.currentUser
 
@@ -56,40 +52,32 @@ export default {
       const user_Ref = doc(UsersRef, user.uid)
       const user_Snap = await getDoc(user_Ref)
 
-      itemlist.value = user_Snap.data().inventory
-      console.log(itemlist.value)
+      inventoryStore.inventory = user_Snap.data().Inventory
     }
 
     load()
     
     return {
-      itemlist
+      inventoryStore
     }
   },
   methods: {
-    toggleOwned(item) {
-      var index = this.owned.indexOf(item);
-      if (item in this.owned) {
-        // delete item in owned
-        array.splice(index, 1)
-        item.owned = false
-      } else {
-        // delete item in owned
-        this.owned[0].owned = false
-        this.owned.splice(0, 1)
-
-        // add new item to owned
-        array.push(item)
-        item.owned = true
-      }
+    toggleCarry(item) {
+      this.inventoryStore.toggleItem(item)
     },
+  },
+  unmounted() {
+    // save inventory??
   }
 }
 </script>
 
 <style>
 #owned-item {
-  width: 865px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 680px;
   height: 210px;
   padding: 30px 40px;
   margin: 0 35px;
@@ -121,11 +109,13 @@ export default {
 
 #owned-item h4 {
   font-size: 30px;
+  width: 210px;
+  margin: 10px;
 }
 
 #owned-item div p {
   height: 140px;
-  width: 900px;
+  width: 380px;
   text-align: center;
   display: table-cell;
   vertical-align: middle;
@@ -138,9 +128,9 @@ export default {
 }
 
 #owned-itemlist img {
-  width: 90px;
-  height: 90px;
-  margin: 20px 10px;
+  width: 120px;
+  height: 120px;
+  margin: 10px;
   box-shadow: -4px -4px 0 rgba(0, 0, 0, 0.1) inset;
   background: white;
 }

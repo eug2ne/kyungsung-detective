@@ -51,7 +51,6 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   }
 
   public set dialogueKey(key: string) {
-    console.log(this.sceneload.config.item_carry)
     if (this.check&&(key=='pre_c_repeat'||key=='post_c_repeat')) {
       // check player.item_carry
       const check = (key=='pre_c_repeat') ? this.check.pre_c_repeat : this.check.pre_a_repeat

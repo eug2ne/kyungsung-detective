@@ -26,7 +26,7 @@
 <script>
 export default {
   name: 'Navbar',
-  emits: [ 'changeContent' ]
+  emits: [ 'toContent' ]
 };
 </script>
 

@@ -4,7 +4,7 @@
     <div class="contents">
       <Game v-show="showContent.game&&this.$route.path=='/Game'" />
       <Inventory v-if="showContent.inventory&&this.$route.path=='/Game'" />
-      <Cluenote v-if="showContent.cluenote&&this.$route.path=='/Game'" />
+      <Cluenote v-if="showContent.cluenote&&this.$route.path=='/Game'" :progress="progress" />
       <Quiz v-if="showContent.quiz&&this.$route.path=='/Game'" />
       <router-view></router-view>
     </div>
@@ -12,7 +12,8 @@
 </template>
 
 <script>
-import { auth } from '../firestoreDB'
+import _ from 'lodash'
+import { useGameStore } from '../game/game'
 import Navbar from '../components/Navbar.vue'
 import Game from './Game.vue'
 import Inventory from './Inventory.vue'
@@ -29,7 +30,8 @@ export default {
         inventory: false,
         cluenote: false,
         quiz: false
-      }
+      },
+      progress: null
     }
   },
   methods: {
@@ -42,9 +44,22 @@ export default {
       this.showContent[content] = true
     }
   },
-  beforeCreate() {
-    // console.log(auth.currentUser)
-    // if (!auth.currentUser) this.$router.replace('/')
+  mounted() {
+    useGameStore().$subscribe((mutation, state) => {
+      if (mutation.payload.quiz_id) {
+        // redirect to Quiz.vue
+        this.changeContent('quiz')
+      } else if (mutation.payload.progress) {
+        this.progress = _.cloneDeep(mutation.payload.progress)
+        // redirect to Cluenote.vue
+        this.changeContent('cluenote')
+
+        // redirect to Game.vue
+        setTimeout(() => {
+          this.changeContent('game')
+        }, 3000)
+      }
+    })
   }
 }
 </script>

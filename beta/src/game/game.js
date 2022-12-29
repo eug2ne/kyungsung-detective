@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { auth, db } from '../firestoreDB'
 import SceneLoadPlugin from './SceneLoadPlugin'
-import Test1 from './scenes/Test1_Scene'
 
 // import stages
 import BreakfastStage from './stages/BreakfastStage'
@@ -19,14 +18,18 @@ export const useGameStore = defineStore('game', {
         item: [ 'breakfast_item0', 'breakfast_item1' ]
       }
     } // default: BreakfastStage
-  }, carry_item: [], inventory: [], booted: false }),
+  }, carry_item: [], inventory: [], quiz_id: null, progress: null, booted: false }),
+  getters: {},
   actions: {
     async boot(gameKey) {
-      // load stage-data from db
+      // load stage-data + present_id from db
       const uid = auth.currentUser.uid
       const UsersRef = collection(db, 'Users')
       const user_UsersRef = doc(UsersRef, uid)
       const user_UsersSnap = await getDoc(user_UsersRef)
+
+      // set quiz_id to present_id in db
+      this.$patch({ quiz_id: user_UsersSnap.data().present_id })
 
       const user_Stages = user_UsersSnap.data().Stages
       if (!_.includes(Object.keys(user_Stages), gameKey)||!user_Stages[gameKey]) {
@@ -53,7 +56,6 @@ export const useGameStore = defineStore('game', {
 
 export default class game extends Phaser.Game {
   constructor(containerId) {
-    console.log('game construct')
     const config = {
       type: Phaser.AUTO,
       width: 2800/3,
@@ -85,7 +87,6 @@ export default class game extends Phaser.Game {
   }
 
   create() {
-    console.log('game create')
     // pass stage-data to game.stage
     const stage_class = this.stage_keys[useGameStore().stage.key]
     this.stage = new stage_class(this.plugins) // create game.stage

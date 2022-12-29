@@ -32,11 +32,9 @@
 
         <div class="subclue_lock" v-else>
           <h3>아직 잠겨있습니다</h3>
-          <router-link :to="{ name: 'Quiz', params: {quiz_id: subclue.quiz_id} }" >
-            <p>
+            <p @click="toQuiz(subclue.quiz_id)">
               (퍼즐 풀고 단서 얻으러가기)
             </p>
-          </router-link>
         </div>
       </div>
     </div>
@@ -48,8 +46,11 @@
 import { ref } from 'vue'
 import { auth, db } from '../firestoreDB'
 import { collection, doc, getDoc } from 'firebase/firestore'
+import { useGameStore } from '../game/game'
 
 export default {
+  name: 'Cluenote',
+  props: ['progress'],
   data() {
     return {
       show: ref([])
@@ -92,6 +93,19 @@ export default {
         }
       }
     },
+    toQuiz(quiz_id) {
+      // update default-quizID 
+      useGameStore().$patch({ quiz_id: quiz_id })
+    }
+  },
+  updated() {
+    if (Object.keys(this.cluelist).length > 0) {
+      if (this.progress) {
+        // show accomplished-clue
+        const [ story, index ] = this.progress.story.split('-')
+        this.showClue(story)
+      }
+    }
   }
 };
 </script>

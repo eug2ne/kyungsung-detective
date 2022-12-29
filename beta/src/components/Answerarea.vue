@@ -12,35 +12,31 @@
 import { ref } from 'vue'
 import { auth, db } from '../firestoreDB'
 import { collection, doc, getDoc } from 'firebase/firestore'
+import { useGameStore } from '../game/game'
 
 export default {
     name: 'AnswerArea',
-    props: [ 'quiz_id' ],
     data() {
         return {
             showdef: false,
             showAbbr: false
         }
     },
-    setup(props) {
+    setup() {
         const accs = ref(false) // quiz accomplishment
         const answerSet = ref({})
 
         const load = async () => {
+            const quiz_id = useGameStore().quiz_id
+
             try {
                 const AnswerSetRef = collection(db, 'AnswerSet')
-                let quiz_id = ''
                 // get current user
                 const user = auth.currentUser
                 // import user-config from db
                 const UsersRef = collection(db, 'Users')
                 const user_Ref = doc(UsersRef, user.uid)
                 const user_Snap = await getDoc(user_Ref)
-                if (props.quiz_id == 'default') {
-                    quiz_id = user_Snap.data().present_id
-                } else {
-                    quiz_id = props.quiz_id
-                }
                 // get quiz accomplishment from user-config
                 accs.value = user_Snap.data().quiz_accs[quiz_id]
 

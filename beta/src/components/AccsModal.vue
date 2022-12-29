@@ -24,26 +24,20 @@ export default {
   mounted() {
     this.emitter.on('quizAccomplish', (data) => {
       const load = async () => {
-      // get current user
-      const user = auth.currentUser
-      // import user-config from db
-      const UsersRef = collection(db, 'Users')
-      const user_Ref = doc(UsersRef, user.uid)
-      const user_Snap = await getDoc(user_Ref)
+        // get current user
+        const user = auth.currentUser
+        // import user-config from db
+        const UsersRef = collection(db, 'Users')
+        const user_Ref = doc(UsersRef, user.uid)
+        const user_Snap = await getDoc(user_Ref)
 
-      const [ story, index ] = data.story.split('-')
-      this.subclue = user_Snap.data().Clues[story][index].subClues.find((ele) => {
-        return ele.quiz_id == data.id
-      })
-    }
+        const [ story, index ] = data.story.split('-')
+        this.subclue = user_Snap.data().Clues[story][index].subClues.find((ele) => {
+          return ele.quiz_id == data.id
+        })
+      }
 
-    load()
-
-    this.$nextTick(() => {
-      setTimeout(() => {
-        this.$emit('afterHint', data.id)
-      }, 3000 ) // show quiz-accomplish event on Quiz
-    })
+      load()
     })
   }
 }

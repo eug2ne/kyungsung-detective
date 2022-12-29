@@ -6,6 +6,7 @@
 
 <script>
 import { auth } from '../firestoreDB'
+import { useGameStore } from '../game/game'
 import game from '../game/game'
 
 export default {
@@ -26,6 +27,15 @@ export default {
     this.$nextTick(() => {
       this.gameInstance = new game('game-container')
       this.gameInstance.create()
+    })
+
+    useGameStore().$subscribe((mutation, state) => {
+      if (mutation.payload.progress) {
+        // progress-event
+        setTimeout(() => {
+          this.gameInstance.progress(state.progress.id)
+        }, 3000)
+      }
     })
   },
   beforeUnmount() {

@@ -1,7 +1,7 @@
 import { auth, db } from '../../firestoreDB'
 import { collection, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore'
 
-const importSet = async (_quiz_id) => {
+const importSet = async (quiz_id) => {
     // get current user
     const user = auth.currentUser
     // import set from db
@@ -9,16 +9,6 @@ const importSet = async (_quiz_id) => {
     const user_Ref = doc(UsersRef, user.uid)
 
     const QuizsRef = collection(user_Ref, 'Quizs')
-    let quiz_id = ''
-    if (_quiz_id == 'default') {
-        const user_Snap = await getDoc(user_Ref)
-        quiz_id = user_Snap.data().present_id
-    } else {
-        quiz_id = _quiz_id
-        await updateDoc(user_Ref, {
-            present_id: quiz_id
-        }) // user-config.present_id to quiz_id
-    }
     const user_QuizRef = doc(QuizsRef, quiz_id)
     const user_QuizSnap = await getDoc(user_QuizRef)
 

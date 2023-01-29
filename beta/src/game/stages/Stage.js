@@ -1,4 +1,5 @@
 import Phaser from "phaser"
+import { useGameStore } from '../game.js'
 import _ from 'lodash'
 
 // interface StageInterface {
@@ -81,12 +82,13 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
       // end of game
     } else {
       // stage clear >> move to next stage
-      this.game.stage = this.next
-      await this.game.preload()
+      useGameStore().$patch({ stage: { key: this.next.key, player_config: {...this.next.default_config.player_config}, scenes_config: {...this.next.default_config.scenes_config} } })
+      await this.game.create()
     }
   }
 
   preload() {
+    console.log(this.game.scene.keys)
     // add stage.scenes to game.scene
     this.scenes.forEach((scene, index) => {
       const sceneKey = Object.keys(this.scenes_config)[index+1] // because store patches data (original data is left in state)
@@ -108,7 +110,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
   event(scene /*: Phaser.Scene */, progress /*: string|null */) {}
 
   // pass item-config to player-config
-  itemCarry(carry_item /* [ Item? ] */) {
+  itemHold(carry_item /* [ Item? ] */) {
     this.item_carry = carry_item
   }
 

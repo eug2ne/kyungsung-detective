@@ -1,22 +1,17 @@
 import Phaser from 'phaser'
-import Item from './Item'
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
   public interact_area: Phaser.Types.Physics.Arcade.ImageWithStaticBody
-  public readonly item_carry: [ Item? ]
 
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
-    texture: Phaser.Textures.Texture,
-    item_carry: [ Item? ]
+    texture: Phaser.Textures.Texture
   ) {
     super(scene, x, y, texture)
-    scene.add.existing(this).setScale(0.16).setDepth(10)
+    scene.add.existing(this).setScale(0.16).setDepth(8)
     scene.physics.add.existing(this)
-
-    this.item_carry = item_carry // set hold_item list
   }
 
   destroy() {

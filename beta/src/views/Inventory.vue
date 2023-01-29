@@ -1,8 +1,8 @@
 <template>
   <div id="owned-item" class="pixel-borders--2">
     <h4>소지하고 있는 아이템 :</h4>
-    <div v-if="inventoryStore.carry_item.length > 0">
-      <div v-for="carryId in inventoryStore.carry_item" :key="carryId.id" id="carry-itemlist">
+    <div v-if="this.carry_item.length > 0">
+      <div v-for="carryId in this.carry_item" :key="carryId.id" id="carry-itemlist">
         <img
           :src="require(`@/assets/item/${carryId.texture}`)"
           alt="carry-item"
@@ -18,13 +18,13 @@
   <div id="inventory">
     <component
       @addItem="toggleCarry"
-      v-for="item in inventoryStore.inventory"
+      v-for="item in this.inventory"
       :key="item.id"
       :item="item"
       :is="'Item'"
     />
     <component
-      v-for="n in 6 - Object.keys(inventoryStore.inventory).length"
+      v-for="n in 6 - Object.keys(this.inventory).length"
       :key="n.id"
       :is="'None'"
     />
@@ -32,42 +32,24 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import { auth, db } from '../firestoreDB'
-import { collection, doc, getDoc } from 'firebase/firestore'
-import { useInventoryStore } from './inventory/InventoryStore'
+import { mapWritableState } from 'pinia'
+import { useGameStore } from '../game/game'
 import Item from '../components/inventory/Item.vue'
 import None from '../components/inventory/None.vue'
 
 export default {
   components: { Item, None },
-  setup() {
-    const inventoryStore = useInventoryStore()
-    
-    const user = auth.currentUser
-
-    // get itemlist from db
-    const load = async () => {
-      const UsersRef = collection(db, 'Users')
-      const user_Ref = doc(UsersRef, user.uid)
-      const user_Snap = await getDoc(user_Ref)
-
-      inventoryStore.inventory = user_Snap.data().Inventory
-    }
-
-    load()
-    
-    return {
-      inventoryStore
-    }
+  computed: {
+    ...mapWritableState(useGameStore, ['inventory', 'carry_item'])
   },
   methods: {
     toggleCarry(item) {
-      this.inventoryStore.toggleItem(item)
+      if (this.carry_item.length > 0) {
+        this.carry_item = (this.carry_item[0].id == item.id) ? []:[item]
+      } else {
+        this.carry_item = [item]
+      }
     },
-  },
-  unmounted() {
-    // save inventory??
   }
 }
 </script>

@@ -46,6 +46,8 @@ export default {
   },
   mounted() {
     useGameStore().$subscribe((mutation, state) => {
+      if (!mutation.payload) return // ignore other events
+
       if (mutation.payload.quiz_id) {
         // redirect to Quiz.vue
         this.changeContent('quiz')

@@ -192,8 +192,9 @@ export default class VillageScene extends Phaser.Scene {
       'mini_scrollX': 1306,
       'mini_scrollY': 925
     }
-
     this.sceneload.create(colliders, [], [], camera_config, data)
+
+    this.game.stage.event(this) // activate stage
   }
 
   update() {

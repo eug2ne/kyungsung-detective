@@ -152,7 +152,7 @@ const npcs_JSON = [
     "scale": 1.1,
     "anim_config": {
       "frames": {
-        "0,7": "dishwash"
+        "0,5": "dishwash"
       },
       "repeat": {
         "dishwash": true
@@ -163,8 +163,8 @@ const npcs_JSON = [
     "clue": null,
     "answer": null,
     "check": null,
-    "x": 389,
-    "y": 211
+    "x": 391,
+    "y": 213
   }
 ]
 
@@ -208,7 +208,7 @@ const items_JSON = [
     "name": "b_meal",
     "id": "breakfast_item1",
     "x": 460,
-    "y": 425,
+    "y": 420,
     "scale": 0.25,
     "depth": 10,
     "texture": "b_meal",
@@ -266,7 +266,7 @@ export default class Breakfast extends Phaser.Scene {
     this.load.image('maid_smile', maid_smile)
     this.load.image('sami_neutral', sami_neutral)
     this.load.image('sami_smile', sami_smile)
-    this.load.spritesheet('maid_dishwash', maid_dishwash, { frameWidth: 2800 / 8, frameHeight: 495 })
+    this.load.spritesheet('maid_dishwash', maid_dishwash, { frameWidth: 2074 / 6, frameHeight: 512 })
 
     // load item image
     this.load.image('b_meal', b_meal)
@@ -338,7 +338,8 @@ export default class Breakfast extends Phaser.Scene {
         npc.dialogue,
         npc.question,
         npc.clue,
-        npc.answer
+        npc.answer,
+        npc.check
       ))
     })
 
@@ -351,6 +352,8 @@ export default class Breakfast extends Phaser.Scene {
       'mini_scrollY': 300
     }
     this.sceneload.create(colliders, this.items, this.npcs, camera_config, data)
+
+    this.game.stage.event(this) // activate stage
   }
 
   update() {

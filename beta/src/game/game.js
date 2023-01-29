@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import { defineStore } from 'pinia'
-import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore'
 import { auth, db } from '../firestoreDB'
 import SceneLoadPlugin from './SceneLoadPlugin'
 
@@ -18,7 +18,7 @@ export const useGameStore = defineStore('game', {
         item: [ 'breakfast_item0', 'breakfast_item1' ]
       }
     } // default: BreakfastStage
-  }, carry_item: [], inventory: [], quiz_id: null, progress: null, booted: false }),
+  }, acquire_clue: null, carry_item: [], inventory: [], quiz_id: null, progress: null, booted: false }),
   getters: {},
   actions: {
     async boot(gameKey) {
@@ -27,6 +27,9 @@ export const useGameStore = defineStore('game', {
       const UsersRef = collection(db, 'Users')
       const user_UsersRef = doc(UsersRef, uid)
       const user_UsersSnap = await getDoc(user_UsersRef)
+
+      // load inventory from db
+      this.$patch({ inventory: user_UsersSnap.data().Inventory })
 
       // set quiz_id to present_id in db
       this.$patch({ quiz_id: user_UsersSnap.data().present_id })
@@ -49,6 +52,57 @@ export const useGameStore = defineStore('game', {
         this.$patch({ stage: user_Stages[gameKey] })
       }
       this.booted = true
+    },
+    async saveStage(gameKey) {
+      // save stage-config to db
+      const uid = auth.currentUser.uid
+      const UsersRef = collection(db, 'Users')
+      const user_UsersRef = doc(UsersRef, uid)
+
+      const data = {}
+      data[gameKey] = {
+        'key': this.stage.key,
+        'player_config': this.stage.player_config,
+        'scenes_config': this.stage.scenes_config
+      }
+      await updateDoc(user_UsersRef, { Stages: data }) // update player config
+    },
+    async saveInven() {
+      // save inventory to db
+      const uid = auth.currentUser.uid
+      const UsersRef = collection(db, 'Users')
+      const user_UsersRef = doc(UsersRef, uid)
+
+      await updateDoc(user_UsersRef, {
+				Inventory: this.inventory
+			})
+    },
+    async saveClue() {
+      // save clue to db
+      const uid = auth.currentUser.uid
+      const UsersRef = collection(db, 'Users')
+      const user_UsersRef = doc(UsersRef, uid)
+
+      const data = {}
+			data[this.acquire_clue.story] = arrayUnion({
+				'title': this.acquire_clue.title,
+				'description': this.acquire_clue.description,
+				'subClues': this.acquire_clue.subClues
+			})
+			await updateDoc(user_UsersRef, {
+				'Clues': data
+			})
+
+			// add subclue quiz-accomplishment to user.quiz_accs
+			this.acquire_clue.subClues.forEach(async (subClue) => {
+				if (!subClue.quiz_id) return
+
+				const data = {}
+				data[subClue.quiz_id] = false
+				await updateDoc(user_UsersRef, {
+					'quiz_accs': data
+				})
+			})
     }
   },
   persist: { storage: sessionStorage }
@@ -61,7 +115,7 @@ export default class game extends Phaser.Game {
       width: 2800/3,
       height: 1981/3,
       parent: containerId,
-      pixelArt: true,
+      // pixelArt: true,
       physics: {
         default: 'arcade',
         arcade: {
@@ -101,31 +155,30 @@ export default class game extends Phaser.Game {
       item_carry: useGameStore().carry_item
     }
     this.scene.start(PlayScene_Key, config) // pass stage-data to scene
-    this.stage.event(this.scene.getScene(PlayScene_Key))
   }
 
-  async pause(clue, item) {
-    this.scene.pause() // pause game
+  // async pause(clue, item) {
+  //   this.scene.pause() // pause game
 
-    // update stage data
-    const config = this.scene.getScene(this.stage.player_config.sceneKey).sceneload.config
-    this.stage.player_config = config
+  //   // update stage data
+  //   const config = this.scene.getScene(this.stage.player_config.sceneKey).sceneload.config
+  //   this.stage.player_config = config
 
-    const firestore = this.plugins.get('FirebasePlugin')
-    // save player_config + inventory to db
-    const stage = {
-      'item_carry': this.stage.item_carry,
-      'key': this.stage.key,
-      'player_config': this.stage.player_config,
-      'scenes_config': this.stage.scenes_config
-    }
+  //   const firestore = this.plugins.get('FirebasePlugin')
+  //   // save player_config + inventory to db
+  //   const stage = {
+  //     'item_carry': this.stage.item_carry,
+  //     'key': this.stage.key,
+  //     'player_config': this.stage.player_config,
+  //     'scenes_config': this.stage.scenes_config
+  //   }
 
-    await firestore.saveGameData(stage, this.key, clue, item)
+  //   await firestore.saveGameData(stage, this.key, clue, item)
 
-    setTimeout(() => {
-      this.scene.resume()
-    },)
-  }
+  //   setTimeout(() => {
+  //     this.scene.resume()
+  //   },)
+  // }
 
   progress(progress) {
     if (progress.split('.').length > 1) {

@@ -1,4 +1,5 @@
 import Phaser from "phaser"
+import { useGameStore } from '../game.js'
 import Stage from "./Stage.js"
 import Breakfast from '../scenes/Breakfast.js'
 import Test1Stage from "./Test1Stage"
@@ -18,16 +19,22 @@ export default class BreakfastStage extends Stage {
     super(manager, [ new Breakfast() ], default_config, null, 'BreakfastStage', new Test1Stage(manager))
   }
 
-  event(scene: Phaser.Scene): void {
+  event(scene: any): void {
     // update player_config after eating breakfast
     scene.events.on('to-update.breakfast_maid.post_c_repeat', () => {
-      this.scenes_config['Breakfast'].npc['breakfast_maid'] = 'post_c_repeat'
+      useGameStore().$patch({ stage: {
+        player_config: {...scene.sceneload.config.player_config},
+        scenes_config: { 'Breakfast': { 'npc': { 'breakfast_maid': 'post_c_repeat' }}}
+      }})
     })
 
     // update player_config after reading newspaper
     scene.events.on('to-update.breakfast_maid.answer.==post_c_repeat', () => {
       if (this.scenes_config['Breakfast'].npc['breakfast_maid'] != 'post_c_repeat') return
-      this.scenes_config['Breakfast'].npc['breakfast_maid'] = 'answer'
+      useGameStore().$patch({ stage: {
+        player_config: {...scene.sceneload.config.player_config},
+        scenes_config: { 'Breakfast': { 'npc': { 'breakfast_maid': 'answer' }}}
+      }})
     })
 
     // if player talk to maid when maid.dialogueKey == answer, stage clear

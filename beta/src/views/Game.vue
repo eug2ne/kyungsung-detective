@@ -30,8 +30,22 @@ export default {
     })
 
     useGameStore().$subscribe((mutation, state) => {
+      if (!mutation.payload) return // ignore other events
+
+      // in-game progress event
+      if (mutation.payload.stage) {
+        // stage-config update
+        useGameStore().saveStage(this.gameInstance.key)
+        // inventory update
+        useGameStore().saveInven()
+      }
+      if (mutation.payload.acquire_clue){
+        // clue update
+        useGameStore().saveClue()
+      }
+
+      // out-game progress-event
       if (mutation.payload.progress) {
-        // progress-event
         setTimeout(() => {
           this.gameInstance.progress(state.progress.id)
         }, 3000)

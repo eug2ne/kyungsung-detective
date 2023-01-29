@@ -1,13 +1,21 @@
 import Phaser from "phaser"
+import { useGameStore } from '../game.js'
 import Stage from "./Stage.js"
 import Test1 from "../scenes/Test1_Scene.js"
 import _ from "lodash"
 
 const default_config = {
-  player_config: { 'sceneKey': 'Test1' , 'x': 700, 'y': 700 },
+  player_config: { 'sceneKey': 'Test1' , 'x': 570, 'y': 130 },
   scenes_config: {
     'Test1': {
-      npc: { 'test1_inspector': 'clue', 'test1_newspaperstand': 'post_c_repeat' },
+      npc: { 'test1_inspector': 'clue',
+        'test1_newspaperstand': 'post_c_repeat',
+        'test1_applicant1': 'post_c_repeat',
+        'test1_applicant2': 'post_c_repeat',
+        'test1_applicant3': 'post_c_repeat',
+        'test1_applicant4': 'post_c_repeat',
+        'test1_applicant5': 'post_c_repeat',
+      },
       item: []
     }
   }
@@ -56,7 +64,7 @@ export default class Test1Stage extends Stage {
     super(manager, [ Test1 ], default_config, progress, 'Test1Stage', null)
   }
 
-  event(scene: Phaser.Scene): void {
+  event(scene: any): void {
     // in-game event progress
 
     // after talking to inspector
@@ -68,15 +76,26 @@ export default class Test1Stage extends Stage {
 
       // update player_config
       if (id == 'test1_inspector'&&to == 'post_c_repeat') {
-        // after talking to inspector
-        this.game.pause(data, null)
+        // after talking to inspector, save clue to gameStore
+        useGameStore().$patch({ acquire_clue: data, stage: {player_config: {...scene.sceneload.config.player_config}} })
       } else if (id == 'test1_newspaperstand'&&to == 'post_a_repeat') {
         // after getting newspaper item from newspaperstand
-        this.game.pause(null, data)
+        useGameStore().inventory.push(data)
+        useGameStore().$patch({ stage: {player_config: {...scene.sceneload.config.player_config}} })
+      } else if (id == 'test1_inspector'&&data == 'test1stage_clear') {
+        // after talking to inspector carrying newspaper item >> stage clear
+        this.clear()
       }
     })
 
     // after getting newpaper item from newspaperstand
     // update player_config
+
+    // out_game event progress
+
+    // update newspaperstand dialogue-key
+    scene.events.on('progress-event', (progress: any) => {
+      useGameStore().$patch({ stage: { scenes_config: { 'Test1': {npc: { 'test1_newspaperstand': 'answer' }} } } })
+    })
   }
 }

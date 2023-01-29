@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
+import { useGameStore } from './game.js'
 import Player from './GameObjects/Player'
 import NPC from './GameObjects/NPC'
 import Item from './GameObjects/Item'
@@ -9,11 +10,9 @@ import Dialogue from './GameObjects/Dialogue'
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private _config: {
     player_config: { sceneKey: string, x: number, y:number },
-    item_carry: [ Item? ],
     scenes_config: any
   } = {
     player_config: { sceneKey: 'undefined', x: 0, y: 0 },
-    item_carry: [],
     scenes_config: {}
   }
   private player: Player
@@ -22,8 +21,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     cursor: this.scene.input.keyboard.createCursorKeys(),
     enter: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER, true, false)
   }
-  private carry_item_box: Phaser.GameObjects.Rectangle = new Phaser.GameObjects.Rectangle(this.scene, 10, 220, 60, 60)
-  private carry_item: Phaser.GameObjects.Image = new Phaser.GameObjects.Image(this.scene, 10, 220, 'undefined')
+  // private carry_item_box: Phaser.GameObjects.Rectangle = new Phaser.GameObjects.Rectangle(this.scene, 10, 220, 60, 60)
+  // private carry_item: Phaser.GameObjects.Image = new Phaser.GameObjects.Image(this.scene, 10, 220, 'undefined')
   private item_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene, 0, 0, '엔터를 눌러 아이템 얻기', {
     fontFamily: 'NeoDunggeunmo',
     fontSize: '20px',
@@ -51,8 +50,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     super.destroy()
   }
 
-  public set config(value) {
-    this._config = value
+  private set config(data) {
+    this._config = data
   }
 
   public get config() {
@@ -73,9 +72,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     camera_config: { main_zoom: number, mini_zoom: number, mini_scrollX: number, mini_scrollY: number},
     data: {
       player_config: {x: number, y: number, sceneKey: string},
-      scenes_config: any,
-      item_carry: any
+      scenes_config: any
     }) {
+    this.config = _.cloneDeep(data)
+
     this.scene.cameras.main
       .setBounds(0, 0, 2800, 1981)
       .setSize(2800/3, 1981/3)
@@ -99,8 +99,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.scene,
       data.player_config.x,
       data.player_config.y,
-      this.scene.textures.get('sami'),
-      data.item_carry
+      this.scene.textures.get('sami')
     )
     this.player.create()
     this.player.setCollideWorldBounds(true) // set player world bound
@@ -108,10 +107,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     colliders.forEach(collider => {
       this.scene.physics.add.collider(this.player, collider)
     }) // add collider physics on player
-
-    // show carry-item on scene
-    this.carry_item_box.visible = (data.item_carry.length != 0) ? true : false   
-    this.carry_item.visible = (data.item_carry.length != 0) ? true : false   
 
     // show item on scene according to scene-config
     const scene_config = data.scenes_config[data.player_config.sceneKey]

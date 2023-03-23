@@ -16,7 +16,7 @@ export default {
         console.log(useGameStore().$state.booted)
         if (!useGameStore().$state.booted) {
           // boot useGameStore()
-          await useGameStore().boot('k_detective_beta')
+          await useGameStore().boot('k_detective_beta', '시작')
         } // load stage-data from db + save to game-store
         // direct to main.vue
         this.$router.replace('/Game')

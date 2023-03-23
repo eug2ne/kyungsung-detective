@@ -7,11 +7,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     scene: Phaser.Scene,
     x: number,
     y: number,
-    texture: Phaser.Textures.Texture
+    texture: Phaser.Textures.Texture,
+    scale?: number
   ) {
     super(scene, x, y, texture)
-    scene.add.existing(this).setScale(0.16).setDepth(8)
-    scene.physics.add.existing(this)
+    scene.add.existing(this).setScale(scale ? scale : 1.5).setDepth(8)
+    scene.physics.add.existing(this).setSize(40,62)
   }
 
   destroy() {
@@ -90,7 +91,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.body.velocity.normalize().scale(50*4)
 
     // update area coord
-    const boxX = this.x+this.body.velocity.x*0.4, boxY = this.y+this.body.velocity.y*0.4
+    const boxX = this.x+this.body.velocity.x*0.35, boxY = this.y+this.body.velocity.y*0.45
     this.interact_area.setPosition(boxX, boxY)
   }
 }

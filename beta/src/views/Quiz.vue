@@ -114,7 +114,7 @@ export default {
 }
 
 .icon {
-  display: inline;
+  display: inline-block;
   width: 45px;
   height: 45px;
   background-color: transparent;

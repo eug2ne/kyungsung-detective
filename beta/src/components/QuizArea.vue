@@ -101,14 +101,15 @@ export default {
         
         // create async load func.
         const load = async () => {
-          const quiz_id = useGameStore().quiz_id
+          const quiz_id = useGameStore().quiz.id
+          const route = useGameStore().quiz.route
 
           try {
             const {
               defaultSet,
               quizinstance,
               answerSet
-            } = await importSet(quiz_id)
+            } = await importSet(quiz_id, route)
 
             d_Set.value = defaultSet
             q_instance.value = quizinstance
@@ -252,10 +253,10 @@ export default {
         console.log('quiz accomplish')
         this.q_instance.accomplish = true // set q_instance.accomplish to true
         exportSet(this.q_instance) // update user-status on db
-        this.emitter.emit('quizAccomplish', { story: this.q_instance.story, id: this.q_instance.id }) // emit quiz-accomplish event
+        this.emitter.emit('quizAccomplish', this.q_instance.clue_ref) // emit quiz-accomplish event
 
         setTimeout(() => {
-          useGameStore().$patch({ progress: { story: this.q_instance.story, id: this.q_instance.id }})
+          useGameStore().$patch({ progress: { route: this.q_instance.clue_ref, id: this.q_instance.id }})
         }, 1000)
       }
 

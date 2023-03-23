@@ -27,7 +27,7 @@ export default {
         const answerSet = ref({})
 
         const load = async () => {
-            const quiz_id = useGameStore().quiz_id
+            const quiz_id = useGameStore().quiz.id
 
             try {
                 const AnswerSetRef = collection(db, 'AnswerSet')

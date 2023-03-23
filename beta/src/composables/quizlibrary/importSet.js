@@ -1,7 +1,7 @@
 import { auth, db } from '../../firestoreDB'
 import { collection, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore'
 
-const importSet = async (quiz_id) => {
+const importSet = async (quiz_id, route) => {
     // get current user
     const user = auth.currentUser
     // import set from db
@@ -43,7 +43,8 @@ const importSet = async (quiz_id) => {
             max_chosen: 6,
             backset: [],
             forwardset: [],
-            accomplish: false
+            accomplish: false,
+            clue_ref: route
         })
 
         const accs_set = {}
@@ -60,9 +61,9 @@ const importSet = async (quiz_id) => {
             max_chosen: 6,
             backset: [],
             forwardset: [],
-            accomplish: false
+            accomplish: false,
+            clue_ref: route
         }
-        console.log(quizinstance)
 
         return {
             defaultSet,

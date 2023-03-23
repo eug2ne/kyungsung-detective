@@ -1,51 +1,5 @@
 import Phaser from 'phaser'
-import vback1 from '@/game/assets/villagescene/마을최종.png'
-
-import vhouse_1 from '@/game/assets/villagescene/집_1.png'
-import vhouse_2 from '@/game/assets/villagescene/집_2.png'
-import vhouse_3 from '@/game/assets/villagescene/집_3.png'
-import vhouse_4_1 from '@/game/assets/villagescene/집_4_1.png'
-import vhouse_4_2 from '@/game/assets/villagescene/집_4_2.png'
-import vhouse_4_3 from '@/game/assets/villagescene/집_4_3.png'
-import vhouse_5 from '@/game/assets/villagescene/집_5.png'
-
-import vfield from '@/game/assets/villagescene/논밭.png'
-import vfield_1_1 from '@/game/assets/villagescene/논밭_1_1.png'
-import vfield_1_2 from '@/game/assets/villagescene/논밭_1_2.png'
-import vfield_2_1 from '@/game/assets/villagescene/논밭_2_1.png'
-import vfield_2_2 from '@/game/assets/villagescene/논밭_2_2.png'
-import vfield_2_3 from '@/game/assets/villagescene/논밭_2_3.png'
-import vfield_2_4 from '@/game/assets/villagescene/논밭_2_4.png'
-import vfield_3_1 from '@/game/assets/villagescene/논밭_3_1.png'
-import vfield_3_2 from '@/game/assets/villagescene/논밭_3_2.png'
-import vfield_3_3 from '@/game/assets/villagescene/논밭_3_3.png'
-import vfield_4_1 from '@/game/assets/villagescene/논밭_4_1.png'
-import vfield_4_2 from '@/game/assets/villagescene/논밭_4_2.png'
-import vfield_4_3 from '@/game/assets/villagescene/논밭_4_3.png'
-
-import vcutted_tree from '@/game/assets/villagescene/다리자른나무.png'
-import vtree from '@/game/assets/villagescene/나무충돌.png'
-
-import vhouse_1_float from '@/game/assets/villagescene/집_1_float.png'
-import vhouse_1_fence_float from '@/game/assets/villagescene/집_1_울타리_float.png'
-import vhouse_2_float from '@/game/assets/villagescene/집_2_float.png'
-import vhouse_3_float from '@/game/assets/villagescene/집_3_float.png'
-import vhouse_4_float from '@/game/assets/villagescene/집_4_float.png'
-import vhouse_5_float from '@/game/assets/villagescene/집_5_float.png'
-
-import vgrass_1 from '@/game/assets/villagescene/풀_1.png'
-import vgrass_2 from '@/game/assets/villagescene/풀_2.png'
-import vgrass_3 from '@/game/assets/villagescene/풀_3.png'
-import vgrass_4 from '@/game/assets/villagescene/풀_4.png'
-import vgrass_5 from '@/game/assets/villagescene/풀_5.png'
-import vgrass_6 from '@/game/assets/villagescene/풀_6.png'
-import vgrass_7 from '@/game/assets/villagescene/풀_7.png'
-import vgrass_8 from '@/game/assets/villagescene/풀_8.png'
-import vgrass_9 from '@/game/assets/villagescene/풀_9.png'
-import vgrass_10 from '@/game/assets/villagescene/풀_10.png'
-import vgrass_11 from '@/game/assets/villagescene/풀_11.png'
-import vgrass_12 from '@/game/assets/villagescene/풀_12.png'
-
+import vback from '@/game/assets/villagescene/마을최종-2800.png'
 
 export default class VillageScene extends Phaser.Scene {
   constructor () {
@@ -57,61 +11,16 @@ export default class VillageScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('vback1', vback1)
-
-    this.load.image('vhouse_1', vhouse_1)
-    this.load.image('vhouse_2', vhouse_2)
-    this.load.image('vhouse_3', vhouse_3)
-    this.load.image('vhouse_4_1', vhouse_4_1)
-    this.load.image('vhouse_4_2', vhouse_4_2)
-    this.load.image('vhouse_4_3', vhouse_4_3)
-    this.load.image('vhouse_5', vhouse_5)
+    this.load.image('vback', vback)
     
-    this.load.image('vfield', vfield)
-    this.load.image('vfield_1_1', vfield_1_1)
-    this.load.image('vfield_1_2', vfield_1_2)
-    this.load.image('vfield_2_1', vfield_2_1)
-    this.load.image('vfield_2_2', vfield_2_2)
-    this.load.image('vfield_2_3', vfield_2_3)
-    this.load.image('vfield_2_4', vfield_2_4)
-    this.load.image('vfield_3_1', vfield_3_1)
-    this.load.image('vfield_3_2', vfield_3_2)
-    this.load.image('vfield_3_3', vfield_3_3)
-    this.load.image('vfield_4_1', vfield_4_1)
-    this.load.image('vfield_4_2', vfield_4_2)
-    this.load.image('vfield_4_3', vfield_4_3)
-
-    this.load.image('vcutted_tree', vcutted_tree)
-    this.load.image('vtree', vtree)
-
-    this.load.image('vhouse_1_float', vhouse_1_float)
-    this.load.image('vhouse_1_fence_float', vhouse_1_fence_float)
-    this.load.image('vhouse_2_float', vhouse_2_float)
-    this.load.image('vhouse_3_float', vhouse_3_float)
-    this.load.image('vhouse_4_float', vhouse_4_float)
-    this.load.image('vhouse_5_float', vhouse_5_float)
-
-    this.load.image('vgrass_1', vgrass_1)
-    this.load.image('vgrass_2', vgrass_2)
-    this.load.image('vgrass_3', vgrass_3)
-    this.load.image('vgrass_4', vgrass_4)
-    this.load.image('vgrass_5', vgrass_5)
-    this.load.image('vgrass_6', vgrass_6)
-    this.load.image('vgrass_7', vgrass_7)
-    this.load.image('vgrass_8', vgrass_8)
-    this.load.image('vgrass_9', vgrass_9)
-    this.load.image('vgrass_10', vgrass_10)
-    this.load.image('vgrass_11', vgrass_11)
-    this.load.image('vgrass_12', vgrass_12)
-
     // sceneload plugin preload()
     this.sceneload.preload()
   }
 
   create(data) {
-    this.physics.world.setBounds(0, 0, 2800, 1981)
+    this.physics.world.setBounds(0, 0, 2800/2, 1981)
 
-    this.add.image(2800/2, 1981/2,'vback1')
+    this.add.image(0,0,'vback').setOrigin(0,0).setDisplaySize(2800/2, 1981/2)
 
     var floatGroup = this.physics.add.staticGroup()
     var fields = this.physics.add.staticGroup()
@@ -194,7 +103,7 @@ export default class VillageScene extends Phaser.Scene {
     }
     this.sceneload.create(colliders, [], [], camera_config, data)
 
-    this.game.stage.event(this) // activate stage
+    this.game.stage.mapEvent(this) // activate stage
   }
 
   update() {

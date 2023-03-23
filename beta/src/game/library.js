@@ -1,61 +1,58 @@
-import { db, auth } from '../firestoreDB'
-import { arrayUnion, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+// function library for useGameStore().cluenote update events
+  // add clue + add subclue + add timeline
 
-export const checkClue = async (Clue) => {
-  const user = auth.currentUser
-  const QuizsRef = collection(db, 'Users/Quizs/Quizs')
-  const userQuizsRef = doc(QuizsRef, user.uid)
+import { useGameStore } from "./game";
+import { auth, db } from '../firestoreDB.js'
+import { collection, doc, updateDoc } from "firebase/firestore";
 
-  const userQuizSnap = await getDoc(userQuizsRef)
-  if (userQuizSnap.exists()) {
-    try {
-      const userQuizdata = userQuizSnap.data()
+export const addClue = (clue, index) => {
+  // add clue to designated index
+  useGameStore().$patch((state) => {
+    state.cluenote[index] = clue
+  })
 
-      const quiz_ids = userQuizdata.quiz_ids
-      const sets = userQuizdata.Sets
+  // if subclue included, add subclue quiz-accomplishment to user.quiz_accs
+  if (clue.subClues.length == 0) return
+  
+  const uid = auth.currentUser.uid
+  const UsersRef = collection(db, 'Users')
+  const user_UsersRef = doc(UsersRef, uid)
+  Object.values(clue.subClues).forEach((subclue_group) => {
+    subclue_group.forEach((subClue) => {
+      if (!subClue.quiz_id) return
 
-      if (sets[Clue.quiz_id].accomplished) {
-        // clue acquired + quiz solved
-        return 'answer'
-      } else if (Clue.quiz_id in quiz_ids) {
-        // clue acquired
-        return 'post_c_repeat'
-      } else {
-        // clue not acquired
-        return 'clue'
-      }
-    } catch {
-      return 'clue'
-    }
-  } else {
-    // clue not acquired
-    return 'clue'
-  }
+      const data = {}
+      data[subClue.quiz_id] = false
+      updateDoc(user_UsersRef, {
+        'quiz_accs': data
+      }) // async operation
+    })
+  })
 }
 
-export const addClue = async (Clue) => {
-  const user = auth.currentUser
-  const UsersRef = collection(db, 'Users')
-  const userRef = doc(UsersRef, user.uid)
-  const userSnap = await getDoc(userRef)
+export const addSubClue = (subclue, index, s_index) => {
+  // add subclue to clue of designated index
+  console.log(index, useGameStore().cluenote[index])
+  useGameStore().$patch((state) => {
+    state.cluenote[index].subClues[s_index].push(subclue)
+  })
 
-  // add clue to story
-  try {
-    const cluelist = userSnap.data().Clues[Clue.story]
-    const set = {}
-    cluelist.append(Clue)
-    set[Clue.story] = cluelist
-    
-    await updateDoc(userRef, {
-      Clues: set
-    })
-  } catch {
-    // story not exist in user data
-    const set = {}
-    set[Clue.story] = [Clue]
-    
-    await updateDoc(userRef, {
-      clues: set
-    })
-  }
+  // add subclue quiz-accomplishment to user.quiz_accs
+  if (!subclue.quiz_id) return
+
+  const uid = auth.currentUser.uid
+  const UsersRef = collection(db, 'Users')
+  const user_UsersRef = doc(UsersRef, uid)
+  const data = {}
+  data[subClue.quiz_id] = false
+  updateDoc(user_UsersRef, {
+    'quiz_accs': data
+  }) // async operation
+}
+
+export const addTimeline = (timeline, index, t_index) => {
+  // add timeline to clue of designated index as designated timeline-index
+  useGameStore().$patch((state) => {
+    state.cluenote[index].timeline[t_index] = timeline
+  })
 }

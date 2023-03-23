@@ -1,27 +1,28 @@
 import Phaser from 'phaser'
 import { defineStore } from 'pinia'
-import { collection, doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore'
+import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { auth, db } from '../firestoreDB'
 import SceneLoadPlugin from './SceneLoadPlugin'
 
 // import stages
 import BreakfastStage from './stages/BreakfastStage'
 import Test1Stage from './stages/Test1Stage'
+import Test2Stage from './stages/Test2Stage'
 
 export const useGameStore = defineStore('game', {
   state: () => ({ stage: {
     key: 'BreakfastStage',
     player_config: { sceneKey: 'Breakfast' , x: 663, y: 472 },
     scenes_config: {
-      Breakfast: {
-        npc: { 'breakfast_maid': 'pre_c_repeat' },
-        item: [ 'breakfast_item0', 'breakfast_item1' ]
+      'Breakfast': {
+        npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: 'option-default' } },
+        item: { 'breakfast_item0': { interactionKey: 'read', options: null }, 'breakfast_item1': { interactionKey: 'eat', options: 'option-default' } }
       }
     } // default: BreakfastStage
-  }, acquire_clue: null, carry_item: [], inventory: [], quiz_id: null, progress: null, booted: false }),
+  }, cluenote: { 0:null, 1:null, 2:null }, carry_item: [], inventory: [], quiz: { id: null, route: null }, progress: null, booted: false }),
   getters: {},
   actions: {
-    async boot(gameKey) {
+    async boot(gameKey, story) {
       // load stage-data + present_id from db
       const uid = auth.currentUser.uid
       const UsersRef = collection(db, 'Users')
@@ -32,24 +33,32 @@ export const useGameStore = defineStore('game', {
       this.$patch({ inventory: user_UsersSnap.data().Inventory })
 
       // set quiz_id to present_id in db
-      this.$patch({ quiz_id: user_UsersSnap.data().present_id })
+      this.$patch({ quiz: { id: user_UsersSnap.data().present_id } })
 
       const user_Stages = user_UsersSnap.data().Stages
       if (!_.includes(Object.keys(user_Stages), gameKey)||!user_Stages[gameKey]) {
         // stage-data == stage.default_config
         // new game/stage started >> add new stage-data to db
-        const data = {}
-        data[gameKey] = {
+        const stageData = {}
+        stageData[gameKey] = {
           key: this.stage.key,
           player_config: this.stage.player_config,
           scenes_config: this.stage.scenes_config
         }
+        const clueData = {}
+        clueData[story] = this.cluenote
+        console.log(clueData)
         await updateDoc(user_UsersRef, {
-          Stages: data
+          Stages: stageData,
+          Clues: clueData
         })
       } else {
         // read stage-data from db
         this.$patch({ stage: user_Stages[gameKey] })
+        // load cluenote for this game from db
+        if (user_UsersSnap.data().Clues[story]) {
+          this.$patch({ cluenote: user_UsersSnap.data().Clues[story] })
+        }
       }
       this.booted = true
     },
@@ -77,31 +86,16 @@ export const useGameStore = defineStore('game', {
 				Inventory: this.inventory
 			})
     },
-    async saveClue() {
+    async saveCluenote(story) {
       // save clue to db
       const uid = auth.currentUser.uid
       const UsersRef = collection(db, 'Users')
       const user_UsersRef = doc(UsersRef, uid)
 
       const data = {}
-			data[this.acquire_clue.story] = arrayUnion({
-				'title': this.acquire_clue.title,
-				'description': this.acquire_clue.description,
-				'subClues': this.acquire_clue.subClues
-			})
+			data[story] = this.cluenote
 			await updateDoc(user_UsersRef, {
 				'Clues': data
-			})
-
-			// add subclue quiz-accomplishment to user.quiz_accs
-			this.acquire_clue.subClues.forEach(async (subClue) => {
-				if (!subClue.quiz_id) return
-
-				const data = {}
-				data[subClue.quiz_id] = false
-				await updateDoc(user_UsersRef, {
-					'quiz_accs': data
-				})
 			})
     }
   },
@@ -137,7 +131,8 @@ export default class game extends Phaser.Game {
 
     super(config)
     this.key = 'k_detective_beta'
-    this.stage_keys = {'BreakfastStage':BreakfastStage, 'Test1Stage':Test1Stage}
+    this.stage_keys = {'BreakfastStage':BreakfastStage, 'Test1Stage':Test1Stage, 'Test2Stage':Test2Stage}
+    this.story = '시작'
   }
 
   create() {
@@ -151,42 +146,13 @@ export default class game extends Phaser.Game {
     // set stage-data
     const config = {
       player_config: this.stage.player_config,
-      scenes_config: this.stage.scenes_config,
-      item_carry: useGameStore().carry_item
+      scenes_config: this.stage.scenes_config
     }
     this.scene.start(PlayScene_Key, config) // pass stage-data to scene
   }
 
-  // async pause(clue, item) {
-  //   this.scene.pause() // pause game
-
-  //   // update stage data
-  //   const config = this.scene.getScene(this.stage.player_config.sceneKey).sceneload.config
-  //   this.stage.player_config = config
-
-  //   const firestore = this.plugins.get('FirebasePlugin')
-  //   // save player_config + inventory to db
-  //   const stage = {
-  //     'item_carry': this.stage.item_carry,
-  //     'key': this.stage.key,
-  //     'player_config': this.stage.player_config,
-  //     'scenes_config': this.stage.scenes_config
-  //   }
-
-  //   await firestore.saveGameData(stage, this.key, clue, item)
-
-  //   setTimeout(() => {
-  //     this.scene.resume()
-  //   },)
-  // }
-
   progress(progress) {
-    if (progress.split('.').length > 1) {
-      // item-hold event >> pass item to player-config + update user-config on db
-      this.stage.itemHold(progress)
-    } else {
-      // pass outer-game progress
-      this.stage.progressEvent(progress)
-    }
+    // pass outer-game progress
+    this.stage.quizEvent(progress)
   }
 }

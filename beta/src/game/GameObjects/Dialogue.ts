@@ -8,9 +8,10 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
   private image_box: Phaser.GameObjects.Rectangle
   private image: Phaser.GameObjects.Image
   private zoom: number
+  private readonly options_data: any
   private options: [ Phaser.GameObjects.Text? ] = []
-  private readonly dialogue: any /* npc.dialogue|item.content */
-  private readonly question: any
+  private readonly dialogue_data: any
+  private dialogue: any
   private index: number = 0
   private space_key: Phaser.Input.Keyboard.Key =
     this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE, true, false)
@@ -19,13 +20,16 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     cameraX: number,
     cameraY: number,
     zoom: number,
-    dialogue?: any,
-    question?: any
+    dialogueKey: string|undefined,
+    dialogue_data: any,
+    options_data?: any
   ) {
     super(scene, 'Dialogue')
 
-    this.dialogue = dialogue
-    this.question = question
+    this.dialogue_data = dialogue_data
+    // select dialogue according to dialogueKey
+    this.dialogue = dialogueKey ? dialogue_data[dialogueKey].dialogue : dialogue_data
+    this.options_data = options_data
     this.zoom = zoom
 
     // create dialogue-box on screen
@@ -85,20 +89,11 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
   }
 
   private get texture() {
-    if (this.index != 0&&this.index == this.dialogue.length) {
+    if (this.index != 0&&this.index === this.dialogue.length) {
       // end of dialogue
       this.scene.events.emit('end-talking')
       this.destroy()
     } else {
-      // update dialogue
-      if (!this.dialogue[this.index]&&this.question) {
-        // item-interact event: question
-        this.dialogue[this.index] = this.question
-      } else if (this.dialogue[this.index].to) {
-        // shift from dialogue to question
-        this.dialogue[this.index] = this.question[this.dialogue[this.index].to]
-      }
-      
       // return image-key
       const key = (this.dialogue[this.index].question)
         ? this.dialogue[this.index].question.image:this.dialogue[this.index].image
@@ -109,7 +104,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     }
   }
 
-  create() {
+  create(dialogueKey: string|undefined) {
     // create update-line event
     this.space_key.on('down', () => {
       this.space_key.isDown = false
@@ -155,7 +150,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
           typewriter()
            
           // create options
-          this.dialogue[this.index].options.forEach((option: any, index: number) => {
+          this.options_data.forEach((option: any, index: number) => {
             this.options.push(new Phaser.GameObjects.Text(
               this.scene,
               this.line_x,
@@ -171,7 +166,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
                 }
               }
               )
-              .setData({ to: option.to })
+              .setData({ event: option.event, to: option.to })
               .setInteractive()
               .setWordWrapWidth(685)
             )
@@ -190,23 +185,29 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
             option.on('pointerdown', () => {
               if (!option.data.values.to) {
                 // end of question/dialogue
+                if (option.data.values.event) {
+                  // if event-data in option, emit event-data to scene
+                  this.scene.events.emit('pass-event-data', option.data.values.event)
+                }
                 this.scene.events.emit('end-talking', this)
-              } else if (option.data.values.to == 'dialogue') {
-                // continue to dialogue
-                this.options.forEach((option: any) => {
-                  option.destroy()
-                }) // destroy options
-                this.options = [] // reset this.options
-    
-                writing = true
-                this.emit('update-line')
               } else {
-                // update user-config according to value
-                this.scene.events.emit(`to-${option.data.values.to}`)
-    
-                // end of question/dialogue
-                this.scene.events.emit('end-talking', this)
+                const answer_dialogue_data = this.dialogue_data[option.data.values.to]
+
+                // if event-data in answer-dialogue-data, emit event-data to scene
+                if (answer_dialogue_data.event) {
+                  this.scene.events.emit('pass-event-data', answer_dialogue_data.event)
+                }
+                // add answer dialogue to this.dialogue
+                this.dialogue = this.dialogue.concat(answer_dialogue_data.dialogue)
+
+                writing = true
+                this.emit('update-line') // continue dialogue + reset writing 
               }
+
+              this.options.forEach((option: Phaser.GameObjects.Text|undefined) => {
+                option?.destroy()
+              }) // destroy options
+              this.options = [] // reset this.options
             })
           })
         } else {
@@ -236,5 +237,10 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
         writing = false
       }
     }, this)
+
+    // if event-data in dialogue_data, emit event-data to scene
+    if (dialogueKey&&this.dialogue_data[dialogueKey].event) {
+      this.scene.events.emit('pass-event-data', this.dialogue_data[dialogueKey].event)
+    }
   }
 }

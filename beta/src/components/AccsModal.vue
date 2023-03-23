@@ -13,6 +13,7 @@
 import _ from 'lodash'
 import { auth, db } from '../firestoreDB'
 import { collection, doc, getDoc } from 'firebase/firestore'
+import { useGameStore } from '@/game/game'
 
 export default {
   name: 'AccsModal',
@@ -22,19 +23,18 @@ export default {
     }
   },
   mounted() {
-    this.emitter.on('quizAccomplish', (data) => {
+    this.emitter.on('quizAccomplish', (route) => {
       const load = async () => {
         // get current user
         const user = auth.currentUser
         // import user-config from db
         const UsersRef = collection(db, 'Users')
         const user_Ref = doc(UsersRef, user.uid)
-        const user_Snap = await getDoc(user_Ref)
 
-        const [ story, index ] = data.story.split('-')
-        this.subclue = user_Snap.data().Clues[story][index].subClues.find((ele) => {
-          return ele.quiz_id == data.id
-        })
+        this.subclue = await getDoc(user_Ref)
+          .then((res) => {
+            return res.get(`Clues.${route}`)[0]
+          })
       }
 
       load()

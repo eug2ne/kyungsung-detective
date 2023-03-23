@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import { useGameStore } from '../game.js'
 import SceneLoadPlugin from '../SceneLoadPlugin.js'
 import Dialogue from './Dialogue'
+import Item from './Item.js'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
   public readonly id: string
@@ -11,40 +12,31 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   private anim_config: any
   public readonly dialogue: any
   private _dialogueKey: string
-  public readonly question: any
-  public readonly clue: any
-  private readonly answer: any
-  private readonly check: any
+  public readonly options_config: any
 
   constructor(
     scene: Phaser.Scene,
     sceneload: SceneLoadPlugin,
-    key: string,
+    id: string,
     spritesheet_key: string,
     scale: number,
     anim_config: any,
     x: number,
     y: number,
     dialogue: any,
-    question: any,
-    clue: any,
-    answer: any,
-    check: any
+    options_config: any
   ) {
     const spritesheet = scene.textures.get(spritesheet_key)
     super(scene, x, y, spritesheet)
     scene.add.existing(this).setScale(0.16*scale).setDepth(8)
     scene.physics.add.existing(this, true)
     
-    this.id = key
+    this.id = id
     this.sceneload = sceneload
     this.sprite_key = spritesheet_key
     this.anim_config = anim_config
     this.dialogue = dialogue
-    this.question = question
-    this.clue = clue
-    this.answer = answer
-    this.check = check
+    this.options_config = options_config
   }
 
   destroy() {
@@ -52,17 +44,23 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   }
 
   public set dialogueKey(key: string) {
-    if (this.check&&(key=='pre_c_repeat'||key=='post_c_repeat')) {
+    if ((key === 'clue'||key === 'answer')&&this.dialogue[key].check) {
       // check player.item_carry (from gameStore)
-      const check = (key=='pre_c_repeat') ? this.check.pre_c_check : this.check.pre_a_check
-      if (useGameStore().carry_item.find((ele: any) => ele?.id == check)) {
+      const item_id = this.dialogue[key].check
+      if (useGameStore().carry_item.find((ele: Item|undefined) => ele?.id == item_id)) {
         // delete item from inventery + carry_item
-        const removed = _.remove(useGameStore().inventory, (ele:any) => {ele.id == check})
-        useGameStore().inventory = removed
-        useGameStore().carry_item = []
-        this._dialogueKey = (key=='pre_c_repeat') ? 'clue' : 'answer'
+        const removed = _.remove(useGameStore().inventory, (ele:Item|undefined) => {ele?.id == item_id})
+        useGameStore().$patch({
+          inventory: removed,
+          carry_item: []
+        })
+
+        // update dialogueKey
+        this._dialogueKey = key
+      } else {
+        // do not update dialogueKey
+        this._dialogueKey = (key === 'answer') ? 'post_c_repeat' : 'pre_c_repeat'
       }
-      else { this._dialogueKey = key }
     } else {
       this._dialogueKey = key
     }
@@ -90,14 +88,15 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     })
 
     // start-talking event
-    this.on('start-talking', (key: string, cameraX: number, cameraY: number) => {
-      if (!this.dialogue||!this.dialogue[key]) return // dialogue do not exist >> pass
+    this.on('start-talking', (key: { dialogueKey: string, optionKey: string }, cameraX: number, cameraY: number) => {
+      const { dialogueKey, optionKey } = key
+      if (!this.dialogue||!this.dialogue[dialogueKey]) return // dialogue do not exist >> pass
 
       // create dialogue
       const zoom = this.scene.cameras.main.zoom
-      const _dialogue = this.dialogue[key]
-      const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, _dialogue, this.question)
-      dialogue.create()
+      const options_data = optionKey ? this.options_config[optionKey] : null
+      const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, dialogueKey, this.dialogue, options_data)
+      dialogue.create(dialogueKey)
 
       // pause npc anim
       const current_anim = this.anims.currentAnim
@@ -110,13 +109,6 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
       // resume npc anims
       const current_anim = this.anims.currentAnim
       current_anim.resume()
-
-      // if dialogueKey == clue|answer, update user_config
-      if (this.dialogueKey == 'clue') {
-        this.scene.events.emit('update-userconfig', this.id, 'post_c_repeat', this.clue)
-      } else if (this.dialogueKey == 'answer') {
-        this.scene.events.emit('update-userconfig', this.id, 'post_a_repeat', this.answer)
-      }
     })
   }
 

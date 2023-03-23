@@ -3,7 +3,6 @@
 // >> talk to inspector with item
 
 import Phaser from 'phaser'
-import Item from '../GameObjects/Item'
 import NPC from '../GameObjects/NPC'
 import back1 from '@/game/assets/test1_map/궁정리.png'
 import back2 from '@/game/assets/test1_map/건물레이어(나무밑).png'
@@ -66,50 +65,59 @@ const npcs_JSON = [
     "name": "감독관",
     "id": "test1_inspector",
     "dialogue": {
-      "clue": [
-        {
-          "image": "inspector_neutral",
-          "line": "탐정 시험을 보러 온건가?"
-        },
-        {
-          "image": "inspector_neutral",
-          "line": "시험은 총 세 단계로 구성된다."
-        },
-        {
-          "image": "inspector_neutral",
-          "line": "첫 번째 시험과 두 번째 시험은 이곳, 경무대에서 오늘 중으로 모두 치를 것이고,"
-        },
-        {
-          "image": "inspector_neutral",
-          "line": "세 번째 시험은 실제 현장에서 파견 감독관의 동행 하에 3일간 치러질 것이다."
-        },
-        {
-          "image": "inspector_neutral",
-          "line": "받아라. 첫 번째 시험이다."
-        }
-      ],
-      "post_c_repeat": [
-        {
-          "image": "inspector_neutral",
-          "line": "뭐지."
-        },
-        {
-          "image": "inspector_neutral",
-          "line": "정답을 알아낸게 아니면 말을 걸지말라."
-        }
-      ],
-      "answer": [
-        {
-          "image": "inspector_smile",
-          "line": "오호. 제법이군. 정답이다."
-        },
-        {
-          "image": "inspector_smile",
-          "line": "두 번째 시험은 나를 따라오도록."
-        }
-      ]
+      "clue": {
+        dialogue: [
+          {
+            "image": "inspector_neutral",
+            "line": "탐정 시험을 보러 온건가?"
+          },
+          {
+            "image": "inspector_neutral",
+            "line": "시험은 총 세 단계로 구성된다."
+          },
+          {
+            "image": "inspector_neutral",
+            "line": "첫 번째 시험과 두 번째 시험은 이곳, 경무대에서 오늘 중으로 모두 치를 것이고,"
+          },
+          {
+            "image": "inspector_neutral",
+            "line": "세 번째 시험은 실제 현장에서 파견 감독관의 동행 하에 3일간 치러질 것이다."
+          },
+          {
+            "image": "inspector_neutral",
+            "line": "받아라. 첫 번째 시험이다."
+          }
+        ],
+        event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {id: "test1_inspector", data: "inspector-clue"} }
+      },
+      "post_c_repeat": {
+        dialogue: [
+          {
+            "image": "inspector_neutral",
+            "line": "뭐지."
+          },
+          {
+            "image": "inspector_neutral",
+            "line": "정답을 알아낸게 아니면 말을 걸지말라."
+          }
+        ],
+        event: null
+      },
+      "answer": {
+        dialogue: [
+          {
+            "image": "inspector_smile",
+            "line": "오호. 제법이군. 정답이다."
+          },
+          {
+            "image": "inspector_smile",
+            "line": "두 번째 시험은 나를 따라오도록."
+          }
+        ],
+        event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {id: "test1_inspector", data: "inspector-clear"} },
+        check: "k_detective_beta.test1_newspaper"
+      }
     },
-    "question": null,
     "spritesheet": "inspector_sprite",
     "scale": 1.1,
     "anim_config": {
@@ -117,29 +125,10 @@ const npcs_JSON = [
         "0,4": "standing"
       },
       "repeat": {
-        "standing": false
+        "standing": true
       },
       "default": "standing",
       "auto_start": true
-    },
-    "clue": {
-      "story": "시작",
-      "title": "붉은 마패를 찾아라.",
-      "description": "탐정시험의 첫 번째 문제는 붉은 마패를 찾아오는 것이다. 붉은 마패는 어디 있을까?",
-      "background_img": "../assets/item/붉은마패_배경투명화.png",
-      "subClues": [
-        {
-          "title": "붉은 마패를 찾았다!",
-          "description": "붉은 마패는 황실에서 발행하는 신문을 말하는 것이다. 신문팔이에게 가서 붉은 마패를 달라고 해보자!",
-          "quiz_id": "cJ89EcZyF5EHwElEGRGZ",
-          "background_img": "붉은마패.png"
-        }
-      ]
-    },
-    "answer": "test1stage_clear",
-    "check": {
-      "pre_c_check": null,
-      "pre_a_check": "k_detective_beta.test1_newspaper"
     },
     "x": 465,
     "y": 445
@@ -148,14 +137,15 @@ const npcs_JSON = [
     "name": "???",
     "id": "test1_applicant1",
     "dialogue": {
-      "post_c_repeat": [
-        {
-          "image": "applicant1_neutral",
-          "line": "아...이번 탐정 시험도 낙방하는 거 아닌가. 당장 이번 달 경비는 어디서 번담."
-        }
-      ]
+      "default": {
+        dialogue: [
+          {
+            "image": "applicant1_neutral",
+            "line": "아...이번 탐정 시험도 낙방하는 거 아닌가. 당장 이번 달 경비는 어디서 번담."
+          }
+        ]
+      }
     },
-    "question": null,
     "spritesheet": "applicant1_sprite",
     "scale": 4.5,
     "anim_config": {
@@ -184,18 +174,19 @@ const npcs_JSON = [
     "name": "???",
     "id": "test1_applicant2",
     "dialogue": {
-      "post_c_repeat": [
-        {
-          "image": "applicant2_smile",
-          "line": "후후후 내 예감이 확실히 말해주고 있어."
-        },
-        {
-          "image": "applicant2_smile",
-          "line": "확실해! 붉은 마패는 여기 있어!"
-        }
-      ]
+      "default": {
+        dialogue: [
+          {
+            "image": "applicant2_smile",
+            "line": "후후후 내 예감이 확실히 말해주고 있어."
+          },
+          {
+            "image": "applicant2_smile",
+            "line": "확실해! 붉은 마패는 여기 있어!"
+          }
+        ]
+      }
     },
-    "question": null,
     "spritesheet": "applicant2_sprite",
     "scale": 4.5,
     "anim_config": {
@@ -218,14 +209,15 @@ const npcs_JSON = [
     "name": "???",
     "id": "test1_applicant3",
     "dialogue": {
-      "post_c_repeat": [
-        {
-          "image": "applicant3_think",
-          "line": "흠...붉은 마패..붉은 마패라...."
-        }
-      ]
+      "default": {
+        dialogue: [
+          {
+            "image": "applicant3_think",
+            "line": "흠...붉은 마패..붉은 마패라...."
+          }
+        ]
+      }
     },
-    "question": null,
     "spritesheet": "applicant3_sprite",
     "scale": 4.5,
     "anim_config": {
@@ -248,26 +240,27 @@ const npcs_JSON = [
     "name": "???",
     "id": "test1_applicant4",
     "dialogue": {
-      "post_c_repeat": [
-        {
-          "image": "applicant4_neutral",
-          "line": "오오오 보인다!"
-        },
-        {
-          "image": "applicant4_neutral",
-          "line": "보여..! 역시..그런 거였어!!"
-        },
-        {
-          "image": "applicant4_neutral",
-          "line": "예? 그게 아니라구요 선생님?"
-        },
-        {
-          "image": null,
-          "line": "(아무래도 사건 해결을 미신에 의지하는 사람인 것 같다. 무시하고 지나가자.)"
-        }
-      ]
+      "default": {
+        dialogue: [
+          {
+            "image": "applicant4_neutral",
+            "line": "오오오 보인다!"
+          },
+          {
+            "image": "applicant4_neutral",
+            "line": "보여..! 역시..그런 거였어!!"
+          },
+          {
+            "image": "applicant4_neutral",
+            "line": "예? 그게 아니라구요 선생님?"
+          },
+          {
+            "image": null,
+            "line": "(아무래도 사건 해결을 미신에 의지하는 사람인 것 같다. 무시하고 지나가자.)"
+          }
+        ]
+      }
     },
-    "question": null,
     "spritesheet": "applicant4_sprite",
     "scale": 4.5,
     "anim_config": {
@@ -290,18 +283,19 @@ const npcs_JSON = [
     "name": "???",
     "id": "test1_applicant5",
     "dialogue": {
-      "post_c_repeat": [
-        {
-          "image": "applicant5_sad",
-          "line": "역시 당신이 '붉은 마패' 맞잖아요!"
-        },
-        {
-          "image": "guard_neutral",
-          "line": "거 그만두게도! 자꾸 이러면 형법에 따라 응당 값을 치르게 될 것이야!"
-        }
-      ]
+      "default": {
+        dialogue: [
+          {
+            "image": "applicant5_sad",
+            "line": "역시 당신이 '붉은 마패' 맞잖아요!"
+          },
+          {
+            "image": "guard_neutral",
+            "line": "거 그만두게도! 자꾸 이러면 형법에 따라 응당 값을 치르게 될 것이야!"
+          }
+        ]
+      }
     },
-    "question": null,
     "spritesheet": "applicant5_sprite",
     "scale": 4.5,
     "anim_config": {
@@ -324,7 +318,6 @@ const npcs_JSON = [
     "name": "???",
     "id": "test1_applicant6",
     "dialogue": null,
-    "question": null,
     "spritesheet": "applicant6_sprite",
     "scale": 5.0,
     "anim_config": {
@@ -347,7 +340,6 @@ const npcs_JSON = [
     "name": "???",
     "id": "test1_applicant7",
     "dialogue": null,
-    "question": null,
     "spritesheet": "applicant7_sprite",
     "scale": 4.5,
     "anim_config": {
@@ -370,7 +362,6 @@ const npcs_JSON = [
     "name": "???",
     "id": "test1_applicant8",
     "dialogue": null,
-    "question": null,
     "spritesheet": "applicant8_sprite",
     "scale": 4.5,
     "anim_config": {
@@ -393,32 +384,37 @@ const npcs_JSON = [
     "name": "신문팔이",
     "id": "test1_newspaperstand",
     "dialogue": {
-      "post_c_repeat": [
-        {
-          "image": "newspaper_smile1",
-          "line": "신문 사세요."
-        },
-        {
-          "image": "newspaper_smile1",
-          "line": "오늘자 신문 팝니다. 신문 사세요."
-        }
-      ],
-      "answer": [
-        {
-          "image": "sami_sure2",
-          "line": "'붉은 마패' 한 부 주세요."
-        },
-        {
-          "image": "newspaper_smile1",
-          "line": "탐정 시험 보러오셨군요."
-        },
-        {
-          "image": "newspaper_smile2",
-          "line": "여깄습니다. 남은 시험도 잘 보세요!"
-        }
-      ]
+      "default": {
+        dialogue: [
+          {
+            "image": "newspaper_smile1",
+            "line": "신문 사세요."
+          },
+          {
+            "image": "newspaper_smile1",
+            "line": "오늘자 신문 팝니다. 신문 사세요."
+          }
+        ],
+        event: null
+      },
+      "answer": {
+        dialogue: [
+          {
+            "image": "sami_sure2",
+            "line": "'붉은 마패' 한 부 주세요."
+          },
+          {
+            "image": "newspaper_smile1",
+            "line": "탐정 시험 보러오셨군요."
+          },
+          {
+            "image": "newspaper_smile2",
+            "line": "여깄습니다. 남은 시험도 잘 보세요!"
+          }
+        ],
+        event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {id: "test1_newspaperstand", data: "newspaper-get"} }
+      }
     },
-    "question": null,
     "spritesheet": "newspaper_sprite",
     "scale": 4.7,
     "anim_config": {
@@ -651,10 +647,8 @@ export default class Test1 extends Phaser.Scene {
         npc.x,
         npc.y,
         npc.dialogue,
-        npc.question,
-        npc.clue,
-        npc.answer,
-        npc.check
+        npc.d_question,
+        npc.options_config
       ))
     })
 
@@ -665,7 +659,7 @@ export default class Test1 extends Phaser.Scene {
       'mini_scrollY': 925
     }
     this.sceneload.create(colliders, [], this.npcs, camera_config, data)
-    this.game.stage.event(this) // activate stage
+    this.game.stage.mapEvent(this) // activate stage
   }
 
   update() {

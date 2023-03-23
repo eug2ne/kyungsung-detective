@@ -30,22 +30,20 @@ export default {
     })
 
     useGameStore().$subscribe((mutation, state) => {
+      console.log(mutation)
       if (!mutation.payload) return // ignore other events
 
-      // in-game progress event
       if (mutation.payload.stage) {
+        // watch stage-config change
+        
         // stage-config update
         useGameStore().saveStage(this.gameInstance.key)
         // inventory update
         useGameStore().saveInven()
-      }
-      if (mutation.payload.acquire_clue){
         // clue update
-        useGameStore().saveClue()
-      }
-
-      // out-game progress-event
-      if (mutation.payload.progress) {
+        useGameStore().saveCluenote('시작')
+      } else if (mutation.payload.progress) {
+        // watch quiz-progress event
         setTimeout(() => {
           this.gameInstance.progress(state.progress.id)
         }, 3000)

@@ -4,7 +4,7 @@ import { useGameStore } from './game.js'
 import Player from './GameObjects/Player'
 import NPC from './GameObjects/NPC'
 import Item from './GameObjects/Item'
-import sami from './assets/sami_sprite/sami_frame1.png'
+import sami from './assets/sami_sprite/sami_frame1fixedversion.png'
 import Dialogue from './GameObjects/Dialogue'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
@@ -39,7 +39,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       strokeThickness: 5,
       color: '#000'
     })
-  private inventory: any /* [ {id: string, name: string, descript: string, texture: string }? ] */
 
   constructor(scene: Phaser.Scene, manager: Phaser.Plugins.PluginManager, key: string) {
     super(scene, manager, key)
@@ -63,13 +62,13 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
   preload() {
     // preload player spitesheet
-    this.scene.load.spritesheet('sami', sami, { frameWidth: 7870 / 17, frameHeight: 500 })
+    this.scene.load.spritesheet('sami', sami, { frameWidth: 1088 / 17, frameHeight: 64 })
   }
 
   create(colliders: [ Phaser.Physics.Arcade.StaticGroup ],
     items: [ Item ]|[],
     npcs: [ NPC ]|[],
-    camera_config: { main_zoom: number, mini_zoom: number, mini_scrollX: number, mini_scrollY: number},
+    camera_config: { main_zoom: number, mini_zoom: number, mini_scrollX: number, mini_scrollY: number, player_scale?: number },
     data: {
       player_config: {x: number, y: number, sceneKey: string},
       scenes_config: any
@@ -99,7 +98,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.scene,
       data.player_config.x,
       data.player_config.y,
-      this.scene.textures.get('sami')
+      this.scene.textures.get('sami'),
+      camera_config.player_scale
     )
     this.player.create()
     this.player.setCollideWorldBounds(true) // set player world bound
@@ -108,16 +108,13 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.scene.physics.add.collider(this.player, collider)
     }) // add collider physics on player
 
-    // show item on scene according to scene-config
+    // get scene_config
     const scene_config = data.scenes_config[data.player_config.sceneKey]
-    if (scene_config.item.length != 0) {
+    
+    // create item on screen
+    if (Object.keys(scene_config.item).length != 0) {
       items.forEach((item: Item) => {
-        if (_.includes(scene_config.item, item.id)) {
-          // pass
-          item.create()
-        } else {
-          item.destroy()
-        }
+        item.create()
       })
     }
     this.scene.physics.add.collider(this.player, items) // add collider 
@@ -128,8 +125,9 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
         this.controls.enter.isDown = false
         
+        const key = scene_config.item[item.id]
         const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-        item.emit('item-interact', cameraX, cameraY)
+        item.emit('item-interact', key, cameraX, cameraY)
       }
     }) // add overlap callback
 
@@ -143,9 +141,13 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
         this.controls.enter.isDown = false
 
-        npc.dialogueKey = scene_config.npc[npc.id]
+        // get dialogueKey + optionKey
+        npc.dialogueKey = scene_config.npc[npc.id].dialogueKey
+        const optionKey = scene_config.npc[npc.id].options
+
+        // get cameraX + cameraY
         const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-        npc.emit('start-talking', npc.dialogueKey, cameraX, cameraY)
+        npc.emit('start-talking', { dialogueKey: npc.dialogueKey, optionKey: optionKey }, cameraX, cameraY)
       }
     }) // overlap-talk event
     this.scene.events.on('start-talking', () => {
@@ -167,33 +169,27 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     
     this.scene.physics.add.collider(this.player, npcs)
 
-  /* outer-game progress event */
+  /* quiz-progress event */
 
-    this.scene.events.on('progress-event', (progress_config: {
-      sceneKey: string,
-      x: number|null,
-      y: number|null,
-      dialogue: any,
-      update: any
-    }) => {
+    this.scene.events.on('progress-event', (id: string, progress_config: any) => {
       // set player.position to given value
-      this.player.x = progress_config.x ?? this.player.x
-      this.player.y = progress_config.y ?? this.player.y
+      this.player.x = progress_config[id].x ?? this.player.x
+      this.player.y = progress_config[id].y ?? this.player.y
 
       this.scene.events.emit('start-talking') // emit talking event to scene
       
       // create dialogue
       const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
       const zoom = this.scene.cameras.main.zoom
-      const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, progress_config.dialogue, {})
-      dialogue.create()
+      const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, id, progress_config)
+      dialogue.create(id)
     }) // create progress-event dialogue
   }
 
   update(items: [ Item ], npcs: [ NPC ]) {
     // update keyboard_text.x,y
     const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-    this.keyboard_text.setPosition(cameraX + 410, cameraY + 10)
+    this.keyboard_text.setPosition(cameraX + 410/this.scene.cameras.main.zoomX, cameraY + 10)
 
     // set controls
     this.player.setVelocity(0)

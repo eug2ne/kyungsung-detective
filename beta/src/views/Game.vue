@@ -30,18 +30,11 @@ export default {
     })
 
     useGameStore().$subscribe((mutation, state) => {
-      console.log(mutation)
       if (!mutation.payload) return // ignore other events
 
       if (mutation.payload.stage) {
-        // watch stage-config change
-        
-        // stage-config update
-        useGameStore().saveStage(this.gameInstance.key)
-        // inventory update
-        useGameStore().saveInven()
-        // clue update
-        useGameStore().saveCluenote('시작')
+        // watch stage-config change >> save game-progress to db
+        useGameStore().saveGame(this.gameInstance.key, '시작')
       } else if (mutation.payload.progress) {
         // watch quiz-progress event
         setTimeout(() => {

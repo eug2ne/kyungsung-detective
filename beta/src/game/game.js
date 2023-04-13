@@ -8,6 +8,7 @@ import SceneLoadPlugin from './SceneLoadPlugin'
 import BreakfastStage from './stages/BreakfastStage'
 import Test1Stage from './stages/Test1Stage'
 import Test2Stage from './stages/Test2Stage'
+import Test3Stage from './stages/Test3Stage'
 
 export const useGameStore = defineStore('game', {
   state: () => ({ stage: {
@@ -15,12 +16,11 @@ export const useGameStore = defineStore('game', {
     player_config: { sceneKey: 'Breakfast' , x: 663, y: 472 },
     scenes_config: {
       'Breakfast': {
-        npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: 'option-default' } },
-        item: { 'breakfast_item0': { interactionKey: 'read', options: null }, 'breakfast_item1': { interactionKey: 'eat', options: 'option-default' } }
+        npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: ['option-end', 'option-default'] } },
+      item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
       }
     } // default: BreakfastStage
   }, cluenote: { 0:null, 1:null, 2:null }, carry_item: [], inventory: [], quiz: { id: null, route: null }, progress: null, booted: false }),
-  getters: {},
   actions: {
     async boot(gameKey, story) {
       // load stage-data + present_id from db
@@ -47,7 +47,6 @@ export const useGameStore = defineStore('game', {
         }
         const clueData = {}
         clueData[story] = this.cluenote
-        console.log(clueData)
         await updateDoc(user_UsersRef, {
           Stages: stageData,
           Clues: clueData
@@ -62,40 +61,30 @@ export const useGameStore = defineStore('game', {
       }
       this.booted = true
     },
-    async saveStage(gameKey) {
+    async saveGame(gameKey, story) {
       // save stage-config to db
       const uid = auth.currentUser.uid
       const UsersRef = collection(db, 'Users')
       const user_UsersRef = doc(UsersRef, uid)
 
-      const data = {}
+      let data = {}
       data[gameKey] = {
-        'key': this.stage.key,
-        'player_config': this.stage.player_config,
-        'scenes_config': this.stage.scenes_config
+        key: this.stage.key,
+        player_config: this.stage.player_config,
+        scenes_config: this.stage.scenes_config
       }
       await updateDoc(user_UsersRef, { Stages: data }) // update player config
-    },
-    async saveInven() {
-      // save inventory to db
-      const uid = auth.currentUser.uid
-      const UsersRef = collection(db, 'Users')
-      const user_UsersRef = doc(UsersRef, uid)
 
-      await updateDoc(user_UsersRef, {
-				Inventory: this.inventory
-			})
-    },
-    async saveCluenote(story) {
-      // save clue to db
-      const uid = auth.currentUser.uid
-      const UsersRef = collection(db, 'Users')
-      const user_UsersRef = doc(UsersRef, uid)
-
-      const data = {}
+      // save cluenote to db
+      data = {}
 			data[story] = this.cluenote
 			await updateDoc(user_UsersRef, {
 				'Clues': data
+			})
+
+      // save inventory to db
+      await updateDoc(user_UsersRef, {
+				Inventory: this.inventory
 			})
     }
   },
@@ -131,7 +120,7 @@ export default class game extends Phaser.Game {
 
     super(config)
     this.key = 'k_detective_beta'
-    this.stage_keys = {'BreakfastStage':BreakfastStage, 'Test1Stage':Test1Stage, 'Test2Stage':Test2Stage}
+    this.stage_keys = {'BreakfastStage':BreakfastStage, 'Test1Stage':Test1Stage, 'Test2Stage':Test2Stage, 'Test3Stage': Test3Stage}
     this.story = '시작'
   }
 

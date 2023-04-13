@@ -133,36 +133,22 @@ const npcs_JSON = [
       }
     },
     "options_config": {
-      "option-default": [
-        {
-          answer: "그럴까?",
-          to: null /* end of conversation */
-        },
-        {
-          answer: "아니. 나가보려고.",
-          to: "answer-default" /* to default dialogue */
-        }
-      ],
-      "option-no-plan": [
-        {
-          answer: "그럴까?",
-          to: null /* end of conversation */
-        },
-        {
-          answer: "아니. 나가보려고.",
-          to: "answer-no-plan" /* to no-plan dialogue */
-        }
-      ],
-      "option-clear": [
-        {
-          answer: "그럴까?",
-          to: null /* end of conversation */
-        },
-        {
-          answer: "아니. 나가보려고.",
-          to: "answer-clear" /* to clear dialogue */
-        }
-      ]
+      "option-end": {
+        answer: "그럴까?",
+        to: null /* end of conversation */
+      },
+      "option-default": {
+        answer: "아니. 나가보려고.",
+        to: "answer-default" /* to default dialogue */
+      },
+      "option-no-plan": {
+        answer: "아니. 나가보려고.",
+        to: "answer-no-plan" /* to no-plan dialogue */
+      },
+      "option-clear": {
+        answer: "아니. 나가보려고.",
+        to: "answer-clear" /* to clear dialogue */
+      }
     },
     "spritesheet": "maid_dishwash",
     "scale": 1.1,
@@ -236,21 +222,18 @@ const items_JSON = [
             question: {
               "image": null,
               "line": "아침이 차려져있다."
-            },
-            options: "option-default"
+            }
           }
         ],
         "options_config": {
-          "option-default": [
-            {
-              answer: "별로 입맛이 없다.",
-              event: null /* end of interaction */
-            },
-            {
-              answer: "먹는다.",
-              event: { eventKey: "breakfast-event-item1", eventData: {id: "breakfast_item1", data: "item1-eat"} } /* update npc dialogueKey */
-            }
-          ]
+          "option-eat": {
+            answer: "먹는다.",
+            event: { eventKey: "breakfast-event-item1", eventData: {id: "breakfast_item1", data: "item1-eat"} } /* update npc dialogueKey */
+          },
+          "option-skip": {
+            answer: "별로 입맛이 없다.",
+            event: null /* end of interaction */
+          }
         }
       }
     }

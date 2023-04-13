@@ -250,7 +250,6 @@ export default {
       })
 
       if (accomplish) {
-        console.log('quiz accomplish')
         this.q_instance.accomplish = true // set q_instance.accomplish to true
         exportSet(this.q_instance) // update user-status on db
         this.emitter.emit('quizAccomplish', this.q_instance.clue_ref) // emit quiz-accomplish event

@@ -511,7 +511,7 @@ export default class Test1 extends Phaser.Scene {
   }
 
   create(data) {
-    this.physics.world.setBounds(0, 0, 2800,1981)
+    this.physics.world.setBounds(0,0,2800,1981)
 
     this.add.image(2800/2,1981/2,'back1')
     var platforms = this.physics.add.staticGroup() //그룹으로 묶는다. 

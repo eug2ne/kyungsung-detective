@@ -16,7 +16,7 @@
       버튼을 눌러 단서를 확인하세요.
     </div>
     <div class="clue-wrapper" v-else v-for="clue_id in Object.keys(this.show)" :key="clue_id.id">
-      <Clue :clue="this.show[clue_id]" :requires="this.requires"/>
+      <Clue :clue="this.show[clue_id]" />
     </div>
   </div>
   <div class="invisible-behind"></div>
@@ -27,6 +27,7 @@ import { ref } from 'vue'
 import { auth, db } from '../firestoreDB'
 import { collection, doc, getDoc } from 'firebase/firestore'
 import Clue from '@/components/Cluenote/Clue.vue'
+import { useGameStore } from '@/game/game'
 
 export default {
   name: 'Cluenote',
@@ -39,7 +40,6 @@ export default {
   },
   setup() {
     const cluelist = ref({})
-    const requires = ref({})
 
     const user = auth.currentUser
 
@@ -50,44 +50,24 @@ export default {
       const userSnap = await getDoc(userRef)
 
       cluelist.value = userSnap.data().Clues
-      requires.value = userSnap.data().quiz_accs
     }
 
     load()
 
     return {
-      cluelist,
-      requires
+      cluelist
     }
   },
   methods: {
     showClue(story) {
       this.show = this.cluelist[story]
-
-      // this.show = { 0:{/Clue/}, 1:{/Clue/}, ... }
-      // for (let clue of Object.values(this.show)) {
-      //   if (!clue) continue
-
-      //   if (!clue.subClues[0]) continue
-      //   for (let subclue_group of Object.values(clue.subClues)) {
-      //     console.log(subclue_group)
-      //     for (let subclue of subclue_group) {
-      //       if (!subclue.quiz_id) {
-      //         subclue.get = subclue.reveal
-      //       } else {
-      //         subclue.get = this.requires[subclue.quiz_id]
-      //       }
-      //     }
-      //   }
-      // }
     }
   },
   updated() {
     if (Object.keys(this.cluelist).length > 0) {
       if (this.progress) {
-        // show accomplished-clue
-        const story = this.progress.route.split('.')[0]
-        console.log(story)
+        // automatically redirect to story containing accomplished-clue
+        const story = this.progress.split('.')[0]
         this.showClue(story)
       }
     }

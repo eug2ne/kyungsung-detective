@@ -37,7 +37,7 @@ export default class Item extends Phaser.GameObjects.Image {
     //   item_text.visible = true
     // })
 
-    this.on('item-interact', (key: { interactionKey: string, options: string }, cameraX: number, cameraY: number) => {
+    this.on('item-interact', (key: { interactionKey: string, options?: [string] }, cameraX: number, cameraY: number) => {
       const { interactionKey, options } = key
 
       let dialogue: Dialogue|null = null
@@ -51,7 +51,11 @@ export default class Item extends Phaser.GameObjects.Image {
         break
         
         case 'question':
-          dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, undefined, interaction.dialogue, interaction.options_config[options])
+          const options_data: any[] = []
+          options?.forEach((key: string) => {
+            options_data.push(interaction.options_config[key])
+          })
+          dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, undefined, interaction.dialogue, options_data)
           dialogue.create(undefined)
           this.scene.events.emit('start-talking')
         break

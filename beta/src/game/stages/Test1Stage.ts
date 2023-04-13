@@ -19,7 +19,7 @@ const default_config = {
         'test1_applicant4': { dialogueKey: 'default' },
         'test1_applicant5': { dialogueKey: 'default' },
       },
-      item: []
+      item: {}
     }
   }
 }
@@ -55,7 +55,7 @@ const qevent_config = {
         "line": "그 신문팔이한테 한 번 가봐야겠는데."
       }
     ],
-    event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {quiz_id: "cJ89EcZyF5EHwElEGRGZ"} }
+    event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {quiz_id: "cJ89EcZyF5EHwElEGRGZ", route: "0.0.0"} }
   }
 }
 
@@ -72,6 +72,7 @@ const event_config = {
               "title": "붉은 마패를 찾았다!",
               "description": "붉은 마패는 황실에서 발행하는 신문을 말하는 것이다. 신문팔이에게 가서 붉은 마패를 달라고 해보자!",
               "quiz_id": "cJ89EcZyF5EHwElEGRGZ",
+              "reveal": false,
               "clue_ref": "시작.0.subClues.0"
             }
           ]
@@ -80,37 +81,40 @@ const event_config = {
       addClue(clue, 0)
 
       // update inspector dialogueKey
-      useGameStore().$patch({
-        stage: { scenes_config: { 'Test1': { 'npc': { 'test1_inspector': { dialogueKey: 'post_c_repeat' } } } } }
+      useGameStore().$patch((state: any) => {
+        state.stage.scenes_config['Test1'].npc['test1_inspector'].dialogueKey = 'post_c_repeat'
       })
 
       return false
     }),
-    new Update({ quiz_id: 'cJ89EcZyF5EHwElEGRGZ' }, () => {
-      // after accomplishing quiz, update newspaperstand dialogue-key
-      useGameStore().$patch({
-        stage: { scenes_config: { 'Test1': { 'npc': { 'test1_newspaperstand': { dialogueKey: 'answer' } } } } }
+    new Update({ quiz_id: 'cJ89EcZyF5EHwElEGRGZ', route: '0.0.0' }, () => {
+      // after accomplishing quiz, reveal subclue + update newspaperstand dialogue-key
+      useGameStore().$patch((state: any) => {
+        // reveal subclue
+        state.cluenote[0].subClues[0][0].reveal = true
+
+        state.stage.scenes_config['Test1'].npc['test1_newspaperstand'].dialogueKey = 'answer'
       })
 
       return false
     }),
     new Update({ id: 'test1_newspaperstand', data: 'newspaper-get' }, () => {
-      // get newspaper item from newspaperstand
+      // get newspaper item from newspaperstand + update inspector, newspaperstand dialogueKey
       const item = {
         "name": "신문",
         "id": "k_detective_beta.test1_newspaper",
         "descript": "오늘자 제국익문사 신문이자, '붉은 마패'이다",
         "texture": "newspaper.png"
       }
-      useGameStore().$patch(<Type extends { inventory: any[] }>(state: Type) => {
+      useGameStore().$patch((state: any) => {
+        // add item to inventory
         state.inventory.push(item)
+
+        // update npc dialogueKey
+        state.stage.scenes_config['Test1'].npc['test1_inspector'].dialogueKey = 'answer'
+        state.stage.scenes_config['Test1'].npc['test1_newspaperstand'].dialogueKey = 'default'
       })
 
-      // update inspector dialogueKey
-      useGameStore().$patch({
-        stage: { scenes_config: { 'Test1': { 'npc': { 'test1_inspector': { dialogueKey: 'answer' } } } } }
-      })
-      
       return false
     }),
     new Update({ id: 'test1_inspector', data: 'inspector-clear' }, () => {

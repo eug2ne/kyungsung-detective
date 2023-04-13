@@ -21,8 +21,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     cursor: this.scene.input.keyboard.createCursorKeys(),
     enter: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER, true, false)
   }
-  // private carry_item_box: Phaser.GameObjects.Rectangle = new Phaser.GameObjects.Rectangle(this.scene, 10, 220, 60, 60)
-  // private carry_item: Phaser.GameObjects.Image = new Phaser.GameObjects.Image(this.scene, 10, 220, 'undefined')
   private item_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene, 0, 0, '엔터를 눌러 아이템 얻기', {
     fontFamily: 'NeoDunggeunmo',
     fontSize: '20px',
@@ -143,11 +141,11 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
         // get dialogueKey + optionKey
         npc.dialogueKey = scene_config.npc[npc.id].dialogueKey
-        const optionKey = scene_config.npc[npc.id].options
+        const options = scene_config.npc[npc.id].options
 
         // get cameraX + cameraY
         const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-        npc.emit('start-talking', { dialogueKey: npc.dialogueKey, optionKey: optionKey }, cameraX, cameraY)
+        npc.emit('start-talking', { dialogueKey: npc.dialogueKey, options: options }, cameraX, cameraY)
       }
     }) // overlap-talk event
     this.scene.events.on('start-talking', () => {
@@ -171,7 +169,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
   /* quiz-progress event */
 
-    this.scene.events.on('progress-event', (id: string, progress_config: any) => {
+    this.scene.events.on('quiz-event', (id: string, progress_config: any) => {
       // set player.position to given value
       this.player.x = progress_config[id].x ?? this.player.x
       this.player.y = progress_config[id].y ?? this.player.y
@@ -207,8 +205,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     }
 
     // npc animation
-    npcs.forEach((npc: NPC) => {
-      npc.update()
-    })
+    // npcs.forEach((npc: NPC) => {
+    //   npc.update()
+    // })
   }
 }

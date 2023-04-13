@@ -4,14 +4,12 @@ import { getAuth,
     createUserWithEmailAndPassword,
     setPersistence, 
     browserSessionPersistence,
-    inMemoryPersistence,
     GoogleAuthProvider,
     signInWithPopup } from 'firebase/auth'
 import { getFirestore,
     doc,
     setDoc, 
     collection } from 'firebase/firestore'
-import { defineStore } from 'pinia'
 
 const config = {
     apiKey: "AIzaSyAnZSZIc9CQqAx_ilFeyzWrzGHUn68r19k",

@@ -13,7 +13,6 @@
 import _ from 'lodash'
 import { auth, db } from '../firestoreDB'
 import { collection, doc, getDoc } from 'firebase/firestore'
-import { useGameStore } from '@/game/game'
 
 export default {
   name: 'AccsModal',
@@ -33,8 +32,11 @@ export default {
 
         this.subclue = await getDoc(user_Ref)
           .then((res) => {
-            return res.get(`Clues.${route}`)[0]
+            console.log(res.get(`Clues.${route}`))
+            return res.get(`Clues.${route}`).at(-1)
           })
+
+        console.log(this.subclue)
       }
 
       load()

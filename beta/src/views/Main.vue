@@ -53,8 +53,6 @@ export default {
         this.changeContent('quiz')
       } else if (mutation.payload.progress) {
         this.progress = _.cloneDeep(mutation.payload.progress)
-        // redirect to Cluenote.vue
-        this.changeContent('cluenote')
 
         // redirect to Game.vue
         setTimeout(() => {

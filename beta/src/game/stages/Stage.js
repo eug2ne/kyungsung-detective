@@ -54,7 +54,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
         'x': this.default_config.player_config.x,
         'y': this.default_config.player_config.y
       }
-      this.scenes_config = this.default_config.scenes_config
+      this.scenes_config = _.cloneDeep(this.default_config.scenes_config)
     } else {
       // set value as player_config
       const sceneKey = value.player_config.sceneKey
@@ -76,12 +76,23 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
       // end of game
     } else {
       // stage clear >> move to next stage
-      useGameStore().$patch({ stage: { key: this.next.key, player_config: {...this.next.default_config.player_config}, scenes_config: {...this.next.default_config.scenes_config} } })
+      useGameStore().$patch({
+        stage: {
+          key: this.next.key,
+          player_config: this.next.default_config.player_config,
+          scenes_config: this.next.default_config.scenes_config
+        }
+      })
       await this.game.create()
     }
   }
 
   preload() {
+    // reset game.scene
+    Object.keys(this.game.scene.keys).forEach((key) => {
+      this.game.scene.remove(key)
+    })
+
     // add stage.scenes to game.scene
     this.scenes.forEach((scene, index) => {
       const sceneKey = Object.keys(this.scenes_config)[index+1] // because store patches data (original data is left in state)
@@ -92,7 +103,6 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
   // inner-game event progress
   mapEvent(scene /*: Phaser.Scene */) {
     scene.events.on('pass-event-data', (e) => {
-      console.log(e)
       const { eventKey, eventData } = e
 
       // search for eventKey in event_config
@@ -132,7 +142,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
   }
 
   // outer-game event progress (quiz-progress)
-  quizEvent(id /*: string */) {
+  quizEvent(id /* : string */) {
     // get qevent-scene
     const p_scene = this.game.scene.getScene(this.qevent_config[id].sceneKey)
     if (this.qevent_config[id].sceneKey != this.player_config.sceneKey) {
@@ -142,7 +152,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
       this.game.scene.bringToTop(p_scene) // render progress-scene on top
       
       // emit progress-event + pass progress-config
-      p_scene.events.emit('progress-event', id, this.qevent_config)
+      p_scene.events.emit('quiz-event', id, this.qevent_config)
 
       // after progress-event, resume to current-scene
       this.game.scene.stop(p_scene)
@@ -150,7 +160,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
       this.game.scene.resume(c_scene)
     } else {
       // start progress-event on current-scene
-      p_scene.events.emit('progress-event', id, this.qevent_config)
+      p_scene.events.emit('quiz-event', id, this.qevent_config)
     }
   }
 }

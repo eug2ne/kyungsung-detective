@@ -35,7 +35,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     // create dialogue-box on screen
     const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
     const black = Phaser.Display.Color.GetColor32(0,0,0,0.1)
-    this.line_box = this.scene.add.rectangle(cameraX+570/zoom, cameraY+550/zoom, 645/zoom, 200/zoom, white)
+    this.line_box = this.scene.add.rectangle(cameraX+580/zoom, cameraY+550/zoom, 645/zoom, 200/zoom, white)
       .setDepth(20)
       .setStrokeStyle(2, black) // line-box
     this.image_box = this.scene.add.rectangle(cameraX+120/zoom, cameraY+550/zoom, 200/zoom, 200/zoom, white)
@@ -48,7 +48,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
       .setDepth(20)
 
     // create line
-    this.line_x = cameraX+260/zoom
+    this.line_x = cameraX+270/zoom
     this.line_y = cameraY+460/zoom
     this.line = new Phaser.GameObjects.Text(
       this.scene,
@@ -125,7 +125,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
 
           if (i == l) {
             writing = true
-            this.index++
+            this.index++ // update this.index
           }
         },
         repeat: l-1,
@@ -183,6 +183,12 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
         
             // mouse click event
             option.on('pointerdown', () => {
+              if (this.index != this.dialogue.length) {
+                // auto-complete current question
+                this.scene.time.removeAllEvents()
+                this.line.text = this.line_text
+              }
+
               if (!option.data.values.to) {
                 // end of question/dialogue
                 if (option.data.values.event) {
@@ -199,9 +205,12 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
                 }
                 // add answer dialogue to this.dialogue
                 this.dialogue = this.dialogue.concat(answer_dialogue_data.dialogue)
-
-                writing = true
-                this.emit('update-line') // continue dialogue + reset writing 
+                
+                // enable update-line event
+                this.space_key.enabled = true
+                
+                writing = true // reset writing
+                this.emit('update-line') // continue dialogue 
               }
 
               this.options.forEach((option: Phaser.GameObjects.Text|undefined) => {

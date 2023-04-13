@@ -16,26 +16,26 @@
           <h3>???</h3>
           <p>????? ???? ????? ??? ????, ??????????? ?????????? ????, ??? ?? ????????</p>
         </div>
-        <div v-else class="subclue" :class="{ transitionLeft: index%2 == 0, transitionRight: index%2 == 1, unlock: subclue.show, lock: !subclue.show }" v-for="(subclue, index) in subclue_group" :key="subclue.id">
-          <div v-if="subclue.show">
+        <div v-else class="subclue" :class="{ transitionLeft: index%2 == 0, transitionRight: index%2 == 1, unlock: subclue.reveal, lock: !subclue.reveal }" v-for="(subclue, index) in subclue_group" :key="subclue.id">
+          <div v-if="subclue.reveal">
             <h3>{{ subclue.title }}</h3>
             <p>{{ subclue.description }}</p>
           </div>
 
           <div v-else>
-            <h3>아직 잠겨있습니다</h3>
+            <h3>?? ? ???</h3>
               <p v-if="subclue.quiz_id" @click="toQuiz(subclue.quiz_id, subclue.clue_ref)">
                 (퍼즐 풀고 단서 얻으러가기)
               </p>
               <p v-else>
-                (맵을 돌아다니며 관찰을 하거나 탐문을 하여 단서를 획득하세요.)
+                ???? ???? ????? ??? ???? ??????????? ?????????? ???? ????? ??? ????
               </p>
           </div>
         </div>
       </div>
     </div>
 
-    <Timeline v-if="clue.timeline" :timeline="clue.timeline" />
+    <Timeline v-if="clue.timelineData" :timeline="clue.timelineData.timeline" />
   </div>
 </template>
 
@@ -45,23 +45,12 @@ import Timeline from './Timeline.vue'
 
 export default {
   name: 'Clue',
-  props: [ 'clue', 'requires' ],
+  props: [ 'clue' ],
   components: { Timeline },
   data() {
     return {
       redCircle: require('@/assets/blob-haikei.svg')
     }
-  },
-  created() {
-    if (!this.clue) return
-
-    Object.values(this.clue.subClues).forEach((subclue_group) => {
-      if (subclue_group.length == 0) return
-
-      subclue_group.forEach((subclue) => {
-        subclue.show = subclue.quiz_id ? this.requires[subclue.quiz_id] : subclue.reveal
-      })
-    })
   },
   methods: {
     toQuiz(quiz_id, route) {

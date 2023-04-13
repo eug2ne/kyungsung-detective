@@ -88,13 +88,16 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     })
 
     // start-talking event
-    this.on('start-talking', (key: { dialogueKey: string, optionKey: string }, cameraX: number, cameraY: number) => {
-      const { dialogueKey, optionKey } = key
+    this.on('start-talking', (key: { dialogueKey: string, options?: [string] }, cameraX: number, cameraY: number) => {
+      const { dialogueKey, options } = key
       if (!this.dialogue||!this.dialogue[dialogueKey]) return // dialogue do not exist >> pass
 
       // create dialogue
       const zoom = this.scene.cameras.main.zoom
-      const options_data = optionKey ? this.options_config[optionKey] : null
+      const options_data: any[] = []
+      options?.forEach((key: string) => {
+        options_data.push(this.options_config[key])
+      })
       const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, dialogueKey, this.dialogue, options_data)
       dialogue.create(dialogueKey)
 

@@ -1,10 +1,9 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
-import { useGameStore } from './game.js'
 import Player from './GameObjects/Player'
 import NPC from './GameObjects/NPC'
 import Item from './GameObjects/Item'
-import sami from './assets/sami_sprite/sami_frame1fixedversion.png'
+import sami from './assets/sami_sprite/sami_frame1fixedversion (1).png'
 import Dialogue from './GameObjects/Dialogue'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
@@ -74,7 +73,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.config = _.cloneDeep(data)
 
     this.scene.cameras.main
-      .setBounds(0, 0, 2800, 1981)
+      .setBounds(0, 0, 2800, 1980)
       .setSize(2800/3, 1981/3)
       .setZoom(camera_config.main_zoom)
       .setName('main')

@@ -14,7 +14,7 @@ import newspaper from '../assets/breakfast/kitchen_newspaper.png'
 // import npc spritesheet
 import maid_dishwash from '../assets/npc_sprite/maid_dishwash.png'
 
-// import npc+sami log image
+// import npc + sami log image
 import maid_neutral from '../assets/npc_log/maid_neutral.png'
 import maid_surprise from '../assets/npc_log/maid_surprise.png'
 import maid_smile from '../assets/npc_log/maid_smile.png'

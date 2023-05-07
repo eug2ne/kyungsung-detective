@@ -165,8 +165,8 @@ const qevent_config = {
     x: null,
     y: null,
     dialogue: [
-      '지금부터 용의자들에게 의심가는 인물을 지목하게 할 수 있습니다.',
-      '용의자에게 의심가는 인물을 지목하게 함으로써 사건의 전말에 대한 추가적인 단서를 얻을 수도 있으나,',
+      '지금부터 용의자들에게 사건을 "의심"하게 만들 수 있습니다.',
+      '용의자가 사건을 "의심"하게 함으로써 사건의 전말에 대한 추가적인 단서를 얻을 수도 있으나,',
       '자칫 잘못 사용하면 용의자의 신뢰를 잃어 진술을 거부하게 만들 수도 있으니',
       '유의해서 사용하시기 바랍니다.'
     ],
@@ -177,7 +177,7 @@ const qevent_config = {
 const event_config = {
   'start': [
     new Update({ data: 'no-clue' }, () => {
-      // after quiz-event 'start', acquire clue
+      // after start scene for first time, acquire clue
       const clue = {
         "title": "살인사건을 해결하라.",
         "description": "탐정시험의 두 번째 문제는 가상의 살인사건을 해결하는 것이다. 용의자들과 대화하고 주변을 관찰하여 사건 해결의 단서를 수집하라.",
@@ -476,7 +476,7 @@ const event_config = {
 
       return false
     }),
-    new Update({id: "test2_suspect3", data: "suspect3-pay"}, (stage: any) => {
+    new Update({id: "test2_suspect3", data: "suspect3-pay"}, () => {
       // after asking suspect3 about pay, update subclue + activate suspicion system
       useGameStore().$patch((state: any) => {
         const subclue = {
@@ -490,8 +490,8 @@ const event_config = {
         state.cluenote[1].subClues[2].splice(2,1,subclue)
       }) // update subclue
 
-      // activate suspision system
-      stage.quizEvent('suspicion-system-activate')
+      // activate suspicion system
+      useGameStore().$patch({ progress: { id: 'suspicion-system-activate' } })
 
       return false
     })

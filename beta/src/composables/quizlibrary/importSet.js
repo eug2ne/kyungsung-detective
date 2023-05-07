@@ -5,7 +5,7 @@ const importSet = async (quiz_id, route) => {
     // get current user
     const user = auth.currentUser
     // import set from db
-    const UsersRef = collection(db, 'Users')
+    const UsersRef = collection(db, 'BetaUsers')
     const user_Ref = doc(UsersRef, user.uid)
 
     const QuizsRef = collection(user_Ref, 'Quizs')

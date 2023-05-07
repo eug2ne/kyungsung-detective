@@ -11,6 +11,7 @@ pinia.use(piniaPluginPersistedstate)
 // eventbus
 const emitter = mitt()
 const app = createApp(App).use(router)
-app.mount('#app')
+
 app.config.globalProperties.emitter = emitter
 app.use(pinia)
+app.mount('#app')

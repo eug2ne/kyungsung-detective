@@ -5,9 +5,10 @@
 </template>
 
 <script>
-import { auth } from '../firestoreDB'
+import { db, auth } from '../firestoreDB'
 import { useGameStore } from '../game/game'
 import game from '../game/game'
+import { collection, doc, updateDoc, arrayUnion } from 'firebase/firestore'
 
 export default {
   name: 'Game',
@@ -18,10 +19,25 @@ export default {
     }
   },
   mounted() {
-    // page reload >> redirect to Home.vue to refresh user-auth
+    // page reload
     if (!auth.currentUser) {
+      // redirect to Home.vue to refresh user-auth
       this.$router.replace('/')
       return
+    } else {
+      // save user-status to log when page reload
+      const UsersRef = collection(db, 'BetaUsers')
+      const userRef = doc(UsersRef, auth.currentUser.uid)
+      updateDoc(userRef, {
+        userLog: arrayUnion({
+          updatedAt: new Date(Date.now()).toISOString(),
+          event: {
+            stage: useGameStore().stage,
+            cluenote: useGameStore().cluenote
+          }
+        })
+      })
+      .catch(error => console.log(error))
     }
 
     this.$nextTick(() => {

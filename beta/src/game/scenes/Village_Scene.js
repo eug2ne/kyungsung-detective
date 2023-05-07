@@ -1,5 +1,11 @@
 import Phaser from 'phaser'
 import vback from '@/game/assets/villagescene/마을최종-2800.png'
+// import float-image
+import vhouse_float from '@/game/assets/villagescene/마을최종-2800-house.png'
+import vlighttree_float from '@/game/assets/villagescene/마을최종-lighttree.png'
+import vdarktree_float from '@/game/assets/villagescene/마을최종-darktree.png'
+import vtree_float from '@/game/assets/villagescene/마을최종-2800-tree.png'
+
 import vhouse_1 from '@/game/assets/villagescene/집_1.png'
 import vhouse_2 from '@/game/assets/villagescene/집_2.png'
 import vhouse_3 from '@/game/assets/villagescene/집_3.png'
@@ -45,6 +51,478 @@ import vgrass_12 from '@/game/assets/villagescene/풀_12.png'
 
 // import npc + sami log image
 
+const npcs_JSON = [
+  {
+    name: "(실종자1) 엄마",
+    id: "test3_missing1mom",
+    dialogue: {
+      "default-question": {
+        dialogue: []
+      },
+      "answer-time": {
+        dialogue: []
+      },
+      "suspicion": {
+        dialogue: []
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "",
+        to: "answer-time"
+      },
+      "suspicion": {
+        answer: "",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "",
+    scale: 1.5,
+    anim_config: {
+      frames: {},
+      repeat: {},
+      default: "",
+      auto_start: true
+    },
+    check: null,
+    x: 0,
+    y: 0
+  },
+  {
+    name: "(실종자1) 오빠",
+    id: "test3_missing1bro",
+    dialogue: {
+      "default-question": {
+        dialogue: []
+      },
+      "answer-time": {
+        dialogue: []
+      },
+      "suspicion": {
+        dialogue: []
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "",
+        to: "answer-time"
+      },
+      "suspicion": {
+        answer: "",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "",
+    scale: 1.5,
+    anim_config: {
+      frames: {},
+      repeat: {},
+      default: "",
+      auto_start: true
+    },
+    check: null,
+    x: 0,
+    y: 0
+  },
+  {
+    name: "(실종자1) 언니",
+    id: "test3_missing1sis",
+    dialogue: {
+      "default-question": {
+        dialogue: []
+      },
+      "answer-time": {
+        dialogue: []
+      },
+      "suspicion": {
+        dialogue: []
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "",
+        to: "answer-time"
+      },
+      "suspicion": {
+        answer: "",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "",
+    scale: 1.5,
+    anim_config: {
+      frames: {},
+      repeat: {},
+      default: "",
+      auto_start: true
+    },
+    check: null,
+    x: 0,
+    y: 0
+  },
+  {
+    name: "(실종자2) 엄마",
+    id: "test3_missing2mom",
+    dialogue: {
+      "default-question": {
+        dialogue: []
+      },
+      "answer-time": {
+        dialogue: []
+      },
+      "answer-work": {
+        dialogue: []
+      },
+      "answer-friendship": {
+        dialogue: []
+      },
+      "answer-adventure": {
+        dialogue: []
+      },
+      "suspicion": {
+        dialogue: []
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "",
+        to: "answer-time"
+      },
+      "option-work": {
+        answer: "",
+        to: "answer-work"
+      },
+      "option-friendship": {
+        answer: "",
+        to: "answer-friendship"
+      },
+      "option-adventure": {
+        answer: "",
+        to: "answer-adventure"
+      },
+      "suspicion": {
+        answer: "",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "",
+    scale: 1.5,
+    anim_config: {
+      frames: {},
+      repeat: {},
+      default: "",
+      auto_start: true
+    },
+    check: null,
+    x: 0,
+    y: 0
+  },
+  {
+    name: "(실종자3) 엄마",
+    id: "test3_missing3mom",
+    dialogue: {
+      "default-question": {
+        dialogue: []
+      },
+      "answer-time": {
+        dialogue: []
+      },
+      "suspicion": {
+        dialogue: []
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "",
+        to: "answer-time"
+      },
+      "suspicion": {
+        answer: "",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "",
+    scale: 1.5,
+    anim_config: {
+      frames: {},
+      repeat: {},
+      default: "",
+      auto_start: true
+    },
+    check: null,
+    x: 0,
+    y: 0
+  },
+  {
+    name: "(실종자1) 동생",
+    id: "test3_missing1bro",
+    dialogue: {
+      "default-question": {
+        dialogue: []
+      },
+      "answer-time": {
+        dialogue: []
+      },
+      "answer-play": {
+        dialogue: []
+      },
+      "suspicion": {
+        dialogue: []
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "",
+        to: "answer-time"
+      },
+      "suspicion": {
+        answer: "",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "",
+    scale: 1.5,
+    anim_config: {
+      frames: {},
+      repeat: {},
+      default: "",
+      auto_start: true
+    },
+    check: null,
+    x: 0,
+    y: 0
+  },
+  {
+    name: "(실종자4) 엄마",
+    id: "test3_missing4mom",
+    dialogue: {
+      "post_c_repeat": {
+        dialogue: []
+      },
+      "answer-time": {
+        dialogue: []
+      },
+      "answer": {
+        dialogue: [],
+        check: "k_detective_beta.test3_shoe"
+      },
+      "suspicion": {
+        dialogue: []
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "",
+        to: "answer-time"
+      },
+      "suspicion": {
+        answer: "",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "",
+    scale: 1.5,
+    anim_config: {
+      frames: {},
+      repeat: {},
+      default: "",
+      auto_start: true
+    },
+    x: 0,
+    y: 0
+  },
+  {
+    name: "마을 주민",
+    id: "test3_villager12",
+    dialogue: {
+      "default-question": {
+        dialogue: []
+      },
+      "answer-time": {
+        dialogue: []
+      },
+      "answer-tales": {
+        dialogue: []
+      },
+      "suspicion": {
+        dialogue: []
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "",
+        to: "answer-time"
+      },
+      "option-tales": {
+        answer: "",
+        to: "answer-tales"
+      },
+      "suspicion": {
+        answer: "",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "",
+    scale: 1.5,
+    anim_config: {
+      frames: {},
+      repeat: {},
+      default: "",
+      auto_start: true
+    },
+    x: 0,
+    y: 0
+  },
+  {
+    name: "경찰",
+    id: "test3_police",
+    dialogue: {
+      "default-question": {
+        dialogue: []
+      },
+      "answer-case": {
+        dialogue: []
+      },
+      "answer-tales": {
+        dialogue: []
+      },
+      "answer-kidnap": {
+        dialogue: []
+      },
+      "suspicion": {
+        dialogue: []
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "",
+        to: "answer-time"
+      },
+      "option-case": {
+        answer: "",
+        to: "answer-case"
+      },
+      "option-tales": {
+        answer: "",
+        to: "answer-tales"
+      },
+      "option-kidnap": {
+        answer: "",
+        to: "answer-kidnap"
+      },
+      "suspicion": {
+        answer: "",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "",
+    scale: 1.5,
+    anim_config: {
+      frames: {},
+      repeat: {},
+      default: "",
+      auto_start: true
+    },
+    x: 0,
+    y: 0
+  },
+  {
+    name: "감독관",
+    id: "test3_inspector",
+    dialogue: {
+      "default-question": {
+        dialogue: [
+          {
+            question: {
+              image: "inspector_neutral",
+              line: "그래, 아이들이 어떻게 사라졌는지 알겠나?"
+            }
+          }
+        ]
+      },
+      "answer-yes": {
+        dialogue: [
+          {
+            image: "inspector_neutral",
+            line: "모르는 것 같은데.."
+          }
+        ]
+      },
+      "answer-no": {
+        dialogue: [
+          {
+            image: "inspector_neutral",
+            line: "이렇게 쓸데없이 말을 걸 시간에 수사에 집중해주게나."
+          }
+        ]
+      },
+      "answer-solve": {
+        dialogue: []
+      }
+    },
+    opitons_config: {
+      "option-yes": {
+        answer: "예",
+        to: "answer-yes"
+      },
+      "option-no": {
+        answer: "아니오",
+        to: "answer-no"
+      },
+      "option-solve": {
+        answer: "예",
+        to: "answer-solve"
+      }
+    },
+    spritesheet: "",
+    scale: 1.5,
+    anim_config: {
+      frames: {},
+      repeat: {},
+      default: "",
+      auto_start: true
+    },
+    x: 0,
+    y: 0
+  }
+]
+
+const items_JSON = [
+  {
+    name: "shoe",
+    id: "test3_item0",
+    x: 502,
+    y: 460,
+    scale: 2,
+    depth: 7,
+    texture: "item_sparkle",
+    interact: {
+      "get": {
+        type: "get",
+        dialogue: [
+          "창문 아래에서 신발 한 쪽을 주웠다."
+        ],
+        event: { eventKey: "z2Aj8sLVTc5FLNxZQ0Rg", eventData: {id: "test3_item0", data: "item0-get"} }
+      }
+    }
+  },
+  {
+    name: "note",
+    id: "test3_item1",
+    x: 502,
+    y: 460,
+    scale: 2,
+    depth: 7,
+    texture: "item_sparkle",
+    interact: {
+      "get": {
+        type: "get",
+        event: { eventKey: "test3-event-promise", eventData: {id: "test3_item1", data: "item1-get"} }
+      }
+    }
+  }
+]
+
 export default class VillageScene extends Phaser.Scene {
   constructor () {
     super({key: 'Village'})
@@ -56,6 +534,10 @@ export default class VillageScene extends Phaser.Scene {
 
   preload() {
     this.load.image('vback', vback)
+    this.load.image('vhouse_float', vhouse_float)
+    this.load.image('vlighttree_float', vlighttree_float)
+    this.load.image('vdarktree_float', vdarktree_float)
+    this.load.image('vtree_float', vtree_float)
 
     this.load.image('vhouse_1', vhouse_1)
     this.load.image('vhouse_2', vhouse_2)
@@ -117,6 +599,11 @@ export default class VillageScene extends Phaser.Scene {
     const trees = this.physics.add.staticGroup()
     const grass = this.physics.add.staticGroup()
     const houses = this.physics.add.staticGroup()
+
+    floatGroup.create(0,0,'vhouse_float').setOrigin(0,0).setDepth(10)
+    floatGroup.create(0,0,'vlighttree_float').setOrigin(0,0).setDepth(10)
+    floatGroup.create(0,0,'vdarktree_float').setOrigin(0,0).setDepth(10)
+    floatGroup.create(0,0,'vtree_float').setOrigin(0,0).setDepth(10)
 
     fields.create(320, 380, 'vfield_1_1').refreshBody()
     fields.create(740, 510, 'vfield_1_2').refreshBody()
@@ -180,7 +667,7 @@ export default class VillageScene extends Phaser.Scene {
     grass.setVisible(false)
     houses.setVisible(false)
 
-    const colliders = [ floatGroup, fields, trees, grass, houses ]
+    const colliders = [ fields, trees, grass, houses ]
 
     const camera_config = {
       'main_zoom': 0.9,

@@ -17,7 +17,7 @@ export const useGameStore = defineStore('game', {
     scenes_config: {
       'Breakfast': {
         npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: ['option-end', 'option-default'] } },
-      item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
+        item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
       }
     } // default: BreakfastStage
   }, cluenote: { 0:null, 1:null, 2:null }, carry_item: [], inventory: [], quiz: { id: null, route: null }, progress: null, booted: false }),
@@ -25,7 +25,7 @@ export const useGameStore = defineStore('game', {
     async boot(gameKey, story) {
       // load stage-data + present_id from db
       const uid = auth.currentUser.uid
-      const UsersRef = collection(db, 'Users')
+      const UsersRef = collection(db, 'BetaUsers')
       const user_UsersRef = doc(UsersRef, uid)
       const user_UsersSnap = await getDoc(user_UsersRef)
 
@@ -64,7 +64,7 @@ export const useGameStore = defineStore('game', {
     async saveGame(gameKey, story) {
       // save stage-config to db
       const uid = auth.currentUser.uid
-      const UsersRef = collection(db, 'Users')
+      const UsersRef = collection(db, 'BetaUsers')
       const user_UsersRef = doc(UsersRef, uid)
 
       let data = {}

@@ -27,7 +27,6 @@ import { ref } from 'vue'
 import { auth, db } from '../firestoreDB'
 import { collection, doc, getDoc } from 'firebase/firestore'
 import Clue from '@/components/Cluenote/Clue.vue'
-import { useGameStore } from '@/game/game'
 
 export default {
   name: 'Cluenote',
@@ -45,7 +44,7 @@ export default {
 
     // get user_cluelist from db
     const load = async () => {
-      const UsersRef = collection(db, 'Users')
+      const UsersRef = collection(db, 'BetaUsers')
       const userRef = doc(UsersRef, user.uid)
       const userSnap = await getDoc(userRef)
 

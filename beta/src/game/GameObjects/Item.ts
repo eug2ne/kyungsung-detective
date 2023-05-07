@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import Dialogue from './Dialogue'
+import { useGameStore } from '../game.js'
 
 export default class Item extends Phaser.GameObjects.Image {
   public readonly id: string
@@ -46,8 +47,18 @@ export default class Item extends Phaser.GameObjects.Image {
       const interaction = this.interact[interactionKey]
       switch (interaction.type) {
         case 'get':
-          // add to inventory (update db)
-          this.scene.events.emit('update-userconfig', this.id, 'update-inventory',  { type: "item", id: this.id, name: this.name, descript: this.descript, texture: this.texture })
+          dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, interactionKey, this.interact)
+          dialogue.create(interactionKey)
+          this.scene.events.emit('start-talking')
+
+          // after talking, destroy item from scene + remove from scene-config
+          this.scene.events.on('end-talking', () => {
+            useGameStore().$patch((state: any) => {
+              state.inventory.push()
+              delete state.scenes_config['Village'].item[this.id]
+            })
+            this.destroy()
+          })
         break
         
         case 'question':

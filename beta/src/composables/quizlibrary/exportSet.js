@@ -5,7 +5,7 @@ const exportSet = async (quizinstance) => {
     // get current user
     const user = auth.currentUser
 
-    const UsersRef = collection(db, 'Users')
+    const UsersRef = collection(db, 'BetaUsers')
     const userRef = doc(UsersRef, user.uid)
 
     const QuizsRef = collection(userRef, 'Quizs')

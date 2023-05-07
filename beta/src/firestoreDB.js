@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth,
     signInWithEmailAndPassword,
+    signInAnonymously,
     createUserWithEmailAndPassword,
     setPersistence, 
     browserSessionPersistence,
@@ -25,31 +26,17 @@ const firebaseApp = initializeApp(config)
 export const db = getFirestore(firebaseApp)
 export const auth = getAuth(firebaseApp)
 
-// email login func.
-export const emailLogin = async (loginEmail, loginPassword) => {
-    // set auth persistence to SESSION
-    setPersistence(auth, browserSessionPersistence)
-        .then(() => {
-            signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-                .then((userCredential) => {
-                    // login success
-                })
-                .catch((error) => {
-                    // login fail
-                    alert('로그인 실패: ' + error.message)  
-                })
-        })
-}
-
 const addData = async (userCredential) => {
-    const user = userCredential.user
-    const collectionRef = collection(db, 'Users')
+    const user = userCredential.user.toJSON()
+    const collectionRef = collection(db, 'BetaUsers')
 
     await setDoc(doc(collectionRef, user.uid), {
         uid: user.uid,
-        email: user.email,
-        emailVerified: user.emailVerified,
-        displayName: user.displayName,
+        apiKey: user.apiKey,
+        createdAt: user.createdAt,
+        lastLoginAt: user.lastLoginAt,
+        stsTokenManager: user.stsTokenManager,
+        userLog: [],
         Stages: {},
         Inventory: [],
         Clues: {},
@@ -61,37 +48,65 @@ const addData = async (userCredential) => {
     })
 }
 
-// google login func.
-export const googleLogin = async () => {
-    const provider = new GoogleAuthProvider()
-    // set auth persistence to SESSION
+// anonymous signup func.
+export const anonySignup = async () => {
     setPersistence(auth, browserSessionPersistence)
         .then(() => {
-            signInWithPopup(auth, provider)
-                .then((userCredential) => {
-                    // login success
-                    addData(userCredential)
-                })
-                .catch((error) => {
-                    // login fail
-                    alert('로그인 실패: ' + error.message)
-                })
-        })
-
-}
-
-// email signup func.
-export const emailSignup = async (loginEmail, loginPassword) => {
-    setPersistence(auth, browserSessionPersistence)
-        .then(() => {
-            createUserWithEmailAndPassword(auth, loginEmail, loginPassword)
+            signInAnonymously(auth)
                 .then( async (userCredential) => {
-                    // automatically login as new user
                     await addData(userCredential)
                 })
                 .catch((error) => {
-                    alert('회원가입 실패: ' + error.message)
+                    alert('다음과 같은 이유로 실패했습니다: ' + error.message)
                 })
         })
 }
 
+// email login func.
+// export const emailLogin = async (loginEmail, loginPassword) => {
+//     // set auth persistence to SESSION
+//     setPersistence(auth, browserSessionPersistence)
+//         .then(() => {
+//             signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+//                 .then((userCredential) => {
+//                     // login success
+//                 })
+//                 .catch((error) => {
+//                     // login fail
+//                     alert('로그인 실패: ' + error.message)  
+//                 })
+//         })
+// }
+
+// google login func.
+// export const googleLogin = async () => {
+//     const provider = new GoogleAuthProvider()
+//     // set auth persistence to SESSION
+//     setPersistence(auth, browserSessionPersistence)
+//         .then(() => {
+//             signInWithPopup(auth, provider)
+//                 .then((userCredential) => {
+//                     // login success
+//                     addData(userCredential)
+//                 })
+//                 .catch((error) => {
+//                     // login fail
+//                     alert('로그인 실패: ' + error.message)
+//                 })
+//         })
+// }
+
+// email signup func.
+// export const emailSignup = async (loginEmail, loginPassword) => {
+//     setPersistence(auth, browserSessionPersistence)
+//         .then(() => {
+//             createUserWithEmailAndPassword(auth, loginEmail, loginPassword)
+//                 .then( async (userCredential) => {
+//                     // automatically login as new user
+//                     await addData(userCredential)
+//                 })
+//                 .catch((error) => {
+//                     alert('회원가입 실패: ' + error.message)
+//                 })
+//         })
+// }

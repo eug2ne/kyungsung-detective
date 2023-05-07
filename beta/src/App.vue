@@ -13,7 +13,6 @@ export default {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         // login success
-        console.log(useGameStore().$state.booted)
         if (!useGameStore().$state.booted) {
           // boot useGameStore()
           await useGameStore().boot('k_detective_beta', '시작')

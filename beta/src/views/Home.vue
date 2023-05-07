@@ -1,25 +1,23 @@
 <template>
   <div id="router-view" class="pixel-borders--1">
-    <Login @toHome="toLogin=false" v-if="toLogin" />
-    <div v-else>
       <img src="../assets/logo/logo500px.png" alt="logo" />
-      <button @click="this.toLogin=true" class="link-button pixel-borders--2"
-        >시작하기
+      <button @click="signIn" class="link-button pixel-borders--2">
+        <router-link :to="{ name: 'Main' }">
+          시작하기
+        </router-link>
       </button>
       <router-link :to="{ name: 'License' }" class="license">license</router-link>
-    </div>
   </div>
 </template>
 
 <script>
-import Login from './auth/Login.vue'
+import { anonySignup } from '../firestoreDB'
 
 export default {
   name: 'Home',
-  components: { Login },
-  data() {
-    return {
-      toLogin: false
+  methods: {
+    signIn() {
+      anonySignup()
     }
   }
 }

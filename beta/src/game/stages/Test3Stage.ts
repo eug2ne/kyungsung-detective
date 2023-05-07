@@ -146,7 +146,7 @@ const event_config = {
       return false
     }),
     new Update({id: "test3_missing4mom", data: "missing4mom-answer"}, () => {
-      // add subclue
+      // add subclue + update missing4mom dialogueKey
       addSubClue({
         title: "떨어진 신발",
         description: "최영길 군이 누워서 휴식하고 있던 방 창문 아래에 본인의 신발이 한 쪽만 떨어져있었다.",
@@ -159,7 +159,11 @@ const event_config = {
         description: "혹시 최영길 군은 꾀병을 부리고 방 안에 누워있다가 창문으로 나간 것 아닐까?",
         quiz_id: "z2Aj8sLVTc5FLNxZQ0Rg",
         reveal: false
-      })
+      }) // add subclue
+
+      useGameStore().$patch((state: any) => {
+        state.stage.scenes_config['Village'].npc['test3_missing4mom'].dialogueKey = 'post_c_repeat'
+      }) // update missing4mom dialogueKey
 
       return false
     }),
@@ -234,8 +238,9 @@ const event_config = {
       return false
     }),
     new Update({id: "test3_missing1sis", data: "missing1sis-answer"}, () => {
-      // update subclue
+      // update subclue + update missing1sis dialogueKey
       useGameStore().$patch((state: any) => {
+        // update subclue
         const i = state.cluenote[2].subClues[1].findIndex((ele: any) => {
           return ele.title === '약속?'
         })
@@ -245,6 +250,9 @@ const event_config = {
           quiz_id: null,
           reveal: true
         }
+
+        // updata missing1sis dialogueKey
+        state.stage.scenes_config['Village'].npc['test3_missing1sis'].dialogueKey = 'post_c_repeat'
       })
 
       return false
@@ -301,7 +309,7 @@ const event_config = {
     new Update({id: "test3_villager34", data: "villager34-missing2"}, () => {
       // update subclue
       addSubClue({
-        title: "",
+        title: "소문난 효녀",
         description: "박선자 양은 매일 자발적으로 하교 후 부모님 일을 돕는다.",
         quiz_id: null,
         reveal: true

@@ -61,15 +61,6 @@ export default {
     showClue(story) {
       this.show = this.cluelist[story]
     }
-  },
-  updated() {
-    if (Object.keys(this.cluelist).length > 0) {
-      if (this.progress) {
-        // automatically redirect to story containing accomplished-clue
-        const story = this.progress.split('.')[0]
-        this.showClue(story)
-      }
-    }
   }
 };
 </script>

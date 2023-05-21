@@ -255,7 +255,7 @@ export default {
         this.emitter.emit('quizAccomplish', this.q_instance.clue_ref) // emit quiz-accomplish event
 
         setTimeout(() => {
-          useGameStore().$patch({ progress: { route: this.q_instance.clue_ref, id: this.q_instance.id }})
+          useGameStore().$patch({ progress: { id: this.q_instance.id, route: this.q_instance.clue_ref }})
         }, 1000)
       }
 

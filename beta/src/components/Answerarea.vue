@@ -34,7 +34,7 @@ export default {
                 // get current user
                 const user = auth.currentUser
                 // import user-config from db
-                const UsersRef = collection(db, 'Users')
+                const UsersRef = collection(db, 'BetaUsers')
                 const user_Ref = doc(UsersRef, user.uid)
                 const user_Snap = await getDoc(user_Ref)
                 // get quiz accomplishment from user-config

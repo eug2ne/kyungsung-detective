@@ -749,7 +749,6 @@ export default class Test2 extends Phaser.Scene {
     this.game.stage.mapEvent(this) // activate stage
     
     // check clue update
-    console.log(useGameStore().cluenote[1])
     if (!useGameStore().cluenote[1]) {
       // if Test2 clue not exist, play stage-start event
       const start_config = { 

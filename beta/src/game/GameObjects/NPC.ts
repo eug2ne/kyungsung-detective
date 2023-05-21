@@ -96,6 +96,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
       const zoom = this.scene.cameras.main.zoom
       const options_data: any[] = []
       options?.forEach((key: string) => {
+        if (!this.options_config[key]) return
         options_data.push(this.options_config[key])
       })
       const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, dialogueKey, this.dialogue, options_data)

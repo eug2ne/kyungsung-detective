@@ -111,17 +111,17 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
       if (!event) return
 
       // check NPC/Item state
-      const update = event.find((u) => {
+      const i = event.findIndex((u) => {
         return _.isEqual(u.condition, eventData)
       }) // update happen in non-linear order within event
-      if (!update) return
+      if (i === -1) return
 
       // run update
-      const clear = update.update(this)
+      const clear = event[i].update(this)
 
       if (clear) {
         // if stage-clear condition fulfilled, run stage.clear()
-        scene.events.on('end-talking', () => {
+        scene.events.once('end-talking', () => {
           this.clear()
         }) // run stage.clear() after dialogue|interaction
       } else {
@@ -131,7 +131,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
         })
 
         // delete update from event_map
-        event.splice(0,1)
+        event.splice(i,1)
 
         if (event.length === 0) {
           // if all update from event is over, delete event from event_config

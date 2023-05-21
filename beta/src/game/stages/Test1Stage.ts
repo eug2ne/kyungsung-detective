@@ -55,7 +55,7 @@ const qevent_config = {
         "line": "그 신문팔이한테 한 번 가봐야겠는데."
       }
     ],
-    event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {quiz_id: "cJ89EcZyF5EHwElEGRGZ", route: "0.0.0"} }
+    event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {quiz_id: "cJ89EcZyF5EHwElEGRGZ", route: "시작.0.subClues.0"} }
   }
 }
 
@@ -72,8 +72,8 @@ const event_config = {
               "title": "붉은 마패를 찾았다!",
               "description": "붉은 마패는 황실에서 발행하는 신문을 말하는 것이다. 신문팔이에게 가서 붉은 마패를 달라고 해보자!",
               "quiz_id": "cJ89EcZyF5EHwElEGRGZ",
-              "reveal": false,
-              "clue_ref": "시작.0.subClues.0"
+              "clue_ref": "시작.0.subClues.0",
+              "reveal": false
             }
           ]
         }
@@ -87,7 +87,7 @@ const event_config = {
 
       return false
     }),
-    new Update({ quiz_id: 'cJ89EcZyF5EHwElEGRGZ', route: '0.0.0' }, () => {
+    new Update({ quiz_id: 'cJ89EcZyF5EHwElEGRGZ', route: '시작.0.subClues.0' }, () => {
       // after accomplishing quiz, reveal subclue + update newspaperstand dialogue-key
       useGameStore().$patch((state: any) => {
         // reveal subclue

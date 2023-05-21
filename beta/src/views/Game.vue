@@ -52,6 +52,7 @@ export default {
         // watch stage-config change >> save game-progress to db
         useGameStore().saveGame(this.gameInstance.key, '시작')
       } else if (mutation.payload.progress) {
+        console.log(mutation.payload.progress)
         // watch quiz-progress event
         setTimeout(() => {
           this.gameInstance.progress(state.progress.id)

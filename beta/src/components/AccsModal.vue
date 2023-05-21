@@ -27,12 +27,11 @@ export default {
         // get current user
         const user = auth.currentUser
         // import user-config from db
-        const UsersRef = collection(db, 'Users')
+        const UsersRef = collection(db, 'BetaUsers')
         const user_Ref = doc(UsersRef, user.uid)
 
         this.subclue = await getDoc(user_Ref)
           .then((res) => {
-            console.log(res.get(`Clues.${route}`))
             return res.get(`Clues.${route}`).at(-1)
           })
 

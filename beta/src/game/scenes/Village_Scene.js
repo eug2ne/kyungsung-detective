@@ -351,6 +351,27 @@ const npcs_JSON = [
         ],
         event: {eventKey: "test3-event-updateTimeline", eventData: {id: "test3_missing1sis", data: "missing1sis-time"}}
       },
+      "answer-adventure": {
+        dialogue: [
+          {
+            image: "missing1sis_sus",
+            line: "그러고보니 일주일 전인가, 장작을 주우러 산을 올랐는데,"
+          },
+          {
+            image: "missing1sis_sus",
+            line: "좀 깊은 산 속에 못 보던 동굴이 있는 걸 발견했어요. 신기해서 그 날 저녁을 먹으면서 얘기했더니.."
+          },
+          {
+            image: "missing1sis_surprise",
+            line: "정숙이가 엄청 캐물어서 위치를 알려줬어요!"
+          },
+          {
+            image: "missing1sis_surprise",
+            line: "정숙이가 탐험을 하러 갔다면 거기 밖에 없어요!"
+          }
+        ],
+        event: {eventKey: "5pSYFHRok3Es4xw6XWcC", eventData: {id: "test3_missing1sis", data: "missing1sis-adventure"}}
+      },
       "suspicion": {
         dialogue: [
           {
@@ -1333,16 +1354,72 @@ const npcs_JSON = [
         dialogue: [
           {
             image: "sami_neutral",
-            line: "아이들은 '탐험'을 떠났다가 돌아오지 못 한 겁니다."
-          },
-          {
-            image: "inspector_neutral",
-            lince: ""
+            line: "사건을 모두 해결했습니다!"
           },
           {
             image: "sami_neutral",
-            line: ""
-          }
+            line: "이 마을에는 동굴 괴인에 대한 오래된 '괴담'이 있습니다."
+          },
+          {
+            image: "sami_neutral",
+            line: "실종된 아이들은 모두 9세에서 12세입니다. 괴담 같은 이야기를 믿을만한 나이지요."
+          },
+          {
+            image: "sami_neutral",
+            line: "그러니 괴담의 실체를 확인하려 다같이 '탐험'을 떠났다가 산 속에서 길을 잃은 겁니다."
+          },
+          {
+            image: "inspector_neutral",
+            line: "호오. 일리있는 주장이군. 아이들이 다같이 '탐험'을 떠났다는 구체적인 증거가 더 있는가?"
+          },
+          {
+            image: "sami_neutral",
+            line: "실종된 아이들은 모두 같은 학교의 오전반에 다닙니다. 학교에서 어른들의 눈을 피해 산으로 들어갈 계획을 같이 세운 거죠."
+          },
+          {
+            image: "sami_neutral",
+            line: "오후 3시쯤에 김정숙 양은 자기 오빠에게 '친구들과의 약속'을 지키지 못 하게 되면 어떻게 할 거냐고 따지며 굉장히 초조해했습니다. 어른들의 눈을 피해 다같이 만나기로 한 시간이 그즈음이었다고 추측할 수 있죠."
+          },
+          {
+            image: "inspector_neutral",
+            line: "하지만 다른 시간도 아니고 왜 하필 오후 3시에 만나기로 한거지? 하다못해 학교가 끝나자마자 가는 게 더 좋았을지도 모르는데."
+          },
+          {
+            image: "sami_smile",
+            line: "김정숙 양과 박선자 양은 '의자매' 였으니까요."
+          },
+          {
+            image: "inspector_neutral",
+            line: "'의자매'?"
+          },
+          {
+            image: "sami_smile",
+            line: "네, 두 사람이 며칠 전 탐험을 떠나기에 앞서 '의자매'를 맺는 걸 박선자 양 어머니가 목격했습니다."
+          },
+          {
+            image: "sami_neutral",
+            line: "박선자 양이 학교가 끝나고 항상 부모님을 도와 일을 하는 걸 알았던 김정숙 양은 박선자 양이 중간에 빠져나올 수 있는 시간으로 약속을 잡은 겁니다."
+          },
+          {
+            image: "sami_smile",
+            line: "다른 사람도 아닌 '의자매'를 두고갈 수는 없으니까요."
+          },
+          {
+            image: "inspector_neutral",
+            line: "그렇군. 그럼 아이들이 어디로 갔는지도 알아냈나?"
+          },
+          {
+            image: "sami_neutral",
+            line: "일주일 전 김정숙 양의 언니가 산에서 새로운 동굴을 발견했습니다. 그리고 저녁 식사를 하면서 그 위치를 동생에게 알려주었고요."
+          },
+          {
+            image: "sami_neutral",
+            line: "산 입구 쪽에서 주운 쪽지에도 '전등, 기름, 양초, 밧줄' 같은 준비물이 쓰여있었죠. 아이들이 동굴에 갈 계획이었다는 증거입니다."
+          },
+          {
+            image: "inspector_neutral",
+            line: "잘됐군. 잘됐어! 어서 다른 사람들에게도 이 사실을 알리고 아이들을 찾으러 가자고!"
+          },
         ],
         event: {eventKey: "5pSYFHRok3Es4xw6XWcC", eventData: {id: "test3_inspector", data: "inspector-solve"}}
       }
@@ -1567,6 +1644,81 @@ export default class VillageScene extends Phaser.Scene {
     }
     this.sceneload.create(colliders, [], [], camera_config, data)
     this.game.stage.mapEvent(this) // activate stage
+
+    // game-clear event
+    this.events.on('game-clear', () => {
+      // set scene invisible
+      this.scene.setVisible(false, this)
+
+      // create game-clear dialogue
+      // get cameraX + cameraY
+      const cameraX = this.cameras.main.worldView.x, cameraY = this.cameras.main.worldView.y      
+      const d_data = [
+        {
+          image: "missing1sis_surprise",
+          line: "제가 안내할게요!"
+        },
+        "....",
+        "저기 동굴 안에 불빛이 보인다!",
+        "아이들이 보인다! 서둘러!",
+        {
+          image: "missing1mom_worry",
+          line: "정숙아!"
+        },
+        {
+          image: "missing2mom_worry",
+          line: "선자야!"
+        },
+        {
+          image: "missing3mom_worry",
+          line: "정웅아!"
+        },
+        {
+          image: "missing4mom_worry",
+          line: "영길아!"
+        },
+        {
+          image: "missing4_neutral",
+          line: "으음...엄마..?"
+        },
+        "아이들은 모포를 덮은 채 촛불을 둘러싸고 앉아있었으며, 모두 다친 데 없이 무사했다.",
+        "해가 져서 기온이 떨어진 것 때문에 저체온증을 걱정했는데, 다행이 촛불과 서로의 온기로 저체온증에도 걸리지 않은 것 같다.",
+        {
+          image: "missing3mom_worry",
+          line: "해가 지기 전에 산에서 내려왔어야지! 해 떨어지면 산 속이 제일 위험하다고 했잖아!"
+        },
+        {
+          image: "missing2mom_worry",
+          line: "그래 다음부터는 절대로 이런 짓 하지 마. 알겠지?"
+        },
+        {
+          image: "missing3_neutral",
+          line: "하지만, 산 걸인이 와서 어른들이 올 때까지 동굴에서 기다리라고 했단 말이예요."
+        },
+        {
+          image: "missing1mom_worry",
+          line: "뭐? 산 걸인이 왜 나타나? 그런 거짓말 하면 못 써!"
+        },
+        {
+          image: "missing1_angry",
+          line: "진짜야! 우리 다같이 봤다고!"
+        },
+        "아이들은 모두 동굴 안에 있을 때 갑자기 나타난 '동굴 할머니'에 대해서 얘기했다.",
+        "그리고 그 '동굴 할머니'가 어른들이 올 때까지 동굴에서 나오지 말고 기다리라고 했다는 얘기도.",
+        {
+          image: "sami_neutral",
+          line: "아이들 모두 똑같은 내용을 말하고 있어. 이건 환영이나 착각이 아니야."
+        },
+        {
+          image: "sami_neutral",
+          line: "그럼 이 '동굴 할머니'는 누구지? 왜 아이들에게 동굴 밖으로 나오지 말라고 한 거고?"
+        },
+        "계속..."
+      ]
+      const dialogue = new Dialogue(this, cameraX, cameraY, 0.9, undefined, d_data)
+      dialogue.create(undefined)
+      this.scene.events.emit('start-talking')
+    })
   }
 
   update() {

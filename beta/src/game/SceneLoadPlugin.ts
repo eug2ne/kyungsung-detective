@@ -151,7 +151,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.minimap.visible = false // remove minimap
       this.controls.cursor.down.enabled = false
       this.controls.cursor.left.enabled = false
-      this.controls.cursor.right.enabled = false 
+      this.controls.cursor.right.enabled = false
       this.controls.cursor.up.enabled = false // cursor disable
     })
     this.scene.events.on('end-talking', (dialogue?: Dialogue) => {
@@ -170,6 +170,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     this.scene.events.on('quiz-event', (id: string, progress_config: any) => {
       // set player.position to given value
+      this.controls.cursor.down.isDown = false
+      this.controls.cursor.left.isDown = false
+      this.controls.cursor.right.isDown = false
+      this.controls.cursor.up.isDown = false // stop player
       this.player.x = progress_config[id].x ?? this.player.x
       this.player.y = progress_config[id].y ?? this.player.y
 
@@ -186,10 +190,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   update(items: [ Item ], npcs: [ NPC ]) {
     // update keyboard_text.x,y
     const cameraX = this.scene.cameras.main.worldView.x, cameraY = this.scene.cameras.main.worldView.y
-    this.keyboard_text.setPosition(cameraX + 410/this.scene.cameras.main.zoomX, cameraY + 10)
+    this.keyboard_text.setPosition(cameraX+650, cameraY+10)
 
     // set controls
-    this.player.setVelocity(0)
+    this.player.setVelocity(0,0)
 
     if (this.controls.cursor.left.isDown) {
       this.player.update('left')

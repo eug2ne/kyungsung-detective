@@ -35,10 +35,11 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     // create dialogue-box on screen
     const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
     const black = Phaser.Display.Color.GetColor32(0,0,0,0.1)
-    this.line_box = this.scene.add.rectangle(cameraX+580/zoom, cameraY+550/zoom, 645/zoom, 200/zoom, white)
+    console.log(cameraX, cameraY)
+    this.line_box = this.scene.add.rectangle(cameraX+580/zoom, cameraY+520/zoom, 645/zoom, 200/zoom, white)
       .setDepth(20)
       .setStrokeStyle(2, black) // line-box
-    this.image_box = this.scene.add.rectangle(cameraX+120/zoom, cameraY+550/zoom, 200/zoom, 200/zoom, white)
+    this.image_box = this.scene.add.rectangle(cameraX+130/zoom, cameraY+520/zoom, 200/zoom, 200/zoom, white)
       .setDepth(20)
       .setStrokeStyle(2, black) // image-box
 
@@ -48,8 +49,8 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
       .setDepth(20)
 
     // create line
-    this.line_x = cameraX+270/zoom
-    this.line_y = cameraY+460/zoom
+    this.line_x = this.line_box.x-this.line_box.width/2
+    this.line_y = this.line_box.y-this.line_box.height/2
     this.line = new Phaser.GameObjects.Text(
       this.scene,
       this.line_x,
@@ -60,9 +61,10 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
         fontSize: `${25/zoom}px`,
         color: '#000',
         padding: {
-          x: 5,
-          y: 5
-        }
+          x: 20,
+          y: 20
+        },
+        
       }
     ).setWordWrapWidth(Math.floor(640/zoom))
     this.scene.add.existing(this.line).setDepth(20)
@@ -161,8 +163,8 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
                 fontSize: `${25/this.zoom}px`,
                 color: '#000',
                 padding: {
-                  x: 5,
-                  y: 5
+                  x: 20,
+                  y: 0
                 }
               }
               )

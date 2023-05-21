@@ -3,8 +3,8 @@ import { getAuth,
     signInWithEmailAndPassword,
     signInAnonymously,
     createUserWithEmailAndPassword,
-    setPersistence, 
-    browserSessionPersistence,
+    setPersistence,
+    browserLocalPersistence,
     GoogleAuthProvider,
     signInWithPopup } from 'firebase/auth'
 import { getFirestore,
@@ -50,7 +50,7 @@ const addData = async (userCredential) => {
 
 // anonymous signup func.
 export const anonySignup = async () => {
-    setPersistence(auth, browserSessionPersistence)
+    setPersistence(auth, browserLocalPersistence)
         .then(() => {
             signInAnonymously(auth)
                 .then( async (userCredential) => {

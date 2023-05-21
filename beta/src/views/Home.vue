@@ -31,6 +31,8 @@ div {
 img {
   display: block;
   margin: auto;
+  width: 500px;
+  height: 500px;
 }
 
 .link-button {

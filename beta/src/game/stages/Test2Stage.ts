@@ -44,7 +44,7 @@ const qevent_config = {
         'line': '이제 밝혀내야 할 건 누가 언제, 어떻게 피해자를 중독시켰느냐야.'
       }
     ],
-    event: { eventKey: 'WIN3vIY76B5ZHa13x70c', eventData: {quiz_id: 'WIN3vIY76B5ZHa13x70c', route: '1.0.2'} }
+    event: { eventKey: 'WIN3vIY76B5ZHa13x70c', eventData: {quiz_id: 'WIN3vIY76B5ZHa13x70c', route: '시작.1.subClues.0'} }
   },
   /* quiz answer '임금체불' */'tLJfpFrSVAq5O1sGNs8I': {
     sceneKey: 'Test2',
@@ -65,7 +65,7 @@ const qevent_config = {
         'line': '그 한 명조차도 제대로 된 관리를 받지 못 하고 있기 때문인지는 모르지.'
       }
     ],
-    event: { eventKey: 'tLJfpFrSVAq5O1sGNs8I', eventData: {quiz_id: 'tLJfpFrSVAq5O1sGNs8I', route: '1.2.2'} }
+    event: { eventKey: 'tLJfpFrSVAq5O1sGNs8I', eventData: {quiz_id: 'tLJfpFrSVAq5O1sGNs8I', route: '시작.1.subClues.2'} }
   },
   /* quiz answer '얼음' */'YPnEQwKAwueWEzSmpRdF': {
     sceneKey: 'Test2',
@@ -158,7 +158,7 @@ const qevent_config = {
         'line': '좋았어!'
       }
     ],
-    event: { eventKey: 'YPnEQwKAwueWEzSmpRdF', eventData: {quiz_id: 'YPnEQwKAwueWEzSmpRdF', route: '1.0.3'} }
+    event: { eventKey: 'YPnEQwKAwueWEzSmpRdF', eventData: {quiz_id: 'YPnEQwKAwueWEzSmpRdF', route: '시작.1.subClues.0'} }
   },
   'suspicion-system-activate': {
     sceneKey: 'Test2',
@@ -187,12 +187,14 @@ const event_config = {
               "title": "작은 외상",
               "description": "시신 조사 결과, 전신에 사소한 멍과 찰과상이 있다. 하지만 치명적인 외상은 보이지 않는다.",
               "quiz_id": null,
+              "clue_ref": "시작.1.subClues.0",
               "reveal": false
             },
             {
               "title": "원인불명의 흔적들",
               "description": "시신 조사 결과, 눈에 핏발이 유독 심하며, 입안이 이상할 정도로 말라있다는 사실을 알아냈다.",
               "quiz_id": null,
+              "clue_ref": "시작.1.subClues.0",
               "reveal": false
             }
           ], // autopsy hint
@@ -247,8 +249,8 @@ const event_config = {
           "title": "얼음",
           "description": "범인은 피해자에게 내준 냉커피의 얼음에 탈륨을 섞어 피해자가 얼음이 녹으면서 시간차를 두고 서서히 치사량에 중독되게 만들었다.",
           "quiz_id": "YPnEQwKAwueWEzSmpRdF",
-          "reveal": false,
-          "clue_ref": "시작.1.subClues.0"
+          "clue_ref": "시작.1.subClues.0",
+          "reveal": false
         }, 1, 0) // add subclue data
       }
 
@@ -262,8 +264,8 @@ const event_config = {
         "title": "유산상속",
         "description": "피해자의 생전에 집안의 거의 모든 재산이 장남인 피해자에게 남겨졌다.",
         "quiz_id": null,
-        "reveal": true,
-        "clue_ref": "시작.1.subClues.1"
+        "clue_ref": "시작.1.subClues.1",
+        "reveal": true
       }, 1, 1) // add subclue data
 
       useGameStore().$patch((state: any) => {
@@ -286,8 +288,8 @@ const event_config = {
         "title": "억울함",
         "description": "주변의 긍정적인 평가와 본인의 의지에도 불구하고 김현수는 차남이란 이유만으로 상속권에서 밀려났다.",
         "quiz_id": null,
-        "reveal": true,
-        "clue_ref": "시작.1.subClues.1"
+        "clue_ref": "시작.1.subClues.1",
+        "reveal": true
       }, 1, 1) // add subclue data
 
       return false
@@ -308,19 +310,7 @@ const event_config = {
       useGameStore().$patch((state: any) => {
         state.stage.scenes_config['Test2'].npc['test2_suspect1'].options.push('option-fight')
       }) // update suspect1 dialogueKey
-      
-      addTimeline({
-        "title": "친구의 방문",
-        "description": "오전 중에 피해자의 친구 박유신이 방문했다.",
-        "subClues": [
-          {
-            "title": "커피",
-            "description": "방문 당시 안연정은 두 사람에게 커피를 대접했다.",
-            "quiz_id": null,
-            "reveal": true
-          }
-        ]
-      }, 1, 0, 0.15)
+
       addTimeline({
         "title": "다툼",
         "description": "피해자와 박유신은 서재에서 큰 소리로 싸웠다.",
@@ -353,13 +343,13 @@ const event_config = {
         "title": "중독",
         "description": "시신의 상태, 평소보다 피곤해보였다는 박유신의 증언으로 미루어보아 피해자는 음독으로 죽었을 가능성이 높다.",
         "quiz_id": "WIN3vIY76B5ZHa13x70c",
-        "reveal": false,
-        "clue_ref": "시작.1.subClues.0"
+        "clue_ref": "시작.1.subClues.0",
+        "reveal": false
       }, 1, 0) // add subclue
 
       return false
     }),
-    new Update({quiz_id: "WIN3vIY76B5ZHa13x70c", route: "1.0.2"}, () => {
+    new Update({quiz_id: "WIN3vIY76B5ZHa13x70c", route: "시작.1.subClues.0"}, () => {
       // reveal subclue
       useGameStore().$patch((state: any) => {
         state.cluenote[1].subClues[0][2].reveal = true
@@ -396,7 +386,7 @@ const event_config = {
             "reveal": true
           }
         ]
-      }, 1, 0, 0.5) // update timeline data
+      }, 1, 0, 0.2) // update timeline data
 
       // check timeline complete + suspicion system activate
       if (!stage.event_config['suspicion-system-activate']&&timeline_complete === 1) {
@@ -405,14 +395,14 @@ const event_config = {
           "title": "얼음",
           "description": "범인은 피해자에게 내준 냉커피의 얼음에 탈륨을 섞어 피해자가 얼음이 녹으면서 시간차를 두고 서서히 치사량에 중독되게 만들었다.",
           "quiz_id": "YPnEQwKAwueWEzSmpRdF",
-          "reveal": false,
-          "clue_ref": "시작.1.subClues.0.3"
+          "clue_ref": "시작.1.subClues.0",
+          "reveal": false
         }, 1, 0) // add subclue data
       }
 
       return false
     }),
-    new Update({quiz_id: "YPnEQwKAwueWEzSmpRdF", route: "1.0.3"}, () => {
+    new Update({quiz_id: "YPnEQwKAwueWEzSmpRdF", route: "시작.1.subClues.0"}, () => {
       // reveal subclue
       useGameStore().$patch((state: any) => {
         state.cluenote[1].subClues[0][3].reveal = true
@@ -424,21 +414,14 @@ const event_config = {
   ],
   /* quiz answer: '임금체불' */'tLJfpFrSVAq5O1sGNs8I': [
     new Update({id: "test2_item2", data: "item2-read"}, () => {
-      // after reading account-record from bookshelf, add subclues + update suspect3 options
+      // after reading account-record from bookshelf, add subclue + update suspect3 options
       addSubClue({
         "title": "가계 장부",
         "description": "최근 몇 년 간 집안 살림을 축소한 흔적과 함께 사용인 기록이 빠지는 등 가계 장부를 제대로 관리하지 못 한 흔적이 보인다.",
         "quiz_id": null,
-        "reveal": true,
-        "clue_ref": "시작.1.subClues.2.0"
-      }, 1, 2)
-      addSubClue({
-        "title": "충성",
-        "description": "안연정은 오랫동안 피해자의 집안에서 일해오며 능력을 인정받았다.",
-        "quiz_id": null,
-        "reveal": true,
-        "clue_ref": "시작.1.subClues.2.1"
-      }, 1, 2) // add subclues
+        "clue_ref": "시작.1.subClues.2",
+        "reveal": true
+      }, 1, 2) // add subclue
 
       useGameStore().$patch((state: any) => {
         state.stage.scenes_config['Test2'].npc['test2_suspect3'].options.push('option-record')
@@ -448,50 +431,57 @@ const event_config = {
       return false
     }),
     new Update({id: "test2_suspect2", data: "suspect2-suspect3"}, () => {
-      // after asking suspect2 about suspect3, reveal record subclue + add subclue 
-      useGameStore().$patch((state: any) => {
-        state.cluenote[1].subClues[2][1].reveal = true
-      }) // update subclue data
+      // after asking suspect2 about suspect3, add subclues 
+      addSubClue({
+        "title": "충성",
+        "description": "안연정은 오랫동안 피해자의 집안에서 일해오며 능력을 인정받았다.",
+        "quiz_id": null,
+        "clue_ref": "시작.1.subClues.2",
+        "reveal": true
+      }, 1, 2)
       
       addSubClue({
         "title": "임금체불?",
         "description": "안연정은 가계가 기울어지고 월급을 제대로 못 받고있을 가능성이 있다?",
         "quiz_id": "tLJfpFrSVAq5O1sGNs8I",
         "reveal": false,
-        "clue_ref": "시작.1.subClues.2.2"
+        "clue_ref": "시작.1.subClues.2"
       }, 1, 2) // add subclue
 
       return false
     }),
-    new Update({quiz_id: "tLJfpFrSVAq5O1sGNs8I", route: "1.2.2"}, () => {
+    new Update({quiz_id: "tLJfpFrSVAq5O1sGNs8I", route: "시작.1.subClues.2"}, () => {
       // after accomplishing quiz, reveal subclue + update suspect3 options
       useGameStore().$patch((state: any) => {
         // reveal subclue
         state.cluenote[1].subClues[2][2].reveal = true
 
-        const i = state.stage.scenes_config['Test2'].npc['test2-suspect3'].options.findIndex('option-record')
+        const i = state.stage.scenes_config['Test2'].npc['test2_suspect3'].options.findIndex((ele: string) => ele === 'option-record')
         // replace 'option-record' with 'option-pay'
         state.stage.scenes_config['Test2'].npc['test2_suspect3'].options.splice(i,1,'option-pay')
       }) // update suspect3 options
 
       return false
     }),
-    new Update({id: "test2_suspect3", data: "suspect3-pay"}, () => {
+    new Update({id: "test2_suspect3", data: "suspect3-pay"}, (stage: any) => {
       // after asking suspect3 about pay, update subclue + activate suspicion system
       useGameStore().$patch((state: any) => {
         const subclue = {
           "title": "임금체불",
           "description": "안연정은 가계가 기울어진 이후로 월급을 제대로 못 받고 있다.",
           "quiz_id": "tLJfpFrSVAq5O1sGNs8I",
-          "reveal": true,
-          "clue_ref": "시작.1.subClues.2.2"
+          "clue_ref": "시작.1.subClues.2",
+          "reveal": true
         }
         // replace subclue with updated version
         state.cluenote[1].subClues[2].splice(2,1,subclue)
       }) // update subclue
 
-      // activate suspicion system
-      useGameStore().$patch({ progress: { id: 'suspicion-system-activate' } })
+      // activate suspicion system after talking
+      stage.game.scene.getScene('Test2').events.once('end-talking', () => {
+
+        useGameStore().$patch({ progress: { id: 'suspicion-system-activate' } })
+      })
 
       return false
     })
@@ -501,9 +491,9 @@ const event_config = {
       // activate suspicion system + add subclue
       useGameStore().$patch((state: any) => {
         // add suspicion option to all NPCs
-        state.stage.scenes_config['Test2'].npc['test2-suspect1'].options.push('suspicion.test2_suspect2')
-        state.stage.scenes_config['Test2'].npc['test2-suspect2'].options.push('suspicion.test2_suspect1')
-        state.stage.scenes_config['Test2'].npc['test2-suspect3'].options.push('suspicion.test2_suspect1')
+        state.stage.scenes_config['Test2'].npc['test2_suspect1'].options.push('option-suspicion.test2_suspect2')
+        state.stage.scenes_config['Test2'].npc['test2_suspect2'].options.push('option-suspicion.test2_suspect1')
+        state.stage.scenes_config['Test2'].npc['test2_suspect3'].options.push('option-suspicion.test2_suspect1')
       })
 
       // check timeline complete
@@ -513,8 +503,8 @@ const event_config = {
           "title": "얼음",
           "description": "범인은 피해자에게 내준 냉커피의 얼음에 탈륨을 섞어 피해자가 얼음이 녹으면서 시간차를 두고 서서히 치사량에 중독되게 만들었다.",
           "quiz_id": "YPnEQwKAwueWEzSmpRdF",
-          "reveal": false,
-          "clue_ref": "시작.1.subClues.0.3"
+          "clue_ref": "시작.1.subClues.0",
+          "reveal": false
         }, 1, 0) // add subclue data
       }
       

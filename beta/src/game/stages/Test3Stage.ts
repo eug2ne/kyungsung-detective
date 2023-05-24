@@ -674,7 +674,7 @@ export default class Test3Stage extends Stage {
 
   clear() {
     // emit game-clear event in scene
-    const village_scene = this.game.scene.getScene('Village')
-    village_scene.events.emit('game-clear')
+    const scene = this.game.scene.getScene('Village')
+    scene.events.emit('game-clear')
   }
 }

@@ -835,6 +835,102 @@ export default class Test2 extends Phaser.Scene {
       }
       this.events.emit('quiz-event', 'start', start_config)
     }
+
+    // game-clear event
+    this.events.on('game-clear', () => {
+      // create game-clear dialogue
+      // get cameraX + cameraY
+      const cameraX = this.cameras.main.worldView.x, cameraY = this.cameras.main.worldView.y      
+      const d_data = [
+        {
+          'image': 'sami_neutral',
+          'line': '사건은 해결됐습니다!'
+        },
+        {
+          'image': 'sami_neutral',
+          'line': '범인은 피해자가 마신 냉커피의 얼음에 탈륨을 섞어, 얼음이 녹으면서 피해자가 치사량의 탈륨을 서서히 마시도록 만들었습니다.'
+        },
+        {
+          'image': 'sami_neutral',
+          'line': '그래서 피해자는 친구인 박유신이 떠날 때까지는 멀쩡할 수 있었던 겁니다.'
+        },
+        {
+          'image': 'sami_neutral',
+          'line': '그리고 이게 가능한 사람은 한 명뿐이죠.'
+        },
+        {
+          'image': 'suspect3_neutral',
+          'line': '바로 가정부인 안연정씨!'
+        },
+        {
+          'image': 'suspect3_neutral',
+          'line': '안연정씨는 친구인 박유신씨가 방문했을 때 피해자의 커피에 탈륨이 든 얼음을 넣었습니다.'
+        },
+        {
+          'image': 'sami_neutral',
+          'line': '얼음이 녹으면서 탈륨이 서서히 커피에 퍼졌기 때문에 피해자가 사망한 건 박유신씨가 떠난 다음이었죠.'
+        },
+        {
+          'image': 'suspect1_neutral',
+          'line': '얼음이 다 녹은 뒤에는 탈륨의 출처를 알 수 없으므로 안연정씨는 본인의 알리바이를 확보하는 동시에 박유신씨에게 의심이 가도록 만든 겁니다.'
+        },
+        {
+          'image': 'inspector_neutral',
+          'line': '일리있는 설명이군. 그렇다면 안연정의 살해 동기는?'
+        },
+        {
+          'image': 'sami_neutral',
+          'line': '안연정은 몇 개월째 임금을 못 받고 있습니다. 그게 살해동기입니다.'
+        },
+        {
+          'image': 'suspect3_neutral',
+          'line': '말도 안됩니다! 도련님을 죽인다고 없던 돈이 생겨나는 것도 아닌데 제가 왜 그러겠습니까!'
+        },
+        {
+          'image': 'suspect2_neutral',
+          'line': '피해자는 독신이기 때문에 죽으면 동생인 김현수씨에게 재산이 상속됩니다.'
+        },
+        {
+          'image': 'sami_neutral',
+          'line': '안연정씨는 집안 재산을 피해자가 아닌 김현수씨가 관리하게 되면 자신이 못 받은 월급을 받을 수 있게 되지않을까 하는 희망 때문에 피해자를 살해한 겁니다.'
+        },
+        {
+          'image': 'suspect3_neutral',
+          'line': '윽..'
+        },
+        {
+          'image': 'suspect3_neutral',
+          'line': '분하지만 인정할 수 밖에 없군요.'
+        },
+        {
+          'image': 'suspect3_neutral',
+          'line': '..맞습니다. 도련님이 가산을 탕진해 월급을 못 받은지도 벌써 몇 달째..'
+        },
+        {
+          'image': 'suspect3_neutral',
+          'line': '그간 일한 정이 있어 마지막까지 곁에 있으려 했지만..더이상은 도련님도 정신을 차리실 기미도 안 보이고, 생활도 점점 어려워져서'
+        },
+        {
+          'image': 'suspect3_neutral',
+          'line': '그만두겠다 말하면서 도련님께 다른 집으로 가서 일할 수 있도록 추천서를 부탁드렸건만..그마저도 거절하셨습니다.'
+        },
+        {
+          'image': 'suspect3_neutral',
+          'line': '오히려 그만두는 순간 자기가 절대 다른 일자리를 찾지 못 하도록 모든 수를 쓸거라고 하시니까 앞이 막막해져서 그만..'
+        },
+        {
+          'image': 'inspector_smile',
+          'line': '살해 방법과 살해 동기까지 맞히고, 심지어 범인의 자백까지 얻어내다니. 두 번째 시험도 통과다!'
+        },
+        {
+          'image': 'sami_neutral',
+          'line': '좋았어!'
+        }
+      ]
+      const dialogue = new Dialogue(this, cameraX, cameraY, 0.9, undefined, d_data)
+      dialogue.create(undefined)
+      this.scene.events.emit('start-talking')
+    })
   }
 
   update() {

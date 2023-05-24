@@ -2,6 +2,7 @@
   <div id="router-view" class="pixel-borders--1">
     <Navbar @toContent="changeContent" />
     <div class="contents">
+      <EmailPopup v-if="game_clear"/>
       <Game v-show="showContent.game&&this.$route.path=='/Game'" />
       <Inventory v-if="showContent.inventory&&this.$route.path=='/Game'" />
       <Cluenote v-if="showContent.cluenote&&this.$route.path=='/Game'" :progress="progress" />
@@ -13,8 +14,10 @@
 
 <script>
 import _ from 'lodash'
+import { mapState } from 'pinia'
 import { useGameStore } from '../game/game'
 import Navbar from '../components/Navbar.vue'
+import EmailPopup from '@/components/Game/EmailPopup.vue'
 import Game from './Game.vue'
 import Inventory from './Inventory.vue'
 import Cluenote from './Cluenote.vue'
@@ -22,7 +25,7 @@ import Quiz from './Quiz.vue'
 
 export default {
   name: 'Main',
-  components: { Navbar, Game, Inventory, Cluenote, Quiz },
+  components: { Navbar, EmailPopup, Game, Inventory, Cluenote, Quiz },
   data() {
     return {
       showContent: {
@@ -30,9 +33,11 @@ export default {
         inventory: false,
         cluenote: false,
         quiz: false
-      },
-      progress: null
+      }
     }
+  },
+  computed: {
+    ...mapState(useGameStore, ['progress', 'game_clear'])
   },
   methods: {
     changeContent(content) {
@@ -52,8 +57,6 @@ export default {
         // redirect to Quiz.vue
         this.changeContent('quiz')
       } else if (mutation.payload.progress) {
-        this.progress = _.cloneDeep(mutation.payload.progress)
-
         // redirect to Game.vue
         setTimeout(() => {
           this.changeContent('game')

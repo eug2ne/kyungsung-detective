@@ -11,16 +11,25 @@ import Test2Stage from './stages/Test2Stage'
 import Test3Stage from './stages/Test3Stage'
 
 export const useGameStore = defineStore('game', {
-  state: () => ({ stage: {
-    key: 'BreakfastStage',
-    player_config: { sceneKey: 'Breakfast' , x: 663, y: 472 },
-    scenes_config: {
-      'Breakfast': {
-        npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: ['option-end', 'option-default'] } },
-        item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
-      }
-    } // default: BreakfastStage
-  }, cluenote: { 0:null, 1:null, 2:null }, carry_item: [], inventory: [], quiz: { id: null, route: null }, progress: null, booted: false }),
+  state: () => ({
+    stage: {
+      key: 'BreakfastStage',
+      player_config: { sceneKey: 'Breakfast' , x: 663, y: 472 },
+      scenes_config: {
+        'Breakfast': {
+          npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: ['option-end', 'option-default'] } },
+          item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
+        }
+      } // default: BreakfastStage
+    },
+    cluenote: { 0:null, 1:null, 2:null },
+    carry_item: [],
+    inventory: [],
+    quiz: { id: null, route: null },
+    progress: null,
+    booted: false,
+    game_clear: false 
+  }),
   actions: {
     async boot(gameKey, story) {
       // load stage-data + present_id from db

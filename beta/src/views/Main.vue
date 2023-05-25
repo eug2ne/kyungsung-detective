@@ -50,6 +50,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.game_clear)
     useGameStore().$subscribe((mutation, state) => {
       if (!mutation.payload) return // ignore other events
 

@@ -10,18 +10,37 @@
         </p>
 
         <input type="email" v-model="email" placeholder="address@email.com">
-        <button>>></button>
+        <button @click="sendEmailFeedback">>></button>
         <textarea v-model="feedback" placeholder="팀에게 피드백을 남겨주시면 큰 도움이 됩니다!"></textarea>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'EmailPopup',
   data() {
     return {
-      show: true
+      show: true,
+      email: 'test-beta@gmail.com',
+      feedback: '테스트 피드백'
+    }
+  },
+  methods: {
+    sendEmailFeedback() {
+      // check email validity
+      const email_regex = /^[^\s@]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/
+      if (!email_regex.test(this.email)) return
+
+      // send email+feedback via forms-url
+      const url = 'https://docs.google.com/forms/d/e/1FAIpQLScOSzVu791TRBbvThziaMD5AHOa92IVRb2u8WTq7v9tNuxcTA/formResponse?&submit=Submit?usp=pp_url&entry.2067990364='
+        +this.email
+        +'&entry.1870031164='
+        +this.feedback
+
+      axios.post(url)
     }
   }
 }

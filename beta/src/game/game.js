@@ -28,7 +28,7 @@ export const useGameStore = defineStore('game', {
     quiz: { id: null, route: null },
     progress: null,
     booted: false,
-    game_clear: true 
+    game_clear: false
   }),
   actions: {
     async boot(gameKey, story) {

@@ -14,7 +14,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
   private dialogue: any
   private index: number = 0
   private space_key: Phaser.Input.Keyboard.Key =
-    this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE, true, false)
+    this.scene!.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE, true, false)
   
   constructor(scene: Phaser.Scene,
     cameraX: number,

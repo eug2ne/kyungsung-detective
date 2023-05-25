@@ -88,10 +88,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.anims.stop()
     }
 
-    this.body.velocity.normalize().scale(50*4)
+    this.body!.velocity.normalize().scale(50*4)
 
     // update area coord
-    const boxX = this.x+this.body.velocity.x*0.35, boxY = this.y+this.body.velocity.y*0.45
+    const boxX = this.x+this.body!.velocity.x*0.35, boxY = this.y+this.body!.velocity.y*0.45
     this.interact_area.setPosition(boxX, boxY)
   }
 }

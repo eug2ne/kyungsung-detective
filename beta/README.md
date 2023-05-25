@@ -1,4 +1,4 @@
-# new_demoggc
+# beta
 
 ## Project setup
 ```

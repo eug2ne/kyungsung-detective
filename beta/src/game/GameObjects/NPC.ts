@@ -104,7 +104,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
 
       // pause npc anim
       const current_anim = this.anims.currentAnim
-      current_anim.pause()
+      current_anim!.pause()
       this.scene.events.emit('start-talking', this) // emit talking event to scene
     })
 
@@ -112,7 +112,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     this.scene.events.on('end-talking', () => {
       // resume npc anims
       const current_anim = this.anims.currentAnim
-      current_anim.resume()
+      current_anim!.resume()
     })
   }
 

@@ -24,8 +24,8 @@ export default {
   data() {
     return {
       show: true,
-      email: 'test-beta@gmail.com',
-      feedback: '테스트 피드백'
+      email: '',
+      feedback: ''
     }
   },
   methods: {

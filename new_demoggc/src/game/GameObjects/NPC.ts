@@ -3,21 +3,18 @@ import Phaser from 'phaser'
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
   public readonly id: string
   private sprite_key: string
-  private sprite_func: any
-  private readonly _dialogue: any
-  private _dialogue_show: any
-  private readonly _hint: any|null
-  private readonly _answer: any|null
+  public readonly dialogue: any
+  public readonly clue: any
+  private readonly answer: any|null
 
   constructor(
     scene: Phaser.Scene,
     key: string,
     spritesheet_key: string,
-    sprite_func: any,
     x: number,
     y: number,
     dialogue: any,
-    hint: any,
+    clue: any,
     answer: any
   ) {
     const spritesheet = scene.textures.get(spritesheet_key)
@@ -27,45 +24,9 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     
     this.id = key
     this.sprite_key = spritesheet_key
-    this._dialogue = dialogue
-    this.sprite_func = sprite_func
-    this._hint = hint
-    this._answer = answer
-  }
-
-  public set dialogue(key: string) {
-    if (key == 'hint') {
-      // check requirement
-      this._dialogue_show = this._dialogue.hint
-    } else if (key == 'answer') {
-      this._dialogue_show = this._answer.answer
-    } else {
-      this._dialogue_show = this._dialogue[key]
-    }
-  }
-
-  public get dialogue() {
-    return this._dialogue_show
-  }
-
-  public get keys() {
-    return Object.keys(this._dialogue)
-  }
-
-  private get hint() {
-    if (this._hint.require) {
-      return false
-    } else {
-      return this._hint
-    }
-  }
-
-  private get answer() {
-    if (this._answer.require) {
-      return false
-    } else {
-      return this._answer
-    }
+    this.dialogue = dialogue
+    this.clue = clue
+    this.answer = answer
   }
 
   destroy() {
@@ -73,6 +34,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   }
 
   create() {
+    console.log(this.id)
     this.debugShowBody = true
     this.debugShowVelocity = true
     this.debugBodyColor = 0x0033ff // debug option

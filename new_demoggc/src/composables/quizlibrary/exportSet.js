@@ -4,7 +4,6 @@ import { collection, doc, arrayUnion, updateDoc } from "firebase/firestore"
 const exportSet = async (quizinstance) => {
     // get current user
     const user = auth.currentUser
-    console.log(quizinstance.quizletterset)
 
     const QuizRef = collection(db, 'Users/Quizs/Quizs')
     const user_QuizRef = doc(QuizRef, user.uid)
@@ -16,21 +15,21 @@ const exportSet = async (quizinstance) => {
         accomplish: quizinstance.accomplish
     })
 
-    for (let c in Object.values(quizinstance.chosen)) {
-        await user_QuizRef.update({
-            chosen: arrayUnion(c)
+    for (let c in quizinstance.chosen) {
+        await updateDoc(user_QuizRef, {
+            chosen: arrayUnion(quizinstance.chosen[c])
         })
     }
 
     for (let b in quizinstance.backset) {
-        await user_QuizRef.update({
-            backset: arrayUnion(b)
+        await updateDoc(user_QuizRef, {
+            backset: arrayUnion(quizinstance.backset[b])
         })
     }
 
     for (let f in quizinstance.forwardset) {
-        await user_QuizRef.update({
-            forwardset: arrayUnion(f)
+        await updateDoc(user_QuizRef, {
+            forwardset: arrayUnion(quizinstance.forwardset[f])
         })
     }
 }

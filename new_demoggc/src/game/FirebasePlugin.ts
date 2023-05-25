@@ -65,7 +65,7 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
         p_scene: {'sceneKey': 'Test1_Scene', x: 600, y: 900}, /* present scene */
 				scenes: {
 					'Test1_Scene':
-					{'npc': {'test1npc-0':'pre_h_repeat', 'test1npc-1':'hint'},
+					{'npc': {'test1npc-0':'pre_c_repeat', 'test1npc-1':'clue'},
 					'item': ['test1-0', 'test1-1', 'test1-2']},
 					'Village_Scene':
 					{'npc': null,
@@ -78,7 +78,7 @@ export default class FirebasePlugin extends Phaser.Plugins.BasePlugin
         p_scene: {'sceneKey': 'Test1_Scene', x: 600, y: 900}, /* present scene */
 				scenes: {
 					'Test1_Scene':
-					{'npc': {'test1npc-0':'pre_h_repeat', 'test1npc-1':'hint'},
+					{'npc': {'test1npc-0':'pre_c_repeat', 'test1npc-1':'clue'},
 					'item': ['test1-0', 'test1-1', 'test1-2']},
 					'Village_Scene':
 					{'npc': null,

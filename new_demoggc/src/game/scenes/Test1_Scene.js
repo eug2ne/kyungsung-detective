@@ -1,6 +1,11 @@
+// mission: talk to test1npc-1 >> get hint+quiz
+// >> (if get answer to quiz) make portal to village_scene
+
 import Phaser from 'phaser'
+import { checkClue, addClue } from '../library'
 import Item from '../GameObjects/Item'
 import NPC from '../GameObjects/NPC'
+import Dialogue from '../GameObjects/Dialogue'
 import back1 from '@/game/assets/test1_map/궁정리.png'
 import back2 from '@/game/assets/test1_map/건물레이어(나무밑).png'
 import treess from '@/game/assets/test1_map/다리자른 나무.png'
@@ -35,26 +40,26 @@ import npc1_sprite from '../assets/npc_sprite/npc1_sprite.png'
 import item0 from '../assets/item/item0.png'
 import item1 from '../assets/item/item1.png'
 import item2 from '../assets/item/item2.png'
+import { async } from '@firebase/util'
 
 const npcs_JSON = [
   {
     "name": "test npc1",
     "id": "test1npc-0",
-    "sprite_func": null,
     "dialogue": {
-      "pre_h_repeat": [
+      "pre_c_repeat": [
         {
           "image": "npc1_neutral",
           "line": "this line is repeated"
         },
         {
           "image": "npc1_neutral",
-          "line": "it can be skipped by enter/space"
+          "line": "it can be skipped by space"
         }
       ]
     },
     "spritesheet": "npc1_sprite",
-    "hint": null,
+    "clue": null,
     "answer": null,
     "x": 500,
     "y": 1000
@@ -62,30 +67,53 @@ const npcs_JSON = [
   {
     "name": "test npc2",
     "id": "test1npc-1",
-    "sprite_func": null,
     "dialogue": {
-      "hint": [
+      "clue": [
         {
           "image": "npc1_neutral",
-          "lines": ["this line is said only once", "you get a hint when completed"]
+          "line": "this line is said only once"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "you get a hint when completed"
         }
       ],
-      "post_h_repeat": [
+      "post_c_repeat": [
         {
           "image": "npc1_neutral",
-          "lines": ["you already got the hint"]
+          "line": "you already got the hint"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "now solve the puzzle"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "and go get the answer!"
+        }
+      ],
+      "answer": [
+        {
+          "image": "npc1_neutral",
+          "line": "you got the answer!"
+        },
+        {
+          "image": "npc1_neutral",
+          "line": "congratulations!"
         }
       ]
     },
     "spritesheet": "npc1_sprite",
-    "hint": {
+    "clue": {
+      "story": "sample story",
       "title": "sample hint",
       "description": "sample description",
-      "quiz_link": null,
+      "quiz_id": null,
       "background_img": null,
-      "require": null
+      "subClues": [],
+      "require": false
     },
-    answer: null,
+    "answer": null,
     "x": 600,
     "y": 1100
   }
@@ -306,15 +334,15 @@ export default class Test1_Scene extends Phaser.Scene {
     // create NPCs
     this.npcs = []
     npcs_JSON.forEach((npc) => {
+      console.log('create npc')
       this.npcs.push(new NPC(
         this,
         npc.id,
         npc.spritesheet,
-        npc.sprite_func,
         npc.x,
         npc.y,
         npc.dialogue,
-        npc.hint,
+        npc.clue,
         npc.answer
       ))
     })

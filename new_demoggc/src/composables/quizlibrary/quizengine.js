@@ -52,8 +52,6 @@ const quizengine = (reverse) => {
 
     // merge func
     const useMerge = (arr, set, pastSet) => {
-        console.log('usemerge')
-        console.log(arr)
         if (mergelist.valid[arr[0].letter].includes(arr[1].letter)) {
             // update pastset
             updatepastSet(pastSet, reset(set))
@@ -86,7 +84,6 @@ const quizengine = (reverse) => {
 
     // word func
     const useWord = (arr, set, pastSet) => {
-        console.log('useword')
         let wordspace = {'0,0':null, '1,0':null, '0,1':null, '1,1':null, '0,2':null, '1,2':null}
 
         arr.forEach(element => {
@@ -121,7 +118,6 @@ const quizengine = (reverse) => {
 
     //space func
     const useSpace = (wordspace, set, target, pastSet) => {
-        console.log('usespace')
         if (_.some(Object.values(wordlist), wordspace)) {
             // SpaceError
             throw Error('SpaceError')

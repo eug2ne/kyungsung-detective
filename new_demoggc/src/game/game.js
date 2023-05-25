@@ -41,7 +41,6 @@ export default class game extends Phaser.Game {
  }
 
  async destroy() {
-   console.log('game destroy')
    // update p_scene config
    const { config, x, y, inventory } = this.scene.getScene(this.player_config.p_scene.sceneKey).sceneload.scene_config
    this.player_config.p_scene.x = x
@@ -55,10 +54,10 @@ export default class game extends Phaser.Game {
  }
 
  async create() {
-  console.log('game create')
   const firestore = this.plugins.get('FirebasePlugin')
 
   this.player_config = await firestore.loadGameData()
+  console.log(this.player_config)
   this.active_scenes = this.player_config.scenes /* connected scenes */
 
   let PlayScene_Key = this.player_config.p_scene.sceneKey /* present sceneKey */

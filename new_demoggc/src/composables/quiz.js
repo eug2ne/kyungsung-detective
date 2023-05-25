@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import _ from 'lodash'
 import quizengine from "./quizlibrary/quizengine"
+import backforth from './quizlibrary/backforth'
 
 const quizletterset = ref({})
 const chosen = ref([])
@@ -29,6 +30,8 @@ const quiz = (data, instance) => {
         useWord,
         useSpace
     } = quizengine(reverse.value)
+
+    const { updatepastSet } = backforth()
 
     switch (data.event) {
         case 'toggleTarget':
@@ -111,6 +114,11 @@ const quiz = (data, instance) => {
                 // IndexError
                 throw Error('IndexError')
             }
+            break
+
+        case 'Refresh':
+            updatepastSet(backset.value, instance.quizletterset)
+            instance.quizletterset = _.cloneDeep(data.defaultSet)
             break
 
         case 'showMerge':

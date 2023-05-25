@@ -1,6 +1,6 @@
 <template>
   <div class="contents">
-    <Answerarea id="quiz_1" />
+    <Answerarea :quiz_id="quiz_id" />
     <ul id="help">
     <li id="hint" @click="showHints = !showHints">힌트</li>
       <ul v-if="showHints" id="hints">

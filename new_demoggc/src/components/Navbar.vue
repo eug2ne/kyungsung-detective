@@ -22,7 +22,7 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ path: '/Map/Quiz', params: { quiz_id: '5pSYFHRok3Es4xw6XWcC', user_id: '탐졍' } }">
+        <router-link :to="{ path: '/Map/Quiz', params: { quiz_id: '5pSYFHRok3Es4xw6XWcC' } }">
           <p class="pixel-borders--2">단서판서</p>
         </router-link>
       </li>

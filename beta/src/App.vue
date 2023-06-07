@@ -1,4 +1,5 @@
 <template>
+  <span>버그 제보는 monthly5Rock@gmail.com으로</span>
   <router-view></router-view>
 </template>
 

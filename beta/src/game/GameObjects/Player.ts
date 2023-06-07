@@ -62,33 +62,31 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     switch (event) {
       case 'up':
         // up
-        this.setVelocityY(-160*4)
+        this.setVelocityY(-60*4)
         this.anims.play('back', true)
         break
 
       case 'down':
         // down
-        this.setVelocityY(160*4)
+        this.setVelocityY(60*4)
         this.anims.play('front', true)
         break
 
       case 'left':
         // left
-        this.setVelocityX(-160*4)
+        this.setVelocityX(-60*4)
         this.anims.play('left', true)
         break
 
       case 'right':
         // right
-        this.setVelocityX(160*4)
+        this.setVelocityX(60*4)
         this.anims.play('right', true)
         break
 
       default:
         this.anims.stop()
     }
-
-    this.body!.velocity.normalize().scale(50*4)
 
     // update area coord
     const boxX = this.x+this.body!.velocity.x*0.35, boxY = this.y+this.body!.velocity.y*0.45

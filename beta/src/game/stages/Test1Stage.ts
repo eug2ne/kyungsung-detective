@@ -32,27 +32,33 @@ const qevent_config = {
     dialogue: [
       {
         "image": 'sami_smile3',
-        "line": "비밀 정보원! 암행어사와 관련된 문제였어."
+        "line": "비밀 정보원! 암행어사와 관련된 문제였어.",
+        "name": "사미"
       },
       {
         "image": 'sami_sus',
-        "line": "비밀 정보원..우리나라의 비밀 정보원..?"
+        "line": "비밀 정보원..우리나라의 비밀 정보원..?",
+        "name": "사미"
       },
       {
         "image": 'sami_smile2',
-        "line": "'제국익문사!'"
+        "line": "'제국익문사!'",
+        "name": "사미"
       },
       {
         "image": 'sami_smile',
-        "line": "들은 적이 있어. 겉으로는 일반 신문사지만 비밀 정보기관으로 활동한다고."
+        "line": "들은 적이 있어. 겉으로는 일반 신문사지만 비밀 정보기관으로 활동한다고.",
+        "name": "사미"
       },
       {
         "image": 'sami_smile',
-        "line": "제국익문사가 맞다면, 붉은 마패는 제국익문사의 증표가 확실해."
+        "line": "제국익문사가 맞다면, 붉은 마패는 제국익문사의 증표가 확실해.",
+        "name": "사미"
       },
       {
         "image": 'sami_sure2',
-        "line": "그 신문팔이한테 한 번 가봐야겠는데."
+        "line": "그 신문팔이한테 한 번 가봐야겠는데.",
+        "name": "사미"
       }
     ],
     event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {quiz_id: "cJ89EcZyF5EHwElEGRGZ", route: "시작.0.subClues.0"} }
@@ -112,7 +118,7 @@ const event_config = {
 
         // update npc dialogueKey
         state.stage.scenes_config['Test1'].npc['test1_inspector'].dialogueKey = 'answer'
-        state.stage.scenes_config['Test1'].npc['test1_newspaperstand'].dialogueKey = 'default'
+        state.stage.scenes_config['Test1'].npc['test1_newspaperstand'].dialogueKey = 'post_a'
       })
 
       return false

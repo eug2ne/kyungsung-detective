@@ -3,55 +3,47 @@ import _ from 'lodash'
 import quizengine from "./quizlibrary/quizengine"
 import backforth from './quizlibrary/backforth'
 
-const quizletterset = ref({})
-const chosen = ref([])
-const reverse = ref()
-const backset = ref([])
-const forwardset = ref([])
-const target = ref({})
-
 // import event, data
 // >> update db
 // >> return quizletterset
 const quiz = (data, instance, answerset) => {
-    quizletterset.value = instance.quizletterset
-    chosen.value = instance.chosen
-    reverse.value = instance.reverse
-    backset.value = instance.backset
-    forwardset.value = instance.forwardset
+    const quizletterset = instance.quizletterset
+    const chosen = instance.chosen
+    const reverse = instance.reverse
+    const backset = instance.backset
+    const forwardset = instance.forwardset
+    let target = undefined
 
     // import quizengine
     const {
         back,
         forward,
-        useshowMerge,
-        useshowWord,
         useMerge,
         useWord,
         useSpace
-    } = quizengine(reverse.value)
+    } = quizengine(reverse)
 
     const { updatepastSet } = backforth()
 
     switch (data.event) {
         case 'toggleTarget':
-            quizletterset.value[data.row][data.col].isTarget = !quizletterset.value[data.row][data.col].isTarget
+            quizletterset[data.row][data.col].isTarget = !quizletterset[data.row][data.col].isTarget
 
-            if (quizletterset.value[data.row][data.col].isTarget) {
-                chosen.value.length = 0
-                chosen.value.push({'row': data.row, 'col': data.col, 'letter': data.letter})
+            if (quizletterset[data.row][data.col].isTarget) {
+                chosen.length = 0
+                chosen.push({'row': data.row, 'col': data.col, 'letter': data.letter})
 
                 // reset any other target in set
-                if (instance.id) {
+                if (!instance.id) {
                     // Rules page
                     for (let r=0;r<3;r++) {
                         for (let c=0;c<6;c++) {
-                            if (!quizletterset.value[r][c]||quizletterset.value[r][c].isWord||(r==data.row&&c==data.col)) {
+                            if (!quizletterset[r][c]||quizletterset[r][c].isWord||(r==data.row&&c==data.col)) {
                                 // pass
                             } else {
-                                quizletterset.value[r][c].isTarget = false
-                                quizletterset.value[r][c].isChoice = false
-                                quizletterset.value[r][c].isChosen = false
+                                quizletterset[r][c].isTarget = false
+                                quizletterset[r][c].isChoice = false
+                                quizletterset[r][c].isChosen = false
                             }
                         }
                     }
@@ -59,48 +51,76 @@ const quiz = (data, instance, answerset) => {
                     // Quiz page
                     for (let r=0;r<6;r++) {
                         for (let c=0;c<15;c++) {
-                            if (!quizletterset.value[r][c]||quizletterset.value[r][c].isWord||(r==data.row&&c==data.col)) {
+                            if (!quizletterset[r][c]||quizletterset[r][c].isWord||(r==data.row&&c==data.col)) {
                                 // pass
                             } else {
-                                quizletterset.value[r][c].isTarget = false
-                                quizletterset.value[r][c].isChoice = false
-                                quizletterset.value[r][c].isChosen = false
+                                quizletterset[r][c].isTarget = false
+                                quizletterset[r][c].isChoice = false
+                                quizletterset[r][c].isChosen = false
                             }
                         }
                     }
                 }
             } else {
                 // reset chosen
-                chosen.value.length = 0
+                chosen.length = 0
             }
             break
 
         case 'ppChoice':
             if (data.action === 'push') {
                 // toggle isChoice/isChosen
-                quizletterset.value[data.choice.row][data.choice.col].isChosen = true
-                quizletterset.value[data.choice.row][data.choice.col].isChoice = false
+                quizletterset[data.choice.row][data.choice.col].isChosen = true
+                quizletterset[data.choice.row][data.choice.col].isChoice = false
       
-                chosen.value.push(data.choice)
+                chosen.push(data.choice)
       
-                if (chosen.value.length == instance.max_chosen) {
+                if (chosen.length == instance.max_chosen) {
+                    // reset quizletterset
+                    if (!instance.id) {
+                        // Rules page
+                        for (let r=0;r<3;r++) {
+                            for (let c=0;c<6;c++) {
+                                if (!quizletterset[r][c]||quizletterset[r][c].isWord) {
+                                    // pass
+                                } else {
+                                    quizletterset[r][c].isTarget = false
+                                    quizletterset[r][c].isChoice = false
+                                    quizletterset[r][c].isChosen = false
+                                }
+                            }
+                        }
+                    } else {
+                        // Quiz page
+                        for (let r=0;r<6;r++) {
+                            for (let c=0;c<15;c++) {
+                                if (!quizletterset[r][c]||quizletterset[r][c].isWord) {
+                                    // pass
+                                } else {
+                                    quizletterset[r][c].isTarget = false
+                                    quizletterset[r][c].isChoice = false
+                                    quizletterset[r][c].isChosen = false
+                                }
+                            }
+                        }
+                    }
                     // merge()
-                    useMerge(chosen.value, quizletterset.value, backset.value)
+                    useMerge(chosen, quizletterset, backset)
                 }
             } else {
                 // data.action === 'pop'
                 // toggle isChoice/isChosen
-                quizletterset.value[data.choice.row][data.choice.col].isChosen = false
-                quizletterset.value[data.choice.row][data.choice.col].isChoice = true
+                quizletterset[data.choice.row][data.choice.col].isChosen = false
+                quizletterset[data.choice.row][data.choice.col].isChoice = true
       
-                const i = chosen.value.indexOf(data.choice)
-                chosen.value.splice(i,1)
+                const i = chosen.indexOf(data.choice)
+                chosen.splice(i,1)
             }
             break
 
         case 'backQuiz':
-            if (backset.value.length !== 0) {
-                instance.quizletterset = _.cloneDeep(back(backset.value, forwardset.value, quizletterset.value))
+            if (backset.length !== 0) {
+                instance.quizletterset = _.cloneDeep(back(backset, forwardset, quizletterset))
             } else {
                 // IndexError
                 throw Error('IndexError')
@@ -108,8 +128,8 @@ const quiz = (data, instance, answerset) => {
             break
 
         case 'forwardQuiz':
-            if (forwardset.value.length !== 0) {
-                instance.quizletterset = _.cloneDeep(forward(backset.value, forwardset.value, quizletterset.value))
+            if (forwardset.length !== 0) {
+                instance.quizletterset = _.cloneDeep(forward(backset, forwardset, quizletterset))
             } else {
                 // IndexError
                 throw Error('IndexError')
@@ -117,63 +137,147 @@ const quiz = (data, instance, answerset) => {
             break
 
         case 'Refresh':
-            updatepastSet(backset.value, instance.quizletterset)
+            updatepastSet(backset, instance.quizletterset)
             instance.quizletterset = _.cloneDeep(data.defaultSet)
             break
 
         case 'showMerge':
             instance.max_chosen = 2
 
-            target.value = chosen.value[0]
+            target = chosen[0]
 
             try {
-                quizletterset.value[target.value.row][target.value.col+1].isChoice = true
-                quizletterset.value[target.value.row][target.value.col-1].isChoice = true
+                quizletterset[target.row][target.col+1].isChoice = true
+                quizletterset[target.row][target.col-1].isChoice = true
             } catch (err) {
-                (quizletterset.value[target.value.row][target.value.col+1]) ? 
-                    quizletterset.value[target.value.row][target.value.col+1].isChoice = true : quizletterset.value[target.value.row][target.value.col-1].isChoice = true
+                (quizletterset[target.row][target.col+1]) ? 
+                    quizletterset[target.row][target.col+1].isChoice = true : quizletterset[target.row][target.col-1].isChoice = true
             }
             break
 
         case 'showWord':
             instance.max_chosen = 6
 
-            target.value = chosen.value[0]
+            target = chosen[0]
             try {
-                quizletterset.value[target.value.row][target.value.col+1].isChoice = true
-                quizletterset.value[target.value.row+1][target.value.col].isChoice = true
-                quizletterset.value[target.value.row+1][target.value.col+1].isChoice = true
-                quizletterset.value[target.value.row+2][target.value.col].isChoice = true
-                quizletterset.value[target.value.row+2][target.value.col+1].isChoice = true
+                quizletterset[target.row][target.col+1].isChoice = true
+                quizletterset[target.row+1][target.col].isChoice = true
+                quizletterset[target.row+1][target.col+1].isChoice = true
+                quizletterset[target.row+2][target.col].isChoice = true
+                quizletterset[target.row+2][target.col+1].isChoice = true
             } catch (error) {
+                // reset quizletterset
+                if (!instance.id) {
+                    // Rules page
+                    for (let r=0;r<3;r++) {
+                        for (let c=0;c<6;c++) {
+                            if (!quizletterset[r][c]||quizletterset[r][c].isWord) {
+                                // pass
+                            } else {
+                                quizletterset[r][c].isTarget = false
+                                quizletterset[r][c].isChoice = false
+                                quizletterset[r][c].isChosen = false
+                            }
+                        }
+                    }
+                } else {
+                    // Quiz page
+                    for (let r=0;r<6;r++) {
+                        for (let c=0;c<15;c++) {
+                            if (!quizletterset[r][c]||quizletterset[r][c].isWord) {
+                                // pass
+                            } else {
+                                quizletterset[r][c].isTarget = false
+                                quizletterset[r][c].isChoice = false
+                                quizletterset[r][c].isChosen = false
+                            }
+                        }
+                    }
+                }
                 // WordSpaceError
                 throw Error('WordSpaceError')
             }
             break
 
         case 'Word':
-            useWord(chosen.value, quizletterset.value, backset.value, answerset)
+            // reset quizletterset
+            if (!instance.id) {
+                // Rules page
+                for (let r=0;r<3;r++) {
+                    for (let c=0;c<6;c++) {
+                        if (!quizletterset[r][c]||quizletterset[r][c].isWord) {
+                            // pass
+                        } else {
+                            quizletterset[r][c].isTarget = false
+                            quizletterset[r][c].isChoice = false
+                            quizletterset[r][c].isChosen = false
+                        }
+                    }
+                }
+            } else {
+                // Quiz page
+                for (let r=0;r<6;r++) {
+                    for (let c=0;c<15;c++) {
+                        if (!quizletterset[r][c]||quizletterset[r][c].isWord) {
+                            // pass
+                        } else {
+                            quizletterset[r][c].isTarget = false
+                            quizletterset[r][c].isChoice = false
+                            quizletterset[r][c].isChosen = false
+                        }
+                    }
+                }
+            }
+            useWord(chosen, quizletterset, backset, answerset)
             break
 
         case 'Space':
+            // reset quizletterset
+            if (!instance.id) {
+                // Rules page
+                for (let r=0;r<3;r++) {
+                    for (let c=0;c<6;c++) {
+                        if (!quizletterset[r][c]||quizletterset[r][c].isWord) {
+                            // pass
+                        } else {
+                            quizletterset[r][c].isTarget = false
+                            quizletterset[r][c].isChoice = false
+                            quizletterset[r][c].isChosen = false
+                        }
+                    }
+                }
+            } else {
+                // Quiz page
+                for (let r=0;r<6;r++) {
+                    for (let c=0;c<15;c++) {
+                        if (!quizletterset[r][c]||quizletterset[r][c].isWord) {
+                            // pass
+                        } else {
+                            quizletterset[r][c].isTarget = false
+                            quizletterset[r][c].isChoice = false
+                            quizletterset[r][c].isChosen = false
+                        }
+                    }
+                }
+            }
             // create wordspace
             try {
                 let wordspace = {'0,0':null, '1,0':null, '0,1':null, '1,1':null, '0,2':null, '1,2':null}
-                target.value = chosen.value[0]
+                target = chosen[0]
 
                 for (let r=0;r<3;r++) {
-                    let row = quizletterset.value[target.value.row+r]
+                    let row = quizletterset[target.row+r]
 
                     for (let c=0;c<2;c++) {
-                        if (row[target.value.col+c].letter == '') {
+                        if (row[target.col+c].letter == '') {
                             wordspace[`${c},${r}`] = null
                         } else {
-                            wordspace[`${c},${r}`] = row[target.value.col+c].letter
+                            wordspace[`${c},${r}`] = row[target.col+c].letter
                         }
                     }
                 }
 
-                useSpace(wordspace, quizletterset.value, target.value, backset.value)
+                useSpace(wordspace, quizletterset, target, backset)
             } catch (error) {
                 if (error.message == 'SpaceError') {
                     // SpaceError
@@ -182,7 +286,6 @@ const quiz = (data, instance, answerset) => {
                     // WordspaceError
                     throw Error('WordspaceError')
                 }
-
             }
             break
     }

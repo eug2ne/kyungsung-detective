@@ -69,23 +69,28 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "inspector_neutral",
-            "line": "탐정 시험을 보러 온건가?"
+            "line": "탐정 시험을 보러 온건가?",
+            "name": "감독관"
           },
           {
             "image": "inspector_neutral",
-            "line": "시험은 총 세 단계로 구성된다."
+            "line": "시험은 총 세 단계로 구성된다.",
+            "name": "감독관"
           },
           {
             "image": "inspector_neutral",
-            "line": "첫 번째 시험과 두 번째 시험은 이곳, 경무대에서 오늘 중으로 모두 치를 것이고,"
+            "line": "첫 번째 시험과 두 번째 시험은 이곳, 경무대에서 오늘 중으로 모두 치를 것이고,",
+            "name": "감독관"
           },
           {
             "image": "inspector_neutral",
-            "line": "세 번째 시험은 실제 현장에서 파견 감독관의 동행 하에 3일간 치러질 것이다."
+            "line": "세 번째 시험은 실제 현장에서 파견 감독관의 동행 하에 3일간 치러질 것이다.",
+            "name": "감독관"
           },
           {
             "image": "inspector_neutral",
-            "line": "받아라. 첫 번째 시험이다."
+            "line": "받아라. 첫 번째 시험이다.",
+            "name": "감독관"
           }
         ],
         event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {id: "test1_inspector", data: "inspector-clue"} }
@@ -94,11 +99,13 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "inspector_neutral",
-            "line": "뭐지."
+            "line": "뭐지.",
+            "name": "감독관"
           },
           {
             "image": "inspector_neutral",
-            "line": "정답을 알아낸게 아니면 말을 걸지말라."
+            "line": "정답을 알아낸게 아니면 말을 걸지말라.",
+            "name": "감독관"
           }
         ],
         event: null
@@ -107,11 +114,13 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "inspector_smile",
-            "line": "오호. 제법이군. 정답이다."
+            "line": "오호. 제법이군. 정답이다.",
+            "name": "감독관"
           },
           {
             "image": "inspector_smile",
-            "line": "두 번째 시험은 나를 따라오도록."
+            "line": "두 번째 시험은 나를 따라오도록.",
+            "name": "감독관"
           }
         ],
         event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {id: "test1_inspector", data: "inspector-clear"} },
@@ -141,7 +150,8 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "applicant1_neutral",
-            "line": "아...이번 탐정 시험도 낙방하는 거 아닌가. 당장 이번 달 경비는 어디서 번담."
+            "line": "아...이번 탐정 시험도 낙방하는 거 아닌가. 당장 이번 달 경비는 어디서 번담.",
+            "name": "???"
           }
         ]
       }
@@ -178,11 +188,13 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "applicant2_smile",
-            "line": "후후후 내 예감이 확실히 말해주고 있어."
+            "line": "후후후 내 예감이 확실히 말해주고 있어.",
+            "name": "???"
           },
           {
             "image": "applicant2_smile",
-            "line": "확실해! 붉은 마패는 여기 있어!"
+            "line": "확실해! 붉은 마패는 여기 있어!",
+            "name": "???"
           }
         ]
       }
@@ -213,7 +225,8 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "applicant3_think",
-            "line": "흠...붉은 마패..붉은 마패라...."
+            "line": "흠...붉은 마패..붉은 마패라....",
+            "name": "???"
           }
         ]
       }
@@ -244,15 +257,18 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "applicant4_neutral",
-            "line": "오오오 보인다!"
+            "line": "오오오 보인다!",
+            "name": "???"
           },
           {
             "image": "applicant4_neutral",
-            "line": "보여..! 역시..그런 거였어!!"
+            "line": "보여..! 역시..그런 거였어!!",
+            "name": "???"
           },
           {
             "image": "applicant4_neutral",
-            "line": "예? 그게 아니라구요 선생님?"
+            "line": "예? 그게 아니라구요 선생님?",
+            "name": "???"
           },
           {
             "image": null,
@@ -287,11 +303,13 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "applicant5_sad",
-            "line": "역시 당신이 '붉은 마패' 맞잖아요!"
+            "line": "역시 당신이 '붉은 마패' 맞잖아요!",
+            "name": "???"
           },
           {
             "image": "guard_neutral",
-            "line": "거 그만두게도! 자꾸 이러면 형법에 따라 응당 값을 치르게 될 것이야!"
+            "line": "거 그만두게도! 자꾸 이러면 형법에 따라 응당 값을 치르게 될 것이야!",
+            "name": "수문장"
           }
         ]
       }
@@ -388,11 +406,13 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "newspaper_smile1",
-            "line": "신문 사세요."
+            "line": "신문 사세요.",
+            "name": "???"
           },
           {
             "image": "newspaper_smile1",
-            "line": "오늘자 신문 팝니다. 신문 사세요."
+            "line": "오늘자 신문 팝니다. 신문 사세요.",
+            "name": "???"
           }
         ],
         event: null
@@ -401,18 +421,36 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "sami_sure2",
-            "line": "'붉은 마패' 한 부 주세요."
+            "line": "'붉은 마패' 한 부 주세요.",
+            "name": "사미"
           },
           {
             "image": "newspaper_smile1",
-            "line": "탐정 시험 보러오셨군요."
+            "line": "탐정 시험 보러오셨군요.",
+            "name": "신문팔이"
           },
           {
             "image": "newspaper_smile2",
-            "line": "여깄습니다. 남은 시험도 잘 보세요!"
+            "line": "여깄습니다. 남은 시험도 잘 보세요!",
+            "name": "신문팔이"
           }
         ],
         event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {id: "test1_newspaperstand", data: "newspaper-get"} }
+      },
+      "post_a": {
+        dialogue: [
+          {
+            "image": "newspaper_smile1",
+            "line": "신문 사세요.",
+            "name": "신문팔이"
+          },
+          {
+            "image": "newspaper_smile1",
+            "line": "오늘자 신문 팝니다. 신문 사세요.",
+            "name": "신문팔이"
+          }
+        ],
+        event: null
       }
     },
     "spritesheet": "newspaper_sprite",

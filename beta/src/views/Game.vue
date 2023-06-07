@@ -59,6 +59,15 @@ export default {
         }, 3000)
       }
     })
+
+    // reset stage-config + reload page
+    this.emitter.on('reset', () => {
+      useGameStore().$reset()
+      useGameStore().saveGame(this.gameInstance.key, '시작')
+      useGameStore().booted = true // prevent routing to login page
+      
+      this.$router.go()
+    })
   },
   beforeUnmount() {
     if (!this.gameInstance) return

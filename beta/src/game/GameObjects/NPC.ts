@@ -11,7 +11,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   private sprite_key: string
   private anim_config: any
   public readonly dialogue: any
-  private _dialogueKey: string
+  private _dialogueKey: string|undefined
   public readonly options_config: any
 
   constructor(
@@ -43,7 +43,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     super.destroy()
   }
 
-  public set dialogueKey(key: string) {
+  public set dialogueKey(key: string|undefined) {
     if ((key === 'clue'||key === 'answer')&&this.dialogue[key].check) {
       // check player.item_carry (from gameStore)
       const item_id = this.dialogue[key].check
@@ -88,9 +88,9 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     })
 
     // start-talking event
-    this.on('start-talking', (key: { dialogueKey: string, options?: [string] }, cameraX: number, cameraY: number) => {
+    this.on('start-talking', (key: { dialogueKey: string|undefined, options?: [string] }, cameraX: number, cameraY: number) => {
       const { dialogueKey, options } = key
-      if (!this.dialogue||!this.dialogue[dialogueKey]) return // dialogue do not exist >> pass
+      if (!dialogueKey||!this.dialogue[dialogueKey]) return // dialogue do not exist >> pass
 
       // create dialogue
       const zoom = this.scene.cameras.main.zoom

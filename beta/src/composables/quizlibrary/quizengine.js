@@ -42,9 +42,9 @@ const quizengine = (reverse) => {
             set[row+1][col+1].isChoice = true
             set[row+2][col].isChoice = true
             set[row+2][col+1].isChoice = true
-        } catch (Error) {
+        } catch (error) {
             // WordSpaceError
-            throw 'WordSpaceError'
+            throw Error('WordSpaceError')
         }
 
         return set
@@ -95,7 +95,10 @@ const quizengine = (reverse) => {
         })
 
         const index = Object.values(wordlist).findIndex(element => compare_obj(element, wordspace))
-        if (index != -1) {
+        if (index === -1) {
+            // WordError
+            throw Error('WordError')
+        } else {
             // update pastset
             updatepastSet(pastSet, reset(set))
 
@@ -115,10 +118,9 @@ const quizengine = (reverse) => {
             } else {
                 set[arr[0].row][arr[0].col].isAnswer = false
             }
-        } else {
-            // WordError
-            throw Error('WordError')
         }
+        // reset arr
+        arr.length = 0
 
         return arr, set, pastSet
     }

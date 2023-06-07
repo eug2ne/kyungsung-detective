@@ -36,12 +36,14 @@ const qevent_config = {
       '핏발 선 눈, 말라있는 입 안',
       {
         'image': 'sami_neutral',
-        'line': '이건 탈륨 중독 증상이야!'
+        'line': '이건 탈륨 중독 증상이야!',
+        'name': '사미'
       },
       '탈륨은 살충제나 쥐약에 많이 들어가는데다, 무색무취에 물에 잘 녹는 특징이 있지.',
       {
         'image': 'victim_neutral',
-        'line': '이제 밝혀내야 할 건 누가 언제, 어떻게 피해자를 중독시켰느냐야.'
+        'line': '이제 밝혀내야 할 건 누가 언제, 어떻게 피해자를 중독시켰느냐야.',
+        'name': '김철수(고인)'
       }
     ],
     event: { eventKey: 'WIN3vIY76B5ZHa13x70c', eventData: {quiz_id: 'WIN3vIY76B5ZHa13x70c', route: '시작.1.subClues.0'} }
@@ -54,15 +56,18 @@ const qevent_config = {
       '재정이 어려워지고 나서부터 가계부 관리가 소홀해진 탓에 그 전까지는 꼼꼼하게 기록되었던 사용인 기록도 없어져서 확실하지는 않지만,',
       {
         'image': 'sami_neutral',
-        'line': '집 안에 사용인이 안연정 밖에 없는 걸로 봐서 가계가 기우니까 안연정을 제외한 나머지 사용인들을 정리한 건 확실해.'
+        'line': '집 안에 사용인이 안연정 밖에 없는 걸로 봐서 가계가 기우니까 안연정을 제외한 나머지 사용인들을 정리한 건 확실해.',
+        'name': '사미'
       },
       {
         'image': 'sami_neutral',
-        'line': '..하지만 사용인 기록이 없어진 이유가 관리해야 할 사람이 한 명 밖에 없어서인지,'
+        'line': '..하지만 사용인 기록이 없어진 이유가 관리해야 할 사람이 한 명 밖에 없어서인지,',
+        'name': '사미'
       },
       {
         'image': 'sami_neutral',
-        'line': '그 한 명조차도 제대로 된 관리를 받지 못 하고 있기 때문인지는 모르지.'
+        'line': '그 한 명조차도 제대로 된 관리를 받지 못 하고 있기 때문인지는 모르지.',
+        'name': '사미'
       }
     ],
     event: { eventKey: 'tLJfpFrSVAq5O1sGNs8I', eventData: {quiz_id: 'tLJfpFrSVAq5O1sGNs8I', route: '시작.1.subClues.2'} }
@@ -75,11 +80,13 @@ const qevent_config = {
       '!!',
       {
         'image': 'sami_neutral',
-        'line': '사건을 해결하는데 필요한 모든 단서를 얻었다.'
+        'line': '사건을 해결하는데 필요한 모든 단서를 얻었다.',
+        'name': '사미'
       },
       {
         'image': 'sami_neutral',
-        'line': '이제 남은 건 사건을 해결하는 것뿐!'
+        'line': '이제 남은 건 사건을 해결하는 것뿐!',
+        'name': '사미'
       }
     ],
     event: { eventKey: 'YPnEQwKAwueWEzSmpRdF', eventData: {quiz_id: 'YPnEQwKAwueWEzSmpRdF', route: '시작.1.subClues.0'} }

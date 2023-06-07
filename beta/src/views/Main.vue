@@ -41,6 +41,11 @@ export default {
   },
   methods: {
     changeContent(content) {
+      // set route to Main
+      if (this.$route.name != 'Main') {
+        this.$router.replace('/Game')
+      }
+
       this.showContent.game = false
       this.showContent.inventory = false
       this.showContent.cluenote = false
@@ -50,7 +55,7 @@ export default {
     }
   },
   mounted() {
-    useGameStore().$subscribe((mutation, state) => {
+    useGameStore().$subscribe((mutation) => {
       if (!mutation.payload) return // ignore other events
 
       if (mutation.payload.quiz) {

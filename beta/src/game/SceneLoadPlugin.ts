@@ -28,7 +28,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     color: '#fff'
   })
   private keyboard_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene!, 0, 0,
-    '방향키:이동   Enter:상호작용   Space:대사 건너뛰기',
+    '방향키:이동  Enter:상호작용',
     {
       fontFamily: 'NeoDunggeunmo',
       fontSize: '20px',
@@ -139,8 +139,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
         this.controls.enter.isDown = false
 
         // get dialogueKey + optionKey
-        npc.dialogueKey = scene_config.npc[npc.id].dialogueKey
-        const options = scene_config.npc[npc.id].options
+        npc.dialogueKey = scene_config.npc[npc.id] ? scene_config.npc[npc.id].dialogueKey : undefined
+        const options = scene_config.npc[npc.id] ? scene_config.npc[npc.id].options : undefined
 
         // get cameraX + cameraY
         const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
@@ -153,6 +153,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.controls.cursor.left.enabled = false
       this.controls.cursor.right.enabled = false
       this.controls.cursor.up.enabled = false // cursor disable
+      this.controls.enter.enabled = false // enter disable
     })
     this.scene!.events.on('end-talking', (dialogue?: Dialogue) => {
       this.minimap.visible = true // add minimap
@@ -160,6 +161,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.controls.cursor.left.enabled = true
       this.controls.cursor.right.enabled = true 
       this.controls.cursor.up.enabled = true // cursor enable
+      this.controls.enter.enabled = true // enter enable
 
       dialogue?.destroy()
     })
@@ -190,7 +192,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   update(items: [ Item ], npcs: [ NPC ]) {
     // update keyboard_text.x,y
     const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
-    this.keyboard_text.setPosition(cameraX+650, cameraY+10)
+    this.keyboard_text.setPosition(cameraX+670, cameraY+10)
 
     // set controls
     this.player.setVelocity(0,0)

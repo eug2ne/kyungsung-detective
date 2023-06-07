@@ -1,5 +1,5 @@
 <template>
-  <ErrorPopup :type="showPopup" @ErrorPopupVanish="refreshSet"/>
+  <ErrorPopup v-if="showError" :type="errorType" @ErrorPopupVanish="this.showError=false"/>
   <div class="contents">
     <AccsModal />
     <div class="popup" id="accomplishedSign" v-if="this.q_instance.accomplish">
@@ -23,7 +23,7 @@
         </button>
     </ul>
     </div>
-    <OptionsMenu v-if="!this.q_instance.accomplish ? showOption : false" :x="hint_x" :y="hint_y"
+    <OptionsMenu v-if="!this.q_instance.accomplish ? showOption : false" :x="optionX" :y="optionY"
       @clickOption="show" />
     <div v-if="showDefault" id="default_page">
       <h2>아직 추리 중인 단서가 없습니다!</h2>
@@ -71,9 +71,10 @@ export default {
     data() {
       return {
         showOption: false,
-        hint_x: null,
-        hint_y: null,
-        showPopup: null
+        optionX: null,
+        optionY: null,
+        showError: false,
+        errorType: null
       }
     },
     setup(props) {
@@ -85,17 +86,17 @@ export default {
 
       if (props.set) {
         // if set imported, quizletterset = set
-        d_Set.value = props.set
-        quizletterset.value = props.set
+        d_Set.value = _.cloneDeep(props.set)
         q_instance.value = {
-          'id':props.quiz_id,
-          'quizletterset': d_Set.value,
+          'id': props.quiz_id,
+          'quizletterset': _.cloneDeep(props.set),
           'chosen': [],
           'reverse': false,
           'max_chosen': 6,
           'backset': [],
           'forwardset': []
         }
+        quizletterset.value = q_instance.value.quizletterset
       } else {
         // else, import set from db
         
@@ -113,7 +114,7 @@ export default {
 
             d_Set.value = defaultSet
             q_instance.value = quizinstance
-            quizletterset.value = quizinstance.quizletterset
+            quizletterset.value = q_instance.value.quizletterset
             answerset.value = answerSet
           } catch (err) {
             console.log(err)
@@ -141,7 +142,10 @@ export default {
             quiz({'event':'Word'}, this.q_instance, this.answerset)
           } catch (error) {
             // WordError
-            this.showPopup = 'word'
+            if (error.message === 'WordError') {
+              this.errorType = 'word'
+              this.showError = true
+            }
           }
         } else {
           // toggle target
@@ -150,8 +154,8 @@ export default {
 
           // toggle showHint
           this.showOption = this.quizletterset[data.row][data.col].isTarget
-          this.hint_x = data.x
-          this.hint_y = data.y
+          this.optionX = data.x
+          this.optionY = data.y
         }
       },
       ppChoice(data) {
@@ -160,7 +164,8 @@ export default {
           this.q_instance)
         } catch (error) {
           // MergeError
-          this.showPopup = 'merge'
+          this.errorType = 'merge'
+          this.showError = true
         }
       },
       show(data) {
@@ -175,7 +180,8 @@ export default {
               quiz({'event':'showWord'}, this.q_instance)
             } catch (error) {
               // WordSpaceError
-              this.showPopup = 'wordspace'
+              this.errorType = 'wordspace'
+              this.showError = true
             }
             break
 
@@ -185,11 +191,12 @@ export default {
             } catch (error) {
               if (error.message == 'WordspaceError') {
                 // WordSpaceError
-                this.showPopup = 'wordspace'
+                this.errorType = 'wordspace'
               } else {
                 // SpaceError
-                this.showPopup = 'space'
+                this.errorType = 'space'
               }
+              this.showError = true
             }
             break
         }
@@ -221,15 +228,6 @@ export default {
           this.quizletterset = this.q_instance.quizletterset
         } catch (error) {
           // IndexError
-        }
-      },
-      refreshSet() {
-        for (let r=0;r<6;r++) {
-          for (let c=0;c<15;c++) {
-            this.quizletterset[r][c].isTarget = false
-            this.quizletterset[r][c].isChoice = false
-            this.quizletterset[r][c].isChosen = false
-          }
         }
       }
   },

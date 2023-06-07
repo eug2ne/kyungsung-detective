@@ -31,7 +31,8 @@ const npcs_JSON = [
           {
             question: {
               "image": "maid_smile",
-              "line": "아직 여독이 가시지 않아 피곤하실텐데 오늘은 쉬시는게 어떤가요?"
+              "line": "아직 여독이 가시지 않아 피곤하실텐데 오늘은 쉬시는게 어떤가요?",
+              "name": "사치코"
             }
           }
         ]
@@ -40,7 +41,8 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "maid_smile",
-            "line": "뭘 하시는건 좋은데 일단은 뭐든 드시고 하시지요."
+            "line": "뭘 하시는건 좋은데 일단은 뭐든 드시고 하시지요.",
+            "name": "사치코"
           }
         ],
         event: null
@@ -49,15 +51,18 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "maid_smile",
-            "line": "뭘 할지 계획은 있으신가요?"
+            "line": "뭘 할지 계획은 있으신가요?",
+            "name": "사치코"
           },
           {
             "image": "sami_neutral",
-            "line": "...."
+            "line": "....",
+            "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "(생각해보니 딱히 계획이 없다.)"
+            "line": "(생각해보니 딱히 계획이 없다.)",
+            "name": "사미"
           }
         ],
         event: null
@@ -66,67 +71,83 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "maid_smile",
-            "line": "뭘 할지 계획은 있으신가요?"
+            "line": "뭘 할지 계획은 있으신가요?",
+            "name": "사치코"
           },
           {
             "image": "sami_neutral",
-            "line": "나, 탐정 시험을 보려고."
+            "line": "나, 탐정 시험을 보려고.",
+            "name": "사미"
           },
           {
             "image": "maid_surprise",
-            "line": ".."
+            "line": "..",
+            "name": "사치코"
           },
           {
             "image": "maid_surprise",
-            "line": "..아"
+            "line": "..아",
+            "name": "사치코"
           },
           {
             "image": "maid_neutral",
-            "line": "전 주인님께서 그렇게 가시고 주인님이 같은 길을 가실 생각을 하실 줄은 몰라서.."
+            "line": "전 주인님께서 그렇게 가시고 주인님이 같은 길을 가실 생각을 하실 줄은 몰라서..",
+            "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "(..그렇겟지. 나도 아까 신문을 보기 전까지는 생각하지 않았던 일이니까.)"
+            "line": "(..그렇겟지. 나도 아까 신문을 보기 전까지는 생각하지 않았던 일이니까.)",
+            "name": "사미"
           },
           {
             "image": "sami_smile",
-            "line": "어머니를 위해 할 수 있는 일을 하고 싶어졌어."
+            "line": "어머니를 위해 할 수 있는 일을 하고 싶어졌어.",
+            "name": "사미"
           },
           {
             "image": "maid_surprise",
-            "line": "설마 어머님의 죽음이 의심스러우신가요?"
+            "line": "설마 어머님의 죽음이 의심스러우신가요?",
+            "name": "사치코"
           },
           {
             "image": "sami_neutral",
-            "line": "그럴리가. 그런게 아냐."
+            "line": "그럴리가. 그런게 아냐.",
+            "name": "사미"
           },
           {
             "image": "sami_smile",
-            "line": "어머니는 본인이 탐정인 걸 자랑스러워 하셨으니까"
+            "line": "어머니는 본인이 탐정인 걸 자랑스러워 하셨으니까",
+            "name": "사미"
           },
           {
             "image": "sami_smile",
-            "line": "자식으로서 그 유지를 이어받음으로써 뒤늦게나마 경의를 표하고 싶은거야."
+            "line": "자식으로서 그 유지를 이어받음으로써 뒤늦게나마 경의를 표하고 싶은거야.",
+            "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "(생각해보면 어머니도, 어머니의 일도 그동안 너무 모르고 살았어.)"
+            "line": "(생각해보면 어머니도, 어머니의 일도 그동안 너무 모르고 살았어.)",
+            "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "(이제부터라도 알고싶어. 이대로 모르는채로 덮어놓고 흘려보내고 싶지 않아.)"
+            "line": "(이제부터라도 알고싶어. 이대로 모르는채로 덮어놓고 흘려보내고 싶지 않아.)",
+            "name": "사미"
           },
           {
             "image": "maid_neutral",
-            "line": "...."
+            "line": "....",
+            "name": "사치코"
           },
           {
             "image": "maid_smile",
-            "line": "..저는 주인님이 어떤 길을 가시든 진심으로 응원해요."
+            "line": "..저는 주인님이 어떤 길을 가시든 진심으로 응원해요.",
+            "name": "사미"
           },
           {
             "image": "sami_smile",
-            "line": "이해해줘서 고마워, 사치코"
+            "line": "이해해줘서 고마워, 사치코",
+            "name": "사미"
           }
         ],
         event: { eventKey: "breakfast-event-npc0", eventData: {id: "breakfast_maid", data: "option-clear"} }

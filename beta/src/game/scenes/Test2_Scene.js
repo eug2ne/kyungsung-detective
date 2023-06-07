@@ -36,7 +36,8 @@ const npcs_JSON = [
           {
             question: {
               image: "suspect1_neutral",
-              line: "박유신에게 질문을 해보자."
+              line: "박유신에게 질문을 해보자.",
+              name: "박유신"
             }
           }
         ]
@@ -45,11 +46,13 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "suspect1_neutral",
-            "line": "저는 오늘 돈 문제로 얘기할 게 있어서 철수네 집에 왔어요."
+            "line": "저는 오늘 돈 문제로 얘기할 게 있어서 철수네 집에 왔어요.",
+            "name": "박유신"
           },
           {
             "image": "suspect1_neutral",
-            "line": "오래 있지는 않았습니다. 아마 1시간도 안돼서 떠난 걸로 기억합니다."
+            "line": "오래 있지는 않았습니다. 아마 1시간도 안돼서 떠난 걸로 기억합니다.",
+            "name": "박유신"
           }
         ],
         event: {eventKey: "test2-event-timelineUpdate", eventData: {id: "test2_suspect1", data: "suspect1-time"}}
@@ -58,15 +61,18 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "suspect1_neutral",
-            "line": "철수랑 얘기를 하다가 몸싸움이 좀 있었던 건 사실입니다."
+            "line": "철수랑 얘기를 하다가 몸싸움이 좀 있었던 건 사실입니다.",
+            "name": "박유신"
           },
           {
             "image": "suspect1_neutral",
-            "line": "하지만 심하게 싸운 건 아니었어요."
+            "line": "하지만 심하게 싸운 건 아니었어요.",
+            "name": "박유신"
           },
           {
             "image": "suspect1_neutral",
-            "line": "서로 멱살 정도만 잡았는데, 그 정도는 평소에도 으레 있는 일이었어요."
+            "line": "서로 멱살 정도만 잡았는데, 그 정도는 평소에도 으레 있는 일이었어요.",
+            "name": "박유신"
           },
           {
             "image": null,
@@ -79,11 +85,13 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "sami_neutral",
-            "line": "박유신씨, 커피를 대접받았을 때 두 분 중 냉커피를 마신 분이 있습니까?"
+            "line": "박유신씨, 커피를 대접받았을 때 두 분 중 냉커피를 마신 분이 있습니까?",
+            "name": "사미"
           },
           {
             "image": "suspect1_neutral",
-            "line": "네, 철수가 냉커피를 마셨습니다. 항상 몸에 열이 많아서 따뜻한 건 자기랑 잘 안 맞는다고 했어요."
+            "line": "네, 철수가 냉커피를 마셨습니다. 항상 몸에 열이 많아서 따뜻한 건 자기랑 잘 안 맞는다고 했어요.",
+            "name": "박유신"
           }
         ],
         event: {eventKey: "YPnEQwKAwueWEzSmpRdF", eventData: {id: "test2_suspect1", data: "suspect1-coffee"}}
@@ -92,19 +100,23 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "suspect1_neutral",
-            "line": "당연히 저 동생이란 놈이겠죠."
+            "line": "당연히 저 동생이란 놈이겠죠.",
+            "name": "박유신"
           },
           {
             "image": "suspect1_neutral",
-            "line": "제 주변에서도 가족끼리 싸우는 가장 큰 이유가 뭔지 아세요? 다 돈이에요, 돈."
+            "line": "제 주변에서도 가족끼리 싸우는 가장 큰 이유가 뭔지 아세요? 다 돈이에요, 돈.",
+            "name": "박유신"
           },
           {
             "image": "suspect1_neutral",
-            "line": "말로만 우애 다지기야 쉽죠. 그래봤자 돈 앞에서는 가족도 변절하는게 사람입니다."
+            "line": "말로만 우애 다지기야 쉽죠. 그래봤자 돈 앞에서는 가족도 변절하는게 사람입니다.",
+            "name": "박유신"
           },
           {
             "image": "suspect2_neutral",
-            "line": "이 양아치가! 날 너 같은 인륜을 우습게 아는 놈이랑 동급으로 취급하지마! 너나 사람 죽이는게 우습겠지!"
+            "line": "이 양아치가! 날 너 같은 인륜을 우습게 아는 놈이랑 동급으로 취급하지마! 너나 사람 죽이는게 우습겠지!",
+            "name": "김현수"
           }
         ],
         event: {eventKey: "suspicion", eventData: {id: "test2_suspect1", data: "suspect1-suspicion.test2_suspect2"}}
@@ -113,7 +125,8 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "suspect1_neutral",
-            "line": "뭐죠? 이미 저를 범인으로 확신하시는 모양인데 더 물을 것이 있습니까?"
+            "line": "뭐죠? 이미 저를 범인으로 확신하시는 모양인데 더 물을 것이 있습니까?",
+            "name": "박유신"
           }
         ]
       }
@@ -169,7 +182,8 @@ const npcs_JSON = [
           {
             question: {
               image: "suspect2_neutral",
-              line: "김현수에게 질문을 해보자."
+              line: "김현수에게 질문을 해보자.",
+              name: "김현수"
             }
           }
         ]
@@ -178,11 +192,13 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "suspect2_neutral",
-            "line": "저는 방금 이 집에 왔습니다."
+            "line": "저는 방금 이 집에 왔습니다.",
+            "name": "김현수"
           },
           {
             "image": "suspect2_neutral",
-            "line": "제가 방문을 열자마자 형님이 이미 돌아가신 걸 발견했습니다."
+            "line": "제가 방문을 열자마자 형님이 이미 돌아가신 걸 발견했습니다.",
+            "name": "김현수"
           }
         ],
         event: {eventKey: "test2-event-timelineUpdate", eventData: {id: "test2_suspect2", data: "suspect2-time"}}
@@ -191,27 +207,33 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "suspect2_neutral",
-            "line": "윽, 그건.."
+            "line": "윽, 그건..",
+            "name": "김현수"
           },
           {
             "image": "suspect2_neutral",
-            "line": "..부모님이 장남이란 이유로 형님에게만 거의 모든 유산을 물려주신 건 사실입니다."
+            "line": "..부모님이 장남이란 이유로 형님에게만 거의 모든 유산을 물려주신 건 사실입니다.",
+            "name": "김현수"
           },
           {
             "image": "sami_sus",
-            "line": "심지어 경제관념 없이 돈을 펑펑 쓰기만 하니 불만이 상당했을 것 같군요."
+            "line": "심지어 경제관념 없이 돈을 펑펑 쓰기만 하니 불만이 상당했을 것 같군요.",
+            "name": "사미"
           },
           {
             "image": "suspect2_neutral",
-            "line": "그걸 그렇게 딱 짚어서 말씀하시니 변명할 수도 없네요.."
+            "line": "그걸 그렇게 딱 짚어서 말씀하시니 변명할 수도 없네요..",
+            "name": "김현수"
           },
           {
             "image": "suspect2_neutral",
-            "line": "인정하겠습니다. 형님에게만 유산을 물려준 부모님도, 그 유산을 여흥에만 낭비하는 형님도 모두 원망스러웠습니다."
+            "line": "인정하겠습니다. 형님에게만 유산을 물려준 부모님도, 그 유산을 여흥에만 낭비하는 형님도 모두 원망스러웠습니다.",
+            "name": "김현수"
           },
           {
             "image": "suspect2_neutral",
-            "line": "하지만 그 돈이 형님의 목숨값보다 중하지는 않았습니다! 형님을 해쳐서 나오는 돈이라면 안 받느니만 못 합니다!"
+            "line": "하지만 그 돈이 형님의 목숨값보다 중하지는 않았습니다! 형님을 해쳐서 나오는 돈이라면 안 받느니만 못 합니다!",
+            "name": "김현수"
           }
         ],
         event: {eventKey: "test2-event-heritage", eventData: {id: "test2_suspect2", data: "suspect2-heritage"}}
@@ -220,23 +242,28 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "sami_neutral",
-            "line": "듣자하니 안연정씨가 이 집에서 굉장히 오랜 시간 일하신 것 같습니다."
+            "line": "듣자하니 안연정씨가 이 집에서 굉장히 오랜 시간 일하신 것 같습니다.",
+            "name": "사미"
           },
           {
             "image": "suspect2_neutral",
-            "line": "아무래도 저희 어릴 때 들어오셔서 부모님부터 모시기 시작했으니까요."
+            "line": "아무래도 저희 어릴 때 들어오셔서 부모님부터 모시기 시작했으니까요.",
+            "name": "김현수"
           },
           {
             "image": "sami_neutral",
-            "line": "안연정씨가 피해자와 과거에 갈등이 있었던 적이 있나요?"
+            "line": "안연정씨가 피해자와 과거에 갈등이 있었던 적이 있나요?",
+            "name": "사미"
           },
           {
             "image": "suspect2_neutral",
-            "line": "네? 아뇨, 그럴리가요. 저희도 어릴 때부터 안연정씨를 잘 따랐고, 부모님도 항상 안연정씨의 능력을 높이 샀는걸요."
+            "line": "네? 아뇨, 그럴리가요. 저희도 어릴 때부터 안연정씨를 잘 따랐고, 부모님도 항상 안연정씨의 능력을 높이 샀는걸요.",
+            "name": "김현수"
           },
           {
             "image": "suspect2_neutral",
-            "line": "안연정씨만큼 성실하고, 훌륭한 분을 가정부로 둘 수 있다는게 얼마나 행운인데요."
+            "line": "안연정씨만큼 성실하고, 훌륭한 분을 가정부로 둘 수 있다는게 얼마나 행운인데요.",
+            "name": "김현수"
           }
         ],
         event: {eventKey: "tLJfpFrSVAq5O1sGNs8I", eventData: {id: "test2_suspect2", data: "suspect2-suspect3"}}
@@ -245,23 +272,28 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "suspect2_neutral",
-            "line": "저는 역시 저 박유신이라는 양아치가 가장 수상합니다."
+            "line": "저는 역시 저 박유신이라는 양아치가 가장 수상합니다.",
+            "name": "김현수"
           },
           {
             "image": "suspect2_neutral",
-            "line": "형님도 본래 이렇게 여흥에 돈을 낭비하는 분이 아니셨습니다."
+            "line": "형님도 본래 이렇게 여흥에 돈을 낭비하는 분이 아니셨습니다.",
+            "name": "김현수"
           },
           {
             "image": "suspect2_neutral",
-            "line": "그런데 어느날부터 저 박유신이란 작자와 어울리기 시작하더니 나쁜 물이 들어서 이 지경까지 되었습니다."
+            "line": "그런데 어느날부터 저 박유신이란 작자와 어울리기 시작하더니 나쁜 물이 들어서 이 지경까지 되었습니다.",
+            "name": "김현수"
           },
           {
             "image": "suspect1_neutral",
-            "line": "너네 그 잘난 형님이 노는 모습을 직접 봤으면 그런 소리는 입 밖에도 못 내밀텐데!"
+            "line": "너네 그 잘난 형님이 노는 모습을 직접 봤으면 그런 소리는 입 밖에도 못 내밀텐데!",
+            "name": "박유신"
           },
           {
             "image": "suspect1_neutral",
-            "line": "자기 손으로 가산 말아먹은 것도 내 탓이고, 이제는 너네 형님 죽음까지 내 탓이다!"
+            "line": "자기 손으로 가산 말아먹은 것도 내 탓이고, 이제는 너네 형님 죽음까지 내 탓이다!",
+            "name": "박유신"
           }
         ],
         event: { eventKey: "suspicion", eventData: {id: "test2_suspect2", data: "suspect1-suspicion.test2_suspect1"}}
@@ -270,7 +302,8 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "suspect2_neutral",
-            "line": "저 양아치의 말을 믿으시는 겁니까? 제가 형님을 죽였다고?!"
+            "line": "저 양아치의 말을 믿으시는 겁니까? 제가 형님을 죽였다고?!",
+            "name": "김현수"
           }
         ]
       }
@@ -326,7 +359,8 @@ const npcs_JSON = [
           {
             question: {
               image: "suspect3_neutral",
-              line: "안연정에게 질문을 해보자."
+              line: "안연정에게 질문을 해보자.",
+              name: "안연정"
             }
           }
         ]
@@ -335,23 +369,28 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "suspect3_neutral",
-            "line": "저는 오늘 오전에 친구분이 오셨을 때 커피를 내려 방에 들인 것 빼고는 서재에 들어간 적이 없습니다."
+            "line": "저는 오늘 오전에 친구분이 오셨을 때 커피를 내려 방에 들인 것 빼고는 서재에 들어간 적이 없습니다.",
+            "name": "안연정"
           },
           {
             "image": "sami_neutral",
-            "line": "박유신씨가 떠난 뒤에도요?"
+            "line": "박유신씨가 떠난 뒤에도요?",
+            "name": "사미"
           },
           {
             "image": "suspect3_neutral",
-            "line": "네. 박유신씨가 집까지 와서 좋았던 적이 거의 없다보니, 굳이 도련님 기분이 안 좋을 때 마주치고 싶지 않았거든요.."
+            "line": "네. 박유신씨가 집까지 와서 좋았던 적이 거의 없다보니, 굳이 도련님 기분이 안 좋을 때 마주치고 싶지 않았거든요..",
+            "name": "안연정"
           },
           {
             "image": "sami_neutral",
-            "line": "박유신씨가 방문하시는 동안 수상한 점은 없었습니까?"
+            "line": "박유신씨가 방문하시는 동안 수상한 점은 없었습니까?",
+            "name": "사미"
           },
           {
             "image": "suspect3_neutral",
-            "line": "그러고보니 두 분이 싸우는 소리가 서재 밖까지 들렸습니다!"
+            "line": "그러고보니 두 분이 싸우는 소리가 서재 밖까지 들렸습니다!",
+            "name": "안연정"
           }
         ],
         event: {eventKey: "WIN3vIY76B5ZHa13x70c", eventData: {id: "test2_suspect3", data: "suspect3-time"}}
@@ -360,15 +399,18 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "sami_neutral",
-            "line": "집안 장부를 봤습니다. 안연정씨 이름이 오래 전 사용인 기록에도 나와있더군요."
+            "line": "집안 장부를 봤습니다. 안연정씨 이름이 오래 전 사용인 기록에도 나와있더군요.",
+            "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "이 집에서 오랫동안 근무하신 것 같습니다."
+            "line": "이 집에서 오랫동안 근무하신 것 같습니다.",
+            "name": "사미"
           },
           {
             "image": "suspect3_neutral",
-            "line": "맞습니다. 도련님들이 어릴 때부터 이 집안을 관리해왔습니다."
+            "line": "맞습니다. 도련님들이 어릴 때부터 이 집안을 관리해왔습니다.",
+            "name": "안연정"
           }
         ],
         event: null
@@ -377,43 +419,53 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "sami_neutral",
-            "line": "장부에서 한 가지 이상한 점을 봤었습니다."
+            "line": "장부에서 한 가지 이상한 점을 봤었습니다.",
+            "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "몇 년간 꾸준히 있었던 사용인들에 대한 기록이 최근 들어서 점점 줄어들었어요."
+            "line": "몇 년간 꾸준히 있었던 사용인들에 대한 기록이 최근 들어서 점점 줄어들었어요.",
+            "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "아마 피해자가 금전 문제가 생기면서 집안 살림을 줄이려고 사용인들을 정리하면서 그렇게 된 것 같은데,"
+            "line": "아마 피해자가 금전 문제가 생기면서 집안 살림을 줄이려고 사용인들을 정리하면서 그렇게 된 것 같은데,",
+            "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "어느 순간부터는 사용인 기록이 아예 없어졌습니다."
+            "line": "어느 순간부터는 사용인 기록이 아예 없어졌습니다.",
+            "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "이 집안에서 남은 사용인은 안연정씨뿐이라 기록이 누락된 거라고 생각할 수도 있지만,"
+            "line": "이 집안에서 남은 사용인은 안연정씨뿐이라 기록이 누락된 거라고 생각할 수도 있지만,",
+            "name": "사미"
           },
           {
             "image": "sami_sus",
-            "line": "저는 당신이 오랫동안 임금을 받지 못 했기 때문에 기록에 없는 것이라고 생각됩니다."
+            "line": "저는 당신이 오랫동안 임금을 받지 못 했기 때문에 기록에 없는 것이라고 생각됩니다.",
+            "name": "사미"
           },
           {
             "image": "suspect3_neutral",
-            "line": "그걸 어떻게..!"
+            "line": "그걸 어떻게..!",
+            "name": "안연정"
           },
           {
             "image": "suspect3_neutral",
-            "line": "네, 맞아요. 몇 달 간 급여를 받지 못 하고 있습니다."
+            "line": "네, 맞아요. 몇 달 간 급여를 받지 못 하고 있습니다.",
+            "name": "안연정"
           },
           {
             "image": "suspect3_neutral",
-            "line": "설마 그것 때문에 저를 의심하시는 건 아니죠?"
+            "line": "설마 그것 때문에 저를 의심하시는 건 아니죠?",
+            "name": "안연정"
           },
           {
             "image": "suspect3_neutral",
-            "line": "주인님을 죽인다고 없던 돈이 생기는 것도 아닌데 제가 왜 그런 짓을 하겠습니까?"
+            "line": "주인님을 죽인다고 없던 돈이 생기는 것도 아닌데 제가 왜 그런 짓을 하겠습니까?",
+            "name": "안연정"
           }
         ],
         event: {eventKey: "tLJfpFrSVAq5O1sGNs8I", eventData: {id: "test2_suspect3", data: "suspect3-pay"}}
@@ -422,31 +474,33 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "sami_neutral",
-            "line": "이 집에서 오래 일하셨으니 피해자와 동생분인 김현수씨에 대해서도 잘 아시겠군요."
+            "line": "이 집에서 오래 일하셨으니 피해자와 동생분인 김현수씨에 대해서도 잘 아시겠군요.",
+            "name": "사미"
           },
           {
             "image": "suspect3_neutral",
-            "line": "그럼요! 어릴 때부터 봐온 사이인걸요."
+            "line": "그럼요! 어릴 때부터 봐온 사이인걸요.",
+            "name": "안연정"
           },
           {
             "image": "sami_neutral",
-            "line": "김현수씨와 피해자의 사이는 생전에 어땠나요?"
+            "line": "김현수씨와 피해자의 사이는 생전에 어땠나요?",
+            "name": "사미"
           },
           {
             "image": "suspect3_neutral",
-            "line": "어릴 때부터 우애가 좋은 형제였어요. 최근 유산 문제 때문에 사이가 틀어지시긴 했지만.."
-          },
-          {
-            "image": "sami_neutral",
-            "line": "유산 문제가 있었다는 걸 알고 있었습니까?"
+            "line": "어릴 때부터 우애가 좋은 형제였어요. 최근 유산 문제 때문에 사이가 틀어지시긴 했지만..",
+            "name": "안연정"
           },
           {
             "image": "suspect3_neutral",
-            "line": "알고 있었죠. 그것 때문에 두 분이 갈라진게 안타까워요."
+            "line": "그것 때문에 두 분이 갈라진게 안타까워요.",
+            "name": "안연정"
           },
           {
             "image": "suspect3_neutral",
-            "line": "전 주인분들도 너무하시지. 현수 도련님이 가업을 이어받으려고 얼마나 성실하게 노력하셨는지 아시면서, 장남이란 이유로 모든 걸 주인님에게 물려주시고.."
+            "line": "전 주인분들도 너무하시지. 현수 도련님이 가업을 이어받으려고 얼마나 성실하게 노력하셨는지 아시면서, 장남이란 이유로 모든 걸 주인님에게 물려주시고..",
+            "name": "안연정"
           }
         ],
         event: {eventKey: "test2-event-heritage", eventData: {id: "test2_suspect3", data: "suspect3-suspect2"}}
@@ -455,23 +509,28 @@ const npcs_JSON = [
         dialogue: [
           {
             "image": "suspect3_neutral",
-            "line": "제가 감히 누군가를 범인으로 몰 자격이 있는지 모르겠으나"
+            "line": "제가 감히 누군가를 범인으로 몰 자격이 있는지 모르겠으나",
+            "name": "안연정"
           },
           {
             "image": "suspect3_neutral",
-            "line": "굳이 지목한다면 역시 저 친구라는 자겠지요."
+            "line": "굳이 지목한다면 역시 저 친구라는 자겠지요.",
+            "name": "안연정"
           },
           {
             "image": "suspect3_neutral",
-            "line": "서재에서 단둘이 있을 때 싸우는 소리가 나지않았습니까?"
+            "line": "서재에서 단둘이 있을 때 싸우는 소리가 나지않았습니까?",
+            "name": "안연정"
           },
           {
             "image": "suspect3_neutral",
-            "line": "그리고 저 자를 만나고부터 주인님이 망가져가는 모습을 직접 본 입장에서 됨됨이를 전혀 믿을 수 없는 자입니다."
+            "line": "그리고 저 자를 만나고부터 주인님이 망가져가는 모습을 직접 본 입장에서 됨됨이를 전혀 믿을 수 없는 자입니다.",
+            "name": "안연정"
           },
           {
             "image": "suspect1_neutral",
-            "line": "뭐야? 이 아녀자가 뭣도 모르면서 무슨 소리를 지껄이는 거야?!"
+            "line": "뭐야? 이 아녀자가 뭣도 모르면서 무슨 소리를 지껄이는 거야?!",
+            "name": "박유신"
           }
         ],
         event: { eventKey: "suspicion", eventData: {id: "test2_suspect3", data: "suspect3-suspicion.test2_suspect1"}}
@@ -759,75 +818,93 @@ export default class Test2 extends Phaser.Scene {
           dialogue: [
             {
               image: "inspector_neutral",
-              line: "두 번째 시험은 모의 수사다."
+              line: "두 번째 시험은 모의 수사다.",
+              name: "감독관"
             },
             {
               image: "inspector_neutral",
-              line: "사건에 대해 설명하겠다. 피해자의 이름은 김철수."
+              line: "사건에 대해 설명하겠다. 피해자의 이름은 김철수.",
+              name: "감독관"
             },
             {
               image: "victim_neutral",
-              line: "나이는 29세. 지병 없이 건강하고 건장한 체형이나 오늘 오후 자택에서 숨진채 발견되었다."
+              line: "나이는 29세. 지병 없이 건강하고 건장한 체형이나 오늘 오후 자택에서 숨진채 발견되었다.",
+              name: "김철수(고인)"
             },
             {
               image: "suspect2_neutral",
-              line: "피해자를 가장 먼저 발견한 건 자택을 방문한 동생인 김현수."
+              line: "피해자를 가장 먼저 발견한 건 자택을 방문한 동생인 김현수.",
+              name: "김현수"
             },
             {
               image: "inspector_neutral",
-              line: "그 외에 사건 전후로 현장에 드나들었던 사람들은,"
+              line: "그 외에 사건 전후로 현장에 드나들었던 사람들은,",
+              name: "감독관"
             },
             {
               image: "suspect1_neutral",
-              line: "오전 중에 피해자를 방문했던 친구, 박유신"
+              line: "오전 중에 피해자를 방문했던 친구, 박유신",
+              name: "박유신"
             },
             {
               image: "suspect3_neutral",
-              line: "자택에서 일하는 가정부, 안연정이다."
+              line: "자택에서 일하는 가정부, 안연정이다.",
+              name: "안연정"
             },
             {
               image: "inspector_neutral",
-              line: "방 안을 조사하고 용의자들과 대화하여 사건의 전말을 밝히도록."
+              line: "방 안을 조사하고 용의자들과 대화하여 사건의 전말을 밝히도록.",
+              name: "감독관"
             },
             {
               image: "inspector_neutral",
-              line: "비록 이 방은 가상의 사건을 재현한 공간이고, 용의자들은 연기자이나 실제 사건처럼 진지하게 임하길 바란다."
+              line: "비록 이 방은 가상의 사건을 재현한 공간이고, 용의자들은 연기자이나 실제 사건처럼 진지하게 임하길 바란다.",
+              name: "감독관"
             },
             {
               image: "applicant4_neutral",
-              line: "훗 이 정도는 너무 쉽군."
+              line: "훗 이 정도는 너무 쉽군.",
+              name: "???"
             },
             {
               image: "applicant4_neutral",
-              line: "범인은 친구인 박유신이다!"
+              line: "범인은 친구인 박유신이다!",
+              name: "???"
             },
             {
               image: "inspector_neutral",
-              line: "근거는?"
+              line: "근거는?",
+              name: "감독관"
             },
             {
               image: "applicant4_neutral",
-              line: "뱀눈은 전형적인 범죄자상이지."
+              line: "뱀눈은 전형적인 범죄자상이지.",
+              name: "???"
             },
             {
               image: "applicant4_neutral",
-              line: "거기다 콧대와 콧방울이 얇아 자기 재산도 지키지 못 하는 상이군."
+              line: "거기다 콧대와 콧방울이 얇아 자기 재산도 지키지 못 하는 상이군.",
+              name: "???"
             },
             {
               image: "applicant4_neutral",
-              line: "그렇다면 뻔하지. 피해자와 돈 문제 때문에 다투고 홧김에 죽인거야!"
+              line: "그렇다면 뻔하지. 피해자와 돈 문제 때문에 다투고 홧김에 죽인거야!",
+              name: "???"
             },
             {
               image: "applicant4_neutral",
-              line: "10년간 관상을 봐온 내 경력이 확실히 증명한다!"
+              line: "10년간 관상을 봐온 내 경력이 확실히 증명한다!",
+              name: "???"
             },
             {
               image: "inspector_neutral",
-              line: "...."
+              line: "....",
+              name: "감독관"
             },
             {
               image: "sami_neutral",
-              line: "...."
+              line: "....",
+              name: "사미"
             }
           ],
           event: { eventKey: "start", eventData: {data: "no-clue"} }
@@ -844,87 +921,108 @@ export default class Test2 extends Phaser.Scene {
       const d_data = [
         {
           'image': 'sami_neutral',
-          'line': '사건은 해결됐습니다!'
+          'line': '사건은 해결됐습니다!',
+          'name': '사미'
         },
         {
           'image': 'sami_neutral',
-          'line': '범인은 피해자가 마신 냉커피의 얼음에 탈륨을 섞어, 얼음이 녹으면서 피해자가 치사량의 탈륨을 서서히 마시도록 만들었습니다.'
+          'line': '범인은 피해자가 마신 냉커피의 얼음에 탈륨을 섞어, 얼음이 녹으면서 피해자가 치사량의 탈륨을 서서히 마시도록 만들었습니다.',
+          'name': '사미'
         },
         {
           'image': 'sami_neutral',
-          'line': '그래서 피해자는 친구인 박유신이 떠날 때까지는 멀쩡할 수 있었던 겁니다.'
+          'line': '그래서 피해자는 친구인 박유신이 떠날 때까지는 멀쩡할 수 있었던 겁니다.',
+          'name': '사미'
         },
         {
           'image': 'sami_neutral',
-          'line': '그리고 이게 가능한 사람은 한 명뿐이죠.'
+          'line': '그리고 이게 가능한 사람은 한 명뿐이죠.',
+          'name': '사미'
         },
         {
           'image': 'suspect3_neutral',
-          'line': '바로 가정부인 안연정씨!'
+          'line': '바로 가정부인 안연정씨!',
+          'name': '안연정'
         },
         {
           'image': 'suspect3_neutral',
-          'line': '안연정씨는 친구인 박유신씨가 방문했을 때 피해자의 커피에 탈륨이 든 얼음을 넣었습니다.'
+          'line': '안연정씨는 친구인 박유신씨가 방문했을 때 피해자의 커피에 탈륨이 든 얼음을 넣었습니다.',
+          'name': '사미'
         },
         {
           'image': 'sami_neutral',
-          'line': '얼음이 녹으면서 탈륨이 서서히 커피에 퍼졌기 때문에 피해자가 사망한 건 박유신씨가 떠난 다음이었죠.'
+          'line': '얼음이 녹으면서 탈륨이 서서히 커피에 퍼졌기 때문에 피해자가 사망한 건 박유신씨가 떠난 다음이었죠.',
+          'name': '사미'
         },
         {
           'image': 'suspect1_neutral',
-          'line': '얼음이 다 녹은 뒤에는 탈륨의 출처를 알 수 없으므로 안연정씨는 본인의 알리바이를 확보하는 동시에 박유신씨에게 의심이 가도록 만든 겁니다.'
+          'line': '얼음이 다 녹은 뒤에는 탈륨의 출처를 알 수 없으므로 안연정씨는 본인의 알리바이를 확보하는 동시에 박유신씨에게 의심이 가도록 만든 겁니다.',
+          'name': '사미'
         },
         {
           'image': 'inspector_neutral',
-          'line': '일리있는 설명이군. 그렇다면 안연정의 살해 동기는?'
+          'line': '일리있는 설명이군. 그렇다면 안연정의 살해 동기는?',
+          'name': '감독관'
         },
         {
           'image': 'sami_neutral',
-          'line': '안연정은 몇 개월째 임금을 못 받고 있습니다. 그게 살해동기입니다.'
+          'line': '안연정은 몇 개월째 임금을 못 받고 있습니다. 그게 살해동기입니다.',
+          'name': '사미'
         },
         {
           'image': 'suspect3_neutral',
-          'line': '말도 안됩니다! 도련님을 죽인다고 없던 돈이 생겨나는 것도 아닌데 제가 왜 그러겠습니까!'
+          'line': '말도 안됩니다! 도련님을 죽인다고 없던 돈이 생겨나는 것도 아닌데 제가 왜 그러겠습니까!',
+          'name': '안연정'
         },
         {
           'image': 'suspect2_neutral',
-          'line': '피해자는 독신이기 때문에 죽으면 동생인 김현수씨에게 재산이 상속됩니다.'
+          'line': '피해자는 독신이기 때문에 죽으면 동생인 김현수씨에게 재산이 상속됩니다.',
+          'name': '사미'
         },
         {
           'image': 'sami_neutral',
-          'line': '안연정씨는 집안 재산을 피해자가 아닌 김현수씨가 관리하게 되면 자신이 못 받은 월급을 받을 수 있게 되지않을까 하는 희망 때문에 피해자를 살해한 겁니다.'
+          'line': '안연정씨는 집안 재산을 피해자가 아닌 김현수씨가 관리하게 되면 자신이 못 받은 월급을 받을 수 있게 되지않을까 하는 희망 때문에 피해자를 살해한 겁니다.',
+          'name': '사미'
         },
         {
           'image': 'suspect3_neutral',
-          'line': '윽..'
+          'line': '윽..',
+          'name': '안연정'
         },
         {
           'image': 'suspect3_neutral',
-          'line': '분하지만 인정할 수 밖에 없군요.'
+          'line': '분하지만 인정할 수 밖에 없군요.',
+          'name': '안연정'
         },
         {
           'image': 'suspect3_neutral',
-          'line': '..맞습니다. 도련님이 가산을 탕진해 월급을 못 받은지도 벌써 몇 달째..'
+          'line': '..맞습니다. 도련님이 가산을 탕진해 월급을 못 받은지도 벌써 몇 달째..',
+          'name': '안연정'
         },
         {
           'image': 'suspect3_neutral',
-          'line': '그간 일한 정이 있어 마지막까지 곁에 있으려 했지만..더이상은 도련님도 정신을 차리실 기미도 안 보이고, 생활도 점점 어려워져서'
+          'line': '그간 일한 정이 있어 마지막까지 곁에 있으려 했지만..더이상은 도련님도 정신을 차리실 기미도 안 보이고, 생활도 점점 어려워져서',
+          'name': '안연정'
         },
         {
           'image': 'suspect3_neutral',
-          'line': '그만두겠다 말하면서 도련님께 다른 집으로 가서 일할 수 있도록 추천서를 부탁드렸건만..그마저도 거절하셨습니다.'
+          'line': '그만두겠다 말하면서 도련님께 다른 집으로 가서 일할 수 있도록 추천서를 부탁드렸건만..그마저도 거절하셨습니다.',
+          'name': '안연정'
         },
         {
           'image': 'suspect3_neutral',
-          'line': '오히려 그만두는 순간 자기가 절대 다른 일자리를 찾지 못 하도록 모든 수를 쓸거라고 하시니까 앞이 막막해져서 그만..'
+          'line': '오히려 그만두는 순간 자기가 절대 다른 일자리를 찾지 못 하도록 모든 수를 쓸거라고 하시니까 앞이 막막해져서 그만..',
+          'name': '안연정'
         },
         {
           'image': 'inspector_smile',
-          'line': '살해 방법과 살해 동기까지 맞히고, 심지어 범인의 자백까지 얻어내다니. 두 번째 시험도 통과다!'
+          'line': '살해 방법과 살해 동기까지 맞히고, 심지어 범인의 자백까지 얻어내다니. 두 번째 시험도 통과다!',
+          'name': '감독관'
         },
         {
           'image': 'sami_neutral',
-          'line': '좋았어!'
+          'line': '좋았어!',
+          'name': '사미'
         }
       ]
       const dialogue = new Dialogue(this, cameraX, cameraY, 0.9, undefined, d_data)

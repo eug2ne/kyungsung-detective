@@ -5,6 +5,8 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
   private readonly line_x: number
   private readonly line_y: number
   private line: Phaser.GameObjects.Text
+  private speaker_name: Phaser.GameObjects.Text
+  private skip_next: Phaser.GameObjects.Text
   private image_box: Phaser.GameObjects.Rectangle
   private image: Phaser.GameObjects.Image
   private zoom: number
@@ -35,7 +37,6 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     // create dialogue-box on screen
     const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
     const black = Phaser.Display.Color.GetColor32(0,0,0,0.1)
-    console.log(cameraX, cameraY)
     this.line_box = this.scene.add.rectangle(cameraX+580/zoom, cameraY+520/zoom, 645/zoom, 200/zoom, white)
       .setDepth(20)
       .setStrokeStyle(2, black) // line-box
@@ -63,17 +64,56 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
         padding: {
           x: 20,
           y: 20
-        },
-        
+        }        
       }
     ).setWordWrapWidth(Math.floor(640/zoom))
     this.scene.add.existing(this.line).setDepth(20)
+
+    // create speaker_name
+    this.speaker_name = new Phaser.GameObjects.Text(
+      this.scene,
+      this.image_box.x,
+      this.image_box.y+this.image_box.height/2,
+      '',
+      {
+        fontFamily: 'NeoDunggeunmo',
+        fontSize: `${30/zoom}px`,
+        color: '#000',
+        backgroundColor: '#edfaf9',
+        padding: {
+          x: 5,
+          y: 5
+        }
+      }
+    ).setOrigin(0.5,0.5) // align speaker_name to center
+    this.scene.add.existing(this.speaker_name).setDepth(20)
+
+    // create skip_next
+    this.skip_next = new Phaser.GameObjects.Text(
+      this.scene,
+      0,
+      0,
+      '(스페이스를 눌러 다음으로) >>',
+      {
+        fontFamily: 'NeoDunggeunmo',
+        fontSize: `${20/zoom}px`,
+        color: '#000',
+        padding: {
+          x: 20,
+          y: 20
+        }
+      }
+    )
+    this.skip_next.setPosition(this.line_box.x+this.line_box.width/2-this.skip_next.width, this.line_box.y+this.line_box.height/2-this.skip_next.height)
+    this.scene.add.existing(this.skip_next).setDepth(20)
   }
 
   destroy() {
     this.line_box.destroy()
     this.image_box.destroy()
     this.line.destroy()
+    this.speaker_name.destroy()
+    this.skip_next.destroy()
     this.options.forEach((option: any) => {
       option.destroy()
     })
@@ -112,6 +152,11 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
       this.space_key.isDown = false
       this.emit('update-line')
     })
+    this.skip_next.setInteractive()
+    this.skip_next.on('pointerdown', () => {
+      this.space_key.isDown = false
+      this.emit('update-line')
+    })
 
     // text/image render func.
     let writing = true
@@ -131,13 +176,32 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
           }
         },
         repeat: l-1,
-        delay: 100
+        delay: 50
       })
     }
+    const text_blink = new Phaser.Time.TimerEvent({
+      callback: () => {
+        this.skip_next.visible = !this.skip_next.visible
+      },
+      repeat: 100,
+      delay: 500
+    })
     const renderTextImage = (writing: boolean) => {
       this.image_box.visible = (this.texture) ? true:false
       this.image.setTexture(this.texture).setDisplaySize(200/this.zoom, 200/this.zoom)
       this.image.visible = (this.texture) ? true:false
+      // show speaker_name when name exist in dialogue
+      this.speaker_name.text = this.dialogue[this.index].name
+      this.speaker_name.visible = this.dialogue[this.index].name ?? false
+      // show skip_next when next line_text exist
+      if (!this.dialogue[this.index].question&&this.dialogue[this.index+1]) {
+        this.skip_next.visible = true
+        // blink skip_next
+        this.scene.time.addEvent(text_blink)
+      } else {
+        this.skip_next.visible = false
+        this.scene.time.removeEvent(text_blink)
+      }
 
       if (!writing) {
         // auto completion

@@ -1,7 +1,7 @@
 <template>
   <nav>
     <div class="invisible-box" />
-    <button class="navbar icon" id="terminate">
+    <button class="navbar icon" id="reset" @click="this.emitter.emit('reset')">
       <img src="../assets/refresh.png" alt="새로고침" />
     </button>
     <div class="between-box" />
@@ -26,7 +26,7 @@
 <script>
 export default {
   name: 'Navbar',
-  emits: [ 'toContent' ]
+  emits: [ 'toContent', 'resetGame' ]
 };
 </script>
 

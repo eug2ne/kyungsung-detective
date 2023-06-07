@@ -1,5 +1,5 @@
 <template>
-    <div class="backdrop" v-if="this.show" @click.self="vanishPopup">
+    <div class="backdrop" @click.self="this.$emit('ErrorPopupVanish')">
         <div id="error-popup">
             <h3>{{ message.title }}</h3>
             <p v-for="s in descriptSplit" :key="s.index">
@@ -10,34 +10,20 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import ErrorsJSON from './Errors.json'
 
 export default {
     name: 'ErrorPopup',
     props: [ 'type' ],
+    emits: [ 'ErrorPopupVanish' ],
     data() {
         return {
-            show: false,
-            message: ref({})
+            message: ErrorsJSON[this.type]
         }
     },
     computed: {
         descriptSplit() {
             return this.message.descript.split('. ')
-        }
-    },
-    watch: {
-        type: function(newVal) {
-            this.show = true
-            this.message = ErrorsJSON[newVal]
-            this.$data[newVal] = true
-        }
-    },
-    methods: {
-        vanishPopup() {
-            this.show = false
-            this.$emit('ErrorPopupVanish')
         }
     }
 }

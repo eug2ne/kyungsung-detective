@@ -9,6 +9,7 @@
 export default {
   name: 'Letter',
   props: ['rowIndex', 'colIndex', 'letter', 'isTarget', 'isChoice', 'isChosen', 'isAnswer', 'isWord'],
+  emits: [ 'toggleChoice', 'clickOnLetter' ],
   methods: {
     clickonLetter(event) {
       if (this.isChoice||this.isChosen) {

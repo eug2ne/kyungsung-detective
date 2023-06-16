@@ -95,10 +95,6 @@ export const useGameStore = defineStore('game', {
 			})
     },
     async resetGame(gameKey, story) {
-      // reset + save stage-config
-      this.$reset()
-      await this.saveGame(gameKey, story)
-
       // delete all document from Quizs collection
       const uid = auth.currentUser.uid
       const UsersRef = collection(db, 'BetaUsers')
@@ -109,6 +105,10 @@ export const useGameStore = defineStore('game', {
       querySnapshot.forEach(async (doc) => {
         await deleteDoc(doc.ref)
       })
+
+      // reset + save stage-config
+      this.$reset()
+      await this.saveGame(gameKey, story)
     }
   },
   persist: { storage: sessionStorage }

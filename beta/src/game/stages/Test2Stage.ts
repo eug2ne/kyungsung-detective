@@ -1,7 +1,7 @@
 import Phaser from "phaser"
 import _ from "lodash"
 import { useGameStore } from '../game.js'
-import { addClue, addSubClue, addTimeline } from '../library.js'
+import { spliceOption, addClue, addSubClue, addTimeline } from '../library.js'
 import Stage from "./Stage.js"
 import Update from "./Update"
 import Test2 from '../scenes/Test2_Scene.js'
@@ -198,18 +198,15 @@ const event_config = {
         "clue_ref": "시작.1.subClues.1",
         "reveal": true
       }, 1, 1) // add subclue data
-
-      useGameStore().$patch((state: any) => {
-        state.stage.scenes_config['Test2'].npc['test2_suspect3'].options.push('option-suspect2')
-      }) // update suspect3 dialogueKey
+      
+      // update suspect3 dialogueKey
+      spliceOption('Test2', 'test2_suspect3', undefined, 'option-suspect2')
 
       return false
     }),
     new Update({id: "test2_suspect3", data: "suspect3-suspect2"}, () => {
       // after asking suspect3 about suspect2, update suspect2 dialogueKey
-      useGameStore().$patch((state: any) => {
-        state.stage.scenes_config['Test2'].npc['test2_suspect2'].options.push('option-heritage')
-      }) // update suspect2 dialogueKey
+      spliceOption('Test2', 'test2_suspect2', undefined, 'option-heritage')
 
       return false
     }),
@@ -238,9 +235,7 @@ const event_config = {
     }),
     new Update({id: "test2_suspect3", data: "suspect3-time"}, () => {
       // after asking suspect3 about time, update timeline + suspect1 dialogueKey
-      useGameStore().$patch((state: any) => {
-        state.stage.scenes_config['Test2'].npc['test2_suspect1'].options.push('option-fight')
-      }) // update suspect1 dialogueKey
+      spliceOption('Test2', 'test2_suspect1', undefined, 'option-fight')
 
       addTimeline({
         "title": "다툼",
@@ -292,9 +287,7 @@ const event_config = {
   /* quiz answer: '얼음' */'YPnEQwKAwueWEzSmpRdF': [
     new Update({id: "test2_item3", data: "item3-read"}, () => {
       // after inspecting coffeetable, update suspect1 dialogueKey
-      useGameStore().$patch((state: any) => {
-        state.stage.scenes_config['Test2'].npc['test2_suspect1'].options.push('option-coffee')
-      }) // update suspect1 dialogueKey
+      spliceOption('Test2', 'test2_suspect1', undefined, 'option-coffee')
 
       return false
     }),
@@ -354,10 +347,9 @@ const event_config = {
         "reveal": true
       }, 1, 2) // add subclue
 
-      useGameStore().$patch((state: any) => {
-        state.stage.scenes_config['Test2'].npc['test2_suspect3'].options.push('option-record')
-        state.stage.scenes_config['Test2'].npc['test2_suspect2'].options.push('option-suspect3')
-      }) // update suspect3 options
+      // update suspect2, suspect3 options
+      spliceOption('Test2', 'test2_suspect2', undefined, 'option-suspect3')
+      spliceOption('Test2', 'test2_suspect3', undefined, 'option-record')
 
       return false
     }),
@@ -375,8 +367,8 @@ const event_config = {
         "title": "임금체불?",
         "description": "안연정은 가계가 기울어지고 월급을 제대로 못 받고있을 가능성이 있다?",
         "quiz_id": "tLJfpFrSVAq5O1sGNs8I",
-        "reveal": false,
-        "clue_ref": "시작.1.subClues.2"
+        "clue_ref": "시작.1.subClues.2",
+        "reveal": false
       }, 1, 2) // add subclue
 
       return false
@@ -388,9 +380,9 @@ const event_config = {
         state.cluenote[1].subClues[2][2].reveal = true
 
         const i = state.stage.scenes_config['Test2'].npc['test2_suspect3'].options.findIndex((ele: string) => ele === 'option-record')
-        // replace 'option-record' with 'option-pay'
-        state.stage.scenes_config['Test2'].npc['test2_suspect3'].options.splice(i,1,'option-pay')
-      }) // update suspect3 options
+      })
+      // update suspect3 options
+      spliceOption('Test2', 'test2_suspect3', 'option-record', 'option-pay')
 
       return false
     }),
@@ -420,12 +412,9 @@ const event_config = {
   'suspicion-system-activate': [
     new Update({data: 'activate'}, () => {
       // activate suspicion system + add subclue
-      useGameStore().$patch((state: any) => {
-        // add suspicion option to all NPCs
-        state.stage.scenes_config['Test2'].npc['test2_suspect1'].options.push('option-suspicion.test2_suspect2')
-        state.stage.scenes_config['Test2'].npc['test2_suspect2'].options.push('option-suspicion.test2_suspect1')
-        state.stage.scenes_config['Test2'].npc['test2_suspect3'].options.push('option-suspicion.test2_suspect1')
-      })
+      spliceOption('Test2', 'test2_suspect1', undefined, 'option-suspicion')
+      spliceOption('Test2', 'test2_suspect2', undefined, 'option-suspicion')
+      spliceOption('Test2', 'test2_suspect3', undefined, 'option-suspicion')
 
       // check timeline complete
       if (useGameStore().cluenote[1].timelineData.complete === 1) {

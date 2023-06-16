@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import { defineStore } from 'pinia'
-import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
 import { auth, db } from '../firestoreDB'
 import SceneLoadPlugin from './SceneLoadPlugin'
 
@@ -87,14 +87,28 @@ export const useGameStore = defineStore('game', {
       // save cluenote to db
       data = {}
 			data[story] = this.cluenote
-			await updateDoc(user_UsersRef, {
-				'Clues': data
-			})
+			await updateDoc(user_UsersRef, { Clues: data })
 
       // save inventory to db
       await updateDoc(user_UsersRef, {
 				Inventory: this.inventory
 			})
+    },
+    async resetGame(gameKey, story) {
+      // reset + save stage-config
+      this.$reset()
+      await this.saveGame(gameKey, story)
+
+      // delete all document from Quizs collection
+      const uid = auth.currentUser.uid
+      const UsersRef = collection(db, 'BetaUsers')
+      const user_UsersRef = doc(UsersRef, uid)
+      const QuizsRef = collection(user_UsersRef, 'Quizs')
+
+      const querySnapshot = await getDocs(QuizsRef)
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref)
+      })
     }
   },
   persist: { storage: sessionStorage }

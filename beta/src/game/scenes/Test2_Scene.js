@@ -144,7 +144,7 @@ const npcs_JSON = [
         "answer": "커피에 대해",
         "to": "answer-coffee"
       },
-      "option-suspicion.test2_suspect2": {
+      "option-suspicion": {
         "answer": "(의심 가는 사람 지목하기)",
         "to": "suspicion.test2_suspect2"
       }
@@ -321,8 +321,8 @@ const npcs_JSON = [
         "answer": "안연정에 대해",
         "to": "answer-suspect3"
       },
-      "option-suspicion.test2_suspect1": {
-        "answer": "(의신 가는 사람 지목하기)",
+      "option-suspicion": {
+        "answer": "(의심 가는 사람 지목하기)",
         "to": "suspicion.test2_suspect1"
       }
     },
@@ -553,8 +553,8 @@ const npcs_JSON = [
         "answer": "김현수에 대해",
         "to": "answer-suspect2"
       },
-      "option-suspicion.test2_suspect1": {
-        "answer": "(의신 가는 사람 지목하기)",
+      "option-suspicion": {
+        "answer": "(의심 가는 사람 지목하기)",
         "to": "suspicion.test2_suspect1"
       }
     },

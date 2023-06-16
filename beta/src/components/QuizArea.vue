@@ -10,9 +10,10 @@
     <button v-on="this.q_instance.accomplish ? {} : { click: refreshQuiz }" id="refreshQuiz" class="icon">
       <img src="../assets/refresh-page-option.png" alt="초기화" title="초기화"/>
     </button>
-    <button ref="reverseButton" v-on="this.q_instance.accomplish ? {} : { click: reverseQuiz }" class="icon" id="reverseQuiz">
-      <img v-if="this.q_instance.reverse" class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774733.png" alt="반전">
-      <img v-else class="animate__animated animate__flip animate__slow" src="../assets/noun-slider-774765.png" alt="반전">
+    <button ref="reverseButton" class="icon" id="reverseQuiz" style="width: 600px">
+      <span style="font-size: 20px">합치기 방향: {{ this.q_instance.reverse ? '>>' : '<<' }}</span>
+      <img :class="{ flip : !this.q_instance.reverse }" id="" :src="this.reverseImage" alt="합치기 방향 바꾸기"
+       v-on="this.q_instance.accomplish ? {} : { click: reverseQuiz }">
     </button>
     <ul>
         <button v-on="this.q_instance.accomplish ? {} : { click: back }" id="backQuiz" class="icon">
@@ -22,12 +23,35 @@
           <img src="../assets/next.png" alt="앞으로가기" title="되돌리기"/>
         </button>
     </ul>
+    <button class="icon help" @click="this.showHelp = !this.showHelp">?</button>
     </div>
+    <QuizHelp x="620" y="75" v-if="showHelp">
+      <div>
+        <img class="icon" src="../assets/refresh-page-option.png" alt="초기화" title="초기화"/>
+        <p>
+          : 퍼즐을 초기화할 수 있습니다.
+        </p>
+      </div>
+      <div>
+        <img class="icon" src="../assets/slider_left.png" alt="합치기 방향 바꾸기">
+        <p>
+          : 합치기 방향을 바꿀 수 있습니다. 바뀐 방향은 위에 표시 됩니다.
+        </p>
+      </div>
+      <div>
+        <img class="icon" src="../assets/return.png" alt="뒤로가기" title="실행취소"/>
+        <img class="icon" src="../assets/next.png" alt="앞으로가기" title="실행복귀"/>
+        <p>
+          : 퍼즐을 이전 상태로 되돌리거나, 원래 상태로 복귀시킬 수 있습니다.
+        </p>
+      </div>
+    </QuizHelp>
+
     <OptionsMenu v-if="!this.q_instance.accomplish ? showOption : false" :x="optionX" :y="optionY"
       @clickOption="show" />
     <div v-if="showDefault" id="default_page">
       <h2>아직 추리 중인 단서가 없습니다!</h2>
-      <h3>맵을 돌아다니며 단서를 얻거나 단서 노트에서 추리하고 싶은 단서를 선택해주세요!</h3>
+      <h3>맵을 돌아다니며 단서를 얻거나, 단서 노트에서 추리하고 싶은 단서를 선택해주세요!</h3>
     </div>
     <table v-else ref="table" id="Quiz-area">
       <tr v-for="item in Object.keys(this.quizletterset)"
@@ -59,14 +83,17 @@ import Letter from './Letter.vue'
 import OptionsMenu from './OptionsMenu.vue'
 import ErrorPopup from './QuizError/ErrorPopup.vue'
 import AccsModal from './AccsModal.vue'
-import button_soundeffect from '../assets/button-soundeffect1.mp3'
+import QuizHelp from './QuizHelp.vue'
+import reverse_soundeffect from '../assets/slider_sound.mp3'
+import reverse_pause from '../assets/slider_right.png'
+import reverse_gif from '../assets/slider.gif'
 import quiz from '../composables/quiz'
 import importSet from '../composables/quizlibrary/importSet'
 import exportSet from '../composables/quizlibrary/exportSet'
 
 export default {
     name: 'QuizArea',
-    components: { Letter, OptionsMenu, ErrorPopup, AccsModal },
+    components: { Letter, OptionsMenu, ErrorPopup, AccsModal, QuizHelp },
     props: [ 'set' ],
     data() {
       return {
@@ -74,7 +101,9 @@ export default {
         optionX: null,
         optionY: null,
         showError: false,
-        errorType: null
+        errorType: null,
+        reverseImage: reverse_pause,
+        showHelp: false
       }
     },
     setup(props) {
@@ -208,8 +237,12 @@ export default {
       },
       reverseQuiz() {
         // switch engine
-        const sound = new Audio(button_soundeffect)
+        const sound = new Audio(reverse_soundeffect)
         sound.play()
+        this.reverseImage = reverse_gif
+        setTimeout(() => {
+          this.reverseImage = reverse_pause
+        }, 1000)
         this.q_instance.reverse = !this.q_instance.reverse
       },
       back() {
@@ -240,9 +273,11 @@ export default {
         const [ x, y ] = coord.split(',')
         const word = this.answerset.word[coord]
 
-        if (this.quizletterset[x][y].letter == word) {
+        if (this.quizletterset[x][y].letter === word) {
+          this.quizletterset[x][y].isAnswer = true
           return true
         } else {
+          this.quizletterset[x][y].isAnswer = false
           return false
         }
       })
@@ -263,9 +298,7 @@ export default {
         const letter = this.answerset.letter[coord]
 
         try {
-          if (this.q_instance.quizletterset[x][y].letter == letter) {
-            this.q_instance.quizletterset[x][y].isAnswer = true
-          }
+          this.q_instance.quizletterset[x][y].isAnswer = this.q_instance.quizletterset[x][y].letter === letter
         } catch (err) {
           // this.quizletterset[x][y] not exist (deleted wordspace)
           // pass
@@ -284,6 +317,10 @@ export default {
 </script>
 
 <style>
+.flip {
+  transform: scaleX(-1);
+}
+
 .popup {
   width: 935px;
   min-height: 100px;

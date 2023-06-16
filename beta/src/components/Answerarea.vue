@@ -1,11 +1,17 @@
 <template>
   <div id="Answer-area" class="pixel-borders--2">
+    <button class="icon help" @click="this.clickHelp">?</button>
     <!-- if this.accs, show answer + def -->
     <h2 v-if="accs">{{ this.answerSet.answer }}</h2>
     <h2 v-if="accs ? false : showAbbr">{{ this.answerSet.abbr }}</h2>
     <h2 v-if="accs ? false : !showAbbr">{{ this.answerLength }}</h2>
-    <p v-if="accs ? true : showdef">{{ this.answerSet.definition }}</p>
+    <p class="definition" v-if="accs ? true : showdef">{{ this.answerSet.definition }}</p>
   </div>
+  <QuizHelp x="570" y="55" v-if="this.showHelp">
+    <p>
+        정답 단어를 만들어서 퀴즈를 해결하세요. 힌트에서 정답 단어의 초성과 뜻을 볼 수 있습니다.<br> (정답 단어를 만들 때 단어의 위치도 맞도록 유의하세요.)
+    </p>
+  </QuizHelp>
 </template>
 
 <script>
@@ -13,13 +19,16 @@ import { ref } from 'vue'
 import { auth, db } from '../firestoreDB'
 import { collection, doc, getDoc } from 'firebase/firestore'
 import { useGameStore } from '../game/game'
+import QuizHelp from './QuizHelp.vue'
 
 export default {
     name: 'AnswerArea',
+    components: { QuizHelp },
     data() {
         return {
             showdef: false,
-            showAbbr: false
+            showAbbr: false,
+            showHelp: false
         }
     },
     setup() {
@@ -75,6 +84,11 @@ export default {
             return length
         }
     },
+    methods: {
+        clickHelp() {
+            this.showHelp = !this.showHelp
+        }
+    },
     mounted() {
         this.emitter.on('hint_first', () => {
             this.showAbbr = true
@@ -107,7 +121,7 @@ h2 {
     padding: 10px;
 }
 
-p {
+p.definition {
     font-size: 25px;
     padding: 10px;
 }

@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import { useGameStore } from '../game.js'
+import { spliceOption } from '../library.js'
 import Stage from "./Stage.js"
 import Update from './Update'
 import Breakfast from '../scenes/Breakfast.js'
@@ -21,9 +22,7 @@ const event_config = {
       // update scenes_config after reading newspaper
       if (useGameStore().stage.scenes_config['Breakfast'].npc['breakfast_maid'].options[1] === 'option-no-plan') {
         // if player eat breakfast before reading newspaper, update to option-clear
-        useGameStore().$patch((state: any) => {
-          state.stage.scenes_config['Breakfast'].npc['breakfast_maid'].options.splice(1,1,'option-clear')
-        })
+        spliceOption('Breakfast', 'breakfast_maid', 'option-no-plan', 'option-clear')
       } // else, pass (maintain option-default)
 
       return false
@@ -34,14 +33,10 @@ const event_config = {
       // update scenes_config after eating breakfast
       if (!stage.event_config['breakfast-event-item0']) {
         // if player read newspaper before eating breakfast, update to option-clear
-        useGameStore().$patch((state: any) => {
-          state.stage.scenes_config['Breakfast'].npc['breakfast_maid'].options.splice(1,1,'option-clear')
-        }) 
+        spliceOption('Breakfast', 'breakfast_maid', 'option-default', 'option-clear')
       } else {
         // else, update to option-no-plan
-        useGameStore().$patch((state: any) => {
-          state.stage.scenes_config['Breakfast'].npc['breakfast_maid'].options.splice(1,1,'option-no-plan')
-        })
+        spliceOption('Breakfast', 'breakfast_maid', 'option-default', 'option-no-plan')
       }
 
       return false

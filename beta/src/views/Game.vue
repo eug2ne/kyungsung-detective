@@ -52,7 +52,6 @@ export default {
         // watch stage-config change >> save game-progress to db
         useGameStore().saveGame(this.gameInstance.key, '시작')
       } else if (mutation.payload.progress) {
-        console.log(mutation.payload.progress)
         // watch quiz-progress event
         setTimeout(() => {
           this.gameInstance.progress(state.progress.id)
@@ -61,9 +60,8 @@ export default {
     })
 
     // reset stage-config + reload page
-    this.emitter.on('reset', () => {
-      useGameStore().$reset()
-      useGameStore().saveGame(this.gameInstance.key, '시작')
+    this.emitter.on('reset', async () => {
+      await useGameStore().resetGame(this.gameInstance.key, '시작')
       useGameStore().booted = true // prevent routing to login page
       
       this.$router.go()

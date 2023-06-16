@@ -72,6 +72,8 @@ export default {
   height: 70px;
   display: flex;
   flex-direction: row;
+  justify-self: center;
+  text-align: center;
   justify-content: space-between;
   background-color: #ffe2b3;
   padding: 15px;
@@ -115,12 +117,25 @@ export default {
 
 .icon {
   display: inline-block;
-  width: 45px;
+  width: fit-content;
   height: 45px;
   background-color: transparent;
   border: none;
-  cursor: pointer;
   margin: 0 15px;
+}
+
+.help {
+  display: block;
+  position: static;
+  top: 0%;
+  float: right;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: slategrey;
+  margin: 5px;
+  font-size: 20px;
+  color: #fff700;
 }
 
 table {

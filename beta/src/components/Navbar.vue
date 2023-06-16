@@ -26,7 +26,7 @@
 <script>
 export default {
   name: 'Navbar',
-  emits: [ 'toContent', 'resetGame' ]
+  emits: [ 'toContent' ]
 };
 </script>
 

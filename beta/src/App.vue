@@ -4,15 +4,27 @@
 </template>
 
 <script>
-import { auth } from './firestoreDB'
+import { auth, db } from './firestoreDB'
 import { useGameStore } from './game/game'
 import { onAuthStateChanged } from 'firebase/auth'
+import { doc } from 'firebase/firestore'
+import { getDoc } from 'firebase/firestore'
 
 export default {
   name: 'app',
   created() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
+        // check user-doc exist
+        const USER_DOC = doc(db, `BetaUsers/${user.uid}`)
+        const USER_SNAP = await getDoc(USER_DOC)
+
+        if (!USER_SNAP.exists()) {
+          // direct to home.vue
+          this.$router.replace('/')
+          return
+        }
+
         // login success
         if (!useGameStore().$state.booted) {
           // boot useGameStore()
@@ -71,6 +83,29 @@ body {
   position: relative;
   top: -5px;
   border-width: 5px;
+}
+
+.icon {
+  display: inline-block;
+  width: fit-content;
+  height: 45px;
+  background-color: transparent;
+  border: none;
+  margin: 0 15px;
+}
+
+.backdrop {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background: transparent;
+  backdrop-filter: blur(10px);
+}
+
+.popup {
+  position: absolute;
 }
 
 h3 {

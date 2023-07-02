@@ -55,7 +55,8 @@ export default {
   methods: {
     toQuiz(quiz_id, route) {
       // update default-quizID
-      useGameStore().$patch({ quiz: { id: quiz_id, route: route } })
+      const path = `BetaUsers/${useGameStore().UID}/Games/k_detective_beta/Slots/auto/Quizs/${quiz_id}`
+      useGameStore().$patch({ puzzle: { id: quiz_id, path: path, route: route } })
     }
   }
 }

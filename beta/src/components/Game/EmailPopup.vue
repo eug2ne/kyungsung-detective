@@ -1,7 +1,7 @@
 <template>
   <div class="backdrop" v-if="this.show">
     <span @click="this.show=false" class="x-button">x</span>
-    <div id="email-popup">
+    <div id="email-popup" class="popup">
         <h3>'경성 탐정'을 즐겁게 플레이 하셨나요?</h3>
         <p>
           '경성 탐정'은 앞으로 여러분의 피드백을 기반으로, 여러 번의 업데이트를 통해 게임 시스템을 완성해나갈 예정입니다.
@@ -48,20 +48,12 @@ export default {
 
 <style scoped>
 .backdrop {
-  display: flex;
-  position: absolute;
   left: 10%;
   width: 80%;
   height: 100%;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  background: transparent;
-  backdrop-filter: blur(5px);
 }
 
-#email-popup {
-  position: absolute;
+.popup {
   width: 600px;
   height: 430px;
   padding: 20px;

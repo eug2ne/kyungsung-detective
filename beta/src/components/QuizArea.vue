@@ -23,7 +23,7 @@
           <img src="../assets/next.png" alt="앞으로가기" title="되돌리기"/>
         </button>
     </ul>
-    <button class="icon help" @click="this.showHelp = !this.showHelp">?</button>
+    <button class="icon help-icon" @click="this.showHelp = !this.showHelp">?</button>
     </div>
     <QuizHelp x="620" y="75" v-if="showHelp">
       <div>
@@ -131,15 +131,14 @@ export default {
         
         // create async load func.
         const load = async () => {
-          const quiz_id = useGameStore().quiz.id
-          const route = useGameStore().quiz.route
+          const { id, path, route } = useGameStore().puzzle
 
           try {
             const {
               defaultSet,
               quizinstance,
               answerSet
-            } = await importSet(quiz_id, route)
+            } = await importSet(id, path, route)
 
             d_Set.value = defaultSet
             q_instance.value = quizinstance

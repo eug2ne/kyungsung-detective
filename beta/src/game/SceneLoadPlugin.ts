@@ -87,7 +87,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.minimap.ignore([ this.item_text, this.keyboard_text ]) // item_text, keyboard_text invisible in minimap
 
     // add keyboard_text to scene
-    this.scene!.add.existing(this.keyboard_text).setDepth(30)
+    this.scene!.add.existing(this.keyboard_text).setDepth(30).setFontSize(`${20/camera_config.main_zoom}px`)
     this.scene!.input.keyboard!.addCapture([this.controls.cursor, 'ENTER', 'SPACE']) // prevent event propagation
 
     // create player on scene
@@ -192,7 +192,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   update(items: [ Item ], npcs: [ NPC ]) {
     // update keyboard_text.x,y
     const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
-    this.keyboard_text.setPosition(cameraX+670, cameraY+10)
+    this.keyboard_text.setPosition(cameraX+650, cameraY+10)
 
     // set controls
     this.player.setVelocity(0,0)

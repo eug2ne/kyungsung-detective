@@ -1,32 +1,27 @@
-import { auth, db } from '../../firestoreDB'
-import { collection, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore'
+import { useGameStore } from '../../game/game'
+import { db } from '../../firestoreDB'
+import { doc, setDoc, getDoc, collection } from 'firebase/firestore'
 
-const importSet = async (quiz_id, route) => {
-    // get current user
-    const user = auth.currentUser
-    // import set from db
-    const UsersRef = collection(db, 'BetaUsers')
-    const user_Ref = doc(UsersRef, user.uid)
-
-    const QuizsRef = collection(user_Ref, 'Quizs')
-    const user_QuizRef = doc(QuizsRef, quiz_id)
-    const user_QuizSnap = await getDoc(user_QuizRef)
+const importSet = async (quiz_id, path, route) => {
+    // import set from quiz.path
+    const LOAD_DOC = doc(db, path) // load from quiz.path
+    const LOAD_SNAP = await getDoc(LOAD_DOC)
+    const USER_QUIZS = collection(db, `BetaUsers/${useGameStore().UID}/Games/k_detective_beta/Slots/auto/Quizs`)
+    const SAVE_DOC = doc(USER_QUIZS, quiz_id) // save to auto-doc
 
     // get defaultSet
-    const defaultQuizRef = collection(db, 'QuizSet')
-    const defaultSetRef = doc(defaultQuizRef, quiz_id)
-    const defaultSetSnap = await getDoc(defaultSetRef)
-    const defaultSet = defaultSetSnap.data()
+    const DEFAULT_DOC = doc(db, `QuizSet/${quiz_id}`)
+    const DEFAULT_SNAP = await getDoc(DEFAULT_DOC)
+    const defaultSet = DEFAULT_SNAP.data()
 
     // get answerSet
-    const answerSetRef = collection(db, 'AnswerSet')
-    const answerDocRef = doc(answerSetRef, quiz_id)
-    const answerSnap = await getDoc(answerDocRef)
-    const answerSet = answerSnap.data().set
+    const ANSWER_DOC = doc(db, `AnswerSet/${quiz_id}`)
+    const ANSWER_SNAP = await getDoc(ANSWER_DOC)
+    const answerSet = ANSWER_SNAP.data().set
 
-    if (user_QuizSnap.exists()) {
-        // if user has quizstatus, load quizstatus from db
-        const quizinstance = user_QuizSnap.data()
+    if (LOAD_SNAP.exists()) {
+        // if user has quizstatus, load quizstatus from quiz.path
+        const quizinstance = LOAD_SNAP.data()
 
         return {
             defaultSet,
@@ -34,8 +29,8 @@ const importSet = async (quiz_id, route) => {
             answerSet
         }
     } else {
-        // else, create new quizstatus
-        await setDoc(user_QuizRef, {
+        // else, create new quizstatus in auto-doc/sets-collection
+        await setDoc(SAVE_DOC, {
             id: quiz_id,
             quizletterset: defaultSet,
             chosen: [],
@@ -46,12 +41,6 @@ const importSet = async (quiz_id, route) => {
             accomplish: false,
             clue_ref: route
         })
-
-        const accs_set = {}
-        accs_set[quiz_id] = false
-        await updateDoc(user_Ref, {
-            quiz_accs: accs_set
-        }) // default setting
 
         const quizinstance = {
             id: quiz_id,

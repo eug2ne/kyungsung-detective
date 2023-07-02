@@ -1,7 +1,8 @@
 import Phaser from 'phaser'
 import { defineStore } from 'pinia'
-import { collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, setDoc, getDocs, } from 'firebase/firestore'
 import { auth, db } from '../firestoreDB'
+import { firebaseInterface } from './firebaseInterface'
 import SceneLoadPlugin from './SceneLoadPlugin'
 
 // import stages
@@ -9,6 +10,55 @@ import BreakfastStage from './stages/BreakfastStage'
 import Test1Stage from './stages/Test1Stage'
 import Test2Stage from './stages/Test2Stage'
 import Test3Stage from './stages/Test3Stage'
+
+const STAGE_DEFAULT_CONFIG = {
+  'BreakfastStage': {
+    key: 'BreakfastStage',
+    player_config: { sceneKey: 'Breakfast' , x: 663, y: 472 },
+    scenes_config: {
+      'Breakfast': {
+        npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: ['option-end', 'option-default'] } },
+        item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
+      }
+    }
+  },
+  'Test1Stage': {
+    key: 'Test1Stage',
+    player_config: { 'sceneKey': 'Test1' , 'x': 570, 'y': 130 },
+    scenes_config: {
+      'Test1': {
+        npc: { 'test1_inspector': { dialogueKey: 'clue' },
+          'test1_newspaperstand': { dialogueKey: 'default' },
+          'test1_applicant1': { dialogueKey: 'default' },
+          'test1_applicant2': { dialogueKey: 'default' },
+          'test1_applicant3': { dialogueKey: 'default' },
+          'test1_applicant4': { dialogueKey: 'default' },
+          'test1_applicant5': { dialogueKey: 'default' },
+        },
+        item: {}
+      }
+    }
+  },
+  'Test2Stage': {
+    key: 'Test2Stage',
+    player_config: { 'sceneKey': 'Test2' , 'x': 300, 'y': 500 },
+    scenes_config: {
+      'Test2': {
+        npc: {
+          'test2_suspect1': { dialogueKey: 'default-question', options: ['option-default'] },
+          'test2_suspect2': { dialogueKey: 'default-question', options: ['option-default'] },
+          'test2_suspect3': { dialogueKey: 'default-question', options: ['option-default'] } 
+        },
+        item: {
+          'test2_item0': { interactionKey: 'read' },
+          'test2_item1': { interactionKey: 'read' },
+          'test2_item2': { interactionKey: 'read' },
+          'test2_item3': { interactionKey: 'read' }
+        }
+      }
+    }
+  }
+}
 
 export const useGameStore = defineStore('game', {
   state: () => ({
@@ -23,92 +73,84 @@ export const useGameStore = defineStore('game', {
       } // default: BreakfastStage
     },
     cluenote: { 0:null, 1:null, 2:null },
-    carry_item: [],
+    puzzle: { id: null, path: null, route: null },
     inventory: [],
-    quiz: { id: null, route: null },
-    progress: null,
+    carry_item: [],
+    progress: { id: null, message: null },
     booted: false,
-    game_clear: false
+    game_clear: false,
+    UID: null
   }),
   actions: {
     async boot(gameKey, story) {
-      // load stage-data + present_id from db
-      const uid = auth.currentUser.uid
-      const UsersRef = collection(db, 'BetaUsers')
-      const user_UsersRef = doc(UsersRef, uid)
-      const user_UsersSnap = await getDoc(user_UsersRef)
+      // set UID from auth
+      this.$patch({ UID: auth.currentUser.uid })
+      // load stage-data from auto-slot
+      firebaseInterface.loadDoc(this.UID, gameKey, story, 'auto')
 
-      // load inventory from db
-      this.$patch({ inventory: user_UsersSnap.data().Inventory })
-
-      // set quiz_id to present_id in db
-      this.$patch({ quiz: { id: user_UsersSnap.data().present_id } })
-
-      const user_Stages = user_UsersSnap.data().Stages
-      if (!_.includes(Object.keys(user_Stages), gameKey)||!user_Stages[gameKey]) {
-        // stage-data == stage.default_config
-        // new game/stage started >> add new stage-data to db
-        const stageData = {}
-        stageData[gameKey] = {
-          key: this.stage.key,
-          player_config: this.stage.player_config,
-          scenes_config: this.stage.scenes_config
-        }
-        const clueData = {}
-        clueData[story] = this.cluenote
-        await updateDoc(user_UsersRef, {
-          Stages: stageData,
-          Clues: clueData
-        })
-      } else {
-        // read stage-data from db
-        this.$patch({ stage: user_Stages[gameKey] })
-        // load cluenote for this game from db
-        if (user_UsersSnap.data().Clues[story]) {
-          this.$patch({ cluenote: user_UsersSnap.data().Clues[story] })
-        }
-      }
-      this.booted = true
+      this.$patch({ booted: true })
     },
-    async saveGame(gameKey, story) {
-      // save stage-config to db
-      const uid = auth.currentUser.uid
-      const UsersRef = collection(db, 'BetaUsers')
-      const user_UsersRef = doc(UsersRef, uid)
-
-      let data = {}
-      data[gameKey] = {
-        key: this.stage.key,
-        player_config: this.stage.player_config,
-        scenes_config: this.stage.scenes_config
-      }
-      await updateDoc(user_UsersRef, { Stages: data }) // update player config
-
-      // save cluenote to db
-      data = {}
-			data[story] = this.cluenote
-			await updateDoc(user_UsersRef, { Clues: data })
-
-      // save inventory to db
-      await updateDoc(user_UsersRef, {
-				Inventory: this.inventory
-			})
+    async saveAuto(gameKey, story) {
+      // save stage-data to auto-slot
+      firebaseInterface.saveDoc(this.UID, gameKey, story, 'auto')
     },
-    async resetGame(gameKey, story) {
-      // delete all document from Quizs collection
-      const uid = auth.currentUser.uid
-      const UsersRef = collection(db, 'BetaUsers')
-      const user_UsersRef = doc(UsersRef, uid)
-      const QuizsRef = collection(user_UsersRef, 'Quizs')
+    async saveSlot(gameKey, story, slotKey) {
+      // save current stage-data to given slot
+      firebaseInterface.saveDoc(this.UID, gameKey, story, slotKey)
 
-      const querySnapshot = await getDocs(QuizsRef)
-      querySnapshot.forEach(async (doc) => {
-        await deleteDoc(doc.ref)
+      // copy quiz-data from auto-doc to slot-doc
+      const USER_SLOTS = collection(db, `BetaUsers/${this.UID}/Games/${gameKey}/Slots`)
+      const AUTO_DOC = doc(USER_SLOTS, 'auto')
+      const SLOT_DOC = doc(USER_SLOTS, slotKey)
+
+      const SLOT_QUERY = await getDocs(collection(SLOT_DOC, 'Quizs'))
+      SLOT_QUERY.forEach((snap) => {
+        deleteDoc(snap.ref)
+      }) // reset quizs-collection of slot
+
+      const AUTO_QUERY = await getDocs(collection(AUTO_DOC, 'Quizs'))
+      AUTO_QUERY.forEach((snap) => {
+        setDoc(doc(SLOT_DOC, `/Quizs/${snap.id}`), snap.data())
+      })
+    },
+    async loadSlot(gameKey, story, slotKey) {
+      // set puzzle path to slot-doc
+      this.$patch({
+        puzzle: { path: `BetaUsers/${this.UID}/Games/k_detective_beta/Slots/${slotKey}/Quizs/${this.puzzle.id}` }
       })
 
-      // reset + save stage-config
-      this.$reset()
-      await this.saveGame(gameKey, story)
+      // rollback to slot-data
+      await firebaseInterface.loadDoc(this.UID, gameKey, story, slotKey)
+    },
+    async resetStage(gameKey, stageKey) {
+      // delete clue+quiz-data from selected stage
+      const USER_SLOTS = collection(db, `BetaUsers/${this.UID}/Games/${gameKey}/Slots`)
+      const AUTO_DOC = doc(USER_SLOTS, 'auto')
+      const USER_QUIZS = collection(AUTO_DOC, 'Quizs')
+
+      switch (stageKey) {
+        case 'Test1Stage':
+          // delete clue from cluenote
+          useGameStore().$patch({ cluenote: { 0: null } })
+          // delete quiz-data
+          await deleteDoc(doc(USER_QUIZS, 'cJ89EcZyF5EHwElEGRGZ'))          
+          break
+
+        case 'Test2Stage':
+          // delete clue from cluenote
+          useGameStore().$patch({ cluenote: { 1: null }})
+          // delete quiz-data
+          await deleteDoc(doc(USER_QUIZS, 'WIN3vIY76B5ZHa13x70c'))          
+          await deleteDoc(doc(USER_QUIZS, 'tLJfpFrSVAq5O1sGNs8I'))
+          await deleteDoc(doc(USER_QUIZS, 'YPnEQwKAwueWEzSmpRdF'))
+          break
+      }
+
+      // reset stage-config+puzzle-data to default-config of selected stage
+      useGameStore().$patch({
+        stage: STAGE_DEFAULT_CONFIG[stageKey],
+        puzzle: { id: null, path: null, route: null }
+      })
     }
   },
   persist: { storage: sessionStorage }

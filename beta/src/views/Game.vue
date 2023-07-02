@@ -1,14 +1,13 @@
 <template>
   <div id="game">
-    <div ref="game-container" id="game-container" class="contents" />
+    <div ref="game-container" id="game-container" class="contents" /> 
   </div>
 </template>
 
 <script>
-import { db, auth } from '../firestoreDB'
-import { useGameStore } from '../game/game'
-import game from '../game/game'
-import { collection, doc, updateDoc, arrayUnion } from 'firebase/firestore'
+import { auth, db } from '../firestoreDB'
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore'
+import game, { useGameStore } from '../game/game'
 
 export default {
   name: 'Game',
@@ -26,18 +25,17 @@ export default {
       return
     } else {
       // save user-status to log when page reload
-      const UsersRef = collection(db, 'BetaUsers')
-      const userRef = doc(UsersRef, auth.currentUser.uid)
-      updateDoc(userRef, {
-        userLog: arrayUnion({
-          updatedAt: new Date(Date.now()).toISOString(),
-          event: {
-            stage: useGameStore().stage,
-            cluenote: useGameStore().cluenote
-          }
-        })
-      })
-      .catch(error => console.log(error))
+      // updateDoc(doc(db, `BetaUsers/${useGameStore().UID}`), {
+      //   userLog: arrayUnion({
+      //     updatedAt: new Date(Date.now()).toISOString(),
+      //     event: {
+      //       stage: useGameStore().stage,
+      //       cluenote: useGameStore().cluenote
+      //     }
+      //   }),
+      //   lastLoginAt: auth.currentUser.toJSON().lastLoginAt
+      // })
+      // .catch(error => console.log(error))
     }
 
     this.$nextTick(() => {
@@ -50,7 +48,7 @@ export default {
 
       if (mutation.payload.stage) {
         // watch stage-config change >> save game-progress to db
-        useGameStore().saveGame(this.gameInstance.key, '시작')
+        useGameStore().saveAuto(this.gameInstance.key, '시작')
       } else if (mutation.payload.progress) {
         // watch quiz-progress event
         setTimeout(() => {
@@ -59,11 +57,8 @@ export default {
       }
     })
 
-    // reset stage-config + reload page
-    this.emitter.on('reset', async () => {
-      await useGameStore().resetGame(this.gameInstance.key, '시작')
-      useGameStore().booted = true // prevent routing to login page
-      
+    // reload page
+    this.emitter.on('reload', async () => {
       this.$router.go()
     })
   },

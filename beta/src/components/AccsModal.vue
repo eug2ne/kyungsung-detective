@@ -1,5 +1,5 @@
 <template>
-  <div class="popup" id="accsModal" v-if="this.subclue.title ? true:false">
+  <div class="popup" id="accs-modal" v-if="this.subclue.title ? true:false">
     <div class="image-box">
       <img v-if="this.subclue.backgroung_img" src="" alt="" srcset="">
     </div>
@@ -11,7 +11,8 @@
 </template>
 <script>
 import _ from 'lodash'
-import { auth, db } from '../firestoreDB'
+import { db } from '../firestoreDB'
+import { useGameStore } from '../game/game'
 import { collection, doc, getDoc } from 'firebase/firestore'
 
 export default {
@@ -23,28 +24,24 @@ export default {
   },
   mounted() {
     this.emitter.on('quizAccomplish', (route) => {
-      const load = async () => {
-        // get current user
-        const user = auth.currentUser
-        // import user-config from db
-        const UsersRef = collection(db, 'BetaUsers')
-        const user_Ref = doc(UsersRef, user.uid)
+      const load = async (gameKey) => {
+        const USER_SLOTS = collection(db, `BetaUsers/${useGameStore().UID}/Games/${gameKey}/Slots`)
+        const AUTO_DOC = doc(USER_SLOTS, 'auto')
+        const AUTO_SNAP = await getDoc(AUTO_DOC)
+        console.log(AUTO_SNAP.get('Clue'))
 
-        this.subclue = await getDoc(user_Ref)
-          .then((res) => {
-            return res.get(`Clues.${route}`).at(-1)
-          })
+        this.subclue = AUTO_SNAP.get(`Clue.${route}`).at(-1)
 
         console.log(this.subclue)
       }
 
-      load()
+      load('k_detective_beta')
     })
   }
 }
 </script>
 <style scoped>
-#accsModal {
+#accs-modal {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -57,13 +54,13 @@ export default {
   padding: 25px;
 }
 
-#accsModal .image-box {
+#accs-modal .image-box {
   width: 425px;
   height: 250px;
   margin-left: 5px;
 }
 
-#accsModal .text-box {
+#accs-modal .text-box {
   width: 425px;
   min-height: 200px;
   height: fit-content;

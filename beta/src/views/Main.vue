@@ -1,6 +1,8 @@
 <template>
   <div id="router-view" class="pixel-borders--1">
-    <Navbar @toContent="changeContent" />
+    <h3 id="progress-message"></h3>
+    <Navbar @toContent="changeContent" @toggleStageSelect="this.showStageSelect = !this.showStageSelect" />
+    <StageSelectPopup v-if="this.showStageSelect" />
     <div class="contents">
       <EmailPopup v-if="game_clear"/>
       <Game v-show="showContent.game&&this.$route.path=='/Game'" />
@@ -17,6 +19,7 @@ import _ from 'lodash'
 import { mapState } from 'pinia'
 import { useGameStore } from '../game/game'
 import Navbar from '../components/Navbar.vue'
+import StageSelectPopup from '@/components/Game/StageSelectPopup.vue'
 import EmailPopup from '@/components/Game/EmailPopup.vue'
 import Game from './Game.vue'
 import Inventory from './Inventory.vue'
@@ -25,7 +28,7 @@ import Quiz from './Quiz.vue'
 
 export default {
   name: 'Main',
-  components: { Navbar, EmailPopup, Game, Inventory, Cluenote, Quiz },
+  components: { Navbar, StageSelectPopup, EmailPopup, Game, Inventory, Cluenote, Quiz },
   data() {
     return {
       showContent: {
@@ -33,7 +36,8 @@ export default {
         inventory: false,
         cluenote: false,
         quiz: false
-      }
+      },
+      showStageSelect: false
     }
   },
   computed: {
@@ -58,7 +62,7 @@ export default {
     useGameStore().$subscribe((mutation) => {
       if (!mutation.payload) return // ignore other events
 
-      if (mutation.payload.quiz) {
+      if (mutation.payload.puzzle) {
         // redirect to Quiz.vue
         this.changeContent('quiz')
       } else if (mutation.payload.progress) {
@@ -84,5 +88,10 @@ export default {
 .invisible-box {
   width: 25px;
   height: 80px;
+}
+
+h3 {
+  text-align: center;
+  font-size: 30px;
 }
 </style>

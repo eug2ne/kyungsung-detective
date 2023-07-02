@@ -1,6 +1,6 @@
 <template>
   <div id="Answer-area" class="pixel-borders--2">
-    <button class="icon help" @click="this.clickHelp">?</button>
+    <button class="icon help-icon" @click="this.clickHelp">?</button>
     <!-- if this.accs, show answer + def -->
     <h2 v-if="accs">{{ this.answerSet.answer }}</h2>
     <h2 v-if="accs ? false : showAbbr">{{ this.answerSet.abbr }}</h2>
@@ -16,8 +16,8 @@
 
 <script>
 import { ref } from 'vue'
-import { auth, db } from '../firestoreDB'
-import { collection, doc, getDoc } from 'firebase/firestore'
+import { db } from '../firestoreDB'
+import { doc, getDoc } from 'firebase/firestore'
 import { useGameStore } from '../game/game'
 import QuizHelp from './QuizHelp.vue'
 
@@ -36,23 +36,17 @@ export default {
         const answerSet = ref({})
 
         const load = async () => {
-            const quiz_id = useGameStore().quiz.id
+            const { id, path } = useGameStore().puzzle
 
             try {
-                const AnswerSetRef = collection(db, 'AnswerSet')
-                // get current user
-                const user = auth.currentUser
-                // import user-config from db
-                const UsersRef = collection(db, 'BetaUsers')
-                const user_Ref = doc(UsersRef, user.uid)
-                const user_Snap = await getDoc(user_Ref)
-                // get quiz accomplishment from user-config
-                accs.value = user_Snap.data().quiz_accs[quiz_id]
+                const ANSWER_DOC = doc(db, `AnswerSet/${id}`)
+                const ANSWER_SNAP = await getDoc(ANSWER_DOC)
+                // get quiz accomplishment from quiz-doc
+                const QUIZ_DOC = doc(db, path)
+                const QUIZ_SNAP = await getDoc(QUIZ_DOC)
+                accs.value = QUIZ_SNAP.data() ? QUIZ_SNAP.data().accomplish : false
 
-                const AnswerRef = doc(AnswerSetRef, quiz_id)
-                const AnswerSnap = await getDoc(AnswerRef)
-
-                answerSet.value = AnswerSnap.data()
+                answerSet.value = ANSWER_SNAP.data()
             } catch (err) {
                 // if present_id do not exist in user-config, show default-page
                 answerSet.value = {}

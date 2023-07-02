@@ -1,6 +1,6 @@
 <template>
     <div class="backdrop" @click.self="this.$emit('ErrorPopupVanish')">
-        <div id="error-popup">
+        <div id="error-popup" class="popup">
             <h3>{{ message.title }}</h3>
             <p v-for="s in descriptSplit" :key="s.index">
                 {{ s }} 
@@ -31,19 +31,11 @@ export default {
 
 <style scoped>
 .backdrop {
-    display: flex;
-    position: absolute;
     width: 100%;
     height: 100%;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    background: transparent;
-    backdrop-filter: blur(10px);
 }
 
-#error-popup {
-    position: absolute;
+.popup {
     width: 400px;
     text-align: center;
     padding: 20px;

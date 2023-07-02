@@ -115,16 +115,7 @@ export default {
   font-size: 25px;
 }
 
-.icon {
-  display: inline-block;
-  width: fit-content;
-  height: 45px;
-  background-color: transparent;
-  border: none;
-  margin: 0 15px;
-}
-
-.help {
+.help-icon {
   display: block;
   position: static;
   top: 0%;

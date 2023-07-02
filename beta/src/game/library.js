@@ -1,8 +1,7 @@
-// function library for useGameStore().cluenote update events
-  // add clue + add subclue + add timeline
-
 import { useGameStore } from "./game";
 
+// function library for useGameStore().cluenote update events
+  // add clue + add subclue + add timeline
 export const spliceOption = (key, id, option, add) => {
   // delete option + change to add
   // (if option not provided, only push add to npc.options)
@@ -62,4 +61,10 @@ export const addTimeline = (timeline, index, t_index, percent) => {
   })
 
   return useGameStore().cluenote[index].timelineData.complete
+}
+
+// function library for loading quiz-data from db
+  // load data from auto-save + load data from slot + reset data + save data
+export const loadAutoData = async () => {
+
 }

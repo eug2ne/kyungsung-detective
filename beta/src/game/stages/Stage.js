@@ -80,7 +80,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
         stage: {
           key: this.next.key,
           player_config: this.next.default_config.player_config,
-          scenes_config: this.next.default_config.scenes_config
+          scenes_config: { ...this.next.default_config.scenes_config }
         }
       })
       await this.game.create()

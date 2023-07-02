@@ -10,7 +10,8 @@ import { getAuth,
 import { getFirestore,
     doc,
     setDoc, 
-    collection } from 'firebase/firestore'
+    collection, 
+    getDoc } from 'firebase/firestore'
 
 const config = {
     apiKey: "AIzaSyAnZSZIc9CQqAx_ilFeyzWrzGHUn68r19k",
@@ -26,26 +27,23 @@ const firebaseApp = initializeApp(config)
 export const db = getFirestore(firebaseApp)
 export const auth = getAuth(firebaseApp)
 
-const addData = async (userCredential) => {
+export const addData = async (userCredential) => {
     const user = userCredential.user.toJSON()
     const collectionRef = collection(db, 'BetaUsers')
 
-    await setDoc(doc(collectionRef, user.uid), {
-        uid: user.uid,
-        apiKey: user.apiKey,
-        createdAt: user.createdAt,
-        lastLoginAt: user.lastLoginAt,
-        stsTokenManager: user.stsTokenManager,
-        userLog: [],
-        Stages: {},
-        Inventory: [],
-        Clues: {},
-        quiz_accs: {},
-        present_quizID: ''
-    })
-    .catch((error) => {
+    try {
+        await setDoc(doc(collectionRef, user.uid), {
+            uid: user.uid,
+            apiKey: user.apiKey,
+            createdAt: user.createdAt,
+            lastLoginAt: user.lastLoginAt,
+            stsTokenManager: user.stsTokenManager
+        })
+    } catch (error) {
         console.log(error)
-    })
+    }
+
+    return doc(collectionRef, user.uid)
 }
 
 // anonymous signup func.
@@ -53,8 +51,8 @@ export const anonySignup = async () => {
     setPersistence(auth, browserLocalPersistence)
         .then(() => {
             signInAnonymously(auth)
-                .then( async (userCredential) => {
-                    await addData(userCredential)
+                .then((userCredential) => {
+                    addData(userCredential)
                 })
                 .catch((error) => {
                     alert('다음과 같은 이유로 실패했습니다: ' + error.message)

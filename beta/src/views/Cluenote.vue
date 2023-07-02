@@ -24,8 +24,9 @@
 
 <script>
 import { ref } from 'vue'
-import { auth, db } from '../firestoreDB'
-import { collection, doc, getDoc } from 'firebase/firestore'
+import { db } from '../firestoreDB'
+import { collection,doc, getDoc } from 'firebase/firestore'
+import { useGameStore } from '../game/game'
 import Clue from '@/components/Cluenote/Clue.vue'
 
 export default {
@@ -40,18 +41,16 @@ export default {
   setup() {
     const cluelist = ref({})
 
-    const user = auth.currentUser
+    // get user_cluelist from user-doc
+    const load = async (gameKey) => {
+      const USER_SLOTS = collection(db, `BetaUsers/${useGameStore().UID}/Games/${gameKey}/Slots`)
+      const AUTO_DOC = doc(USER_SLOTS, 'auto')
+      const AUTO_SNAP = await getDoc(AUTO_DOC)
 
-    // get user_cluelist from db
-    const load = async () => {
-      const UsersRef = collection(db, 'BetaUsers')
-      const userRef = doc(UsersRef, user.uid)
-      const userSnap = await getDoc(userRef)
-
-      cluelist.value = userSnap.data().Clues
+      cluelist.value = AUTO_SNAP.data().Clue
     }
 
-    load()
+    load('k_detective_beta')
 
     return {
       cluelist

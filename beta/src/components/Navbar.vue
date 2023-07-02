@@ -1,7 +1,7 @@
 <template>
   <nav>
     <div class="invisible-box" />
-    <button class="navbar icon" id="reset" @click="this.emitter.emit('reset')">
+    <button class="navbar icon" id="stage_select" @click="this.toggleStageSelect($event)">
       <img src="../assets/refresh.png" alt="새로고침" />
     </button>
     <div class="between-box" />
@@ -26,7 +26,19 @@
 <script>
 export default {
   name: 'Navbar',
-  emits: [ 'toContent' ]
+  emits: [ 'toContent', 'toggleStageSelect' ],
+  methods: {
+    toggleStageSelect(event) {
+      // rotate stage-select icon
+      event.target.classList.add('rotate')
+      setTimeout(() => {
+        event.target.classList.remove('rotate')
+      }, 1000)
+      
+      // toggle stage-select popup
+      this.$emit('toggleStageSelect')
+    }
+  }
 };
 </script>
 
@@ -44,6 +56,12 @@ nav {
   margin: 15px;
   width: 50px;
   height: 50px;
+  animation-duration: 2s;
+}
+
+.rotate {
+  transform: rotate(-360deg);
+  transition-duration: 1s;
 }
 
 .between-box {

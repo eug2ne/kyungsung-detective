@@ -1,22 +1,22 @@
 <template>
-  <nav>
+  <nav  @keydown.tab.exact.prevent="movePointer()" @keydown.tab.shift.exact.prevent="movePointer(true)">
     <div class="invisible-box" />
     <button class="navbar icon" id="stage_select" @click="this.toggleStageSelect($event)">
       <img src="../assets/refresh.png" alt="새로고침" />
     </button>
     <div class="between-box" />
     <ul class="navbar">
-      <li>
-        <p class="pixel-borders--2" @click="this.$emit('toContent', 'game')">맵</p>
+      <li :class="{ 'router-link-exact-active': this.$parent.nav_pointer === 0 }">
+        <p class="pixel-borders--2" @click="clickNav(0)">맵</p>
       </li>
-      <li>
-        <p class="pixel-borders--2" @click="this.$emit('toContent', 'inventory')">인벤토리</p>
+      <li :class="{ 'router-link-exact-active': this.$parent.nav_pointer === 1 }">
+        <p class="pixel-borders--2" @click="clickNav(1)">인벤토리</p>
       </li>
-      <li>
-        <p class="pixel-borders--2" @click="this.$emit('toContent', 'cluenote')">단서노트</p>
+      <li :class="{ 'router-link-exact-active': this.$parent.nav_pointer === 2 }">
+        <p class="pixel-borders--2" @click="clickNav(2)">단서노트</p>
       </li>
-      <li>
-        <p class="pixel-borders--2" @click="this.$emit('toContent', 'quiz')">단서판서</p>
+      <li :class="{ 'router-link-exact-active': this.$parent.nav_pointer === 3 }">
+        <p class="pixel-borders--2" @click="clickNav(3)">단서판서</p>
       </li>
     </ul>
     <div class="invisible-box" />
@@ -28,6 +28,30 @@ export default {
   name: 'Navbar',
   emits: [ 'toContent', 'toggleStageSelect' ],
   methods: {
+    movePointer(reverse = false) {
+      // move pointer
+      if (reverse) {
+        if (this.$parent.nav_pointer === 0) {
+          this.$parent.nav_pointer = 3
+        } else {
+          this.$parent.nav_pointer--
+        }
+      } else {
+        if (this.$parent.nav_pointer === 3) {
+          this.$parent.nav_pointer = 0
+        } else {
+          this.$parent.nav_pointer++
+        }
+      }
+
+      this.$emit('toContent')
+    },
+    clickNav(pointer) {
+      // set pointer to given value
+      this.$parent.nav_pointer = pointer
+
+      this.$emit('toContent')
+    },
     toggleStageSelect(event) {
       // rotate stage-select icon
       event.target.classList.add('rotate')

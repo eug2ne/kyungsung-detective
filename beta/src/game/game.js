@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import { defineStore } from 'pinia'
 import { collection, deleteDoc, doc, setDoc, getDocs, } from 'firebase/firestore'
 import { auth, db } from '../firestoreDB'
-import { firebaseInterface } from './firebaseInterface'
+import { firebaseInterface } from './interface/firebaseInterface'
 import SceneLoadPlugin from './SceneLoadPlugin'
 
 // import stages
@@ -156,6 +156,7 @@ export const useGameStore = defineStore('game', {
   persist: { storage: sessionStorage }
 })
 
+const STAGE_KEYS = {'BreakfastStage':BreakfastStage, 'Test1Stage':Test1Stage, 'Test2Stage':Test2Stage, 'Test3Stage': Test3Stage}
 export default class game extends Phaser.Game {
   constructor(containerId) {
     const config = {
@@ -185,24 +186,34 @@ export default class game extends Phaser.Game {
 
     super(config)
     this.key = 'k_detective_beta'
-    this.stage_keys = {'BreakfastStage':BreakfastStage, 'Test1Stage':Test1Stage, 'Test2Stage':Test2Stage, 'Test3Stage': Test3Stage}
     this.story = '시작'
   }
 
   create() {
     // pass stage-data to game.stage
-    const stage_class = this.stage_keys[useGameStore().stage.key]
-    this.stage = new stage_class(this.plugins) // create game.stage
-    this.stage.player_config = useGameStore().stage // pass player-config to game.stage
+    const Stage = STAGE_KEYS[useGameStore().stage.key]
+    this.stage = new Stage(this.plugins) // create game.stage
     this.stage.preload()
-    
+    this.stage.player_config = useGameStore().stage // pass player-config to game.stage
+
     const PlayScene_Key = this.stage.player_config.sceneKey // present sceneKey
     // set stage-data
     const config = {
       player_config: this.stage.player_config,
       scenes_config: this.stage.scenes_config
     }
-    this.scene.start(PlayScene_Key, config) // pass stage-data to scene
+    
+    const startScene = (isProcessing) => {
+      if (!isProcessing) {
+        this.scene.start(PlayScene_Key, config) // pass stage-data to scene
+      } else {
+        setTimeout(() => {
+          return startScene(this.scene.isProcessing)
+        }, 1000)
+      }
+    }
+    // start scene when stage scenes are all loaded
+    startScene(this.scene.isProcessing)
   }
 
   progress(progress) {

@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
+import keyboardInterface from './interface/keyboardInterface'
+import dialogueInterface from './interface/dialogueInterface'
 import Player from './GameObjects/Player'
 import NPC from './GameObjects/NPC'
 import Item from './GameObjects/Item'
@@ -14,12 +16,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     player_config: { sceneKey: 'undefined', x: 0, y: 0 },
     scenes_config: {}
   }
-  private player: Player
+  public player: Player
   private minimap: Phaser.Cameras.Scene2D.Camera
-  private controls: { cursor: any, enter: Phaser.Input.Keyboard.Key } = {
-    cursor: this.scene!.input.keyboard!.createCursorKeys(),
-    enter: this.scene!.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER, true, false)
-  }
   private item_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene!, 0, 0, '엔터를 눌러 아이템 얻기', {
     fontFamily: 'NeoDunggeunmo',
     fontSize: '20px',
@@ -27,8 +25,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     strokeThickness: 6,
     color: '#fff'
   })
+  private keyboard: keyboardInterface
+  private dialogue: dialogueInterface
   private keyboard_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene!, 0, 0,
-    '방향키:이동  Enter:상호작용',
+    '방향키:이동  Space/Enter:상호작용',
     {
       fontFamily: 'NeoDunggeunmo',
       fontSize: '20px',
@@ -88,7 +88,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     // add keyboard_text to scene
     this.scene!.add.existing(this.keyboard_text).setDepth(30).setFontSize(`${20/camera_config.main_zoom}px`)
-    this.scene!.input.keyboard!.addCapture([this.controls.cursor, 'ENTER', 'SPACE']) // prevent event propagation
 
     // create player on scene
     this.player = new Player(
@@ -119,12 +118,23 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.item_text.visible = false // add item_text
     this.scene!.physics.add.overlap(this.player.interact_area, items, (area: any, item: any) => {
       // item-interact event
-      if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
-        this.controls.enter.isDown = false
-        
-        const key = scene_config.item[item.id]
+      if (this.keyboard.interactWithNPCItem()) {
+        // get dialogueKey + optionKey
+        item.dialogueKey = scene_config.item[item.id] ? scene_config.item[item.id].interactionKey : undefined
+        item.optionsData = scene_config.item[item.id] ? scene_config.item[item.id].options : undefined
+
+        // get cameraX + cameraY
         const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
-        item.emit('item-interact', key, cameraX, cameraY)
+        // get zoom
+        const zoom = this.scene!.cameras.main.zoom
+
+        // create dialogue on scene
+        if (!item.dialogueKey||!item.dialogueData) return
+        this.dialogue.createDialogue(cameraX, cameraY, zoom, item.dialogueKey, item.dialogueData, item.optionsData)
+
+        // emit start-talking event
+        item.emit('start-talking')
+        this.scene!.events.emit('start-talking')
       }
     }) // add overlap callback
 
@@ -135,35 +145,35 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       })
     }
     this.scene!.physics.add.overlap(this.player.interact_area, npcs, (area, npc: any) => {
-      if (Phaser.Input.Keyboard.JustDown(this.controls.enter)) {
-        this.controls.enter.isDown = false
-
+      // npc-interact event
+      if (this.keyboard.interactWithNPCItem()) {
         // get dialogueKey + optionKey
         npc.dialogueKey = scene_config.npc[npc.id] ? scene_config.npc[npc.id].dialogueKey : undefined
-        const options = scene_config.npc[npc.id] ? scene_config.npc[npc.id].options : undefined
+        npc.optionsData = scene_config.npc[npc.id] ? scene_config.npc[npc.id].options : undefined
 
         // get cameraX + cameraY
         const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
-        npc.emit('start-talking', { dialogueKey: npc.dialogueKey, options: options }, cameraX, cameraY)
-      }
-    }) // overlap-talk event
-    this.scene!.events.on('start-talking', () => {
-      this.minimap.visible = false // remove minimap
-      this.controls.cursor.down.enabled = false
-      this.controls.cursor.left.enabled = false
-      this.controls.cursor.right.enabled = false
-      this.controls.cursor.up.enabled = false // cursor disable
-      this.controls.enter.enabled = false // enter disable
-    })
-    this.scene!.events.on('end-talking', (dialogue?: Dialogue) => {
-      this.minimap.visible = true // add minimap
-      this.controls.cursor.down.enabled = true
-      this.controls.cursor.left.enabled = true
-      this.controls.cursor.right.enabled = true 
-      this.controls.cursor.up.enabled = true // cursor enable
-      this.controls.enter.enabled = true // enter enable
+        // get zoom
+        const zoom = this.scene!.cameras.main.zoom
 
-      dialogue?.destroy()
+        // create dialogue on scene
+        if (!npc.dialogueKey||!npc.dialogueData) return
+        this.dialogue.createDialogue(cameraX, cameraY, zoom, npc.dialogueKey, npc.dialogueData, npc.optionsData)
+
+        // emit start-talking event
+        npc.emit('start-talking')
+        this.scene!.events.emit('start-talking')
+      }
+    }) // add overlap callback
+    this.scene!.events.on('start-talking', () => {
+      this.player.anims.pause() // stop player animation
+      this.minimap.visible = false // remove minimap
+      this.keyboard.startTalking() // set key events to dialogue mode
+    })
+    this.scene!.events.on('end-talking', () => {
+      this.dialogue.destroyDialogue() // destroy dialogue
+      this.minimap.visible = true // add minimap
+      this.keyboard.endTalking() // set key events to default mode
     })
     
     this.scene!.physics.add.collider(this.player, npcs)
@@ -172,10 +182,6 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     this.scene!.events.on('quiz-event', (id: string, progress_config: any) => {
       // set player.position to given value
-      this.controls.cursor.down.isDown = false
-      this.controls.cursor.left.isDown = false
-      this.controls.cursor.right.isDown = false
-      this.controls.cursor.up.isDown = false // stop player
       this.player.x = progress_config[id].x ?? this.player.x
       this.player.y = progress_config[id].y ?? this.player.y
 
@@ -187,26 +193,48 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       const dialogue = new Dialogue(this.scene!, cameraX, cameraY, zoom, id, progress_config)
       dialogue.create(id)
     }) // create progress-event dialogue
+
+    // create keyboard-interface
+    this.keyboard = new keyboardInterface(this.game, this.scene!, this, this.scene!.input.keyboard!)
+    this.keyboard.createKeys() // create cursor + enter + space keys
+
+    // create dialogue-interface
+    this.dialogue = new dialogueInterface(this.game, this.scene!, this, this.keyboard)
   }
 
   update(items: [ Item ], npcs: [ NPC ]) {
     // update keyboard_text.x,y
     const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
-    this.keyboard_text.setPosition(cameraX+650, cameraY+10)
+    this.keyboard_text.setPosition(cameraX+550, cameraY+10)
 
-    // set controls
+    // player move control
     this.player.setVelocity(0,0)
+    this.keyboard.movePlayer()
 
-    if (this.controls.cursor.left.isDown) {
-      this.player.update('left')
-    } else if (this.controls.cursor.right.isDown) {
-      this.player.update('right')
-    } else if (this.controls.cursor.up.isDown) {
-      this.player.update('up')
-    } else if (this.controls.cursor.down.isDown) {
-      this.player.update('down')
+    // dialogue control
+    if (this.dialogue.option_pointer) {
+      // option-pointer control
+      switch (this.keyboard.interactWithDialogue()) {
+        case 'option-up':
+          // move option-pointer up
+          this.dialogue.option_pointer!.movePointer('option-up')
+          break
+
+        case 'option-down':
+          // move option-pointer down
+          this.dialogue.option_pointer!.movePointer('option-down')
+          break
+
+        case 'click-keydown':
+          // select option
+          this.dialogue.option_pointer!.selectPointer()
+          break
+      }
     } else {
-      this.player.anims.stop()
+      if (this.keyboard.interactWithDialogue() === 'click-keydown') {
+        // skip line
+        this.dialogue.skipLine()
+      }  
     }
 
     // npc animation

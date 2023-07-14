@@ -71,7 +71,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
     return this._player_config
   }
 
-  async clear() {
+  clear() {
     if (!this.next) {
       // end of game
     } else {
@@ -83,20 +83,16 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
           scenes_config: { ...this.next.default_config.scenes_config }
         }
       })
-      await this.game.create()
+      this.game.create()
     }
   }
 
   preload() {
-    // reset game.scene
-    Object.keys(this.game.scene.keys).forEach((key) => {
-      this.game.scene.remove(key)
-    })
-
+    console.log('stage preload')
     // add stage.scenes to game.scene
     this.scenes.forEach((scene, index) => {
-      const sceneKey = Object.keys(this.scenes_config)[index+1] // because store patches data (original data is left in state)
-      this.game.scene.add(sceneKey, scene, false)
+      const sceneKey = Object.keys(this.default_config.scenes_config)[index]
+      if (!this.game.scene.getScene(sceneKey)) this.game.scene.add(sceneKey, scene, false)
     })
   }
 

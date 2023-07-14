@@ -5,10 +5,10 @@
     <StageSelectPopup v-if="this.showStageSelect" />
     <div class="contents">
       <EmailPopup v-if="game_clear"/>
-      <Game v-show="showContent.game&&this.$route.path=='/Game'" />
-      <Inventory v-if="showContent.inventory&&this.$route.path=='/Game'" />
-      <Cluenote v-if="showContent.cluenote&&this.$route.path=='/Game'" :progress="progress" />
-      <Quiz v-if="showContent.quiz&&this.$route.path=='/Game'" />
+      <Game v-show="showContent[0]&&this.$route.path=='/Game'" />
+      <Inventory v-if="showContent[1]&&this.$route.path=='/Game'" />
+      <Cluenote v-if="showContent[2]&&this.$route.path=='/Game'" :progress="progress" />
+      <Quiz v-if="showContent[3]&&this.$route.path=='/Game'" />
       <router-view></router-view>
     </div>
   </div>
@@ -32,11 +32,12 @@ export default {
   data() {
     return {
       showContent: {
-        game: true,
-        inventory: false,
-        cluenote: false,
-        quiz: false
+        0: true,
+        1: false,
+        2: false,
+        3: false
       },
+      nav_pointer: 0, // default show game
       showStageSelect: false
     }
   },
@@ -44,18 +45,18 @@ export default {
     ...mapState(useGameStore, ['progress', 'game_clear'])
   },
   methods: {
-    changeContent(content) {
+    changeContent() {
       // set route to Main
       if (this.$route.name != 'Main') {
         this.$router.replace('/Game')
       }
 
-      this.showContent.game = false
-      this.showContent.inventory = false
-      this.showContent.cluenote = false
-      this.showContent.quiz = false
+      this.showContent[0] = false
+      this.showContent[1] = false
+      this.showContent[2] = false
+      this.showContent[3] = false
 
-      this.showContent[content] = true
+      this.showContent[this.nav_pointer] = true
     }
   },
   mounted() {
@@ -64,11 +65,13 @@ export default {
 
       if (mutation.payload.puzzle) {
         // redirect to Quiz.vue
-        this.changeContent('quiz')
+        this.nav_pointer = 3
+        this.changeContent()
       } else if (mutation.payload.progress) {
         // redirect to Game.vue
         setTimeout(() => {
-          this.changeContent('game')
+          this.nav_pointer = 0
+          this.changeContent()
         }, 3000)
       }
     })

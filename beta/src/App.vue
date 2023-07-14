@@ -85,12 +85,13 @@ body {
   border-width: 5px;
 }
 
-.icon {
+.icon, .icon:focus {
   display: inline-block;
   width: fit-content;
   height: 45px;
   background-color: transparent;
   border: none;
+  outline: none;
   margin: 0 15px;
 }
 

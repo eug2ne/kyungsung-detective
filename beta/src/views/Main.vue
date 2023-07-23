@@ -1,10 +1,12 @@
 <template>
   <div id="router-view" class="pixel-borders--1">
-    <h3 id="progress-message"></h3>
+    <h3 id="progress-message" class="animate__animated animate__flash animate__slower" v-if="this.progress.message">
+      {{ this.progress.message }}
+    </h3>
     <Navbar @toContent="changeContent" @toggleStageSelect="this.showStageSelect = !this.showStageSelect" />
-    <StageSelectPopup v-if="this.showStageSelect" />
+    <StageSelectPopup v-if="this.showStageSelect" @closeSlotPopup="this.showStageSelect = false" />
     <div class="contents">
-      <EmailPopup v-if="game_clear"/>
+      <EmailPopup />
       <Game v-show="showContent[0]&&this.$route.path=='/Game'" />
       <Inventory v-if="showContent[1]&&this.$route.path=='/Game'" />
       <Cluenote v-if="showContent[2]&&this.$route.path=='/Game'" :progress="progress" />
@@ -68,11 +70,17 @@ export default {
         this.nav_pointer = 3
         this.changeContent()
       } else if (mutation.payload.progress) {
-        // redirect to Game.vue
-        setTimeout(() => {
-          this.nav_pointer = 0
-          this.changeContent()
-        }, 3000)
+        if (mutation.payload.progress.message) {
+          setTimeout(() => {
+            this.progress.message = null
+          }, 3000)
+        } else if (mutation.payload.progress.id) {
+          // redirect to Game.vue
+          setTimeout(() => {
+            this.nav_pointer = 0
+            this.changeContent()
+          }, 3000)
+        }
       }
     })
   }
@@ -91,6 +99,12 @@ export default {
 .invisible-box {
   width: 25px;
   height: 80px;
+}
+
+#progress-message {
+  margin: 10px;
+  padding: 5px;
+  background-color: #b0eeff;
 }
 
 h3 {

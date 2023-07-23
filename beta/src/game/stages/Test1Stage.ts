@@ -91,7 +91,7 @@ const event_config = {
         state.stage.scenes_config['Test1'].npc['test1_inspector'].dialogueKey = 'post_c_repeat'
       })
 
-      return false
+      return { clear: false, message: "단서노트에 새로운 단서가 추가되었습니다." }
     }),
     new Update({ quiz_id: 'cJ89EcZyF5EHwElEGRGZ', route: '시작.0.subClues.0' }, () => {
       // after accomplishing quiz, reveal subclue + update newspaperstand dialogue-key
@@ -99,10 +99,11 @@ const event_config = {
         // reveal subclue
         state.cluenote[0].subClues[0][0].reveal = true
 
+        // update newspaperstand dialogue-key
         state.stage.scenes_config['Test1'].npc['test1_newspaperstand'].dialogueKey = 'answer'
       })
 
-      return false
+      return { clear: false, message: "단서의 실마리를 풀었습니다." }
     }),
     new Update({ id: 'test1_newspaperstand', data: 'newspaper-get' }, () => {
       // get newspaper item from newspaperstand + update inspector, newspaperstand dialogueKey
@@ -121,11 +122,11 @@ const event_config = {
         state.stage.scenes_config['Test1'].npc['test1_newspaperstand'].dialogueKey = 'post_a'
       })
 
-      return false
+      return { clear: false, message: "'신문' 아이템을 획득했습니다." }
     }),
     new Update({ id: 'test1_inspector', data: 'inspector-clear' }, () => {
       // after talking to inspector carrying newspaper item >> stage clear
-      return true
+      return { clear: false, message: "" }
     })
   ]
 }

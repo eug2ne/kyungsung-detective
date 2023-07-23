@@ -68,11 +68,8 @@ export default {
 
 <style scoped>
 nav {
-  position: sticky;
-  width: calc(935px + 50px);
   height: 80px;
   display: flex;
-  margin: 15px 0 0 0;
   z-index: 1;
 }
 
@@ -101,6 +98,7 @@ ul {
   align-self: flex-end;
   display: flex;
   align-items: flex-end;
+  margin-left: 15px;
 }
 
 li {

@@ -2,16 +2,15 @@
   <div class="backdrop" v-if="this.show">
     <span @click="this.show=false" class="x-button">x</span>
     <div id="email-popup" class="popup">
-        <h3>'경성 탐정'을 즐겁게 플레이 하셨나요?</h3>
+        <h3>'경성 탐정' 뉴스레터를 시작했습니다!</h3>
         <p>
-          '경성 탐정'은 앞으로 여러분의 피드백을 기반으로, 여러 번의 업데이트를 통해 게임 시스템을 완성해나갈 예정입니다.
+          2주일에 1번, 베타판 업데이트 소식이나 개발 과정에서의 소소한 에피소드들을 담은 뉴스레터를 보내드릴 예정입니다.
           <br>
-          베타판 업데이트, 정식판 출시 소식 등 '경성 탐정' 소식을 빠르게 받아보고 싶으시다면 이메일 주소를 남겨주세요!
+          '경성 탐정' 소식을 빠르게 받아보고 싶으시다면 이메일 주소를 남겨주세요!
         </p>
 
-        <input type="email" v-model="email" placeholder="address@email.com">
+        <input type="email" v-model="email" placeholder="address@email.com" @click="this.email = ''">
         <button @click="sendEmailFeedback">>></button>
-        <textarea v-model="feedback" placeholder="팀에게 피드백을 남겨주시면 큰 도움이 됩니다!"></textarea>
     </div>
   </div>
 </template>
@@ -24,15 +23,17 @@ export default {
   data() {
     return {
       show: true,
-      email: '',
-      feedback: ''
+      email: ''
     }
   },
   methods: {
     sendEmailFeedback() {
       // check email validity
       const email_regex = /^[^\s@]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/
-      if (!email_regex.test(this.email)) return
+      if (!email_regex.test(this.email)) {
+        this.email = '이메일 주소를 다시 확인해주시기 바랍니다.'
+        return
+      }
 
       // send email+feedback via forms-url
       const url = 'https://docs.google.com/forms/d/e/1FAIpQLScOSzVu791TRBbvThziaMD5AHOa92IVRb2u8WTq7v9tNuxcTA/formResponse?&submit=Submit?usp=pp_url&entry.2067990364='
@@ -41,6 +42,8 @@ export default {
         +this.feedback
 
       axios.post(url)
+
+      this.show = false
     }
   }
 }
@@ -48,25 +51,26 @@ export default {
 
 <style scoped>
 .backdrop {
-  left: 10%;
-  width: 80%;
+  width: 100%;
   height: 100%;
 }
 
 .popup {
   width: 600px;
-  height: 430px;
+  height: fit-content;
   padding: 20px;
   border-radius: 10px;
   color: black;
-  background-color: #5ad5fa;
+  background-color: #fbffc0;
 }
 
 h3 {
   font-size: 30px;
   margin-bottom: 15px;
   text-align: left;
-  text-shadow: 1.5px 0 #ffff, 0 1.5px #ffff;
+  text-decoration: underline;
+  text-decoration-color: #303aff;
+  text-decoration-thickness: 5px;
 }
 
 p {
@@ -78,27 +82,27 @@ p {
 
 button {
   position: absolute;
-  left: 52%;
-  top: 47%;
+  left: 80%;
+  top: 70%;
   height: 45px;
   padding: 0px 5px;
   font-size: 50px;
   text-align: right;
   color: white;
   text-shadow: -3px 0 #000;
-  background-color: #fa5a5a;
+  background-color: #303aff;
   border: none;
   border-radius: 5px;
   box-shadow: 3px 3px 0px #404040;
 }
 
 input[type=email] {
-  width: 50%;
+  width: 80%;
   margin: 10px 0px;
   padding: 10px 20px;
   font-size: 20px;
   border: none;
-  border-bottom: 2px solid #fa5a5a;
+  border-bottom: 2px solid #303aff;
 }
 
 textarea {
@@ -108,13 +112,13 @@ textarea {
   font-family: 'NeoDunggeunmo';
   font-size: 20px;
   border: none;
-  border-bottom: 2px solid #fa5a5a;
+  border-bottom: 2px solid #303aff;
   resize: none;
 }
 
 input[type=email]:focus, textarea:focus {
   outline: none;
-  border: 2px solid #fa5a5a;
+  border: 2px solid #303aff;
   border-radius: 5px;
 }
 </style>

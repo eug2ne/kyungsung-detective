@@ -91,6 +91,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     this.debugShowBody = true
     this.debugShowVelocity = true
     this.debugBodyColor = 0x0033ff // debug option
+    this.setInteractive() // enable interaction
 
     // create animation for each frame
     Object.entries(this.anim_config.frames).forEach((entry: any) => {

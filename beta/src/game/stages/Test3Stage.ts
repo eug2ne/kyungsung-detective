@@ -82,7 +82,7 @@ const event_config = {
       }
       addClue(clue,2)
 
-      return false
+      return { clear: false, message: "" }
     })
   ],
   'z2Aj8sLVTc5FLNxZQ0Rg': [
@@ -98,7 +98,7 @@ const event_config = {
       }
       if (timeline[1]) {
         // if subclue already in timeline, return
-        if (_.some(timeline[1].subClues, subclue)) return false
+        if (_.some(timeline[1].subClues, subclue)) return { clear: false, message: "" }
       } else {
         // create new timeline data
         timeline[1] = {
@@ -131,7 +131,7 @@ const event_config = {
         reveal: true
       }, 2, 4)
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_item0", data: "item0-get"}, () => {
       // add item to inventory + update missing4mom dialogueKey
@@ -149,7 +149,7 @@ const event_config = {
         state.stage.scenes_config['Test3'].npc['test3_missing4mom'].dialogueKey = 'answer'
       })
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing4mom", data: "missing4mom-answer"}, () => {
       // add subclue + update missing4mom dialogueKey
@@ -173,7 +173,7 @@ const event_config = {
         state.stage.scenes_config['Village'].npc['test3_missing4mom'].dialogueKey = 'post_c_repeat'
       }) // update missing4mom dialogueKey
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({quiz_id: "WIN3vIY76B5ZHa13x70c", route: "시작.2.subClues.4"}, () => {
       // update missing4mom optionKey
@@ -181,7 +181,7 @@ const event_config = {
         state.stage.scenes_config['Test3'].npc['test3_missing4mom'].options.push('answer-fake')
       })
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing4mom", data: "missing4mom-fake"}, () => {
       // disable missing4mom dialogue
@@ -189,7 +189,7 @@ const event_config = {
         delete state.stage.scenes_config['Test3'].npc['test3_missing4mom']
       })
 
-      return false
+      return { clear: false, message: "" }
     })
   ],
   'test3-event-promise': [
@@ -205,7 +205,7 @@ const event_config = {
       }
       if (timeline[2]) {
         // if subclue already in timeline, return
-        if (_.some(timeline[2].subClues, subclue)) return false
+        if (_.some(timeline[2].subClues, subclue)) return { clear: false, message: "" }
       } else {
         // create new timeline data
         timeline[2] = {
@@ -226,7 +226,7 @@ const event_config = {
         reveal: true
       }, 2, 1)
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_item1", data: "item1-get"}, () => {
       // add item to inventory + update missing1sis dialogueKey
@@ -244,7 +244,7 @@ const event_config = {
         state.stage.scenes_config['Test3'].npc['test3_missing1sis'].dialogueKey = 'answer'
       })
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing1sis", data: "missing1sis-answer"}, () => {
       // update subclue + update missing1sis dialogueKey
@@ -265,7 +265,7 @@ const event_config = {
         state.stage.scenes_config['Village'].npc['test3_missing1sis'].dialogueKey = 'post_c_repeat'
       })
 
-      return false
+      return { clear: false, message: "" }
     })
   ],
   'test3-event-updateTimeline': [
@@ -286,7 +286,7 @@ const event_config = {
         reveal: true
       }, 2, 0) // add subclue
       
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_villager12", data: "villager12-time"}, (stage: any) => {
       // add timeline + update subclue
@@ -310,7 +310,7 @@ const event_config = {
         })
       }
       
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_villager34", data: "villager34-time"}, () => {
       // update villager34 optionKey
@@ -318,7 +318,7 @@ const event_config = {
         state.stage.scenes_config['Village'].npc['test3_villager34'].options.push('answer-missing2')
       })
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_villager34", data: "villager34-missing2"}, () => {
       // update subclue
@@ -330,7 +330,7 @@ const event_config = {
         reveal: true
       }, 2, 2)
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing1mom", data: "missing1mom-time"}, (stage: any) => {
       // add timeline + update missing1mom optionKey
@@ -344,7 +344,7 @@ const event_config = {
       }
       if (timeline[1]) {
         // if subclue already in timeline, return
-        if (_.some(timeline[1].subClues, subclue)) return false
+        if (_.some(timeline[1].subClues, subclue)) return { clear: false, message: "" }
       } else {
         // create new timeline data
         timeline[1] = {
@@ -368,7 +368,7 @@ const event_config = {
         })
       }
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing2mom", data: "missing2mom-friendship"}, () => {
       // add subclue
@@ -380,7 +380,7 @@ const event_config = {
         reveal: true
       }, 2, 2) // add subclue
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing1sis", data: "missing1sis-time"}, (stage: any) => {
       // add timeline
@@ -397,7 +397,7 @@ const event_config = {
         })
       }
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing2mom", data: "missing2mom-time"}, (stage: any) => {
       // add timeline
@@ -417,7 +417,7 @@ const event_config = {
       }
       if (timeline[1]) {
         // if subclue already in timeline, return
-        if (_.some(timeline[1].subClues, subclue1)) return false
+        if (_.some(timeline[1].subClues, subclue1)) return { clear: false, message: "" }
       } else {
         // create new timeline data
         timeline[1] = {
@@ -428,7 +428,7 @@ const event_config = {
       }
       if (timeline[2]) {
         // if subclue already in timeline, return
-        if (_.some(timeline[1].subClues, subclue1)) return false
+        if (_.some(timeline[1].subClues, subclue1)) return { clear: false, message: "" }
       } else {
         // create new timeline data
         timeline[2] = {
@@ -450,7 +450,7 @@ const event_config = {
         })
       }
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing3mom", data: "missing3mom-time"}, (stage: any) => {
       // add timeline
@@ -464,7 +464,7 @@ const event_config = {
       }
       if (timeline[1]) {
         // if subclue already in timeline, return
-        if (_.some(timeline[1].subClues, subclue)) return false
+        if (_.some(timeline[1].subClues, subclue)) return { clear: false, message: "" }
       } else {
         // create new timeline data
         timeline[1] = {
@@ -489,7 +489,7 @@ const event_config = {
         })
       }
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing3bro", data: "missing3bro-time"}, () => {
       // update missing3bro optionKey
@@ -497,7 +497,7 @@ const event_config = {
         state.stage.scenes_config['Village'].npc['test3_missing3bro'].options.push('answer-play')
       })
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing3bro", data: "missing3bro-play"}, () => {
       // add subclue
@@ -509,7 +509,7 @@ const event_config = {
         reveal: true
       }, 2, 3)
 
-      return false
+      return { clear: false, message: "" }
     })
   ], // suspicion system activated after timeline complete
   'suspicion-system-activate': [
@@ -522,7 +522,7 @@ const event_config = {
         })
       })
 
-      return false
+      return { clear: false, message: "" }
     })
   ],
   // post-suspicion events
@@ -542,7 +542,7 @@ const event_config = {
         state.stage.scenes_config['Village'].npc['test3_police'].options.splice(-1, 0, 'answer-tales')
       }) // update villager12, police optionKey
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_villager12", data: "villager12-tales"}, () => {
       // update subclue
@@ -559,7 +559,7 @@ const event_config = {
         }
       })
 
-      return false
+      return { clear: false, message: "" }
     })
   ],
   'test3-event-kidnap': [
@@ -577,7 +577,7 @@ const event_config = {
         state.stage.scenes_config['Village'].npc['test3_police'].options.splice(-1, 0, 'kidnap')
       }) // update police optionKey
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_police", data: "police-kidnap"}, () => {
       // update subclue
@@ -591,7 +591,7 @@ const event_config = {
         }
       })
 
-      return false
+      return { clear: false, message: "" }
     })
   ],
   '5pSYFHRok3Es4xw6XWcC': [
@@ -613,7 +613,7 @@ const event_config = {
         reveal: false
       })
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({quiz_id: "WIN3vIY76B5ZHa13x70c", route: "시작.2.subClues.0"}, () => {
       // update missing2mom optionKey
@@ -621,7 +621,7 @@ const event_config = {
         state.stage.scenes_config['Village'].npc['test3_missing2mom'].options.splice(-1, 0, 'answer-adventure')
       })
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing2mom", data: "missing2mom-adventure"}, () => {
       // update subclue + update missing1sis optionKey
@@ -642,7 +642,7 @@ const event_config = {
         state.stage.scenes_config['Village'].npc['test3_missing1sis'].options.splice(-1, 0, 'answer-adventure')
       })
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_missing1sis", data: "missing1sis-adventure"}, () => {
       // add subclue + update inspector optionKey
@@ -658,11 +658,11 @@ const event_config = {
         state.stage.scenes_config['Village'].npc['test3_inspector'].options.splice(1, 1, 'answer-solve')
       }) // update inspector optionKey
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test3_inspector", data: "inspector-solve"}, (stage: any) => {
       // stage clear
-      return true
+      return { clear: true }
     })
   ]
 }

@@ -2,6 +2,8 @@ import Phaser from "phaser"
 import SceneLoadPlugin from "../SceneLoadPlugin"
 import Dialogue from "../GameObjects/Dialogue"
 import keydoardInterface from "./keyboardInterface"
+import NPC from "../GameObjects/NPC"
+import Item from "../GameObjects/Item"
 
 type PluginInterface = {
   game: Phaser.Game
@@ -67,6 +69,7 @@ export default class dialogueInterface implements ScenePluginInterface {
   sceneload: SceneLoadPlugin
   keyboard: keydoardInterface
   public option_pointer?: OptionPointer
+  public game_object?: NPC|Item
   private dialogue: Dialogue
 
   constructor(Game: Phaser.Game, Scene: Phaser.Scene, SceneLoadPlugin: SceneLoadPlugin, KeyboardInterface: keydoardInterface) {
@@ -82,8 +85,12 @@ export default class dialogueInterface implements ScenePluginInterface {
     zoom: number,
     dialogueKey: string,
     dialogueData: any,
-    optionsData?: any
+    optionsData?: any,
+    gameObject?: NPC|Item
   ) {
+    if (this.game_object) this.game_object.setInteractive() // reset past game_object cool time
+    this.game_object = gameObject
+
     // create dialogue on scene
     this.dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, dialogueKey, dialogueData, optionsData)
     this.dialogue.create(dialogueKey)
@@ -97,6 +104,11 @@ export default class dialogueInterface implements ScenePluginInterface {
   destroyDialogue() {
     // destroy dialogue
     this.dialogue.destroy()
+    // set cool time
+    // this.game_object?.removeListener('start-talking')
+    // setTimeout(() => {
+    //   this.game_object?.setInteractive()
+    // }, 3000)
   }
 
   createOptionPointer(options: [ Phaser.GameObjects.Text? ]) {

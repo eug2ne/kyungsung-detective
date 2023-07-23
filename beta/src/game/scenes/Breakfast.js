@@ -20,6 +20,7 @@ import maid_surprise from '../assets/npc_log/maid_surprise.png'
 import maid_smile from '../assets/npc_log/maid_smile.png'
 import sami_neutral from '../assets/sami_log/sami_무표정.png'
 import sami_smile from '../assets/sami_log/sami_웃음.png'
+import { useGameStore } from "../game"
 
 const npcs_JSON = [
   {
@@ -70,13 +71,13 @@ const npcs_JSON = [
       "answer-clear": {
         dialogue: [
           {
-            "image": "maid_smile",
-            "line": "뭘 할지 계획은 있으신가요?",
-            "name": "사치코"
+            "image": "sami_neutral",
+            "line": "사치코. 나, 탐정 시험을 보려고.",
+            "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "나, 탐정 시험을 보려고.",
+            "line": "신문을 보니까 마침 공인 시험이 오늘 경무대에서 진행된다더라.",
             "name": "사미"
           },
           {
@@ -91,22 +92,42 @@ const npcs_JSON = [
           },
           {
             "image": "maid_neutral",
-            "line": "전 주인님께서 그렇게 가시고 주인님이 같은 길을 가실 생각을 하실 줄은 몰라서..",
+            "line": "전 주인님께서 그렇게 가시고 아가씨가 같은 길을 가실 생각을 하실 줄은 몰라서..",
             "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "(..그렇겟지. 나도 아까 신문을 보기 전까지는 생각하지 않았던 일이니까.)",
+            "line": "..나 정말 오랜만에 이 집에 돌아왔는데 장례만 치르고 다시 떠나기 싫거든. 여기서 좀 지내면서 마음을 좀 추스르고 싶어.",
             "name": "사미"
           },
           {
             "image": "sami_smile",
-            "line": "어머니를 위해 할 수 있는 일을 하고 싶어졌어.",
+            "line": "그래서 지내는 동안 용돈 벌이 정도는 해야 하잖아?",
             "name": "사미"
           },
           {
             "image": "maid_surprise",
-            "line": "설마 어머님의 죽음이 의심스러우신가요?",
+            "line": "아가씨가 여기서 지내더라도 부친께서 꼭 생활비는 해결해주실 거에요! 걱정하지 않으셔도 돼요!",
+            "name": "사치코"
+          },
+          {
+            "image": "sami_smile",
+            "line": "아, 그건 알지.",
+            "name": "사미"
+          },
+          {
+            "image": "sami_neutral",
+            "line": "사실 그런 이유뿐만 아니라,",
+            "name": "사미"
+          },
+          {
+            "image": "sami_smile",
+            "line": "기왕 일하는 거 어머니를 위해서 할 수 있는 일을 하고 싶어.",
+            "name": "사미"
+          },
+          {
+            "image": "maid_surprise",
+            "line": "설마 주인님의 죽음이 의심스러우신가요?",
             "name": "사치코"
           },
           {
@@ -115,23 +136,18 @@ const npcs_JSON = [
             "name": "사미"
           },
           {
-            "image": "sami_smile",
-            "line": "어머니는 본인이 탐정인 걸 자랑스러워 하셨으니까",
-            "name": "사미"
-          },
-          {
-            "image": "sami_smile",
-            "line": "자식으로서 그 유지를 이어받음으로써 뒤늦게나마 경의를 표하고 싶은거야.",
+            "image": "sami_neutral",
+            "line": "어머니가 탐정이 되는 걸 좋아할 수 밖에 없었던 이유를 알고 싶어.",
             "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "(생각해보면 어머니도, 어머니의 일도 그동안 너무 모르고 살았어.)",
+            "line": "(그동안 내가 봐온 어머니는 신문 기사 속에서만 있었어.)",
             "name": "사미"
           },
           {
             "image": "sami_neutral",
-            "line": "(이제부터라도 알고싶어. 이대로 모르는채로 덮어놓고 흘려보내고 싶지 않아.)",
+            "line": "(늦었지만 이제부터라도 알고싶어. 이대로 어머니가 어떤 사람이었는지도 제대로 모르는 채 흘려보내고 싶지 않아.)",
             "name": "사미"
           },
           {
@@ -141,12 +157,32 @@ const npcs_JSON = [
           },
           {
             "image": "maid_smile",
-            "line": "..저는 주인님이 어떤 길을 가시든 진심으로 응원해요.",
-            "name": "사미"
+            "line": "..저는 아가씨가 어떤 길을 가시든 진심으로 응원해요.",
+            "name": "사치코"
+          },
+          {
+            "image": "maid_smile",
+            "line": "그러니 마지막으로 한 가지만 더 알려드릴게요.",
+            "name": "사치코"
+          },
+          {
+            "image": "maid_smile",
+            "line": "이 게임은 게임을 진행하면서 자동저장이 이루어지기는 하나, 왼쪽 상단의 새로고침 아이콘을 누르면 원하는 슬롯에 지금까지의 진행정보를 따로 저장할 수도 있어요.",
+            "name": "사치코"
+          },
+          {
+            "image": "maid_smile",
+            "line": "물론 과거에 저장했던 슬롯을 불러오는 것도 가능하고요. '스테이지 선택' 으로 넘어가시면 원하시는 스테이지를 고를 수도 있어요.",
+            "name": "사치코"
+          },
+          {
+            "image": "maid_smile",
+            "line": "앞으로 탐정업을 하시는데 도움이 되실 겁니다. 물론 어떻게 활용하실지는 아가씨의 몫이지만요.",
+            "name": "사치코"
           },
           {
             "image": "sami_smile",
-            "line": "이해해줘서 고마워, 사치코",
+            "line": "응. 잘 알았어. 기왕 알려준 거 잘 활용해볼게. 이해해줘서 고마워, 사치코",
             "name": "사미"
           }
         ],
@@ -184,7 +220,7 @@ const npcs_JSON = [
       "auto_start": true
     },
     "check": null,
-    "x": 420,
+    "x": 620,
     "y": 240
   }
 ]
@@ -193,7 +229,7 @@ const items_JSON = [
   {
     "name": "newspaper",
     "id": "breakfast_item0",
-    "x": 570,
+    "x": 770,
     "y": 425,
     "scale": 2,
     "depth": 10,
@@ -230,7 +266,7 @@ const items_JSON = [
   {
     "name": "b_meal",
     "id": "breakfast_item1",
-    "x": 460,
+    "x": 660,
     "y": 422,
     "scale": 2,
     "depth": 5,
@@ -297,30 +333,30 @@ export default class Breakfast extends Phaser.Scene {
 
   create(data) {
     // add background image + set world bound
-    const background = this.add.image(150, 100, 'kitchen').setOrigin(0, 0).setScale(2)
-    this.physics.world.setBounds(159, 100, background.width*2-18, background.height*2, true, true, true, true)
+    const background = this.add.image(350, 100, 'kitchen').setOrigin(0, 0).setScale(2)
+    this.physics.world.setBounds(359, 100, background.width*2-18, background.height*2, true, true, true, true)
 
     // add obstacle image + adjust body
-    const cupboard = this.physics.add.staticImage(150,100,'cupboard').setOrigin(0,0)
-    cupboard.visible = false, cupboard.body.x = 150, cupboard.body.y = 100, cupboard.body.setSize(500,80,false)
-    const sink = this.physics.add.staticImage(150,100,'sink').setOrigin(0,0)
-    sink.visible = false, sink.body.x = 240, sink.body.y = 190, sink.body.setSize(300,50,false)
-    const glasscloset = this.physics.add.staticImage(150,100,'glasscloset').setOrigin(0,0)
-    glasscloset.visible = false, glasscloset.body.x = 655, glasscloset.body.y = 110, glasscloset.body.setSize(125,115,false)
+    const cupboard = this.physics.add.staticImage(350,100,'cupboard').setOrigin(0,0)
+    cupboard.visible = false, cupboard.body.x = 350, cupboard.body.y = 100, cupboard.body.setSize(500,80,false)
+    const sink = this.physics.add.staticImage(350,100,'sink').setOrigin(0,0)
+    sink.visible = false, sink.body.x = 440, sink.body.y = 190, sink.body.setSize(300,50,false)
+    const glasscloset = this.physics.add.staticImage(350,100,'glasscloset').setOrigin(0,0)
+    glasscloset.visible = false, glasscloset.body.x = 855, glasscloset.body.y = 110, glasscloset.body.setSize(125,115,false)
     
-    const table = this.physics.add.staticImage(150,95,'table').setOrigin(0,0).setScale(2)
-    table.body.x = 340, table.body.y = 350, table.body.setSize(250,100,false)
+    const table = this.physics.add.staticImage(350,95,'table').setOrigin(0,0).setScale(2)
+    table.body.x = 540, table.body.y = 350, table.body.setSize(250,100,false)
     
-    this.physics.add.staticImage(150,100,'closet').setOrigin(0,0).setScale(2).setDepth(15)
-    const closet_l = this.physics.add.staticImage(150,100,'closet_l').setOrigin(0,0)
-    closet_l.visible = false, closet_l.body.x = 150, closet_l.body.y = 395, closet_l.body.setSize(50,150,false)
-    const closet_r = this.physics.add.staticImage(150,100,'closet_r').setOrigin(0,0)
-    closet_r.visible = false, closet_r.body.x = 725, closet_r.body.y = 395, closet_r.body.setSize(50,150,false)
+    this.physics.add.staticImage(350,100,'closet').setOrigin(0,0).setScale(2).setDepth(15)
+    const closet_l = this.physics.add.staticImage(350,100,'closet_l').setOrigin(0,0)
+    closet_l.visible = false, closet_l.body.x = 350, closet_l.body.y = 395, closet_l.body.setSize(50,150,false)
+    const closet_r = this.physics.add.staticImage(350,100,'closet_r').setOrigin(0,0)
+    closet_r.visible = false, closet_r.body.x = 925, closet_r.body.y = 395, closet_r.body.setSize(50,150,false)
 
     const chairs = this.physics.add.staticGroup() // chairs do not apply collision
-    chairs.create(150,95,'backchair').setOrigin(0,0).setScale(2)
+    chairs.create(350,95,'backchair').setOrigin(0,0).setScale(2)
       .refreshBody().setDepth(15)
-    chairs.create(150,95,'frontchair').setOrigin(0,0).setScale(2)
+    chairs.create(350,95,'frontchair').setOrigin(0,0).setScale(2)
       .refreshBody().setDepth(7)
 
     this.add.existing(cupboard,sink,glasscloset,table,closet,closet_l,closet_r)
@@ -366,6 +402,117 @@ export default class Breakfast extends Phaser.Scene {
     this.sceneload.create(colliders, this.items, this.npcs, camera_config, data)
 
     this.game.stage.mapEvent(this) // activate stage
+
+    // check npc dialogue-key
+    if (useGameStore().stage.scenes_config['Breakfast'].npc['breakfast_maid'].dialogueKey === 'prologue') {
+      // if breakfast_maid.dialogueKey === prologue, play prologue event
+      const prologue_config = {
+        'breakfast-event-npc0': {
+          sceneKey: 'Breakfast',
+          x: 0,
+          y: 0,
+          dialogue: [
+            {
+              "image": "maid_smile",
+              "line": "아, 일어나셨나요 아가씨?",
+              "name": "사치코"
+            },
+            {
+              "image": "maid_smile",
+              "line": "갑작스러웠을텐데도 이렇게 빨리 와주셔서 정말 감사합니다.",
+              "name": "사치코"
+            },
+            {
+              "image": "sami_neutral",
+              "line": "아니야, 당연한 일인데. 아빠는 교회 일을 마무리 짓고 오시느라 며칠 늦으신다는 것 같지만.",
+              "name": "사미"
+            },
+            {
+              "image": "maid_smile",
+              "line": "허기지실텐데, 제가 아침도 상에 차려놨어요.",
+              "name": "사치코"
+            },
+            {
+              "image": "maid_smile",
+              "line": "이동은 방향키 로, 원하는 인물이나 사물을 향해 마주보고 스페이스 / 엔터 를 누르면 해당 인물이나 사물과 상호작용 할 수 있어요.",
+              "name": "사치코"
+            },
+            {
+              "image": "maid_smile",
+              "line": "이미 눈치채셨겠지만 대화문을 넘기는 것도 스페이스 / 엔터 를 누르면 돼요.",
+              "name": "사치코"
+            },
+            {
+              "image": "sami_smile",
+              "line": "고마워. 아침은 잘 먹을게.",
+              "name": "사미"
+            },
+            {
+              "image": "maid_smile",
+              "line": "제가 어제 드린 주인님 유품은 살펴보셨어요?",
+              "name": "사치코"
+            },
+            {
+              "image": "sami_neutral",
+              "line": "아, 이 '단서판서' 라고 되어있는 거 말이지. 응, 살펴봤어. 아무 것도 쓰여있지 않지만.",
+              "name": "사미"
+            },
+            {
+              "image": "maid_smile",
+              "line": "..그래도 주인님의 얼마 안 남은 유품 중 하나니까 소중히 여겨주세요.",
+              "name": "사치코"
+            },
+            {
+              "image": "maid_smile",
+              "line": "'단서판서'는 상단의 네비바를 클릭해서도 열 수 있지만, tab / shift+tab 을 이용해서도 열 수 있어요.",
+              "name": "사치코"
+            },
+            {
+              "image": "sami_smile",
+              "line": "그렇구나. 그건 몰랐네. 알려줘서 고마워.",
+              "name": "사미"
+            },
+            {
+              "image": "sami_neutral",
+              "line": "..엄마의 유품들은 대부분 경찰에서 가져갔지?",
+              "name": "사미"
+            },
+            {
+              "image": "maid_neutral",
+              "line": "..네. 아무래도 대부분 수사 자료니까요.",
+              "name": "사치코"
+            },
+            {
+              "image": "sami_neutral",
+              "line": "탐정이란 직업도 참 잔인하네.",
+              "name": "사미"
+            },
+            {
+              "image": "sami_neutral",
+              "line": "원래는 어머니 장례식도 떠들썩하게 국장으로 치뤄질 예정이었다며?",
+              "name": "사미"
+            },
+            {
+              "image": "maid_neutral",
+              "line": "저도 그렇다고 들었어요. 다행이 주인님 친구분의 도움으로 가족들과 가까운 친지끼리만 소박하게 치뤄질 수 있도록 조율되었다는 것 같아요.",
+              "name": "사치코"
+            },
+            {
+              "image": "maid_smile",
+              "line": "장례식에 대한 자세한 건 부친분이 조율해주실테니까 아가씨는 걱정하지 않으셔도 돼요! 아가씨는 여독을 푸시는 데만 집중하세요!",
+              "name": "사치코"
+            },
+            {
+              "image": "sami_neutral",
+              "line": "응. 항상 고마워 사치코.",
+              "name": "사미"
+            }
+          ],
+          event: { eventKey: 'breakfast-event-npc0', eventData: { id: 'breakfast_maid', data: 'prologue' } }
+        }
+      }
+      this.events.emit('quiz-event', 'breakfast-event-npc0', prologue_config)
+    }
   }
 
   update() {

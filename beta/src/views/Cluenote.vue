@@ -12,7 +12,7 @@
   </ul>
 
   <div id="clue-board" class="pixel-borders--1">
-    <div v-if="!this.show[0]" class="notice">
+    <div v-if="!this.show" class="notice">
       버튼을 눌러 단서를 확인하세요.
     </div>
     <div class="clue-wrapper" v-else v-for="clue_id in Object.keys(this.show)" :key="clue_id.id">

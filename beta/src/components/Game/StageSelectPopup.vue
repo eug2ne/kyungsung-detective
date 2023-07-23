@@ -1,54 +1,34 @@
 <template>
   <div class="popup">
-    <StageSlotList v-if="this.showSlot" :mode="this.action" @closeSlot="this.showSlot=false" />
-    <div v-else class="stage-list">
-      <ul>
-        <li>
-          <button class="stage-save pixel-borders--1" @click="this.saveSlot">저장하기</button>
-        </li>
-        <li>
-          <button class="stage-slot pixel-borders--1" @click="this.loadSlot">불러오기</button>
-        </li>
-      </ul>
-      <div class="stage pixel-borders--2">
-        <h3 class="stage-title">부엌에서</h3>
-        <p class="stage-description">
-          어머니의 부고 소식을 듣고 오랜만에 한국으로 돌아온 사미. 앞으로 어떻게 해야할지 고민하는데...
-        </p>
-        <button class="stage-select pixel-borders--1" @click="resetStage('BreakfastStage')">처음부터</button>
-      </div>
-      <div class="stage pixel-borders--2">
-        <h3 class="stage-title">첫번째 탐정시험</h3>
-        <p class="stage-description">
-          탐정시험을 보러 경무대로 온 사미. 과연 무사히 탐정시험을 치를 수 있을 것인가.
-        </p>
-        <button class="stage-select pixel-borders--1" @click="resetStage('Test1Stage')">처음부터</button>
-      </div>
-      <div class="stage pixel-borders--2">
-        <h3 class="stage-title">두번째 탐정시험</h3>
-        <p class="stage-description">
-          두번째 탐정시험은 가상의 사건을 해결하는 모의수사. 가상의 사건이지만 긴장의 끈을 놓아서는 안된다!
-        </p>
-        <button class="stage-select pixel-borders--1" @click="resetStage('Test2Stage')">처음부터</button>
-      </div>
-      <div class="stage unknown pixel-borders--2">
-        <h3 class="stage-title">coming soon...</h3>
-        <p class="stage-description">????? ?????</p>
-      </div>
-    </div>
+    <ul>
+      <li>
+        <span @click="this.$emit('closeSlotPopup')" class="x-button">x</span>
+      </li>
+    </ul>
+    <ul>
+      <li v-if="!this.showStageList">
+        <button class="show-stage-list pixel-borders--1" @click="this.showStageList = true">스테이지 선택</button>
+      </li>
+      <li v-else>
+        <button class="show-slot-list pixel-borders--1" @click="this.showStageList = false">저장슬롯 보기</button>
+      </li>
+    </ul>
+    <StageList v-if="this.showStageList"/>
+    <StageSlotList v-else :mode="this.action" @closeSlot="this.showSlot=false" />
   </div>
 </template>
 
 <script>
-import { useGameStore } from '@/game/game'
 import StageSlotList from './StageSlotList.vue'
+import StageList from './StageList.vue'
 
 export default {
   name: 'StageSelectPopup',
-  components: { StageSlotList },
+  components: { StageList, StageSlotList },
+  emits: ['closeSlotPopup'],
   data() {
     return {
-      showSlot: false,
+      showStageList: false,
       action: null
     }
   },
@@ -60,10 +40,6 @@ export default {
     loadSlot() {
       this.showSlot = true
       this.action = 'load'
-    },
-    async resetStage(stageKey) {
-      await useGameStore().resetStage('k_detective_beta', stageKey)
-      this.emitter.emit('reload')
     }
   }
 }
@@ -73,47 +49,35 @@ export default {
 .popup {
   width: 500px;
   height: fit-content;
-  top: 17%;
-  left: 12%;
+  top: 8%;
+  left: 8%;
   padding: 20px;
   border-radius: 10px;
   background-color: #ffffffd6;
 }
 
-.stage {
-  margin: 10px 0;
-  padding: 20px;
-  background-color: #9dbbd1d6;
+.show-stage-list {
+  background-color: #eb5d5dd4;
 }
 
-.unknown {
-  background-color: #d19d9dd6;
+.show-slot-list {
+  background-color: #5d9bebd4;
 }
 
-ul {
-  display: flex;
-  height: fit-content;
-  flex-direction: row-reverse;
-  align-self: flex-end;
-  align-items: flex-end;
+span {
+  margin: 0;
   padding: 0;
 }
 
 li {
+  margin: 0;
   padding: 0px;
 }
 
-h3 {
-  text-decoration: underline;
-  text-decoration-color: white;
-  text-decoration-thickness: 3px;
-}
-
 button {
-  margin: 10px 10px 0 0;
+  margin: 25px 0 0 0;
   padding: 5px;
   color: white;
-  font-size: 10px;
-  background-color: #00000096;
+  font-size: 15px;
 }
 </style>

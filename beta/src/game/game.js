@@ -14,10 +14,10 @@ import Test3Stage from './stages/Test3Stage'
 const STAGE_DEFAULT_CONFIG = {
   'BreakfastStage': {
     key: 'BreakfastStage',
-    player_config: { sceneKey: 'Breakfast' , x: 663, y: 472 },
+    player_config: { sceneKey: 'Breakfast' , x: 863, y: 472 },
     scenes_config: {
       'Breakfast': {
-        npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: ['option-end', 'option-default'] } },
+        npc: { 'breakfast_maid': { dialogueKey: 'prologue', options: ['option-end', 'option-default'] } },
         item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
       }
     }
@@ -41,7 +41,7 @@ const STAGE_DEFAULT_CONFIG = {
   },
   'Test2Stage': {
     key: 'Test2Stage',
-    player_config: { 'sceneKey': 'Test2' , 'x': 300, 'y': 500 },
+    player_config: { 'sceneKey': 'Test2' , 'x': 600, 'y': 500 },
     scenes_config: {
       'Test2': {
         npc: {
@@ -64,10 +64,10 @@ export const useGameStore = defineStore('game', {
   state: () => ({
     stage: {
       key: 'BreakfastStage',
-      player_config: { sceneKey: 'Breakfast' , x: 663, y: 472 },
+      player_config: { sceneKey: 'Breakfast' , x: 863, y: 472 },
       scenes_config: {
         'Breakfast': {
-          npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: ['option-end', 'option-default'] } },
+          npc: { 'breakfast_maid': { dialogueKey: 'prologue', options: ['option-end', 'option-default'] } },
           item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
         }
       } // default: BreakfastStage
@@ -76,7 +76,7 @@ export const useGameStore = defineStore('game', {
     puzzle: { id: null, path: null, route: null },
     inventory: [],
     carry_item: [],
-    progress: { id: null, message: null },
+    progress: { id: null, message: null, route: null },
     booted: false,
     game_clear: false,
     UID: null
@@ -149,7 +149,8 @@ export const useGameStore = defineStore('game', {
       // reset stage-config+puzzle-data to default-config of selected stage
       useGameStore().$patch({
         stage: STAGE_DEFAULT_CONFIG[stageKey],
-        puzzle: { id: null, path: null, route: null }
+        puzzle: { id: null, path: null, route: null },
+        progress: { id: null, message: null, route: null }
       })
     }
   },
@@ -161,8 +162,8 @@ export default class game extends Phaser.Game {
   constructor(containerId) {
     const config = {
       type: Phaser.AUTO,
-      width: 2800/3,
-      height: 1981/3,
+      width: 1200,
+      height: 610,
       parent: containerId,
       // pixelArt: true,
       physics: {

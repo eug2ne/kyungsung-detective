@@ -25,7 +25,7 @@
     </ul>
     <button class="icon help-icon" @click="this.showHelp = !this.showHelp">?</button>
     </div>
-    <QuizHelp x="620" y="75" v-if="showHelp">
+    <QuizHelp x="720" y="60" v-if="showHelp">
       <div>
         <img class="icon" src="../assets/refresh-page-option.png" alt="초기화" title="초기화"/>
         <p>
@@ -51,7 +51,7 @@
       @clickOption="show" />
     <div v-if="showDefault" id="default_page">
       <h2>아직 추리 중인 단서가 없습니다!</h2>
-      <h3>맵을 돌아다니며 단서를 얻거나, 단서 노트에서 추리하고 싶은 단서를 선택해주세요!</h3>
+      <h3>맵을 돌아다니며 단서를 얻거나,<br>단서 노트에서 추리하고 싶은 단서를 선택해주세요!</h3>
     </div>
     <table v-else ref="table" id="Quiz-area">
       <tr v-for="item in Object.keys(this.quizletterset)"
@@ -321,7 +321,7 @@ export default {
 }
 
 .popup {
-  width: 935px;
+  width: 1000px;
   min-height: 100px;
   position: absolute;
   display: block;
@@ -344,7 +344,7 @@ export default {
 
 #default_page {
   display: block;
-  width: 885px;
+  width: 1000px;
   height: 400px;
   text-align: center;
   text-shadow: 4px 2px #f5f1f0;
@@ -353,7 +353,7 @@ export default {
   border-spacing: 2px;
   box-shadow: 0 0 0 4px #ffe2b3, 0 0 0 calc(4px + 6px) rgba(0, 0, 0, 0.8),
     0 0 0 calc(4px + 6px + 15px) #ffe2b3;
-  margin: 15px 25px 35px 25px;
+  margin: 15px auto 35px;
   padding: 50px;
 }
 

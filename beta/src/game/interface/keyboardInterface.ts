@@ -1,5 +1,7 @@
 import Phaser from "phaser"
 import SceneLoadPlugin from "../SceneLoadPlugin"
+import NPC from "../GameObjects/NPC"
+import Item from "../GameObjects/Item"
 
 type PluginInterface = {
   game: Phaser.Game
@@ -73,10 +75,11 @@ export default class keydoardInterface implements ScenePluginInterface {
     }
   }
 
-  interactWithNPCItem(): boolean {
+  interactWithNPCItem(gameObject: NPC|Item): boolean {
     if (this.talking) return false
 
     // NPC/item interaction event
+    if (!gameObject.input) return false // interaction cool time
     if (Phaser.Input.Keyboard.JustDown(this.control.enter!)||Phaser.Input.Keyboard.JustDown(this.control.space!)) {
       this.control.enter!.isDown = false
       this.control.space!.isDown = false

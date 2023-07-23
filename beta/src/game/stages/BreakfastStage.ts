@@ -7,10 +7,10 @@ import Breakfast from '../scenes/Breakfast.js'
 import Test1Stage from "./Test1Stage"
 
 const default_config = {
-  player_config: { 'sceneKey': 'Breakfast' , 'x': 663, 'y': 472 },
+  player_config: { 'sceneKey': 'Breakfast' , 'x': 863, 'y': 472 },
   scenes_config: {
     'Breakfast': {
-      npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: ['option-end', 'option-default'] } },
+      npc: { 'breakfast_maid': { dialogueKey: 'prologue', options: ['option-end', 'option-default'] } },
       item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
     }
   }
@@ -25,7 +25,7 @@ const event_config = {
         spliceOption('Breakfast', 'breakfast_maid', 'option-no-plan', 'option-clear')
       } // else, pass (maintain option-default)
 
-      return false
+      return { clear: false }
     })
   ],
   'breakfast-event-item1': [
@@ -39,13 +39,22 @@ const event_config = {
         spliceOption('Breakfast', 'breakfast_maid', 'option-default', 'option-no-plan')
       }
 
-      return false
+      return { clear: false }
     })
   ],
   'breakfast-event-npc0': [
+    new Update({ id: 'breakfast_maid', data: 'prologue'}, () => {
+      // after prologue, update maid dialogue-key
+      useGameStore().$patch((state: any) => {
+        // update npc dialogueKey
+        state.stage.scenes_config['Breakfast'].npc['breakfast_maid'].dialogueKey = 'default-question'
+      })
+
+      return { clear: false }
+    }),
     new Update({ id: 'breakfast_maid', data: 'option-clear'}, () => {
       // after talking to maid when option-clear >> stage clear
-      return true
+      return { clear: true }
     })
   ]
 }

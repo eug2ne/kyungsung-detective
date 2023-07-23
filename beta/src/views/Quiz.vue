@@ -1,4 +1,5 @@
 <template>
+<div class="page-wrapper">
   <div class="contents">
     <Answerarea />
     <ul id="help">
@@ -43,6 +44,7 @@
       <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -68,14 +70,14 @@ export default {
 }
 
 #controls {
-  width: 935px;
+  width: 1050px;
   height: 70px;
   display: flex;
   flex-direction: row;
-  justify-self: center;
   text-align: center;
   justify-content: space-between;
   background-color: #ffe2b3;
+  margin-left: -25px;
   padding: 15px;
 }
 
@@ -115,7 +117,7 @@ export default {
   font-size: 25px;
 }
 
-.help-icon {
+.help-icon, .help-icon:focus {
   display: block;
   position: static;
   top: 0%;
@@ -131,29 +133,19 @@ export default {
 
 table {
   display: table;
-  width: 885px;
+  width: 1000px;
   background-color: rgba(0, 0, 0, 0.8);
   border-spacing: 2px;
   box-shadow: 0 0 0 4px #ffe2b3, 0 0 0 calc(4px + 6px) rgba(0, 0, 0, 0.8),
     0 0 0 calc(4px + 6px + 15px) #ffe2b3;
-  margin: 15px 25px 35px 25px;
+  margin: 15px auto 35px;
+  align-self: center;
+  justify-self: center;
 }
 
 table:after {
   content: "";
   z-index: -1;
-  position: absolute;
-  top: 217px;
-  bottom: -28px;
-  left: -3px;
-  right: -3px;
-  border-style: solid;
-  border-width: 4px;
-  border-color: #000;
-  border-image-slice: 2;
-  border-image-width: 1;
-  border-image-outset: 0;
-  border-image-source: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='6' height='6'><path d='M0 2h2v2H0zM2 0h2v2H2zM4 2h2v2H4zM2 4h2v2H2z' fill='%23000' /></svg>");
 }
 
 .sources {

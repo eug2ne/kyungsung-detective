@@ -6,7 +6,6 @@ import Player from './GameObjects/Player'
 import NPC from './GameObjects/NPC'
 import Item from './GameObjects/Item'
 import sami from './assets/sami_sprite/sami_frame1fixedversion (1).png'
-import Dialogue from './GameObjects/Dialogue'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private _config: {
@@ -74,14 +73,14 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     this.scene!.cameras.main
       .setBounds(0, 0, 2800, 1980)
-      .setSize(2800/3, 1981/3)
+      .setSize(1200, 610)
       .setZoom(camera_config.main_zoom)
       .setName('main')
     
     // create minimap
-    this.minimap = this.scene!.cameras.add(15, 15, 2700*0.07, 1981*0.07).setZoom(camera_config.mini_zoom).setName('mini')
+    this.minimap = this.scene!.cameras.add(15, 15, 1200*0.2, 610*0.2).setZoom(camera_config.mini_zoom).setName('mini')
 
-    this.minimap.setBackgroundColor(0xaca2a0)
+    this.minimap.setBackgroundColor(50)
     this.minimap.scrollX = camera_config.mini_scrollX
     this.minimap.scrollY = camera_config.mini_scrollY
     this.minimap.ignore([ this.item_text, this.keyboard_text ]) // item_text, keyboard_text invisible in minimap
@@ -118,22 +117,22 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.item_text.visible = false // add item_text
     this.scene!.physics.add.overlap(this.player.interact_area, items, (area: any, item: any) => {
       // item-interact event
-      if (this.keyboard.interactWithNPCItem()) {
+      if (this.keyboard.interactWithNPCItem(item)) {
         // get dialogueKey + optionKey
         item.dialogueKey = scene_config.item[item.id] ? scene_config.item[item.id].interactionKey : undefined
         item.optionsData = scene_config.item[item.id] ? scene_config.item[item.id].options : undefined
 
         // get cameraX + cameraY
-        const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
+        const cameraX = this.scene!.cameras.main.worldView.centerX, cameraY = this.scene!.cameras.main.worldView.centerY
         // get zoom
         const zoom = this.scene!.cameras.main.zoom
 
         // create dialogue on scene
         if (!item.dialogueKey||!item.dialogueData) return
-        this.dialogue.createDialogue(cameraX, cameraY, zoom, item.dialogueKey, item.dialogueData, item.optionsData)
+        this.dialogue.createDialogue(cameraX, cameraY, zoom, item.dialogueKey, item.dialogueData, item.optionsData, item)
 
         // emit start-talking event
-        item.emit('start-talking')
+        item.emit('start-talking', item.dialogueKey)
         this.scene!.events.emit('start-talking')
       }
     }) // add overlap callback
@@ -146,19 +145,19 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     }
     this.scene!.physics.add.overlap(this.player.interact_area, npcs, (area, npc: any) => {
       // npc-interact event
-      if (this.keyboard.interactWithNPCItem()) {
+      if (this.keyboard.interactWithNPCItem(npc)) {
         // get dialogueKey + optionKey
         npc.dialogueKey = scene_config.npc[npc.id] ? scene_config.npc[npc.id].dialogueKey : undefined
         npc.optionsData = scene_config.npc[npc.id] ? scene_config.npc[npc.id].options : undefined
 
         // get cameraX + cameraY
-        const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
+        const cameraX = this.scene!.cameras.main.worldView.centerX, cameraY = this.scene!.cameras.main.worldView.centerY
         // get zoom
         const zoom = this.scene!.cameras.main.zoom
 
         // create dialogue on scene
         if (!npc.dialogueKey||!npc.dialogueData) return
-        this.dialogue.createDialogue(cameraX, cameraY, zoom, npc.dialogueKey, npc.dialogueData, npc.optionsData)
+        this.dialogue.createDialogue(cameraX, cameraY, zoom, npc.dialogueKey, npc.dialogueData, npc.optionsData, npc)
 
         // emit start-talking event
         npc.emit('start-talking')
@@ -174,6 +173,12 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.dialogue.destroyDialogue() // destroy dialogue
       this.minimap.visible = true // add minimap
       this.keyboard.endTalking() // set key events to default mode
+
+      // set cool time
+      this.dialogue.game_object?.removeInteractive()
+      setTimeout(() => {
+        this.dialogue.game_object?.setInteractive()
+      }, 3000)
     })
     
     this.scene!.physics.add.collider(this.player, npcs)
@@ -185,13 +190,16 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       this.player.x = progress_config[id].x ?? this.player.x
       this.player.y = progress_config[id].y ?? this.player.y
 
-      this.scene!.events.emit('start-talking') // emit talking event to scene
-      
-      // create dialogue
-      const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
+      // get zoom
       const zoom = this.scene!.cameras.main.zoom
-      const dialogue = new Dialogue(this.scene!, cameraX, cameraY, zoom, id, progress_config)
-      dialogue.create(id)
+      // get cameraX + cameraY
+      const cameraX = this.scene!.cameras.main.worldView.centerX/zoom, cameraY = this.scene!.cameras.main.worldView.centerY/zoom
+
+      // create dialogue on scene (dialogueKey: id, dialogueData: progress_config)
+      this.dialogue.createDialogue(cameraX, cameraY, zoom, id, progress_config)
+
+      // emit start-talking event
+      this.scene!.events.emit('start-talking')
     }) // create progress-event dialogue
 
     // create keyboard-interface
@@ -205,7 +213,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   update(items: [ Item ], npcs: [ NPC ]) {
     // update keyboard_text.x,y
     const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
-    this.keyboard_text.setPosition(cameraX+550, cameraY+10)
+    this.keyboard_text.setPosition(cameraX+800, cameraY+10)
 
     // player move control
     this.player.setVelocity(0,0)

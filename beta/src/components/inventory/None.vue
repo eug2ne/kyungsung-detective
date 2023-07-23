@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="item-wrapper">
     <p>
       아직 얻지않은 <br/>
       아이템입니다.
@@ -12,7 +12,7 @@ export default {}
 </script>
 
 <style scoped>
-.wrapper {
+.item-wrapper {
   background-color: white;
   border-color: #808080;
   border-image-source: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M2 2h2v2H2zM4 0h2v2H4zM10 4h2v2h-2zM0 4h2v2H0zM6 0h2v2H6zM8 2h2v2H8zM8 8h2v2H8zM6 10h2v2H6zM0 6h2v2H0zM10 6h2v2h-2zM4 10h2v2H4zM2 8h2v2H2z' fill='%23808080' /></svg>");
@@ -20,7 +20,7 @@ export default {}
     0 -10px 0 rgba(0, 0, 0, 0.2) inset, 0 0 0 310px lightgray inset;
 }
 
-.wrapper p {
+.item-wrapper p {
   position: absolute;
   top: 48%;
   left: 13%;

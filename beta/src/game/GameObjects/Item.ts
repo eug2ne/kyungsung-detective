@@ -61,10 +61,10 @@ export default class Item extends Phaser.GameObjects.Image {
     //   item_text.setPosition(cameraX + 260, cameraY + 200)
     //   item_text.visible = true
     // })
+    this.setInteractive() // enable interaction
 
-    this.on('item-interact', (interactionKey: string) => {
+    this.on('start-talking', (interactionKey: string) => {
       const interaction = this.interact_data[interactionKey]
-      console.log(this.interact_data)
       if (interaction.type === 'get') {
         // after talking, destroy item from scene + remove from scene-config
         this.scene.events.on('end-talking', () => {

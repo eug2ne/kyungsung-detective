@@ -36,10 +36,10 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     // create dialogue-box on screen
     const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
     const black = Phaser.Display.Color.GetColor32(0,0,0,0.1)
-    this.line_box = this.scene.add.rectangle(cameraX+580/zoom, cameraY+520/zoom, 645/zoom, 200/zoom, white)
+    this.line_box = this.scene.add.rectangle(cameraX+130/zoom, cameraY+170/zoom, 645/zoom, 200/zoom, white)
       .setDepth(20)
       .setStrokeStyle(2, black) // line-box
-    this.image_box = this.scene.add.rectangle(cameraX+130/zoom, cameraY+520/zoom, 200/zoom, 200/zoom, white)
+    this.image_box = this.scene.add.rectangle(cameraX-325/zoom, cameraY+170/zoom, 200/zoom, 200/zoom, white)
       .setDepth(20)
       .setStrokeStyle(2, black) // image-box
 
@@ -65,7 +65,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
           y: 20
         }        
       }
-    ).setWordWrapWidth(Math.floor(640/zoom))
+    ).setWordWrapWidth(Math.floor(620/zoom))
     this.scene.add.existing(this.line).setDepth(20)
 
     // create speaker_name

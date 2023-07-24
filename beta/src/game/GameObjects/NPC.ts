@@ -2,7 +2,6 @@ import _ from 'lodash'
 import Phaser from 'phaser'
 import { useGameStore } from '../game.js'
 import SceneLoadPlugin from '../SceneLoadPlugin.js'
-import Dialogue from './Dialogue'
 import Item from './Item.js'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
@@ -10,9 +9,10 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   public sceneload: SceneLoadPlugin
   private sprite_key: string
   private anim_config: any
-  public readonly dialogue: any
+  private readonly dialogue: any
   private _dialogueKey: string|undefined
-  public readonly options_config: any
+  private readonly options_config: any
+  private _options_data: any
 
   constructor(
     scene: Phaser.Scene,
@@ -70,10 +70,28 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     return this._dialogueKey
   }
 
+  public get dialogueData() {
+    if (!this.dialogueKey||!this.dialogue[this.dialogueKey]) return undefined
+    return this.dialogue
+  }
+
+  public set optionsData(options: [string]|undefined) {
+    this._options_data = [] // reset options-data
+    options?.forEach((key: string) => {
+      if (!this.options_config[key]) return
+      this._options_data.push(this.options_config[key])
+    })
+  }
+
+  public get optionsData() {
+    return this._options_data
+  }
+
   create() {
     this.debugShowBody = true
     this.debugShowVelocity = true
     this.debugBodyColor = 0x0033ff // debug option
+    this.setInteractive() // enable interaction
 
     // create animation for each frame
     Object.entries(this.anim_config.frames).forEach((entry: any) => {
@@ -88,20 +106,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     })
 
     // start-talking event
-    this.on('start-talking', (key: { dialogueKey: string|undefined, options?: [string] }, cameraX: number, cameraY: number) => {
-      const { dialogueKey, options } = key
-      if (!dialogueKey||!this.dialogue[dialogueKey]) return // dialogue do not exist >> pass
-
-      // create dialogue
-      const zoom = this.scene.cameras.main.zoom
-      const options_data: any[] = []
-      options?.forEach((key: string) => {
-        if (!this.options_config[key]) return
-        options_data.push(this.options_config[key])
-      })
-      const dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, dialogueKey, this.dialogue, options_data)
-      dialogue.create(dialogueKey)
-
+    this.on('start-talking', () => {
       // pause npc anim
       const current_anim = this.anims.currentAnim
       current_anim!.pause()

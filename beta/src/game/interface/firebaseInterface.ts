@@ -1,6 +1,6 @@
-import { db } from '../firestoreDB.js'
+import { db } from '@/firestoreDB.js'
 import { collection, doc, getDoc, setDoc, Timestamp } from 'firebase/firestore'
-import { useGameStore } from './game.js'
+import { useGameStore } from '../game.js'
 
 type DBInterface = {
   loadDoc: (UID: string, gameKey: string, story: string, slot: string|number) => Promise<void>;

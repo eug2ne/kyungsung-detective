@@ -76,21 +76,26 @@ body {
 }
 
 #router-view {
-  width: 995px;
-  min-height: 725px;
+  width: 1270px;
+  min-height: 730px;
   padding: 25px;
-  padding-top: 60px;
   position: relative;
   top: -5px;
   border-width: 5px;
 }
 
-.icon {
+.page-wrapper {
+  width: 995px;
+  margin: 0 auto;
+}
+
+.icon, .icon:focus {
   display: inline-block;
   width: fit-content;
   height: 45px;
   background-color: transparent;
   border: none;
+  outline: none;
   margin: 0 15px;
 }
 

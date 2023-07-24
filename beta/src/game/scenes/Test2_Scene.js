@@ -170,7 +170,7 @@ const npcs_JSON = [
     "clue": {},
     "answer": null,
     "check": null,
-    "x": 323,
+    "x": 623,
     "y": 1150
   },
   {
@@ -347,7 +347,7 @@ const npcs_JSON = [
     "clue": {},
     "answer": null,
     "check": null,
-    "x": 580,
+    "x": 880,
     "y": 1150
   },
   {
@@ -579,7 +579,7 @@ const npcs_JSON = [
     "clue": {},
     "answer": null,
     "check": null,
-    "x": 840,
+    "x": 1140,
     "y": 1150
   }
 ]
@@ -588,7 +588,7 @@ const items_JSON = [
   {
     "name": "body",
     "id": "test2_item0",
-    "x": 502,
+    "x": 802,
     "y": 460,
     "scale": 2,
     "depth": 7,
@@ -612,7 +612,7 @@ const items_JSON = [
   {
     "name": "book",
     "id": "test2_item1",
-    "x": 575,
+    "x": 875,
     "y": 513,
     "scale": 2,
     "depth": 8,
@@ -645,7 +645,7 @@ const items_JSON = [
   {
     "name": "bookshelf",
     "id": "test2_item2",
-    "x": 575,
+    "x": 875,
     "y": 197,
     "scale": 2,
     "depth": 10,
@@ -683,7 +683,7 @@ const items_JSON = [
   {
     "name": "coffee",
     "id": "test2_item3",
-    "x": 575,
+    "x": 875,
     "y": 825,
     "scale": 2,
     "depth": 10,
@@ -751,13 +751,13 @@ export default class Test2 extends Phaser.Scene {
 
   create(data) {
     // add background image + set world bound
-    const background = this.add.image(200, 100, 'test2').setOrigin(0, 0).setScale(2)
-    this.physics.world.setBounds(209, 100, background.width*2-18, background.height*2, true, true, true, true)
+    const background = this.add.image(500, 100, 'test2').setOrigin(0, 0).setScale(2)
+    this.physics.world.setBounds(509, 100, background.width*2-18, background.height*2, true, true, true, true)
 
     // add obstacle image + adjust body
-    const desk = this.physics.add.staticImage(200,100,'desk').setOrigin(0,0).setScale(2).setDepth(8)
-    const sofa = this.physics.add.staticImage(200,100,'sofa').setOrigin(0,0).setScale(2).setDepth(9)
-    sofa.body.x = 283, sofa.body.y = 770, sofa.body.setSize(585,205,false)
+    const desk = this.physics.add.staticImage(500,100,'desk').setOrigin(0,0).setScale(2).setDepth(8)
+    const sofa = this.physics.add.staticImage(500,100,'sofa').setOrigin(0,0).setScale(2).setDepth(9)
+    sofa.body.x = 583, sofa.body.y = 770, sofa.body.setSize(585,205,false)
 
     this.add.existing(sofa)
 

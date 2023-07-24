@@ -8,7 +8,7 @@ import Test2 from '../scenes/Test2_Scene.js'
 import Test3Stage from "./Test3Stage"
 
 const default_config = {
-  player_config: { 'sceneKey': 'Test2' , 'x': 300, 'y': 500 },
+  player_config: { 'sceneKey': 'Test2' , 'x': 600, 'y': 500 },
   scenes_config: {
     'Test2': {
       npc: {
@@ -139,7 +139,7 @@ const event_config = {
       }
       addClue(clue, 1)
 
-      return false
+      return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     })
   ],
   'test2-event-timelineUpdate': [
@@ -163,7 +163,7 @@ const event_config = {
         }, 1, 0) // add subclue data
       }
 
-      return false
+      return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     }),
     new Update({id: "test2_suspect2", data: "suspect2-time"}, (stage: any) => {
       // after asking suspect2 about time, update timeline
@@ -185,7 +185,7 @@ const event_config = {
         }, 1, 0) // add subclue data
       }
 
-      return false
+      return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     })
   ],
   'test2-event-heritage': [
@@ -202,13 +202,13 @@ const event_config = {
       // update suspect3 dialogueKey
       spliceOption('Test2', 'test2_suspect3', undefined, 'option-suspect2')
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test2_suspect3", data: "suspect3-suspect2"}, () => {
       // after asking suspect3 about suspect2, update suspect2 dialogueKey
       spliceOption('Test2', 'test2_suspect2', undefined, 'option-heritage')
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test2_suspect2", data: "suspect2-heritage"}, () => {
       // after asking suspect2 about heritage, add subclue
@@ -220,7 +220,7 @@ const event_config = {
         "reveal": true
       }, 1, 1) // add subclue data
 
-      return false
+      return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     })
   ],
   /* quiz answer '독' */'WIN3vIY76B5ZHa13x70c': [
@@ -231,7 +231,7 @@ const event_config = {
           subclue.reveal = true
         })
       }) // update subclue data
-      return false
+      return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     }),
     new Update({id: "test2_suspect3", data: "suspect3-time"}, () => {
       // after asking suspect3 about time, update timeline + suspect1 dialogueKey
@@ -248,7 +248,7 @@ const event_config = {
         "subClues": null
       }, 1, 3, 0.2) // add timeline data
 
-      return false
+      return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     }),
     new Update({id: "test2_suspect1", data: "suspect1-fight"}, () => {
       // after asking suspect1 about fight, update timeline + add subclue-quiz
@@ -273,7 +273,7 @@ const event_config = {
         "reveal": false
       }, 1, 0) // add subclue
 
-      return false
+      return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     }),
     new Update({quiz_id: "WIN3vIY76B5ZHa13x70c", route: "시작.1.subClues.0"}, () => {
       // reveal subclue
@@ -281,7 +281,7 @@ const event_config = {
         state.cluenote[1].subClues[0][2].reveal = true
       })
 
-      return false
+      return { clear: false, message: "단서의 실마리를 풀었습니다." }
     })
   ],
   /* quiz answer: '얼음' */'YPnEQwKAwueWEzSmpRdF': [
@@ -289,7 +289,7 @@ const event_config = {
       // after inspecting coffeetable, update suspect1 dialogueKey
       spliceOption('Test2', 'test2_suspect1', undefined, 'option-coffee')
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test2_suspect1", data: "suspect1-coffee"}, (stage: any) => {
       // after asking suspect1 about coffee, update timeline
@@ -324,7 +324,7 @@ const event_config = {
         }, 1, 0) // add subclue data
       }
 
-      return false
+      return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     }),
     new Update({quiz_id: "YPnEQwKAwueWEzSmpRdF", route: "시작.1.subClues.0"}, () => {
       // reveal subclue
@@ -333,7 +333,7 @@ const event_config = {
       })
 
       // after accomplihing quiz >> stage clear
-      return true
+      return { clear: true }
     })
   ],
   /* quiz answer: '임금체불' */'tLJfpFrSVAq5O1sGNs8I': [
@@ -351,7 +351,7 @@ const event_config = {
       spliceOption('Test2', 'test2_suspect2', undefined, 'option-suspect3')
       spliceOption('Test2', 'test2_suspect3', undefined, 'option-record')
 
-      return false
+      return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     }),
     new Update({id: "test2_suspect2", data: "suspect2-suspect3"}, () => {
       // after asking suspect2 about suspect3, add subclues 
@@ -371,7 +371,7 @@ const event_config = {
         "reveal": false
       }, 1, 2) // add subclue
 
-      return false
+      return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     }),
     new Update({quiz_id: "tLJfpFrSVAq5O1sGNs8I", route: "시작.1.subClues.2"}, () => {
       // after accomplishing quiz, reveal subclue + update suspect3 options
@@ -384,7 +384,7 @@ const event_config = {
       // update suspect3 options
       spliceOption('Test2', 'test2_suspect3', 'option-record', 'option-pay')
 
-      return false
+      return { clear: false, message: "단서의 실마리를 풀었습니다." }
     }),
     new Update({id: "test2_suspect3", data: "suspect3-pay"}, (stage: any) => {
       // after asking suspect3 about pay, update subclue + activate suspicion system
@@ -402,11 +402,10 @@ const event_config = {
 
       // activate suspicion system after talking
       stage.game.scene.getScene('Test2').events.once('end-talking', () => {
-
         useGameStore().$patch({ progress: { id: 'suspicion-system-activate' } })
       })
 
-      return false
+      return { clear: false, message: "기존 단서의 내용이 갱신되었습니다." }
     })
   ],
   'suspicion-system-activate': [
@@ -428,7 +427,7 @@ const event_config = {
         }, 1, 0) // add subclue data
       }
       
-      return false
+      return { clear: false, message: "" }
     })
   ],
   'test2-event-suspicion': [
@@ -438,7 +437,7 @@ const event_config = {
         state.stage.scenes_config['Test2'].npc['test2-suspect2'].dialogueKey = 'refusal'
       })
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test2_suspect2", data: "suspect1-suspicion.test2_suspect1"}, () => {
       // after suspect2 suspicion, update suspect1 dialogueKey
@@ -446,7 +445,7 @@ const event_config = {
         state.stage.scenes_config['Test2'].npc['test2-suspect1'].dialogueKey = 'refusal'
       })
 
-      return false
+      return { clear: false, message: "" }
     }),
     new Update({id: "test2_suspect3", data: "suspect3-suspicion.test2_suspect1"}, () => {
       // after suspect3 suspicion, update suspect1 dialogueKey
@@ -454,7 +453,7 @@ const event_config = {
         state.stage.scenes_config['Test2'].npc['test2-suspect1'].dialogueKey = 'refusal'
       })
       
-      return false
+      return { clear: false, message: "" }
     })
   ]
 }

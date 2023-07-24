@@ -7,11 +7,6 @@
         <p>loading slots...</p>
       </template>
     </Suspense>
-    <ul>
-      <li>
-        <span @click="this.$emit('closeSlot')" class="x-button">x</span>
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -35,5 +30,31 @@ export default {
 .slot-list {
   display: flex;
   flex-direction: column-reverse;
+}
+
+ul {
+  display: flex;
+  height: fit-content;
+  flex-direction: row-reverse;
+  align-self: flex-end;
+  align-items: flex-end;
+  padding: 0;
+}
+
+li {
+  padding: 0px;
+}
+
+h3 {
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+
+button {
+  margin: 10px 10px 0 0;
+  padding: 5px;
+  color: white;
+  font-size: 20px;
+  background-color: #00000096;
 }
 </style>

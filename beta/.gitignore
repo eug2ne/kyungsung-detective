@@ -2,6 +2,10 @@
 node_modules
 /dist
 
+# event-tree files
+*.xmind
+*.pdf
+*.png
 
 # local env files
 .env.local

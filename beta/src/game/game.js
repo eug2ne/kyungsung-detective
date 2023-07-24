@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import { defineStore } from 'pinia'
 import { collection, deleteDoc, doc, setDoc, getDocs, } from 'firebase/firestore'
 import { auth, db } from '../firestoreDB'
-import { firebaseInterface } from './firebaseInterface'
+import { firebaseInterface } from './interface/firebaseInterface'
 import SceneLoadPlugin from './SceneLoadPlugin'
 
 // import stages
@@ -14,10 +14,10 @@ import Test3Stage from './stages/Test3Stage'
 const STAGE_DEFAULT_CONFIG = {
   'BreakfastStage': {
     key: 'BreakfastStage',
-    player_config: { sceneKey: 'Breakfast' , x: 663, y: 472 },
+    player_config: { sceneKey: 'Breakfast' , x: 863, y: 472 },
     scenes_config: {
       'Breakfast': {
-        npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: ['option-end', 'option-default'] } },
+        npc: { 'breakfast_maid': { dialogueKey: 'prologue', options: ['option-end', 'option-default'] } },
         item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
       }
     }
@@ -41,7 +41,7 @@ const STAGE_DEFAULT_CONFIG = {
   },
   'Test2Stage': {
     key: 'Test2Stage',
-    player_config: { 'sceneKey': 'Test2' , 'x': 300, 'y': 500 },
+    player_config: { 'sceneKey': 'Test2' , 'x': 600, 'y': 500 },
     scenes_config: {
       'Test2': {
         npc: {
@@ -64,10 +64,10 @@ export const useGameStore = defineStore('game', {
   state: () => ({
     stage: {
       key: 'BreakfastStage',
-      player_config: { sceneKey: 'Breakfast' , x: 663, y: 472 },
+      player_config: { sceneKey: 'Breakfast' , x: 863, y: 472 },
       scenes_config: {
         'Breakfast': {
-          npc: { 'breakfast_maid': { dialogueKey: 'default-question', options: ['option-end', 'option-default'] } },
+          npc: { 'breakfast_maid': { dialogueKey: 'prologue', options: ['option-end', 'option-default'] } },
           item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
         }
       } // default: BreakfastStage
@@ -76,7 +76,7 @@ export const useGameStore = defineStore('game', {
     puzzle: { id: null, path: null, route: null },
     inventory: [],
     carry_item: [],
-    progress: { id: null, message: null },
+    progress: { id: null, message: null, route: null },
     booted: false,
     game_clear: false,
     UID: null
@@ -149,19 +149,21 @@ export const useGameStore = defineStore('game', {
       // reset stage-config+puzzle-data to default-config of selected stage
       useGameStore().$patch({
         stage: STAGE_DEFAULT_CONFIG[stageKey],
-        puzzle: { id: null, path: null, route: null }
+        puzzle: { id: null, path: null, route: null },
+        progress: { id: null, message: null, route: null }
       })
     }
   },
   persist: { storage: sessionStorage }
 })
 
+const STAGE_KEYS = {'BreakfastStage':BreakfastStage, 'Test1Stage':Test1Stage, 'Test2Stage':Test2Stage, 'Test3Stage': Test3Stage}
 export default class game extends Phaser.Game {
   constructor(containerId) {
     const config = {
       type: Phaser.AUTO,
-      width: 2800/3,
-      height: 1981/3,
+      width: 1200,
+      height: 610,
       parent: containerId,
       // pixelArt: true,
       physics: {
@@ -185,24 +187,34 @@ export default class game extends Phaser.Game {
 
     super(config)
     this.key = 'k_detective_beta'
-    this.stage_keys = {'BreakfastStage':BreakfastStage, 'Test1Stage':Test1Stage, 'Test2Stage':Test2Stage, 'Test3Stage': Test3Stage}
     this.story = '시작'
   }
 
   create() {
     // pass stage-data to game.stage
-    const stage_class = this.stage_keys[useGameStore().stage.key]
-    this.stage = new stage_class(this.plugins) // create game.stage
-    this.stage.player_config = useGameStore().stage // pass player-config to game.stage
+    const Stage = STAGE_KEYS[useGameStore().stage.key]
+    this.stage = new Stage(this.plugins) // create game.stage
     this.stage.preload()
-    
+    this.stage.player_config = useGameStore().stage // pass player-config to game.stage
+
     const PlayScene_Key = this.stage.player_config.sceneKey // present sceneKey
     // set stage-data
     const config = {
       player_config: this.stage.player_config,
       scenes_config: this.stage.scenes_config
     }
-    this.scene.start(PlayScene_Key, config) // pass stage-data to scene
+    
+    const startScene = (isProcessing) => {
+      if (!isProcessing) {
+        this.scene.start(PlayScene_Key, config) // pass stage-data to scene
+      } else {
+        setTimeout(() => {
+          return startScene(this.scene.isProcessing)
+        }, 1000)
+      }
+    }
+    // start scene when stage scenes are all loaded
+    startScene(this.scene.isProcessing)
   }
 
   progress(progress) {

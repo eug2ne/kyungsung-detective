@@ -1,5 +1,5 @@
 <template>
-  <div @click="clickItem" :class="{ wrapper: true, owned: item.owned }">
+  <div @click="clickItem" class="item-wrapper" :class="{ owned: item.owned }">
     <h3>{{ item.name }}</h3>
     <img
       :src="require(`@/assets/item/${item.texture}`)"
@@ -22,11 +22,11 @@ export default {
 </script>
 
 <style>
-.wrapper {
+.item-wrapper {
   flex: 0 0 190px;
   height: 280px;
   background: white;
-  margin: 10px;
+  margin: 10px 20px 10px 0;
   padding: 10px;
   position: relative;
   border-radius: 10px;
@@ -41,11 +41,11 @@ export default {
   border-image-source: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M2 2h2v2H2zM4 0h2v2H4zM10 4h2v2h-2zM0 4h2v2H0zM6 0h2v2H6zM8 2h2v2H8zM8 8h2v2H8zM6 10h2v2H6zM0 6h2v2H0zM10 6h2v2h-2zM4 10h2v2H4zM2 8h2v2H2z' fill='%232983a3' /></svg>");
 }
 
-.wrapper:hover {
+.item-wrapper:hover {
   opacity: 0.6;
 }
 
-.wrapper h3 {
+.item-wrapper h3 {
   font-weight: normal;
   height: 80px;
   width: 190px;
@@ -57,12 +57,12 @@ export default {
   text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #ffffff;
 }
 
-.wrapper .hover {
+.item-wrapper .hover {
   display: none;
   font-size: 18px;
 }
 
-.wrapper:hover .hover {
+.item-wrapper:hover .hover {
   opacity: 1;
   background: rgba(255, 255, 255, 0.6);
   top: 0px;
@@ -79,7 +79,7 @@ export default {
     0 -10px 0 rgba(0, 0, 0, 0.2) inset;
 }
 
-.wrapper img {
+.item-wrapper img {
   width: 140px;
   height: 140px;
   position: absolute;

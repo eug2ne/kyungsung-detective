@@ -1,4 +1,5 @@
 <template>
+<div class="page-wrapper">
   <div id="owned-item" class="pixel-borders--2">
     <h4>소지하고 있는 아이템 :</h4>
     <div v-if="this.carry_item.length > 0">
@@ -15,7 +16,7 @@
     </div>
   </div>
 
-  <div id="inventory">
+  <div id="inventory" class="page-wrapper">
     <component
       @addItem="toggleCarry"
       v-for="item in this.inventory"
@@ -29,6 +30,7 @@
       :is="'None'"
     />
   </div>
+</div>
 </template>
 
 <script>
@@ -62,8 +64,7 @@ export default {
   width: 680px;
   height: 210px;
   padding: 30px 40px;
-  margin: 0 35px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   border-radius: 10px;
   box-shadow: 0 0 0 10px #4d9bb9 inset, 0 0 0 210px #e9f6fb inset;
   background: white;
@@ -119,7 +120,9 @@ export default {
 
 #inventory {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  padding: 0 42px;
+  justify-self: start;
+  align-items: flex-start;
 }
 </style>

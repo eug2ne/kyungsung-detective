@@ -71,7 +71,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
     return this._player_config
   }
 
-  async clear() {
+  clear() {
     if (!this.next) {
       // end of game
     } else {
@@ -83,20 +83,15 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
           scenes_config: { ...this.next.default_config.scenes_config }
         }
       })
-      await this.game.create()
+      this.game.create()
     }
   }
 
   preload() {
-    // reset game.scene
-    Object.keys(this.game.scene.keys).forEach((key) => {
-      this.game.scene.remove(key)
-    })
-
     // add stage.scenes to game.scene
     this.scenes.forEach((scene, index) => {
-      const sceneKey = Object.keys(this.scenes_config)[index+1] // because store patches data (original data is left in state)
-      this.game.scene.add(sceneKey, scene, false)
+      const sceneKey = Object.keys(this.default_config.scenes_config)[index]
+      if (!this.game.scene.getScene(sceneKey)) this.game.scene.add(sceneKey, scene, false)
     })
   }
 
@@ -117,7 +112,10 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
       if (i === -1) return
 
       // run update
-      const clear = event[i].update(this)
+      const { clear, message } = event[i].update(this)
+      if (message) scene.events.on('end-talking', () => {
+        useGameStore().$patch({ progress: { message: message } })
+      })
 
       if (clear) {
         // if stage-clear condition fulfilled, run stage.clear()
@@ -131,7 +129,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
         })
 
         // delete update from event_map
-        event.splice(i,1)
+        this.event_config[eventKey].splice(i,1)
 
         if (event.length === 0) {
           // if all update from event is over, delete event from event_config

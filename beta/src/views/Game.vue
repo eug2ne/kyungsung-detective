@@ -1,6 +1,6 @@
 <template>
   <div id="game">
-    <div ref="game-container" id="game-container" class="contents" /> 
+    <div ref="game-container" id="game-container" /> 
   </div>
 </template>
 
@@ -50,6 +50,7 @@ export default {
         // watch stage-config change >> save game-progress to db
         useGameStore().saveAuto(this.gameInstance.key, '시작')
       } else if (mutation.payload.progress) {
+        if (!mutation.payload.progress.id) return
         // watch quiz-progress event
         setTimeout(() => {
           this.gameInstance.progress(state.progress.id)

@@ -7,7 +7,7 @@
     <h2 v-if="accs ? false : !showAbbr">{{ this.answerLength }}</h2>
     <p class="definition" v-if="accs ? true : showdef">{{ this.answerSet.definition }}</p>
   </div>
-  <QuizHelp x="570" y="55" v-if="this.showHelp">
+  <QuizHelp x="670" y="50" v-if="this.showHelp">
     <p>
         정답 단어를 만들어서 퀴즈를 해결하세요. 힌트에서 정답 단어의 초성과 뜻을 볼 수 있습니다.<br> (정답 단어를 만들 때 단어의 위치도 맞도록 유의하세요.)
     </p>
@@ -99,24 +99,24 @@ export default {
 
 <style scoped>
 #Answer-area {
-    width: 600px;
-    height: 200px;
+    width: 700px;
+    height: 160px;
     justify-self: center;
     text-align: center;
     background-color: rgb(243, 234, 221);
     margin-bottom: 20px;
-    padding: 35px;
+    padding: 20px;
     box-shadow: 4px 4px rgba(0, 0, 0, 0.3) inset;
     border-radius: 10px;
 }
 
 h2 {
-    font-size: 45px;
-    padding: 10px;
+    font-size: 30px;
+    padding: 5px;
 }
 
 p.definition {
-    font-size: 25px;
+    font-size: 20px;
     padding: 10px;
 }
 </style>

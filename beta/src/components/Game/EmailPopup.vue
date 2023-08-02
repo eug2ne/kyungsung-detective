@@ -27,7 +27,7 @@ export default {
     }
   },
   methods: {
-    sendEmailFeedback() {
+    async sendEmailFeedback() {
       // check email validity
       const email_regex = /^[^\s@]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/
       if (!email_regex.test(this.email)) {
@@ -35,13 +35,29 @@ export default {
         return
       }
 
-      // send email+feedback via forms-url
-      const url = 'https://docs.google.com/forms/d/e/1FAIpQLScOSzVu791TRBbvThziaMD5AHOa92IVRb2u8WTq7v9tNuxcTA/formResponse?&submit=Submit?usp=pp_url&entry.2067990364='
-        +this.email
-        +'&entry.1870031164='
-        +this.feedback
+      // send email+feedback via stibeeAPI
+      const url = 'https://api.stibee.com/v1/lists/270188/subscribers'
 
-      axios.post(url)
+      const result = await axios.post(url,
+        {
+          'eventOccuredBy': 'SUBSCRIBER',
+          'confirmEmailYN': 'N',
+          'groupIds': [
+              '271365'
+          ],
+          'subscribers': [
+              {
+                  'email': this.email,
+                  'name': ''
+              }
+          ]
+        },
+        {
+          headers: {
+            'AccessToken': '011c1a4afe32dc755039cea68f3ad0b5bfa546205e8f5bc41e35818381eb16c47ead27cceda9bc303566bcbfbd671d84bef61f7cbbbb01d4d013b7574a260b1a',
+            'Content-Type': 'application/json'
+          }
+        })
 
       this.show = false
     }

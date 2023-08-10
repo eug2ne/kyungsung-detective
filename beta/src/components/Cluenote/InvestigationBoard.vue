@@ -1,29 +1,45 @@
 <template>
-  <div id="investigation-board" class="pixel-borders--1">
-    <!-- <div class="notice" v-if="!this.i_list">
-      조사할 사건을 골라주세요.
+  <div id="investigation-board" class="board pixel-borders--1">
+    <div v-if="!this.investigationData" class="notice">
+      추가된 단서가 없습니다.
     </div>
-    <div class="notice" v-else-if="!this.showInvestigation">
-      아직 얻은 단서가 없습니다.
-    </div> -->
-    <div class="abstract wrapper">
-      <h3 class="title" style="margin: 10px;">사건 개요 :</h3>
-      <p class="description">????? ?????</p>
-      <div class="invisible-box" style="width: 10px"/>
-    </div>
-    <ul class="timeline wrapper">
-      <li>
-        <TimelineEvent />
-      </li>
-    </ul>
-    <ul class="clue wrapper">
-      <li>
-        <SubClue />
-      </li>
-    </ul>
+    <div v-else>
+      <!-- investigation-scope board -->
+      <button class="pixel-borders--2" :class="{ open: this.scope_open, close: !this.scope_open }"
+        @click="this.scope_open = !this.scope_open">
+        {{ this.scope_open ? '>>' : '<<' }}
+      </button>
+      <div id="investigation-scope" class="board pixel-borders--1"
+        :class="{ open: this.scope_open, close: !this.scope_open }">
+        <div class="scope">
+          <h3 class="title">범행 방법</h3>
+        </div>
+        <div class="scope">
+          <h3 class="title">동기</h3>
+        </div>
+      </div>
 
-    <div class="important">
+      <!-- timeline -->
+      <div class="wrapper timeline">
+        <div class="event">
+          <h3 class="title">???</h3>
+          <p class="description">????? ?????</p>
+        </div>
+      </div>
 
+      <!-- clues -->
+      <div class="wrapper clue">
+        <div style="width: 450px">
+          <h3 class="title">{{ this.investigationData.clues[0].title }}</h3>
+          <p class="description">{{ this.investigationData.clues[0].description }}</p>
+        </div>
+        <div class="wrapper">
+          <div class="subclue">
+            <h3 class="title">???</h3>
+            <p class="description">????? ?????</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -33,27 +49,79 @@ import SubClue from './SubClue.vue'
 
 export default {
   name: 'InvestigationBoard',
-  components: { TimelineEvent, SubClue }
+  props: [ 'investigationData' ],
+  components: { TimelineEvent, SubClue },
+  data() {
+    return {
+      scope_open: true
+    }
+  }
 }
 </script>
-<style>
+<style scoped>
 #investigation-board {
+  top: 130px;
   width: 1210px;
-  height: 500px;
-  padding: 10px;
-  display: inline-block;
-  border-radius: 0;
-  overflow: scroll;
-  background-color: #ffff;
+  height: 630px;
+  padding: 10px; 
+}
+
+#investigation-scope {
+  right: 0px;
+  width: 300px;
+  height: 600px;
+  padding: 5px;
+  border-right: none;
+}
+
+#investigation-scope.close {
+  display: none;
+}
+
+.notice {
+  text-align: center;
+  line-height: 460px;
+  font-size: 25px;
+}
+
+.scope {
+  width: 270px;
+  min-height: 400px;
+  height: fit-content;
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #80808078;
+}
+
+button {
+  position: absolute;
+  top: 5%;
+  height: 45px;
+  margin-right: -5px;
+  padding: 0px 5px;
+  font-size: 50px;
+  text-align: right;
+  color: white;
+  text-shadow: -3px 0 #000;
+  background-color: #a2e1e6;
+  border-right: none;
+  border-width: 2px;
+  border-radius: 10px;
+}
+
+button.open {
+  right: 300px
+}
+
+button.close {
+  right: 0px
 }
 
 .wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 20px;
+  width: fit-content;
   padding: 10px;
+  line-break: loose;
+  white-space: pre-wrap;
 }
 
 .group {
@@ -85,15 +153,6 @@ export default {
   text-align: center;
   line-height: 460px;
   font-size: 20px;
-}
-
-.abstract {
-  width: 1160px;
-  height: 60px;
-  margin: 0 auto 20px;
-  padding: 5px;
-  justify-content: space-between;
-  background-color: #a2e1e6;
 }
 
 .clue {

@@ -6,6 +6,7 @@
     <Navbar @toContent="changeContent" @toggleStageSelect="this.showStageSelect = !this.showStageSelect" />
     <StageSelectPopup v-if="this.showStageSelect" @closeSlotPopup="this.showStageSelect = false" />
     <div class="contents">
+      <EmaliPopup />
       <Game v-show="showContent[0]&&this.$route.path=='/Game'" />
       <Inventory v-if="showContent[1]&&this.$route.path=='/Game'" />
       <Cluenote v-if="showContent[2]&&this.$route.path=='/Game'" :progress="progress" />

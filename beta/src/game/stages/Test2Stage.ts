@@ -1,7 +1,8 @@
 import Phaser from "phaser"
 import _ from "lodash"
 import { useGameStore } from '../game.js'
-import { spliceOption, addClue, addSubClue, addTimeline } from '../library.js'
+import { Investigation, Clue } from "../GameObjects/ClueDataStructure.js"
+import { spliceOption, addSubClue, addTimeline } from '../library.js'
 import Stage from "./Stage.js"
 import Update from "./Update"
 import Test2 from '../scenes/Test2_Scene.js'
@@ -109,35 +110,55 @@ const event_config = {
   'start': [
     new Update({ data: 'no-clue' }, () => {
       // after start scene for first time, acquire clue
-      const clue = {
-        "title": "살인사건을 해결하라.",
-        "description": "탐정시험의 두 번째 문제는 가상의 살인사건을 해결하는 것이다. 용의자들과 대화하고 주변을 관찰하여 사건 해결의 단서를 수집하라.",
-        "subClues": {
-          0 : [
-            {
-              "title": "작은 외상",
-              "description": "시신 조사 결과, 전신에 사소한 멍과 찰과상이 있다. 하지만 치명적인 외상은 보이지 않는다.",
-              "quiz_id": null,
-              "clue_ref": "시작.1.subClues.0",
-              "reveal": false
-            },
-            {
-              "title": "원인불명의 흔적들",
-              "description": "시신 조사 결과, 눈에 핏발이 유독 심하며, 입안이 이상할 정도로 말라있다는 사실을 알아냈다.",
-              "quiz_id": null,
-              "clue_ref": "시작.1.subClues.0",
-              "reveal": false
-            }
-          ], // autopsy hint
-          1 : [], // heritage hint
-          2 : [] // account-record hint
+      const clue:Clue = {
+        title: '시신을 조사해보자.',
+        description: '책상 옆에 있는 시신을 관찰하여 정보를 얻어보자.',
+        index: 0,
+        source: { id: 'test2_item0', name: 'body', type: 'Item'},
+        subClues: {
+          0: {
+            title: '작은 외상',
+            description: '시신 조사 결과, 전신에 사소한 멍과 찰과상이 있다. 하지만 치명적인 외상은 보이지 않는다.',
+            index: 0,
+            c_index: 0,
+            p_index: 1,
+            source: { id: 'test2_item0', name: 'body', type: 'Item'},
+            quiz_id: '',
+            reveal: false
+          },
+          1: {
+            title: '원인불명의 흔적들',
+            description: '시신 조사 결과, 눈에 핏발이 유독 심하며, 입안이 이상할 정도로 말라있다는 사실을 알아냈다.',
+            index: 1,
+            c_index: 0,
+            p_index: 1,
+            source: { id: 'test2_item0', name: 'body', type: 'Item'},
+            quiz_id: '',
+            reveal: false
+          }
         },
-        "timelineData": { 
-          "timeline": { 0:null, 1:null, 2:null, 3:null, 4:null },
-          "complete": 0
+        related: {
+          testimony: [],
+          interrogation: []
         }
       }
-      addClue(clue, 1)
+      const investigation: Investigation = {
+        title: '두번째 탐정시험',
+        description: '탐정시험의 두 번째 문제는 가상의 살인사건을 해결하는 것이다. 용의자들과 대화하고 주변을 관찰하여 사건 해결의 단서를 수집하라.',
+        index: 1,
+        complete: false,
+        i_scope: [ { scope: '범행 방법', evidence: [] }, { scope: '동기', evidence: [] } ],
+        timeline: { 0:null, 1:null, 2:null, 3:null, 4:null },
+        clues: {
+          0: clue, // autopsy hint
+          1: null, // heritage hint
+          2: null // account-record hint
+        }
+      }
+
+      useGameStore().$patch((state: any) => {
+        state.cluenote[1] = investigation // update cluenote
+      })
 
       return { clear: false, message: "새로운 단서가 단서노트에 추가되었습니다." }
     })

@@ -5,17 +5,25 @@
     </div>
     <div v-else>
       <!-- investigation-scope board -->
-      <button class="pixel-borders--2" :class="{ open: this.scope_open, close: !this.scope_open }"
+      <button id="investigation-scope-button" class="pixel-borders--2" v-if="this.investigationData.i_scope"
+        :class="{ open: this.scope_open, close: !this.scope_open }"
         @click="this.scope_open = !this.scope_open">
         {{ this.scope_open ? '>>' : '<<' }}
       </button>
-      <div id="investigation-scope" class="board pixel-borders--1"
+      <div id="investigation-scope" class="board pixel-borders--1" v-if="this.investigationData.i_scope"
         :class="{ open: this.scope_open, close: !this.scope_open }">
-        <div class="scope">
-          <h3 class="title">범행 방법</h3>
-        </div>
-        <div class="scope">
-          <h3 class="title">동기</h3>
+        <button id="investigation-verification-button" class="pixel-borders--2" @click="verifyInvestigation">
+          사건 입증하기    
+        </button>
+        <div class="scope" @drop="dropSubclue($event, scope.scope)" @dragover.prevent @dragenter.prevent
+          v-for="scope in this.investigationData.i_scope" :key="scope.id">
+          <h3 class="title">{{ scope.scope }}</h3>
+          <div class="group">
+            <div class="subclue minimized" v-for="clue in scope.evidence" :key="clue.id">
+              <h3 class="title minimized">{{ clue.title }}</h3>
+              <p class="description minimized">{{ clue.description }}</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -28,37 +36,41 @@
       </div>
 
       <!-- clues -->
-      <div class="wrapper clue">
-        <div style="width: 450px">
-          <h3 class="title">{{ this.investigationData.clues[0].title }}</h3>
-          <p class="description">{{ this.investigationData.clues[0].description }}</p>
-        </div>
-        <div class="wrapper">
-          <div class="subclue">
-            <h3 class="title">???</h3>
-            <p class="description">????? ?????</p>
-          </div>
-        </div>
-      </div>
+      <Clue v-for="clue in Object.values(this.investigationData.clues)" :key="clue.id"
+        :clue="clue" />
     </div>
   </div>
 </template>
 <script>
+import { mapState } from 'pinia'
+import { useGameStore } from '@/game/game'
+import Clue from './Clue.vue'
 import TimelineEvent from './TimelineEvent.vue'
-import SubClue from './SubClue.vue'
 
 export default {
   name: 'InvestigationBoard',
   props: [ 'investigationData' ],
-  components: { TimelineEvent, SubClue },
+  components: { TimelineEvent, Clue },
   data() {
     return {
       scope_open: true
     }
+  },
+  methods: {
+    dropSubclue(e, scope) {
+      const subclueIndex = e.dataTransfer.getData('subclueIndex')
+      const clueIndex = e.dataTransfer.getData('clueIndex')
+      const clue = this.investigationData.clues[clueIndex].subClues[subclueIndex]
+
+      this.investigationData.i_scope.find(ele => ele.scope === scope).evidence.push(clue)
+    },
+    verifyInvestigation() {
+
+    }
   }
 }
 </script>
-<style scoped>
+<style>
 #investigation-board {
   top: 130px;
   width: 1210px;
@@ -72,10 +84,45 @@ export default {
   height: 600px;
   padding: 5px;
   border-right: none;
+  background: transparent;
 }
 
 #investigation-scope.close {
   display: none;
+}
+
+#investigation-scope-button {
+  position: absolute;
+  top: 5%;
+  height: 45px;
+  margin-right: -3px;
+  padding: 0px 5px;
+  font-size: 50px;
+  text-align: right;
+  color: white;
+  text-shadow: -3px 0 #000;
+  background-color: #a2e1e6;
+  border-right: none;
+  border-width: 2px;
+  border-radius: 10px;
+}
+
+#investigation-scope-button.open {
+  right: 300px
+}
+
+#investigation-scope-button.close {
+  right: 0px
+}
+
+#investigation-verification-button {
+  margin-bottom: 0;
+  padding: 5px;
+  color: white;
+  font-size: 15px;
+  border-radius: 20px 20px 0 0;
+  border-bottom: none;
+  background-color: #5d9bebd4;
 }
 
 .notice {
@@ -88,65 +135,10 @@ export default {
   width: 270px;
   min-height: 400px;
   height: fit-content;
+  margin-top: 0;
   margin-bottom: 10px;
   padding: 5px;
   background-color: #80808078;
-}
-
-button {
-  position: absolute;
-  top: 5%;
-  height: 45px;
-  margin-right: -5px;
-  padding: 0px 5px;
-  font-size: 50px;
-  text-align: right;
-  color: white;
-  text-shadow: -3px 0 #000;
-  background-color: #a2e1e6;
-  border-right: none;
-  border-width: 2px;
-  border-radius: 10px;
-}
-
-button.open {
-  right: 300px
-}
-
-button.close {
-  right: 0px
-}
-
-.wrapper {
-  width: fit-content;
-  padding: 10px;
-  line-break: loose;
-  white-space: pre-wrap;
-}
-
-.group {
-  display: flex;
-  flex-direction: column;
-}
-
-.title {
-  font-size: 30px;
-  font-weight: bold;
-  margin: 0 10px;
-  text-align: left;
-}
-
-.description {
-  display: inline-block;
-  font-size: 20px;
-  text-align: left;
-  line-break: auto;
-  margin: 10px;
-  text-align: left;
-}
-
-.float {
-  z-index: 10;
 }
 
 .notice {
@@ -160,7 +152,30 @@ button.close {
 }
 
 .subclue {
-  flex-direction: column;
-  background-color: #a2e6a5;
+  display: block;
+  position: relative;
+  width: 350px;
+  min-height: 200px;
+  height: fit-content;
+  padding: 20px;
+  margin: 15px 0 0 15px;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4), -20px -5px 0 rgba(255, 255, 255, 0.4) inset,
+    -5px -5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.subclue.minimized {
+  width: 260px;
+  min-height: 260px;
+  padding: 10px;
+  margin: 5px 0;
+  background: white;
+}
+
+.title.minimized {
+  font-size: 20px;
+}
+
+.description.minimized {
+  font-size: 15px;
 }
 </style>

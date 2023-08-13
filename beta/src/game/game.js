@@ -70,7 +70,7 @@ export const useGameStore = defineStore('game', {
           npc: { 'breakfast_maid': { dialogueKey: 'prologue', options: ['option-end', 'option-default'] } },
           item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
         }
-      } // default: BreakfastStage
+      }, // default: BreakfastStage
     },
     cluenote: { 0:null, 1:null, 2:null },
     puzzle: { id: null, path: null, route: null },

@@ -69,6 +69,11 @@ export default {
   flex-direction: row;
 }
 
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
 .shift-back {
   margin-top: -5px;
   z-index: 0;
@@ -84,5 +89,21 @@ export default {
   position: relative;
   align-self: flex-end;
   z-index: 20;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0 10px;
+  text-align: left;
+}
+
+.description {
+  display: inline-block;
+  font-size: 20px;
+  text-align: left;
+  line-break: auto;
+  margin: 10px;
+  text-align: left;
 }
 </style>

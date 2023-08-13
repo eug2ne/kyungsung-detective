@@ -4,7 +4,7 @@
       {{ this.progress.message }}
     </h3>
     <Navbar @toContent="changeContent" @toggleStageSelect="this.showStageSelect = !this.showStageSelect" />
-    <StageSelectPopup v-if="this.showStageSelect" @closeSlotPopup="this.showStageSelect = false" />
+    <StageSelectPopup v-if="this.showStageSelect" />
     <div class="contents">
       <EmaliPopup />
       <Game v-show="showContent[0]&&this.$route.path=='/Game'" />

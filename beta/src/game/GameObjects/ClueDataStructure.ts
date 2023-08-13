@@ -15,8 +15,9 @@ export type event = {
 export type subClue = {
   title: string,
   description: string,
-  p_index: number,
   index: number,
+  c_index: number,
+  p_index: number,
   source?: profile,
   quiz_id: string,
   reveal: boolean,
@@ -40,7 +41,7 @@ export type Investigation = {
   description: string,
   index: number,
   complete: boolean,
-  i_scope: [ { scope: string, clues: [ (subClue|event|Clue)? ] } ]|null,
+  i_scope: { scope: string, evidence: [ (subClue|event|Clue)? ] }[]|null,
   timeline: { [key: number]: event|null },
   clues: { [key: number]: Clue|null }
 }

@@ -4,6 +4,6 @@ declare namespace Phaser
 {
 	interface Scene
 	{
-		sceneload: import('./SceneLoadPlugin').default
+		sceneload: import('./plugin/SceneLoadPlugin').default
 	}
 }

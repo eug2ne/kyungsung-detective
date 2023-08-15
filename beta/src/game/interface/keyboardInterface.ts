@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import SceneLoadPlugin from "../SceneLoadPlugin"
+import SceneLoadPlugin from "../plugin/SceneLoadPlugin"
 import NPC from "../GameObjects/NPC"
 import Item from "../GameObjects/Item"
 

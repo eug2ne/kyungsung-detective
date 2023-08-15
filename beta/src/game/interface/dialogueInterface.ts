@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import SceneLoadPlugin from "../SceneLoadPlugin"
+import SceneLoadPlugin from "../plugin/SceneLoadPlugin"
 import Dialogue from "../GameObjects/Dialogue"
 import keydoardInterface from "./keyboardInterface"
 import NPC from "../GameObjects/NPC"

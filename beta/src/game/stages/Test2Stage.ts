@@ -144,10 +144,10 @@ const event_config = {
       }
       const investigation: Investigation = {
         title: '두번째 탐정시험',
-        description: '탐정시험의 두 번째 문제는 가상의 살인사건을 해결하는 것이다. 용의자들과 대화하고 주변을 관찰하여 사건 해결의 단서를 수집하라.',
+        description: '탐정시험의 두 번째 문제는 가상의 살인사건을 해결하는 것이다. 단서를 모아 사건을 입증해보자.',
         index: 1,
         complete: false,
-        i_scope: [ { scope: '범행 방법', evidence: [] }, { scope: '동기', evidence: [] } ],
+        i_scope: [ { scope: '범인', evidence: [] }, { scope: '범행 방법', evidence: [] }, { scope: '동기', evidence: [] } ],
         timeline: { 0:null, 1:null, 2:null, 3:null, 4:null },
         clues: {
           0: clue, // autopsy hint

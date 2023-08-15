@@ -10,16 +10,19 @@
         @click="this.scope_open = !this.scope_open">
         {{ this.scope_open ? '>>' : '<<' }}
       </button>
+      <button id="investigation-verification-button" class="pixel-borders--2" v-if="this.investigationData.i_scope"
+        :class="{ open: this.scope_open, close: !this.scope_open }" @click="verifyInvestigation">
+        사건입증 
+      </button>
       <div id="investigation-scope" class="board pixel-borders--1" v-if="this.investigationData.i_scope"
         :class="{ open: this.scope_open, close: !this.scope_open }">
-        <button id="investigation-verification-button" class="pixel-borders--2" @click="verifyInvestigation">
-          사건 입증하기    
-        </button>
-        <div class="scope" @drop="dropSubclue($event, scope.scope)" @dragover.prevent @dragenter.prevent
+        <div class="scope" @drop.prevent="dropSubclue($event, scope.scope)" @dragover.prevent @dragenter.prevent
           v-for="scope in this.investigationData.i_scope" :key="scope.id">
           <h3 class="title">{{ scope.scope }}</h3>
           <div class="group">
-            <div class="subclue minimized" v-for="clue in scope.evidence" :key="clue.id">
+            <div class="subclue minimized" v-for="clue in scope.evidence" :key="clue.id"
+              draggable="true" @dragstart="dragSubclue($event, clue)">
+              <span @click="deleteSubclue(clue, scope.scope)" class="x-button minimized">x</span>
               <h3 class="title minimized">{{ clue.title }}</h3>
               <p class="description minimized">{{ clue.description }}</p>
             </div>
@@ -36,13 +39,12 @@
       </div>
 
       <!-- clues -->
-      <Clue v-for="clue in Object.values(this.investigationData.clues)" :key="clue.id"
-        :clue="clue" />
+      <Clue v-for="clue_key in Object.keys(this.investigationData.clues)" :key="clue_key.id"
+        :clue="this.investigationData.clues[clue_key]" />
     </div>
   </div>
 </template>
 <script>
-import { mapState } from 'pinia'
 import { useGameStore } from '@/game/game'
 import Clue from './Clue.vue'
 import TimelineEvent from './TimelineEvent.vue'
@@ -62,10 +64,34 @@ export default {
       const clueIndex = e.dataTransfer.getData('clueIndex')
       const clue = this.investigationData.clues[clueIndex].subClues[subclueIndex]
 
-      this.investigationData.i_scope.find(ele => ele.scope === scope).evidence.push(clue)
+      // check for duplicate subclue
+      const i = this.investigationData.i_scope.find(ele => ele.scope === scope)
+        .evidence.findIndex(ele => ele.index == subclueIndex&&ele.c_index == clueIndex)
+
+      if (i === -1) {
+        // add subclue to i_scope
+        this.investigationData.i_scope.find(ele => ele.scope === scope)
+          .evidence.push(clue)
+      } else {
+        // update subclue
+        this.investigationData.i_scope.find(ele => ele.scope === scope)
+          .evidence[i] = clue
+      }
+    },
+    dragSubclue(e, subclue) {
+      e.dataTransfer.dropEffect = 'move'
+      e.dataTransfer.effectAllowed = 'move'
+      e.dataTransfer.setData('subclueIndex', subclue.index)
+      e.dataTransfer.setData('clueIndex', subclue.c_index)
+    },
+    deleteSubclue(subclue, scope) {
+      // delete subclue from i_scope
+      const i = this.investigationData.i_scope.findIndex(ele => ele.index === subclue.index&&ele.c_index === ele.subclue)
+      this.investigationData.i_scope.find(ele => ele.scope === scope).evidence.splice(i, 1)
     },
     verifyInvestigation() {
-
+      // emit verification event
+      useGameStore().$patch({ progress: { id: 'verification', message: '사건을 입증하러 갑니다...', data: this.investigationData.i_scope } })
     }
   }
 }
@@ -85,6 +111,7 @@ export default {
   padding: 5px;
   border-right: none;
   background: transparent;
+  z-index: 100;
 }
 
 #investigation-scope.close {
@@ -105,24 +132,32 @@ export default {
   border-right: none;
   border-width: 2px;
   border-radius: 10px;
-}
-
-#investigation-scope-button.open {
-  right: 300px
-}
-
-#investigation-scope-button.close {
-  right: 0px
+  z-index: 100;
 }
 
 #investigation-verification-button {
-  margin-bottom: 0;
+  position: absolute;
+  top: 15%;
+  width: 40px;
+  height: 120px;
   padding: 5px;
   color: white;
-  font-size: 15px;
-  border-radius: 20px 20px 0 0;
-  border-bottom: none;
-  background-color: #5d9bebd4;
+  font-size: 20px;
+  line-height: 120%;
+  writing-mode: vertical-rl;
+  vertical-align: middle;
+  border-radius: 20px 0 0 20px;
+  border-right: none;
+  background-color: #5d9beb;
+  z-index: 100;
+}
+
+.open {
+  right: 300px
+}
+
+.close {
+  right: 0px
 }
 
 .notice {
@@ -139,12 +174,6 @@ export default {
   margin-bottom: 10px;
   padding: 5px;
   background-color: #80808078;
-}
-
-.notice {
-  text-align: center;
-  line-height: 460px;
-  font-size: 20px;
 }
 
 .clue {
@@ -177,5 +206,13 @@ export default {
 
 .description.minimized {
   font-size: 15px;
+}
+
+.x-button.minimized {
+  margin: 0 10px 5px;
+  padding: 0;
+  font-size: 25px;
+  color: grey;
+  text-shadow: none;
 }
 </style>

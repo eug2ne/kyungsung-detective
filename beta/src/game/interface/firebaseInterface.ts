@@ -43,7 +43,6 @@ export const firebaseInterface: DBInterface = {
 
     const clue_data: any = {}
     clue_data[story] = { ...useGameStore().cluenote }
-    console.log(clue_data)
     await setDoc(SLOT_DOC, {
       Stage: useGameStore().stage,
       Clue: clue_data,

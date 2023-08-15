@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Phaser from 'phaser'
 import { useGameStore } from '../game.js'
-import SceneLoadPlugin from '../SceneLoadPlugin.js'
+import SceneLoadPlugin from '../plugin/SceneLoadPlugin'
 import Item from './Item.js'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {

@@ -1,11 +1,11 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
-import keyboardInterface from './interface/keyboardInterface'
-import dialogueInterface from './interface/dialogueInterface'
-import Player from './GameObjects/Player'
-import NPC from './GameObjects/NPC'
-import Item from './GameObjects/Item'
-import sami from './assets/sami_sprite/sami_frame1fixedversion (1).png'
+import keyboardInterface from '../interface/keyboardInterface'
+import dialogueInterface from '../interface/dialogueInterface'
+import Player from '../GameObjects/Player'
+import NPC from '../GameObjects/NPC'
+import Item from '../GameObjects/Item'
+import sami from '../assets/sami_sprite/sami_frame1fixedversion (1).png'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private _config: {

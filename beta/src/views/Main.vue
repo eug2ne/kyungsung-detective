@@ -71,10 +71,12 @@ export default {
         this.changeContent()
       } else if (mutation.payload.progress) {
         if (mutation.payload.progress.message) {
+          // show progress message
           setTimeout(() => {
             this.progress.message = null
           }, 3000)
-        } else if (mutation.payload.progress.id) {
+        }
+        if (mutation.payload.progress.id) {
           // redirect to Game.vue
           setTimeout(() => {
             this.nav_pointer = 0

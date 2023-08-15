@@ -194,6 +194,7 @@ export default {
   text-align: center;
   padding: 0;
   cursor: pointer;
+  text-overflow: ellipsis;
 }
 
 .index:hover, .index:focus {

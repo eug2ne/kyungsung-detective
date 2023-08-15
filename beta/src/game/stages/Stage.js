@@ -141,9 +141,13 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
 
   // outer-game event progress (quiz-progress)
   quizEvent(id /* : string */) {
-    // get qevent-scene
-    const p_scene = this.game.scene.getScene(this.qevent_config[id].sceneKey)
-    if (this.qevent_config[id].sceneKey != this.player_config.sceneKey) {
+    if (id === 'verification') {
+      // verification event
+      console.log(useGameStore().progress.data)
+    } else if (this.qevent_config[id].sceneKey != this.player_config.sceneKey) {
+      // get qevent-scene
+      const p_scene = this.game.scene.getScene(this.qevent_config[id].sceneKey)
+    
       // pause current-scene >> start progress-scene
       const c_scene = this.game.scene.getScene(this.player_config.sceneKey)
       this.game.scene.pause(c_scene) // pause current-scene

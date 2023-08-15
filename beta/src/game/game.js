@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 import { collection, deleteDoc, doc, setDoc, getDocs, } from 'firebase/firestore'
 import { auth, db } from '../firestoreDB'
 import { firebaseInterface } from './interface/firebaseInterface'
-import SceneLoadPlugin from './SceneLoadPlugin'
+import SceneLoadPlugin from './plugin/SceneLoadPlugin'
+import InvestigationPlugin from './plugin/InvestigationPlugin'
 
 // import stages
 import BreakfastStage from './stages/BreakfastStage'
@@ -76,7 +77,7 @@ export const useGameStore = defineStore('game', {
     puzzle: { id: null, path: null, route: null },
     inventory: [],
     carry_item: [],
-    progress: { id: null, message: null, route: null },
+    progress: { id: null, message: null, route: null, data: null },
     booted: false,
     game_clear: false,
     UID: null
@@ -180,6 +181,12 @@ export default class game extends Phaser.Game {
             plugin: SceneLoadPlugin,
             start: true,
             mapping: 'sceneload'
+          },
+          {
+            key: 'InvestigationPlugin',
+            plugin: InvestigationPlugin,
+            start: true,
+            mapping: 'investigation'
           }
         ]
       }

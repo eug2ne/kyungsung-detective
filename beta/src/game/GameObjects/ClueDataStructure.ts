@@ -9,14 +9,15 @@ export type event = {
   description: string,
   index: number,
   source?: profile,
-  subClues: [ subClue? ]
+  subClues?: { [key: number]: subClue|undefined|null }
 }
 
 export type subClue = {
   title: string,
   description: string,
   index: number,
-  c_index: number,
+  c_index?: number,
+  t_index?: number,
   p_index: number,
   source?: profile,
   quiz_id: string,
@@ -29,7 +30,7 @@ export type Clue = {
   description: string,
   index: number,
   source?: profile,
-  subClues: { [key: number]: subClue|undefined },
+  subClues: { [key: number]: subClue|undefined|null },
   related?: {
     testimony: [ subClue? ],
     interrogation: [ profile? ]

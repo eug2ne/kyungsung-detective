@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import _ from "lodash"
 import { useGameStore } from '../game.js'
+import { addInvestigation } from '../library.js'
 import { Investigation, Clue } from '../GameObjects/ClueDataStructure'
 import Update from "./Update"
 import Stage from "./Stage.js"
@@ -101,24 +102,21 @@ const event_config = {
         clues: { 0: clue }
       }
 
-      useGameStore().$patch((state: any) => {
-        state.cluenote[0] = investigation // update cluenote
-        state.stage.scenes_config['Test1'].npc['test1_inspector'].dialogueKey = 'post_c_repeat' // update inspector dialogueKey
-      })
+      const message = addInvestigation(investigation, 0)
 
-      return { clear: false, message: "단서노트에 새로운 사건이 등록되었습니다." }
+      return { clear: false, message: message }
     }),
     new Update({ quiz_id: 'cJ89EcZyF5EHwElEGRGZ', route: '시작.0.subClues.0' }, () => {
       // after accomplishing quiz, reveal subclue + update newspaperstand dialogue-key
       useGameStore().$patch((state: any) => {
         // reveal subclue
-        state.cluenote[0].subClues[0][0].reveal = true
+        state.cluenote[0].clues[0].subClues[0].reveal = true
 
         // update newspaperstand dialogue-key
         state.stage.scenes_config['Test1'].npc['test1_newspaperstand'].dialogueKey = 'answer'
       })
 
-      return { clear: false, message: "단서를 해결했습니다." }
+      return { clear: false, message: '기존 단서의 정보가 갱신되었습니다.' }
     }),
     new Update({ id: 'test1_newspaperstand', data: 'newspaper-get' }, () => {
       // get newspaper item from newspaperstand + update inspector, newspaperstand dialogueKey
@@ -137,11 +135,11 @@ const event_config = {
         state.stage.scenes_config['Test1'].npc['test1_newspaperstand'].dialogueKey = 'post_a'
       })
 
-      return { clear: false, message: "'신문' 아이템을 획득했습니다." }
+      return { clear: false, message: '「 신문 」 아이템을 획득했습니다.' }
     }),
     new Update({ id: 'test1_inspector', data: 'inspector-clear' }, () => {
       // after talking to inspector carrying newspaper item >> stage clear
-      return { clear: false, message: "" }
+      return { clear: true, message: '' }
     })
   ]
 }

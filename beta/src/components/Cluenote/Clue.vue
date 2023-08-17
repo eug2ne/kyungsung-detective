@@ -12,21 +12,22 @@
       </div>
     </div>
     <div class="wrapper">
-      <div class="background" :class="{ rotateLeft: index%2 == 0, rotateRight: index%2 == 1 }" v-for="(subclue, index) in Object.values(clue.subClues)" :key="subclue.id">
-        <div v-if="!subclue" class="subclue unknown">
+      <div class="background" :class="{ rotateLeft: index%2 == 0, rotateRight: index%2 == 1 }" v-for="(subclue_key, index) in Object.keys(clue.subClues)" :key="subclue_key.id">
+        <div v-if="!clue.subClues[subclue_key]" class="subclue unknown">
           <h3 class="title">???</h3>
           <p class="description">????? ???? ????? ??? ????, ??????????? ?????????? ????, ??? ?? ????????</p>
         </div>
-        <div v-else class="subclue" :class="{ unlock: subclue.reveal, lock: !subclue.reveal }"
-          draggable="true" @dragstart="dragSubclue($event, subclue)">
-          <div v-if="subclue.reveal">
-            <h3 class="title">{{ subclue.title }}</h3>
-            <p class="description">{{ subclue.description }}</p>
+        <div v-else class="subclue" :class="{ unlock: clue.subClues[subclue_key].reveal, lock: !clue.subClues[subclue_key].reveal }"
+          draggable="true" @dragstart="dragSubclue($event, clue.subClues[subclue_key])">
+          <div v-if="clue.subClues[subclue_key].reveal">
+            <h3 class="title">{{ clue.subClues[subclue_key].title }}</h3>
+            <p class="description">{{ clue.subClues[subclue_key].description }}</p>
           </div>
 
           <div v-else>
             <h3 class="title">?? ? ???</h3>
-              <p class="description" v-if="subclue.quiz_id" @click="toQuiz(subclue.quiz_id, subclue.clue_ref)">
+              <p class="description" v-if="clue.subClues[subclue_key].quiz_id"
+                @click="toQuiz(clue.subClues[subclue_key].quiz_id, clue.subClues[subclue_key].clue_ref)">
                 (퍼즐 풀고 단서 얻으러가기)
               </p>
               <p class="description" v-else>
@@ -68,10 +69,12 @@ export default {
 
 <style scoped>
 .clue {
+  width: fit-content;
+  height: 290px;
   align-items: stretch;
   justify-content: flex-start;
+  margin: 20px;
   padding: 15px;
-  height: fit-content;
 }
 
 .background {

@@ -55,8 +55,8 @@ export default {
 .board {
   position: absolute;
   display: inline-block;
-  overflow: scroll;
-  scrollbar-width: none;
+  overflow-x: scroll;
+  overflow-y: auto;
   background-color: #ffff;
 }
 

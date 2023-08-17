@@ -17,6 +17,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
   //   player_config: { sceneKey: string, x: number, y: number },
   //   scenes_config: any /* { scene_key: scene_config } */
   // }
+  // private cluenote: cluenoteInterface
   // public event_config: any /* { eventKey: [{ Update }] } */
   // public q_event_config: any /* { quiz_id: { /* quiz-event config */ } } */
 

@@ -31,40 +31,59 @@ export const spliceOption = (key, id, option, add) => {
   }
 }
 
-export const addClue = (clue, index) => {
-  // add clue to designated index
+export const addInvestigation = (investigation, p_index) => {
+  // add investigation to cluenote
   useGameStore().$patch((state) => {
-    state.cluenote[index] = clue
+    state.cluenote[p_index] = investigation
+  })
+
+  return '새로운 사건이 단서노트에 추가되었습니다.'
+}
+
+export const addClue = (clue, p_index) => {
+  const { index } = clue
+
+  // add clue to cluenote
+  useGameStore().$patch((state) => {
+    state.cluenote[p_index].clues[index] = clue
   })
 }
 
-export const addSubClue = (subclue, index, s_index) => {
-  // add subclue to clue of designated index
-  useGameStore().$patch((state) => {
-    // check subclue-update redundancy
-    if (_.some(state.cluenote[index].subClues[s_index], subclue)) return
-    else if (subclue.quiz_id&&state.cluenote[index].subClues[s_index].find(ele => ele.quiz_id === subclue.quiz_id)) return
-    
-    state.cluenote[index].subClues[s_index].push(subclue)
-  })
-}
+export const addEvent = (event, p_index) => {
+  const { index } = event
 
-export const addTimeline = (timeline, index, t_index, percent) => {
-  // add timeline to clue of designated index as designated timeline-index
+  // add timeline-event to cluenote
   useGameStore().$patch((state) => {
-    // check timeline-update redundancy
-    if (_.isEqual(state.cluenote[index].timelineData.timeline[t_index], timeline)) return
-    
-    state.cluenote[index].timelineData.timeline[t_index] = timeline
-    // add percent to timelineData.complete (if timelineData.complete === 1, timeline complete)
-    state.cluenote[index].timelineData.complete += percent
+    state.cluenote[p_index].timeline[index] = event
   })
 
-  return useGameStore().cluenote[index].timelineData.complete
+  return '시간선에 새로운 사건이 추가되었습니다.'
 }
 
-// function library for loading quiz-data from db
-  // load data from auto-save + load data from slot + reset data + save data
-export const loadAutoData = async () => {
+export const addSubClue = (subClue, p_index) => {
+  const { t_index, c_index, index } = subClue
 
+  // add subclue to cluenote
+  useGameStore().$patch((state) => {
+    // clue.subclue
+    if (c_index) state.cluenote[p_index].clues[c_index].subClues[index] = subClue
+    // timeline-event.subclue
+    else if (t_index) state.cluenote[p_index].timeline[t_index].subClues[index] = subClue
+  })
+
+  return '새로운 단서가 단서노트에 추가되었습니다.'
+}
+
+export const updateSubClue = (subClue, p_index) => {
+  const { t_index, c_index, index } = subClue
+
+  // add subclue to cluenote
+  useGameStore().$patch((state) => {
+    // clue.subclue
+    if (c_index) state.cluenote[p_index].clues[c_index].subClues[index] = subClue
+    // timeline-event.subclue
+    else if (t_index) state.cluenote[p_index].timeline[t_index].subClues[index] = subClue
+  })
+
+  return '기존 단서의 정보가 갱신되었습니다.'
 }

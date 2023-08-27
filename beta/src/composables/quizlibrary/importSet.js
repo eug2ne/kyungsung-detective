@@ -2,7 +2,7 @@ import { useGameStore } from '../../game/game'
 import { db } from '../../firestoreDB'
 import { doc, setDoc, getDoc, collection } from 'firebase/firestore'
 
-const importSet = async (quiz_id, path, route) => {
+const importSet = async (quiz_id, path) => {
     // import set from quiz.path
     const LOAD_DOC = doc(db, path) // load from quiz.path
     const LOAD_SNAP = await getDoc(LOAD_DOC)
@@ -38,8 +38,7 @@ const importSet = async (quiz_id, path, route) => {
             max_chosen: 6,
             backset: [],
             forwardset: [],
-            accomplish: false,
-            clue_ref: route
+            accomplish: false
         })
 
         const quizinstance = {
@@ -50,8 +49,7 @@ const importSet = async (quiz_id, path, route) => {
             max_chosen: 6,
             backset: [],
             forwardset: [],
-            accomplish: false,
-            clue_ref: route
+            accomplish: false
         }
 
         return {

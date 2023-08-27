@@ -8,7 +8,7 @@
           <br>
           '경성 탐정' 소식을 빠르게 받아보고 싶으시다면 이메일 주소를 남겨주세요!
           <br/>
-          (* 뉴스레터가 오지 않았을 경우 스팸함을 확인해주세요.)
+          (* 뉴스레터가 오지 않을 경우 스팸함을 확인해주세요.)
         </p>
 
         <input type="email" v-model="email" placeholder="address@email.com" @click="this.email = ''">

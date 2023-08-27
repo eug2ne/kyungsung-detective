@@ -131,14 +131,14 @@ export default {
         
         // create async load func.
         const load = async () => {
-          const { id, path, route } = useGameStore().puzzle
+          const { id, path } = useGameStore().puzzle
 
           try {
             const {
               defaultSet,
               quizinstance,
               answerSet
-            } = await importSet(id, path, route)
+            } = await importSet(id, path)
 
             d_Set.value = defaultSet
             q_instance.value = quizinstance

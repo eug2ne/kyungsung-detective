@@ -74,7 +74,7 @@ export const useGameStore = defineStore('game', {
       }, // default: BreakfastStage
     },
     cluenote: { 0:null, 1:null, 2:null },
-    puzzle: { id: null, path: null, route: null },
+    puzzle: { id: null, path: null },
     inventory: [],
     carry_item: [],
     progress: { id: null, message: null },

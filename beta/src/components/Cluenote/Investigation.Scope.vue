@@ -1,5 +1,6 @@
 <template>
-  <span id="scope-button" class="pixel-borders--2" @click="toggleScope()">
+  <span id="scope-button" class="pixel-borders--2" v-if="this.investigationData"
+    @click="toggleScope()">
     {{ this.scopeOpen ? '>>' : '<<' }}
   </span>
   <div id="investigation-scope" class="board pixel-borders--1" v-if="this.scopeOpen"

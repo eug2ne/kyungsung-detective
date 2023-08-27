@@ -54,12 +54,6 @@ export default {
   background-color: #ff7d6c;
 }
 
-.lock p {
-  cursor: pointer;
-  text-decoration: white underline;
-  font-weight: bold;
-}
-
 .unlock {
   background-color: #4b8292;
 }

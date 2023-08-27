@@ -6,7 +6,7 @@
     </template>
   </Suspense>
 
-  <button id="investigation-verification-button" class="pixel-borders--2" v-if="this.investigationData"
+  <button id="investigation-verification-button" class="pixel-borders--2" v-if="this.investigationData&&this.investigationData.i_scope"
     @click="verifyInvestigation">
     사건입증 
   </button>

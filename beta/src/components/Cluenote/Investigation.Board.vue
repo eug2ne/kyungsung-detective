@@ -6,7 +6,7 @@
     </div>
     <div v-else>
       <!-- timeline -->
-      <Timeline :timeline="this.investigationData.timeline" />
+      <Timeline v-if="Object.values(this.investigationData.timeline).length > 0" :timeline="this.investigationData.timeline" />
 
       <!-- clues -->
       <Clue v-for="clue_key in Object.keys(this.investigationData.clues)" :key="clue_key.id"

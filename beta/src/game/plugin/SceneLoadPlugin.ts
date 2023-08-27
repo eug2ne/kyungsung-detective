@@ -1,11 +1,11 @@
 import Phaser from 'phaser'
 import _ from 'lodash'
-import keyboardInterface from './interface/keyboardInterface'
-import dialogueInterface from './interface/dialogueInterface'
-import Player from './GameObjects/Player'
-import NPC from './GameObjects/NPC'
-import Item from './GameObjects/Item'
-import sami from './assets/sami_sprite/sami_frame1fixedversion (1).png'
+import keyboardInterface from '../interface/keyboardInterface'
+import dialogueInterface from '../interface/dialogueInterface'
+import Player from '../GameObjects/Player'
+import NPC from '../GameObjects/NPC'
+import Item from '../GameObjects/Item'
+import sami from '../assets/sami_sprite/sami_frame1fixedversion (1).png'
 
 export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   private _config: {
@@ -24,8 +24,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     strokeThickness: 6,
     color: '#fff'
   })
-  private keyboard: keyboardInterface
-  private dialogue: dialogueInterface
+  public keyboard: keyboardInterface
+  public dialogue: dialogueInterface
   private keyboard_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene!, 0, 0,
     '방향키:이동  Space/Enter:상호작용',
     {
@@ -217,9 +217,10 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
 
     // player move control
     this.player.setVelocity(0,0)
-    this.keyboard.movePlayer()
+    this.keyboard.movePlayer(this.player)
 
     // dialogue control
+    this.dialogue.updateDialogue()
     if (this.dialogue.option_pointer) {
       // option-pointer control
       switch (this.keyboard.interactWithDialogue()) {

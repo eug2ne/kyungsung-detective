@@ -1,11 +1,6 @@
 <template>
   <div class="popup">
     <ul>
-      <li>
-        <span @click="this.$emit('closeSlotPopup')" class="x-button">x</span>
-      </li>
-    </ul>
-    <ul>
       <li v-if="!this.showStageList">
         <button class="show-stage-list pixel-borders--1" @click="this.showStageList = true">스테이지 선택</button>
       </li>
@@ -25,7 +20,6 @@ import StageList from './StageList.vue'
 export default {
   name: 'StageSelectPopup',
   components: { StageList, StageSlotList },
-  emits: ['closeSlotPopup'],
   data() {
     return {
       showStageList: false,

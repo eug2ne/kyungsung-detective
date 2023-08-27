@@ -1,7 +1,7 @@
 import Phaser from "phaser"
-import SceneLoadPlugin from "../SceneLoadPlugin"
 import NPC from "../GameObjects/NPC"
 import Item from "../GameObjects/Item"
+import Player from "../GameObjects/Player"
 
 type PluginInterface = {
   game: Phaser.Game
@@ -10,13 +10,13 @@ type PluginInterface = {
 interface ScenePluginInterface extends PluginInterface {
   game: Phaser.Game
   scene: Phaser.Scene
-  sceneload: Phaser.Plugins.ScenePlugin
+  plugin: Phaser.Plugins.ScenePlugin
 }
 
 export default class keydoardInterface implements ScenePluginInterface {
   game: Phaser.Game
-  sceneload: SceneLoadPlugin
   scene: Phaser.Scene
+  plugin: Phaser.Plugins.ScenePlugin
   public keyboard: Phaser.Input.Keyboard.KeyboardPlugin
   private control: {
     cursor: {
@@ -30,10 +30,10 @@ export default class keydoardInterface implements ScenePluginInterface {
   } = { cursor: undefined, enter: undefined, space: undefined }
   private talking: boolean = false
 
-  constructor(Game: Phaser.Game, Scene: Phaser.Scene, SceneLoadPlugin: SceneLoadPlugin, KeyboardPlugin: Phaser.Input.Keyboard.KeyboardPlugin) {
+  constructor(Game: Phaser.Game, Scene: Phaser.Scene, ScenePlugin: Phaser.Plugins.ScenePlugin, KeyboardPlugin: Phaser.Input.Keyboard.KeyboardPlugin) {
     this.game = Game
     this.scene = Scene
-    this.sceneload = SceneLoadPlugin
+    this.plugin = ScenePlugin
     this.keyboard = KeyboardPlugin
   }
 
@@ -58,20 +58,20 @@ export default class keydoardInterface implements ScenePluginInterface {
     }
   }
   
-  movePlayer() {
+  movePlayer(player: Player) {
     if (this.talking) return
 
     // player move event
     if (this.control.cursor!.left.isDown) {
-      this.sceneload.player.update('left')
+      player.update('left')
     } else if (this.control.cursor!.right.isDown) {
-      this.sceneload.player.update('right')
+      player.update('right')
     } else if (this.control.cursor!.up.isDown) {
-      this.sceneload.player.update('up')
+      player.update('up')
     } else if (this.control.cursor!.down.isDown) {
-      this.sceneload.player.update('down')
+      player.update('down')
     } else {
-      this.sceneload.player.anims.stop()
+      player.anims.stop()
     }
   }
 
@@ -124,13 +124,17 @@ export default class keydoardInterface implements ScenePluginInterface {
 
     // disable cursor (default: option-pointer vertical)
     if (vertical) {
-      // if option-pointer is vertical, disable left+right cursor  
+      // if option-pointer is vertical, disable left+right cursor
+      this.control.cursor!.up.enabled = true
+      this.control.cursor!.down.enabled = true  
       this.control.cursor!.left.enabled = false
       this.control.cursor!.right.enabled = false
     } else {
       // if option-pointer is horizontal, disable up+down cursor
       this.control.cursor!.up.enabled = false
       this.control.cursor!.down.enabled = false
+      this.control.cursor!.left.enabled = true
+      this.control.cursor!.right.enabled = true
     }
 
     this.talking = true

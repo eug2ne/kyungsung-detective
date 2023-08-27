@@ -1,12 +1,14 @@
 <template>
-  <div class="backdrop" v-if="this.show">
-    <span @click="this.show=false" class="x-button">x</span>
+  <div class="backdrop">
+    <span @click="this.$emit('closeEmailPopup')" class="x-button">x</span>
     <div id="email-popup" class="popup">
         <h3>'경성 탐정' 뉴스레터를 시작했습니다!</h3>
         <p>
           2주일에 1번, 베타판 업데이트 소식이나 개발 과정에서의 소소한 에피소드들을 담은 뉴스레터를 보내드릴 예정입니다.
           <br>
           '경성 탐정' 소식을 빠르게 받아보고 싶으시다면 이메일 주소를 남겨주세요!
+          <br/>
+          (* 뉴스레터가 오지 않았을 경우 스팸함을 확인해주세요.)
         </p>
 
         <input type="email" v-model="email" placeholder="address@email.com" @click="this.email = ''">
@@ -20,9 +22,9 @@ import axios from 'axios'
 
 export default {
   name: 'EmailPopup',
+  emits: [ 'closeEmailPopup' ],
   data() {
     return {
-      show: true,
       email: ''
     }
   },
@@ -99,7 +101,7 @@ p {
 button {
   position: absolute;
   left: 80%;
-  top: 70%;
+  top: 73%;
   height: 45px;
   padding: 0px 5px;
   font-size: 50px;

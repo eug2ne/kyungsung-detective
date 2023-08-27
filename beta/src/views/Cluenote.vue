@@ -1,64 +1,43 @@
 <template>
-  <ul id="timeline">
-    <button
-      @click="showClue(story)"
-      class="story pixel-borders--2"
-      v-for="story in Object.keys(this.cluelist)"
-      :key="story.id"
-      type="button"
-    >
-      {{ story }}
-    </button>
-  </ul>
+  <Suspense>
+    <CluenoteNavbar @emitInvestigation="showInvestigation" />
+    <template #fallback>
+      <p>단서노트 정보를 불러오고 있습니다...</p>
+    </template>
+  </Suspense>
 
-  <div id="clue-board" class="pixel-borders--1">
-    <div v-if="!this.show" class="notice">
-      버튼을 눌러 단서를 확인하세요.
-    </div>
-    <div class="clue-wrapper" v-else v-for="clue_id in Object.keys(this.show)" :key="clue_id.id">
-      <Clue :clue="this.show[clue_id]" />
-    </div>
-  </div>
+  <button id="investigation-verification-button" class="pixel-borders--2" v-if="this.investigationData"
+    @click="verifyInvestigation">
+    사건입증 
+  </button>
+  <InvestigationBoard :investigationData="this.investigationData" />
+
   <div class="invisible-behind"></div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import { db } from '../firestoreDB'
-import { collection,doc, getDoc } from 'firebase/firestore'
-import { useGameStore } from '../game/game'
+import { useGameStore } from '@/game/game'
+import CluenoteNavbar from '@/components/Cluenote/Cluenote.Navbar.vue'
+import InvestigationBoard from '@/components/Cluenote/Investigation.Board.vue';
+import InvestigationScope from '@/components/Cluenote/Investigation.Scope.vue'
 import Clue from '@/components/Cluenote/Clue.vue'
 
 export default {
   name: 'Cluenote',
   props: ['progress'],
-  components: { Clue },
+  components: { CluenoteNavbar, InvestigationBoard, InvestigationScope, Clue },
   data() {
     return {
-      show: ref({})
-    }
-  },
-  setup() {
-    const cluelist = ref({})
-
-    // get user_cluelist from user-doc
-    const load = async (gameKey) => {
-      const USER_SLOTS = collection(db, `BetaUsers/${useGameStore().UID}/Games/${gameKey}/Slots`)
-      const AUTO_DOC = doc(USER_SLOTS, 'auto')
-      const AUTO_SNAP = await getDoc(AUTO_DOC)
-
-      cluelist.value = AUTO_SNAP.data().Clue
-    }
-
-    load('k_detective_beta')
-
-    return {
-      cluelist
+      investigationData: null
     }
   },
   methods: {
-    showClue(story) {
-      this.show = this.cluelist[story]
+    showInvestigation(i_data) {
+      this.investigationData = i_data
+    },
+    verifyInvestigation() {
+      // emit verification event
+      useGameStore().$patch({ progress: { id: 'verification', message: '사건을 입증하러 갑니다...', route: this.investigationData.index } })
     }
   }
 };
@@ -66,71 +45,88 @@ export default {
 
 <style>
 .invisible-behind {
-  height: 600px;
+  height: 800px;
 }
 
-#timeline {
-  width: 150px;
-  display: block;
-  position: relative;
-  float: left;
-  margin-left: 20px;
-}
-
-#timeline button {
-  font-family: "NeoDunggeunmo";
-  font-size: 27px;
-  width: 150px;
-  cursor: pointer;
-  display: block;
-  text-align: left;
-  margin: 30px 0;
-  background: #E4B7AF;
-  padding: 15px;
-  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4), 0 5px 0 rgba(255, 255, 255, 0.4) inset,
-    0 -5px 0 rgba(0, 0, 0, 0.2) inset, 0 0 0 75px #ff7d6c inset;
-  border-radius: 5px;
-}
-
-#timeline button:focus {
-  box-shadow: none;
-  box-shadow: 0 5px 0 rgba(255, 255, 255, 0.4) inset,
-    0 -5px 0 rgba(0, 0, 0, 0.2) inset, 0 0 0 75px #ff7d6c inset;
-  position: relative;
-  bottom: -5px;
-}
-
-#clue-board {
-  width: 820px;
-  height: 600px;
-  padding: 20px;
-  display: inline-block;
+#cluenote-navbar {
   position: absolute;
-  right: 10px;
-  border-radius: 0;
+  top: 0;
+  width: 1210px;
+  min-height: 100px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+#timeline::-webkit-scrollbar {
+  display: none;
+}
+
+#investigation-verification-button {
+  position: absolute;
+  top: 120px;
+  right: 0;
+  width: 120px;
+  height: 40px;
+  padding: 5px;
+  color: white;
+  font-size: 20px;
+  line-height: 120%;
+  border-radius: 20px 20px 0 0;
+  border-bottom: none;
+  background-color: #5d9beb;
+  box-shadow: 0 -5px 0 inset rgba(0, 0, 0, 0.5), -5px -5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.board {
+  position: absolute;
+  display: inline-block;
   overflow: scroll;
   background-color: #ffff;
+  scrollbar-width: 0px;
 }
 
-.notice {
-  text-align: center;
-  line-height: 460px;
-  font-size: 20px;
+.wrapper {
+  display: flex;
+  flex-direction: row;
 }
 
-.clue-wrapper {
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.shift-back {
+  margin-top: -5px;
+  z-index: 0;
+}
+
+.shift-front {
+  align-self: flex-end;
+  margin-top: 5px;
+  z-index: 10;
+}
+
+.focus {
   position: relative;
-  width: 770px;
-  height: fit-content;
-  margin-bottom: 30px;
-  padding: 10px;
-  border-style: solid;
-  border-width: 3px;
-  border-radius: 2px;
-  border-color: #e6c4a2;
-  border-image-slice: 4;
-  border-image-width: 2;
-  border-image-outset: 0;
-  border-image-source: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M2 2h2v2H2zM4 0h2v2H4zM10 4h2v2h-2zM0 4h2v2H0zM6 0h2v2H6zM8 2h2v2H8zM8 8h2v2H8zM6 10h2v2H6zM0 6h2v2H0zM10 6h2v2h-2zM4 10h2v2H4zM2 8h2v2H2z' fill='%23e6c4a2' /></svg>");
+  align-self: flex-end;
+  z-index: 20;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0 10px;
+  text-align: left;
+}
+
+.description {
+  display: inline-block;
+  font-size: 20px;
+  text-align: left;
+  line-break: auto;
+  margin: 10px;
+  text-align: left;
 }
 </style>

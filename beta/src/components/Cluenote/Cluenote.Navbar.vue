@@ -37,7 +37,7 @@
         >
           <button class="investigation pixel-borders--2" v-if="this.cluenoteData[this.showstoryKey][i]"
             :class="{ focus: this.showinvestigationIndex === i }">
-            <p style="overflow: hidden;white-space: nowrap;">
+            <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
               {{ this.cluenoteData[this.showstoryKey][i].title }}
             </p>
             <p v-if="this.showinvestigationIndex ===i" style="color: white">
@@ -192,6 +192,7 @@ export default {
   position: relative;
   font-family: "NeoDunggeunmo";
   text-align: center;
+  text-overflow: ellipsis;
   padding: 0;
   cursor: pointer;
   text-overflow: ellipsis;

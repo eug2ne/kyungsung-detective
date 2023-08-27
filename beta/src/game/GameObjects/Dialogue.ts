@@ -191,6 +191,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
       } else {
         this.skip_next.visible = false
         this.scene.time.removeEvent(text_blink)
+        this.scene.events.emit('end-of-dialogue')
       }
 
       if (!writing) {
@@ -202,73 +203,78 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
           // create question
           typewriter()
            
-          // create options
-          this.options_data.forEach((option: any, index: number) => {
-            this.options.push(new Phaser.GameObjects.Text(
-              this.scene,
-              this.line_x,
-              this.line_y+this.line.height+25+35*index,
-              `>> ${option.answer}`,
-              {
-                fontFamily: 'NeoDunggeunmo',
-                fontSize: `${25/this.zoom}px`,
-                color: '#000',
-                padding: {
-                  x: 20,
-                  y: 0
+          if (this.options_data) {
+            // create options
+            this.options_data.forEach((option: any, index: number) => {
+              this.options.push(new Phaser.GameObjects.Text(
+                this.scene,
+                this.line_x,
+                this.line_y+this.line.height+25+35*index,
+                `>> ${option.answer}`,
+                {
+                  fontFamily: 'NeoDunggeunmo',
+                  fontSize: `${25/this.zoom}px`,
+                  color: '#000',
+                  padding: {
+                    x: 20,
+                    y: 0
+                  }
                 }
-              }
+                )
+                .setData({ event: option.event, to: option.to })
+                .setInteractive()
+                .setWordWrapWidth(685)
               )
-              .setData({ event: option.event, to: option.to })
-              .setInteractive()
-              .setWordWrapWidth(685)
-            )
-          })
-          this.options.forEach((option: any) => {
-            this.scene.add.existing(option).setDepth(25)
-            // mouse over/out event
-            option.on('pointerover', () => {
-              option.setBackgroundColor('#c0c6ce')
             })
-            option.on('pointerout', () => {
-              option.setBackgroundColor(null)
-            })
-        
-            // mouse click event
-            option.on('pointerdown', () => {
-              if (this.index != this.dialogue.length) {
-                // auto-complete current question
-                this.scene.time.removeAllEvents()
-                this.line.text = this.line_text
-              }
+            this.options.forEach((option: any) => {
+              this.scene.add.existing(option).setDepth(25)
+              // mouse over/out event
+              option.on('pointerover', () => {
+                option.setBackgroundColor('#c0c6ce')
+              })
+              option.on('pointerout', () => {
+                option.setBackgroundColor(null)
+              })
+          
+              // mouse click event
+              option.on('pointerdown', () => {
+                // destroy option-pointer
+                this.scene!.sceneload.dialogue.destroyOptionPointer()
 
-              if (!option.data.values.to) {
-                // end of question/dialogue
-                if (option.data.values.event) {
-                  // if event-data in option, emit event-data to scene
-                  this.scene.events.emit('pass-event-data', option.data.values.event)
+                if (this.index != this.dialogue.length) {
+                  // auto-complete current question
+                  this.scene.time.removeAllEvents()
+                  this.line.text = this.line_text
                 }
-                this.scene.events.emit('end-talking')
-              } else {
-                const answer_dialogue_data = this.dialogue_data[option.data.values.to]
 
-                // if event-data in answer-dialogue-data, emit event-data to scene
-                if (answer_dialogue_data.event) {
-                  this.scene.events.emit('pass-event-data', answer_dialogue_data.event)
+                if (!option.data.values.to) {
+                  // end of question/dialogue
+                  if (option.data.values.event) {
+                    // if event-data in option, emit event-data to scene
+                    this.scene.events.emit('pass-event-data', option.data.values.event)
+                  }
+                  this.scene.events.emit('end-talking')
+                } else {
+                  const answer_dialogue_data = this.dialogue_data[option.data.values.to]
+
+                  // if event-data in answer-dialogue-data, emit event-data to scene
+                  if (answer_dialogue_data.event) {
+                    this.scene.events.emit('pass-event-data', answer_dialogue_data.event)
+                  }
+                  // add answer dialogue to this.dialogue
+                  this.dialogue = this.dialogue.concat(answer_dialogue_data.dialogue)
+                  
+                  writing = true // reset writing
+                  this.emit('update-line') // continue dialogue 
                 }
-                // add answer dialogue to this.dialogue
-                this.dialogue = this.dialogue.concat(answer_dialogue_data.dialogue)
-                
-                writing = true // reset writing
-                this.emit('update-line') // continue dialogue 
-              }
 
-              this.options.forEach((option?: Phaser.GameObjects.Text) => {
-                option?.destroy()
-              }) // destroy options
-              this.options = [] // reset this.options
+                this.options.forEach((option?: Phaser.GameObjects.Text) => {
+                  option?.destroy()
+                }) // destroy options
+                this.options = [] // reset this.options
+              })
             })
-          })
+          }
         } else {
           // create line+image
           typewriter()

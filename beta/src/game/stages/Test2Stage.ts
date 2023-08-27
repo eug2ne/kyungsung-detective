@@ -147,7 +147,7 @@ const event_config = {
         description: '탐정시험의 두 번째 문제는 가상의 살인사건을 해결하는 것이다. 단서를 모아 사건을 입증해보자.',
         index: 1,
         complete: false,
-        i_scope: [ { scope: '범인', evidence: [] }, { scope: '범행 방법', evidence: [] }, { scope: '동기', evidence: [] } ],
+        i_scope: [ { scope: '사인', evidence: [] }, { scope: '범행 방법', evidence: [] }, { scope: '동기', evidence: [] } ],
         timeline: { 0:null, 1:null, 2:null, 3:null, 4:null },
         clues: {
           0: clue, // autopsy hint
@@ -156,7 +156,7 @@ const event_config = {
         }
       }
 
-      const message = addInvestigation(investigation, 1)
+      const message = addInvestigation(1, investigation)
 
       return { clear: false, message: message }
     })
@@ -164,13 +164,20 @@ const event_config = {
   'test2-event-timelineUpdate': [
     new Update({id: "test2_suspect1", data: "suspect1-time"}, (stage: any) => {
       // after asking suspect1 about time, update timeline
-      const event: event = {
+      const event_1: event = {
+        title: "박유신의 방문",
+        description: "오전에 친구인 박유신이 돈 문제로 피해자를 방문했다.",
+        index: 0,
+        subClues: { 0: null },
+        source: { type: "NPC", name: "박유신", id: "test2_suspect1" }
+      }
+      const event_2: event = {
         title: "헤어짐",
         description: "박유신은 방문한지 얼마 되지않아 피해자의 집을 떠났다.",
         index: 2,
         source: { type: "NPC", name: "박유신", id: "test2_suspect1" }
       }
-      let message = addEvent(event, 1) // add timeline event
+      let message = addEvent(1, event_1, event_2) // add timeline event
 
       // check timeline complete + suspicion system activate
       const timeline_complete = Object.values(useGameStore().cluenote[1].timeline).length
@@ -185,7 +192,7 @@ const event_config = {
           quiz_id: "YPnEQwKAwueWEzSmpRdF",
           reveal: false
         }
-        message = addSubClue(subclue, 1) // add subclue
+        message = addSubClue(1, subclue) // add subclue
       }
 
       return { clear: false, message: message }
@@ -198,7 +205,7 @@ const event_config = {
         index: 4,
         source: { type: "NPC", name: "김현수", id: "test2_suspect2" }
       }
-      let message = addEvent(event, 1) // add timeline event
+      let message = addEvent(1, event) // add timeline event
 
       // check timeline complete + suspicion system activate
       const timeline_complete = Object.values(useGameStore().cluenote[1].timeline).length
@@ -213,7 +220,7 @@ const event_config = {
           quiz_id: "YPnEQwKAwueWEzSmpRdF",
           reveal: false
         }
-        message = addSubClue(subclue, 1) // add subclue
+        message = addSubClue(1, subclue) // add subclue
       }
 
       return { clear: false, message: message }
@@ -229,7 +236,7 @@ const event_config = {
         source: { type: "Item", name: "book", id: "test2_item1" },
         subClues: { 0: null, 1: null }
       }
-      const message = addClue(clue, 1) // add clue
+      const message = addClue(1, clue) // add clue
       
       // update suspect3 dialogueKey
       spliceOption('Test2', 'test2_suspect3', undefined, 'option-suspect2')
@@ -244,11 +251,11 @@ const event_config = {
         index: 0,
         c_index: 1,
         p_index: 1,
-        source: { type: "NPC", "name": "안연정", id: "test2_suspect3" },
+        source: { type: "NPC", name: "안연정", id: "test2_suspect3" },
         quiz_id: '',
         reveal: true,
       }
-      const message = addSubClue(subclue, 1) // add subclue
+      const message = addSubClue(1, subclue) // add subclue
       
       spliceOption('Test2', 'test2_suspect2', undefined, 'option-heritage')
 
@@ -266,7 +273,7 @@ const event_config = {
         quiz_id: '',
         reveal: true,
       }
-      const message = addSubClue(subclue, 1) // add subclue
+      const message = addSubClue(1, subclue) // add subclue
 
       return { clear: false, message: message }
     })
@@ -292,14 +299,13 @@ const event_config = {
         source: { type: "NPC", name: "안연정", id: "test2_suspect3" },
         subClues: { 0: null }
       }
-      addEvent(event_1, 1)
       const event_2: event = {
         title: "혼자 있는 시간",
         description: "박유신이 떠난 뒤 서재에 들어간 사람은 아무도 없다.",
         index: 3,
         source: { type: "NPC", name: "안연정", id: "test2_suspect3" }
       }
-      const message = addEvent(event_2, 1) // add timeline data
+      const message = addEvent(1, event_1, event_2) // add timeline data
 
       return { clear: false, message: message }
     }),
@@ -315,9 +321,8 @@ const event_config = {
         quiz_id: "",
         reveal: true
       }
-      addSubClue(subclue_1, 1) // add subclue to timeline-event
       const subclue_2: subClue = {
-        title: "중독",
+        title: "탈륨 중독",
         description: "시신의 상태, 평소보다 피곤해보였다는 박유신의 증언으로 미루어보아 피해자는 음독으로 죽었을 가능성이 높다.",
         index: 2,
         c_index: 0,
@@ -325,7 +330,7 @@ const event_config = {
         quiz_id: "WIN3vIY76B5ZHa13x70c",
         reveal: false
       }
-      const message = addSubClue(subclue_2, 1) // add subclue
+      const message = addSubClue(1, subclue_1, subclue_2) // add subclue
 
       return { clear: false, message: message }
     }),
@@ -356,7 +361,7 @@ const event_config = {
         quiz_id: "",
         reveal: true
       }
-      let message = addSubClue(subclue, 1) // add subclue to timeline-event
+      let message = addSubClue(1, subclue) // add subclue to timeline-event
 
       // check timeline complete + suspicion system activate
       const timeline_complete = Object.values(useGameStore().cluenote[1].timeline).length
@@ -371,7 +376,7 @@ const event_config = {
           quiz_id: "YPnEQwKAwueWEzSmpRdF",
           reveal: false
         }
-        message = addSubClue(subclue, 1) // add subclue
+        message = addSubClue(1, subclue) // add subclue
       }
 
       return { clear: false, message: message }
@@ -383,12 +388,11 @@ const event_config = {
       })
 
       // after accomplihing quiz >> stage clear
-      return { clear: true }
+      return { clear: false, message: "기존 단서의 정보가 갱신되었습니다." }
     })
   ],
   /* quiz answer: '임금체불' */'tLJfpFrSVAq5O1sGNs8I': [
     new Update({id: "test2_item2", data: "item2-read"}, () => {
-      console.log('item2 read')
       // after reading account-record from bookshelf, add clue + update suspect3 options
       const clue: Clue = {
         title: "가계 장부",
@@ -397,7 +401,7 @@ const event_config = {
         source: { type: "Item", name: "book", id: "test2_item2" },
         subClues: { 0: null }
       }
-      const message = addClue(clue, 1) // add clue
+      const message = addClue(1, clue) // add clue
 
       // update suspect2, suspect3 options
       spliceOption('Test2', 'test2_suspect2', undefined, 'option-suspect3')
@@ -417,7 +421,6 @@ const event_config = {
         quiz_id: '',
         reveal: true
       }
-      addSubClue(subclue_1, 1)
       const subclue_2: subClue = {
         title: "임금체불?",
         description: "안연정은 가계가 기울어지고 월급을 제대로 못 받고있을 가능성이 있다?",
@@ -427,7 +430,7 @@ const event_config = {
         quiz_id: "tLJfpFrSVAq5O1sGNs8I",
         reveal: false
       }
-      const message = addSubClue(subclue_2, 1) // add subclue
+      const message = addSubClue(1, subclue_1, subclue_2, 1) // add subclue
 
       return { clear: false, message: message }
     }),
@@ -454,7 +457,7 @@ const event_config = {
         quiz_id: "tLJfpFrSVAq5O1sGNs8I",
         reveal: true
       }
-      const message = updateSubClue(subclue, 1) // update subclue
+      const message = updateSubClue(1, subclue) // update subclue
 
       // activate suspicion system after talking
       stage.game.scene.getScene('Test2').events.once('end-talking', () => {
@@ -483,7 +486,7 @@ const event_config = {
           quiz_id: "YPnEQwKAwueWEzSmpRdF",
           reveal: false
         }
-        const message = addSubClue(subclue, 1) // add subclue
+        const message = addSubClue(1, subclue) // add subclue
 
         return { clear: false, message: message }
       }
@@ -516,22 +519,17 @@ const event_config = {
       
       return { clear: false, message: "" }
     })
+  ],
+  'verification-clear': [
+    new Update({id: "verification", data: "verification-clear"}, () => {
+      // stage clear
+      return { clear: true, message: "" }
+    })
   ]
 }
 
 export default class Test2Stage extends Stage {
   constructor(manager: Phaser.Plugins.PluginManager) {
     super(manager, [ new Test2() ], default_config, event_config, qevent_config, 'Test2Stage', null)
-  }
-
-  clear() {
-    // emit game-clear event in scene
-    const scene = this.game.scene.getScene('Test2')
-    scene.events.emit('game-clear')
-
-    
-    scene.events.on('end-talking', () => {
-      useGameStore().$patch({ game_clear: true })
-    })
   }
 }

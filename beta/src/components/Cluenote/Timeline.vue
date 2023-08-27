@@ -1,109 +1,109 @@
 <template>
-  <div class="timeline-wrapper">
-    <div :class="{ transitionLeft: index%2 == 1, transitionRight: index%2 == 0 }" v-for="(event_id, index) in Object.keys(timeline)" :key="event_id.id">
-      <div v-if="timeline[event_id]">
-        <div class="timeline unlock">
-          <h3>{{ timeline[event_id].title }}</h3>
-          <p>{{ timeline[event_id].description }}</p>
+  <div id="timeline" class="wrapper">
+    <h2 class="title" style="text-align: center">사건 시간선</h2>
+    <div class="background" @hover.prevent="mouseOverEvent($event)" :class="{ rotateLeft: index%2 == 0, rotateRight: index%2 == 1 }"
+      v-for="(event_id, index) in Object.keys(timeline)" :key="event_id.id">
+      <div class="event" :class="{ unlock: timeline[event_id], lock: !timeline[event_id] }"
+        :draggable="timeline[event_id] ? true : false" @dragstart.self="dragEvent($event, timeline[event_id])">
+        <div v-if="timeline[event_id]">
+          <h3 class="title">
+            {{ timeline[event_id].title }}
+          </h3>
+          <p class="description">
+            {{ timeline[event_id].description }}
+          </p>
         </div>
-        <div v-if="timeline[event_id].subClues" class="subclue">
-          <div v-for="subclue in timeline[event_id].subClues" :key="subclue.id">
-            <h3>{{ subclue.title }}</h3>
-            <p>{{ subclue.description }}</p>
-          </div>
+        <div v-else>
+          <h3 class="title">
+            {{ "?".repeat(Math.floor(Math.random()*5) + 1) }}
+          </h3>
+          <p class="description">
+            ????? ???? ????? ??? ????, ??????????? ???????? ????
+          </p>
         </div>
       </div>
-      <div class="timeline lock" v-else>
-        <h3>{{ "?".repeat(Math.floor(Math.random()*5) + 1) }}</h3>
-        <p>????? ???? ????? ??? ????, ??????????? ???????? ????</p>
+      <!-- event.subclue group -->
+      <div class="group" v-if="timeline[event_id]&&timeline[event_id].subClues">
+        <SubClue :subclue="timeline[event_id].subClues[subclue_key]"
+          v-for="subclue_key in Object.keys(timeline[event_id].subClues)" :key="subclue_key.id"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import SubClue from './SubClue.vue'
+
 export default {
   name: 'Timeline',
-  props: [ 'timeline' ]
+  props: [ 'timeline' ],
+  emits: [ 'hoverEvent' ],
+  components: { SubClue },
+  methods: {
+    mouseOverEvent(e) {
+      const t_left = e.target.getBoundingClientRect().left
+      const t_top = e.target.getBoundingClientRect().top
+
+      this.$emit('hoverEvent', t_left, t_top)
+    },
+    dragEvent(e, event) {
+      e.dataTransfer.dropEffect = 'move'
+      e.dataTransfer.effectAllowed = 'move'
+      e.dataTransfer.setData('eventIndex', event.index)
+    }
+  }
 }
 </script>
 
 <style scoped>
-.timeline-wrapper {
-  position: relative;
-  display: flex;
-  width: 350px;
-  flex-direction: column;
-  justify-self: flex-end;
-  justify-items: flex-start;
+#timeline {
+  width: fit-content;
+  min-height: 290px;
+  height: fit-content;
+  align-items: stretch;
   justify-content: flex-start;
-  margin-left: 10px;
-  z-index: 10;
+  margin: 40px 10px;
+  padding: 15px;
+  background-color: #dddddd;
 }
 
-.timeline {
-  width: 350px;
-  height: fit-content;
+.background {
+  background-color: #f1f5f9;
+}
+
+.event {
   display: block;
+  position: relative;
+  width: 350px;
+  min-height: 200px;
+  height: fit-content;
   padding: 20px;
-  margin-bottom: 10px;
-  background-color: #e6c4a2;
-  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4), -20px 5px 0 rgba(255, 255, 255, 0.4) inset,
+  margin: 15px 0 0 15px;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4), -20px -5px 0 rgba(255, 255, 255, 0.4) inset,
     -5px -5px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
 }
 
-.transitionLeft {
-  rotate: -3deg;
-  translate: -20px 5px;
-}
-
-.transitionRight {
-  rotate: 3deg;
-  translate: 0px -5px;
+.unlock {
+  background-color: #fff9e2;
 }
 
 .lock {
-  text-align: center;
-  font-size: 50px;
+  background-color: #85929e;
 }
 
 .subclue {
-  position: relative;
   width: 330px;
+  min-height: 0;
   height: fit-content;
-  translate: 20px -25px;
-  display: block;
-  padding: 20px;
   margin-bottom: -10px;
-  background: #3B2F2C;
-  padding: 20px;
-  z-index: -10;
+  padding: 10px;
   color: #ffff;
-  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4), -5px -5px 5px rgba(0, 0, 0, 0.2) inset;
+  background-color: #3B2F2C;
+  translate: 20px -25px;
 }
 
-.subclue p {
-  color: #ffff;
-}
-
-h3 {
-  display: inline;
-  font-size: 30px;
-  padding: 5px;
-  text-align: left;
-  line-break: loose;
-}
-
-p {
-  display: inline-block;
-  font-size: 18px;
-  text-align: left;
-  line-break: auto;
-  color: #3B2F2C;
-  margin: 10px;
-  margin-bottom: 20px;
-  padding: 5px;
-  box-shadow: -5px 0 0 rgba(0, 0, 0, 0.3);
+.background:hover .subclue {
+  padding-top: 20px;
 }
 </style>

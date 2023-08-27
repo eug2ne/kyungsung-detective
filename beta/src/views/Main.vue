@@ -6,7 +6,7 @@
     <Navbar @toContent="changeContent" @toggleStageSelect="this.showStageSelect = !this.showStageSelect" />
     <StageSelectPopup v-if="this.showStageSelect" />
     <div class="contents">
-      <EmaliPopup />
+      <EmailPopup v-if="this.showEmailPopup" @closeEmailPopup="this.showEmailPopup = false"/>
       <Game v-show="showContent[0]&&this.$route.path=='/Game'" />
       <Inventory v-if="showContent[1]&&this.$route.path=='/Game'" />
       <Cluenote v-if="showContent[2]&&this.$route.path=='/Game'" :progress="progress" />
@@ -40,7 +40,8 @@ export default {
         3: false
       },
       nav_pointer: 0, // default show game
-      showStageSelect: false
+      showStageSelect: false,
+      showEmailPopup: true
     }
   },
   computed: {
@@ -83,6 +84,9 @@ export default {
             this.changeContent()
           }, 3000)
         }
+      } else if (mutation.payload.game_clear) {
+        // show email-popup on game-clear
+        this.showEmailPopup = mutation.payload.game_clear
       }
     })
   }

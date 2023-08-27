@@ -1,18 +1,31 @@
 <template>
-  <div class="subclue" :class="{ focus: this.focus }"
-    @mouseenter.prevent="this.focus = true" @mouseleave.self="this.focus = false">
-    <h3 class="title">?????</h3>
-    <p class="description">????? ?????</p>
-    <ul class="wrapper related" :class="{ expanded: this.focus, minimized: !this.focus }">
-      <li class="subclue" :class="{ expanded: this.focus, minimized: !this.focus }">
-        <h3 class="title" :class="{ minimized: !this.focus }">related subclue</h3>
-        <p v-if="this.focus" class="description">related subclue description</p>
-      </li>
-      <li class="subclue">
-        <h3 class="title" :class="{ minimized: !this.focus }">related subclue</h3>
-        <p v-if="this.focus" class="description">related subclue description</p>
-      </li>
-    </ul>
+  <div class="subclue"
+    :class="{ unknown: !subclue, unlock: subclue ? subclue.reveal : false, lock: subclue ? !subclue.reveal : false }"
+    :draggable="subclue ? subclue.reveal : false" @dragstart.self="dragSubclue($event, subclue)">
+    <div v-if="!subclue">
+      <h3 class="title">
+        {{ "?".repeat(Math.floor(Math.random()*5) + 1) }}
+      </h3>
+      <p class="description">
+        ????? ???? ????? ??? ????, ??????????? ?????????? ????, ??? ?? ????????
+      </p>
+    </div>
+    <div v-else-if="!subclue.reveal">
+      <h3 class="title">
+        {{ "?".repeat(Math.floor(Math.random()*5) + 1) }}
+      </h3>
+      <p class="description" v-if="subclue.quiz_id"
+        @click="toQuiz(subclue.quiz_id, clue.subClues[subclue_key].clue_ref)">
+        (퍼즐 풀고 단서 얻으러가기)
+      </p>
+      <p class="description" v-else>
+        ????? ???? ????? ??? ????, ??????????? ?????????? ????, ??? ?? ????????
+      </p>
+    </div>
+    <div v-else>
+      <h3 class="title">{{ subclue.title }}</h3>
+      <p class="description">{{ subclue.description }}</p>
+    </div>
   </div>
 </template>
 
@@ -21,55 +34,20 @@ import { useGameStore } from '@/game/game.js'
 
 export default {
   name: 'SubClue',
-  data() {
-    return {
-      focus: false,
-      redCircle: require('@/assets/blob-haikei.svg')
-    }
-  },
+  props: [ 'subclue' ],
   methods: {
     toQuiz(quiz_id, route) {
       // update default-quizID
       const path = `BetaUsers/${useGameStore().UID}/Games/k_detective_beta/Slots/auto/Quizs/${quiz_id}`
       useGameStore().$patch({ puzzle: { id: quiz_id, path: path, route: route } })
+    },
+    dragSubclue(e, subclue) {
+      e.dataTransfer.dropEffect = 'move'
+      e.dataTransfer.effectAllowed = 'move'
+      e.dataTransfer.setData('subclueIndex', subclue.index)
+      e.dataTransfer.setData('clueIndex', subclue.c_index)
+      e.dataTransfer.setData('eventIndex', subclue.t_index)
     }
   }
 }
 </script>
-<style>
-.rotateLeft {
-  rotate: -5deg;
-}
-
-.rotateRight {
-  rotate: 5deg;
-}
-
-.transitionLeft {
-  rotate: -5deg;
-  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4), -20px -5px 0 rgba(255, 255, 255, 0.4) inset,
-    -5px -5px 5px rgba(0, 0, 0, 0.2);
-}
-
-.transitionRight {
-  rotate: 5deg;
-  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4), -20px 5px 0 rgba(255, 255, 255, 0.4) inset,
-    -5px -5px 5px rgba(0, 0, 0, 0.2);
-}
-
-.lock {
-  background-color: #ff7d6c;
-  z-index: 50;
-}
-
-.unlock {
-  background-color: #4b8292;
-}
-
-.unknown {
-  width: 350px;
-  min-height: 250px;
-  height: fit-content;
-  background-color: #e8ded5;
-}
-</style>

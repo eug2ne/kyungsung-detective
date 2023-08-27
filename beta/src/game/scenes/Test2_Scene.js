@@ -21,10 +21,13 @@ import suspect1_neutral from '@/game/assets/npc_log/친구.png'
 import suspect2_neutral from '@/game/assets/npc_log/동생.png'
 import suspect3_neutral from '@/game/assets/npc_log/가정부2.png'
 import inspector_neutral from '@/game//assets/npc_log/관리자.png'
+import inspector_smile from '../assets/npc_log/관리자_웃음.png'
 import applicant4_neutral from '@/game//assets/npc_log/지원자4_이미지.png'
 import sami_neutral from '@/game/assets/sami_log/sami_무표정.png'
 import sami_sus from '@/game/assets/sami_log/sami_의심.png'
-import sami_smile from '@/game//assets/sami_log/sami_웃음.png'
+import sami_angry1 from '@/game/assets/sami_log/sami_화.png'
+import sami_angry2 from '@/game/assets/sami_log/sami_화2.png'
+import sami_smile from '@/game//assets/sami_log/sami_웃음2.png'
 
 const npcs_JSON = [
   {
@@ -731,12 +734,15 @@ export default class Test2 extends Phaser.Scene {
     this.load.image('suspect2_neutral', suspect2_neutral)
     this.load.image('suspect3_neutral', suspect3_neutral)
     this.load.image('inspector_neutral', inspector_neutral)
+    this.load.image('inspector_smile', inspector_smile)
     this.load.image('applicant4_neutral', applicant4_neutral)
     this.load.spritesheet('suspect1_sprite', suspect1_sprite, { frameWidth: 5304 / 17, frameHeight: 492 })
     this.load.spritesheet('suspect2_sprite', suspect2_sprite, { frameWidth: 4844 / 17, frameHeight: 477 })
     this.load.spritesheet('suspect3_sprite', suspect3_sprite, { frameWidth: 5100 / 17, frameHeight: 468 })
     this.load.image('sami_neutral', sami_neutral)
     this.load.image('sami_sus', sami_sus)
+    this.load.image('sami_angry1', sami_angry1)
+    this.load.image('sami_angry2', sami_angry2)
     this.load.image('sami_smile', sami_smile)
 
     // load item image
@@ -805,6 +811,8 @@ export default class Test2 extends Phaser.Scene {
     }
     this.sceneload.create(colliders, this.items, this.npcs, camera_config, data)
 
+    this.investigation.create() // activate investigation-plugin
+
     this.game.stage.mapEvent(this) // activate stage
     
     // check clue update
@@ -823,7 +831,37 @@ export default class Test2 extends Phaser.Scene {
             },
             {
               image: "inspector_neutral",
-              line: "사건에 대해 설명하겠다. 피해자의 이름은 김철수.",
+              line: "이번 시험부터는 사건의 진상을 입증해야만 통과할 수 있다.",
+              name: "감독관"
+            },
+            {
+              image: "inspector_neutral",
+              line: "그리고 사건의 진상을 입증하기 위해서는 특정 주제를 증명하는 단서를 모아서 제시해야 하지. 어떤 주제를 증명해야 하는지는 사건에 따라 다르며, 이번 문제에서는 '사인', '범행 방법', '동기'를 증명해야 한다.",
+              name: "감독관"
+            },
+            {
+              image: "inspector_neutral",
+              line: "각 주제를 증명하기 위해 제시할 수 있는 단서는 최대 5개. 조사하면서 얻는 단서 중 자네가 특정 주제를 증명한다고 생각하는 단서가 있다면 5개까지 따로 모을 수 있네.",
+              name: "감독관"
+            },
+            {
+              image: "inspector_neutral",
+              line: "만약 사건 입증에 필요한 단서가 충분히 모였다고 생각된다면 '단서 노트'에 새로 추가된 '사건입증' 버튼을 누르면 된다.",
+              name: "감독관"
+            },
+            {
+              image: "inspector_neutral",
+              line: "말로만 설명하면 복잡하다고 느껴질지 몰라도 막상 직접 해보면 별 거 아니라고 느낄 걸세. 뭐, 탐정이 되면 직접 몸으로 부딪쳐야 하는 순간도 있을테니 미리 경험해본다 생각하도록.",
+              name: "감독관"
+            },
+            {
+              image: "inspector_neutral",
+              line: "이번에는 모의 수사라 '사건입증'에 실패해도 얼마든지 불이익 없이 몇 번이고 다시 도전할 수 있으니, 부담 가질 필요도 없으니까 말일세.",
+              name: "감독관"
+            },
+            {
+              image: "inspector_neutral",
+              line: "그럼, 사건에 대해 설명하겠다. 피해자의 이름은 김철수.",
               name: "감독관"
             },
             {
@@ -912,123 +950,6 @@ export default class Test2 extends Phaser.Scene {
       }
       this.events.emit('quiz-event', 'start', start_config)
     }
-
-    // game-clear event
-    this.events.on('game-clear', () => {
-      // create game-clear dialogue
-      // get cameraX + cameraY
-      const cameraX = this.cameras.main.worldView.x, cameraY = this.cameras.main.worldView.y      
-      const d_data = [
-        {
-          'image': 'sami_neutral',
-          'line': '사건은 해결됐습니다!',
-          'name': '사미'
-        },
-        {
-          'image': 'sami_neutral',
-          'line': '범인은 피해자가 마신 냉커피의 얼음에 탈륨을 섞어, 얼음이 녹으면서 피해자가 치사량의 탈륨을 서서히 마시도록 만들었습니다.',
-          'name': '사미'
-        },
-        {
-          'image': 'sami_neutral',
-          'line': '그래서 피해자는 친구인 박유신이 떠날 때까지는 멀쩡할 수 있었던 겁니다.',
-          'name': '사미'
-        },
-        {
-          'image': 'sami_neutral',
-          'line': '그리고 이게 가능한 사람은 한 명뿐이죠.',
-          'name': '사미'
-        },
-        {
-          'image': 'suspect3_neutral',
-          'line': '바로 가정부인 안연정씨!',
-          'name': '안연정'
-        },
-        {
-          'image': 'suspect3_neutral',
-          'line': '안연정씨는 친구인 박유신씨가 방문했을 때 피해자의 커피에 탈륨이 든 얼음을 넣었습니다.',
-          'name': '사미'
-        },
-        {
-          'image': 'sami_neutral',
-          'line': '얼음이 녹으면서 탈륨이 서서히 커피에 퍼졌기 때문에 피해자가 사망한 건 박유신씨가 떠난 다음이었죠.',
-          'name': '사미'
-        },
-        {
-          'image': 'suspect1_neutral',
-          'line': '얼음이 다 녹은 뒤에는 탈륨의 출처를 알 수 없으므로 안연정씨는 본인의 알리바이를 확보하는 동시에 박유신씨에게 의심이 가도록 만든 겁니다.',
-          'name': '사미'
-        },
-        {
-          'image': 'inspector_neutral',
-          'line': '일리있는 설명이군. 그렇다면 안연정의 살해 동기는?',
-          'name': '감독관'
-        },
-        {
-          'image': 'sami_neutral',
-          'line': '안연정은 몇 개월째 임금을 못 받고 있습니다. 그게 살해동기입니다.',
-          'name': '사미'
-        },
-        {
-          'image': 'suspect3_neutral',
-          'line': '말도 안됩니다! 도련님을 죽인다고 없던 돈이 생겨나는 것도 아닌데 제가 왜 그러겠습니까!',
-          'name': '안연정'
-        },
-        {
-          'image': 'suspect2_neutral',
-          'line': '피해자는 독신이기 때문에 죽으면 동생인 김현수씨에게 재산이 상속됩니다.',
-          'name': '사미'
-        },
-        {
-          'image': 'sami_neutral',
-          'line': '안연정씨는 집안 재산을 피해자가 아닌 김현수씨가 관리하게 되면 자신이 못 받은 월급을 받을 수 있게 되지않을까 하는 희망 때문에 피해자를 살해한 겁니다.',
-          'name': '사미'
-        },
-        {
-          'image': 'suspect3_neutral',
-          'line': '윽..',
-          'name': '안연정'
-        },
-        {
-          'image': 'suspect3_neutral',
-          'line': '분하지만 인정할 수 밖에 없군요.',
-          'name': '안연정'
-        },
-        {
-          'image': 'suspect3_neutral',
-          'line': '..맞습니다. 도련님이 가산을 탕진해 월급을 못 받은지도 벌써 몇 달째..',
-          'name': '안연정'
-        },
-        {
-          'image': 'suspect3_neutral',
-          'line': '그간 일한 정이 있어 마지막까지 곁에 있으려 했지만..더이상은 도련님도 정신을 차리실 기미도 안 보이고, 생활도 점점 어려워져서',
-          'name': '안연정'
-        },
-        {
-          'image': 'suspect3_neutral',
-          'line': '그만두겠다 말하면서 도련님께 다른 집으로 가서 일할 수 있도록 추천서를 부탁드렸건만..그마저도 거절하셨습니다.',
-          'name': '안연정'
-        },
-        {
-          'image': 'suspect3_neutral',
-          'line': '오히려 그만두는 순간 자기가 절대 다른 일자리를 찾지 못 하도록 모든 수를 쓸거라고 하시니까 앞이 막막해져서 그만..',
-          'name': '안연정'
-        },
-        {
-          'image': 'inspector_smile',
-          'line': '살해 방법과 살해 동기까지 맞히고, 심지어 범인의 자백까지 얻어내다니. 두 번째 시험도 통과다!',
-          'name': '감독관'
-        },
-        {
-          'image': 'sami_neutral',
-          'line': '좋았어!',
-          'name': '사미'
-        }
-      ]
-      const dialogue = new Dialogue(this, cameraX, cameraY, 0.9, undefined, d_data)
-      dialogue.create(undefined)
-      this.scene.events.emit('start-talking')
-    })
   }
 
   update() {

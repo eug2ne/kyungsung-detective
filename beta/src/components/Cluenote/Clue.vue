@@ -7,61 +7,33 @@
     <div style="width: 450px">
       <h3 class="title">{{ this.clue.title }}</h3>
       <p class="description">{{ this.clue.description }}</p>
-      <div class="source" :class="{ 'npc': this.clue.source.type === 'NPC', 'item': this.clue.source.type === 'Item' }">
+      <!-- <div class="source" :class="{ 'npc': this.clue.source.type === 'NPC', 'item': this.clue.source.type === 'Item' }">
         <p class="description">(출처: {{ this.clue.source.name }})</p>
-      </div>
+      </div> -->
     </div>
     <div class="wrapper">
-      <div class="background" :class="{ rotateLeft: index%2 == 0, rotateRight: index%2 == 1 }" v-for="(subclue_key, index) in Object.keys(clue.subClues)" :key="subclue_key.id">
-        <div v-if="!clue.subClues[subclue_key]" class="subclue unknown">
-          <h3 class="title">???</h3>
-          <p class="description">????? ???? ????? ??? ????, ??????????? ?????????? ????, ??? ?? ????????</p>
-        </div>
-        <div v-else class="subclue" :class="{ unlock: clue.subClues[subclue_key].reveal, lock: !clue.subClues[subclue_key].reveal }"
-          draggable="true" @dragstart="dragSubclue($event, clue.subClues[subclue_key])">
-          <div v-if="clue.subClues[subclue_key].reveal">
-            <h3 class="title">{{ clue.subClues[subclue_key].title }}</h3>
-            <p class="description">{{ clue.subClues[subclue_key].description }}</p>
-          </div>
-
-          <div v-else>
-            <h3 class="title">?? ? ???</h3>
-              <p class="description" v-if="clue.subClues[subclue_key].quiz_id"
-                @click="toQuiz(clue.subClues[subclue_key].quiz_id, clue.subClues[subclue_key].clue_ref)">
-                (퍼즐 풀고 단서 얻으러가기)
-              </p>
-              <p class="description" v-else>
-                ???? ???? ????? ??? ???? ??????????? ?????????? ???? ????? ??? ????
-              </p>
-          </div>
-        </div>
+      <div class="background" @hover.prevent="mouseOverSubclue($event)"
+        :class="{ rotateLeft: index%2 == 0, rotateRight: index%2 == 1 }" v-for="(subclue_key, index) in Object.keys(clue.subClues)" :key="subclue_key.id">
+        <SubClue :subclue="clue.subClues[subclue_key]" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { useGameStore } from '@/game/game.js'
+import SubClue from './SubClue.vue'
 
 export default {
   name: 'Clue',
   props: [ 'clue' ],
-  data() {
-    return {
-      redCircle: require('@/assets/blob-haikei.svg')
-    }
-  },
+  emits: [ 'hoverSubclue' ],
+  components: { SubClue },
   methods: {
-    dragSubclue(e, subclue) {
-      e.dataTransfer.dropEffect = 'move'
-      e.dataTransfer.effectAllowed = 'move'
-      e.dataTransfer.setData('subclueIndex', subclue.index)
-      e.dataTransfer.setData('clueIndex', subclue.c_index)
-    },
-    toQuiz(quiz_id, route) {
-      // update default-quizID
-      const path = `BetaUsers/${useGameStore().UID}/Games/k_detective_beta/Slots/auto/Quizs/${quiz_id}`
-      useGameStore().$patch({ puzzle: { id: quiz_id, path: path, route: route } })
+    mouseOverSubclue(e) {
+      const t_left = e.target.getBoundingClientRect().left
+      const t_top = e.target.getBoundingClientRect().top
+
+      this.$emit('hoverSubclue', t_left, t_top)
     }
   }
 }
@@ -70,43 +42,22 @@ export default {
 <style scoped>
 .clue {
   width: fit-content;
-  height: 290px;
+  min-height: 290px;
+  height: fit-content;
   align-items: stretch;
   justify-content: flex-start;
-  margin: 20px;
+  margin: 40px 20px;
   padding: 15px;
-}
-
-.background {
-  min-height: 250px;
-  margin: 10px 0 0 30px;
-  background-color: #fff0df;
-  transition: rotate 0.5s ease;
-}
-
-.background:hover {
-  position: absolute;
-  min-height: 300px;
-  align-self: center;
-  justify-self: center;
-  border: 5px solid white;
-  rotate: 0deg;
-  z-index: 10;
-}
-
-.rotateLeft {
-  rotate: -5deg;
-  align-self: flex-start;
-}
-
-.rotateRight {
-  rotate: 5deg;
-  align-self: flex-end;
 }
 
 .lock {
   background-color: #ff7d6c;
-  z-index: 50;
+}
+
+.lock p {
+  cursor: pointer;
+  text-decoration: white underline;
+  font-weight: bold;
 }
 
 .unlock {
@@ -118,11 +69,5 @@ export default {
   min-height: 250px;
   height: fit-content;
   background-color: #e8ded5;
-}
-
-.lock p {
-  cursor: pointer;
-  text-decoration: white underline;
-  font-weight: bold;
 }
 </style>

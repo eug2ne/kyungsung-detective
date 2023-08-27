@@ -102,7 +102,7 @@ const event_config = {
         clues: { 0: clue }
       }
 
-      const message = addInvestigation(investigation, 0)
+      const message = addInvestigation(0, investigation)
 
       return { clear: false, message: message }
     }),

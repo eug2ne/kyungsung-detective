@@ -1,5 +1,4 @@
 import Phaser from "phaser"
-import SceneLoadPlugin from "../plugin/SceneLoadPlugin"
 import Dialogue from "../GameObjects/Dialogue"
 import keydoardInterface from "./keyboardInterface"
 import NPC from "../GameObjects/NPC"
@@ -12,15 +11,15 @@ type PluginInterface = {
 interface ScenePluginInterface extends PluginInterface {
   game: Phaser.Game
   scene: Phaser.Scene
-  sceneload: Phaser.Plugins.ScenePlugin
+  plugin: Phaser.Plugins.ScenePlugin
 }
 
 class OptionPointer {
   pointer: number = 0
-  options: [ Phaser.GameObjects.Text? ]
+  options: [ (Phaser.GameObjects.Text|Phaser.GameObjects.GameObject)? ]
   dialogue: dialogueInterface
 
-  constructor(options: [ Phaser.GameObjects.Text? ], dialogue: dialogueInterface) {
+  constructor(options: [ (Phaser.GameObjects.Text|Phaser.GameObjects.GameObject)? ], dialogue: dialogueInterface) {
     this.dialogue = dialogue
     this.options = options
     this.options[this.pointer]?.emit('pointerover') // show option-pointer
@@ -28,7 +27,7 @@ class OptionPointer {
 
   movePointer(direction: string) {
     // reset option selection
-    this.options.forEach((option?: Phaser.GameObjects.Text) => {
+    this.options.forEach((option?: Phaser.GameObjects.Text|Phaser.GameObjects.GameObject) => {
       option?.emit('pointerout')
     })
 
@@ -58,24 +57,22 @@ class OptionPointer {
   selectPointer() {
     // emit mouse click event
     this.options[this.pointer]?.emit('pointerdown')
-    // destroy self
-    this.dialogue.destroyOptionPointer()
   }
 }
 
 export default class dialogueInterface implements ScenePluginInterface {
   game: Phaser.Game
   scene: Phaser.Scene
-  sceneload: SceneLoadPlugin
+  plugin: Phaser.Plugins.ScenePlugin
   keyboard: keydoardInterface
   public option_pointer?: OptionPointer
   public game_object?: NPC|Item
   private dialogue: Dialogue
 
-  constructor(Game: Phaser.Game, Scene: Phaser.Scene, SceneLoadPlugin: SceneLoadPlugin, KeyboardInterface: keydoardInterface) {
+  constructor(Game: Phaser.Game, Scene: Phaser.Scene, ScenePlugin: Phaser.Plugins.ScenePlugin, KeyboardInterface: keydoardInterface) {
     this.game = Game
     this.scene = Scene
-    this.sceneload = SceneLoadPlugin
+    this.plugin = ScenePlugin
     this.keyboard = KeyboardInterface
   }
 
@@ -94,9 +91,11 @@ export default class dialogueInterface implements ScenePluginInterface {
     // create dialogue on scene
     this.dialogue = new Dialogue(this.scene, cameraX, cameraY, zoom, dialogueKey, dialogueData, optionsData)
     this.dialogue.create(dialogueKey)
+  }
 
-    // when question is created, create option-pointer
-    if (this.dialogue.options.length != 0) {
+  updateDialogue() {
+    // when question is created, create option-pointer once
+    if (this.dialogue&&this.dialogue.options.length != 0&&!this.option_pointer) {
       this.createOptionPointer(this.dialogue.options)
     }
   }
@@ -111,7 +110,7 @@ export default class dialogueInterface implements ScenePluginInterface {
     // }, 3000)
   }
 
-  createOptionPointer(options: [ Phaser.GameObjects.Text? ]) {
+  createOptionPointer(options: [ (Phaser.GameObjects.Text|Phaser.GameObjects.GameObject)? ]) {
     // create option-pointer
     this.option_pointer = new OptionPointer(options, this)
   }

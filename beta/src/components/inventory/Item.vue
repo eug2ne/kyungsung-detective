@@ -63,8 +63,6 @@ export default {
 }
 
 .item-wrapper:hover .hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.6);
   top: 0px;
   left: 0px;
   right: 0px;
@@ -74,6 +72,8 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 80px 20px 0 20px;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   box-shadow: 0 10px 0 rgba(255, 255, 255, 0.4) inset,
     0 -10px 0 rgba(0, 0, 0, 0.2) inset;

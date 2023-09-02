@@ -3,6 +3,8 @@ import { useGameStore } from "../../game/game"
 import { collection, doc, arrayUnion, updateDoc } from "firebase/firestore"
 
 const exportSet = async (quizinstance) => {
+    if (!quizinstance) return
+
     // save quizinstance to auto-doc/sets-collection
     const USER_QUIZS = collection(db, `BetaUsers/${useGameStore().UID}/Games/k_detective_beta/Slots/auto/Quizs`)
     const QUIZ_DOC = doc(USER_QUIZS, quizinstance.id)

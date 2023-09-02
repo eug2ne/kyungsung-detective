@@ -9,7 +9,7 @@
       </li>
     </ul>
     <StageList v-if="this.showStageList"/>
-    <StageSlotList v-else :mode="this.action" @closeSlot="this.showSlot=false" />
+    <StageSlotList v-else @closeSlot="this.showSlot=false" />
   </div>
 </template>
 
@@ -22,18 +22,7 @@ export default {
   components: { StageList, StageSlotList },
   data() {
     return {
-      showStageList: false,
-      action: null
-    }
-  },
-  methods: {
-    saveSlot() {
-      this.showSlot = true
-      this.action = 'save'
-    },
-    loadSlot() {
-      this.showSlot = true
-      this.action = 'load'
+      showStageList: false
     }
   }
 }

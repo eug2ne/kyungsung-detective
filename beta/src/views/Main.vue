@@ -74,7 +74,7 @@ export default {
         if (mutation.payload.progress.message) {
           // show progress message
           setTimeout(() => {
-            this.progress.message = null
+            this.progress.message = ''
           }, 3000)
         }
         if (mutation.payload.progress.id) {

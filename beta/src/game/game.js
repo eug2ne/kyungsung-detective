@@ -77,7 +77,7 @@ export const useGameStore = defineStore('game', {
     puzzle: { id: null, path: null },
     inventory: [],
     carry_item: [],
-    progress: { id: null, message: null },
+    progress: { id: null, message: '' },
     booted: false,
     game_clear: false,
     UID: null

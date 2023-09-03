@@ -104,6 +104,11 @@ const event_config = {
 
       const message = addInvestigation(0, investigation)
 
+      // change inspector dialogueKey
+      useGameStore().$patch((state: any) => {
+        state.stage.scenes_config['Test1Stage'].npc['test1_inspector'].dialogueKey = 'post_c_repeat'
+      })
+
       return { clear: false, message: message }
     }),
     new Update({ quiz_id: 'cJ89EcZyF5EHwElEGRGZ', route: '시작.0.subClues.0' }, () => {

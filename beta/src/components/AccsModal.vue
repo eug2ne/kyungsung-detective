@@ -28,11 +28,8 @@ export default {
         const USER_SLOTS = collection(db, `BetaUsers/${useGameStore().UID}/Games/${gameKey}/Slots`)
         const AUTO_DOC = doc(USER_SLOTS, 'auto')
         const AUTO_SNAP = await getDoc(AUTO_DOC)
-        console.log(AUTO_SNAP.get('Clue'))
 
         this.subclue = AUTO_SNAP.get(`Clue.${route}`).at(-1)
-
-        console.log(this.subclue)
       }
 
       load('k_detective_beta')

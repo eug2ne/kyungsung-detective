@@ -62,7 +62,7 @@ const qevent_config = {
         "name": "사미"
       }
     ],
-    event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {quiz_id: "cJ89EcZyF5EHwElEGRGZ", route: "시작.0.subClues.0"} }
+    event: { eventKey: "cJ89EcZyF5EHwElEGRGZ", eventData: {quiz_id: "cJ89EcZyF5EHwElEGRGZ"} }
   }
 }
 
@@ -111,7 +111,7 @@ const event_config = {
 
       return { clear: false, message: message }
     }),
-    new Update({ quiz_id: 'cJ89EcZyF5EHwElEGRGZ', route: '시작.0.subClues.0' }, () => {
+    new Update({ quiz_id: 'cJ89EcZyF5EHwElEGRGZ' }, () => {
       // after accomplishing quiz, reveal subclue + update newspaperstand dialogue-key
       useGameStore().$patch((state: any) => {
         // reveal subclue

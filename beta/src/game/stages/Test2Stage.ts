@@ -47,7 +47,7 @@ const qevent_config = {
         'name': '김철수(고인)'
       }
     ],
-    event: { eventKey: 'WIN3vIY76B5ZHa13x70c', eventData: {quiz_id: 'WIN3vIY76B5ZHa13x70c', route: '시작.1.subClues.0'} }
+    event: { eventKey: 'WIN3vIY76B5ZHa13x70c', eventData: {quiz_id: 'WIN3vIY76B5ZHa13x70c'} }
   },
   /* quiz answer '임금체불' */'tLJfpFrSVAq5O1sGNs8I': {
     sceneKey: 'Test2',
@@ -71,7 +71,7 @@ const qevent_config = {
         'name': '사미'
       }
     ],
-    event: { eventKey: 'tLJfpFrSVAq5O1sGNs8I', eventData: {quiz_id: 'tLJfpFrSVAq5O1sGNs8I', route: '시작.1.subClues.2'} }
+    event: { eventKey: 'tLJfpFrSVAq5O1sGNs8I', eventData: {quiz_id: 'tLJfpFrSVAq5O1sGNs8I'} }
   },
   /* quiz answer '얼음' */'YPnEQwKAwueWEzSmpRdF': {
     sceneKey: 'Test2',
@@ -90,7 +90,7 @@ const qevent_config = {
         'name': '사미'
       }
     ],
-    event: { eventKey: 'YPnEQwKAwueWEzSmpRdF', eventData: {quiz_id: 'YPnEQwKAwueWEzSmpRdF', route: '시작.1.subClues.0'} }
+    event: { eventKey: 'YPnEQwKAwueWEzSmpRdF', eventData: {quiz_id: 'YPnEQwKAwueWEzSmpRdF'} }
   },
   'suspicion-system-activate': {
     sceneKey: 'Test2',
@@ -334,7 +334,7 @@ const event_config = {
 
       return { clear: false, message: message }
     }),
-    new Update({quiz_id: "WIN3vIY76B5ZHa13x70c", route: "시작.1.subClues.0"}, () => {
+    new Update({ quiz_id: "WIN3vIY76B5ZHa13x70c" }, () => {
       // reveal subclue
       useGameStore().$patch((state: any) => {
         state.cluenote[1].clues[0].subClues[2].reveal = true
@@ -381,7 +381,7 @@ const event_config = {
 
       return { clear: false, message: message }
     }),
-    new Update({quiz_id: "YPnEQwKAwueWEzSmpRdF", route: "시작.1.subClues.0"}, () => {
+    new Update({ quiz_id: "YPnEQwKAwueWEzSmpRdF" }, () => {
       // reveal subclue
       useGameStore().$patch((state: any) => {
         state.cluenote[1].clues[0].subClues[3].reveal = true
@@ -434,11 +434,11 @@ const event_config = {
 
       return { clear: false, message: message }
     }),
-    new Update({quiz_id: "tLJfpFrSVAq5O1sGNs8I", route: "시작.1.subClues.2"}, () => {
+    new Update({ quiz_id: "tLJfpFrSVAq5O1sGNs8I" }, () => {
       // after accomplishing quiz, reveal subclue + update suspect3 options
       useGameStore().$patch((state: any) => {
         // reveal subclue
-        state.cluenote[1].clues[2].subClues[2].reveal = true
+        state.cluenote[1].clues[2].subClues[1].reveal = true
       })
       // update suspect3 options
       spliceOption('Test2', 'test2_suspect3', 'option-record', 'option-pay')
@@ -450,7 +450,7 @@ const event_config = {
       const subclue: subClue = {
         title: "임금체불",
         description: "안연정은 가계가 기울어진 이후로 월급을 제대로 못 받고 있다.",
-        index: 2,
+        index: 1,
         c_index: 2,
         p_index: 1,
         source: { type: "NPC", name: "안연정", id: "test2_suspect3" },

@@ -193,7 +193,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
       // get zoom
       const zoom = this.scene!.cameras.main.zoom
       // get cameraX + cameraY
-      const cameraX = this.scene!.cameras.main.worldView.centerX/zoom, cameraY = this.scene!.cameras.main.worldView.centerY/zoom
+      const cameraX = this.scene!.cameras.main.worldView.centerX, cameraY = this.scene!.cameras.main.worldView.centerY
 
       // create dialogue on scene (dialogueKey: id, dialogueData: progress_config)
       this.dialogue.createDialogue(cameraX, cameraY, zoom, id, progress_config)

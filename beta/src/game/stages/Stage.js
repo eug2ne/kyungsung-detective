@@ -444,7 +444,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
 
       // run update
       const { clear, message } = event[i].update(this)
-      if (message) scene.events.on('end-talking', () => {
+      if (message) scene.events.once('end-talking', () => {
         useGameStore().$patch({ progress: { message: message } })
       })
 
@@ -471,7 +471,7 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
   }
 
   // outer-game event progress (quiz-progress)
-  quizEvent(id /* : string */) {
+  quizEvent(id /* : string */) {    
     if (id === 'verification') {
       // verification event
       
@@ -479,10 +479,10 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
       const scene = this.game.scene.getScene(this.player_config.sceneKey)
       // pass config to investigation-plugin
       scene.investigation.startVerification(VER_CONFIG, VER_DIALOGUE_CONFIG)
-    } else if (this.qevent_config[id].sceneKey != this.player_config.sceneKey) {
+    } else if (this.qevent_config[id].sceneKey != this.player_config.sceneKey) {    
       // get qevent-scene
       const p_scene = this.game.scene.getScene(this.qevent_config[id].sceneKey)
-    
+      
       // pause current-scene >> start progress-scene
       const c_scene = this.game.scene.getScene(this.player_config.sceneKey)
       this.game.scene.pause(c_scene) // pause current-scene
@@ -496,6 +496,9 @@ class Stage extends Phaser.Plugins.BasePlugin /*implements StageInterface*/ {
       this.game.scene.bringToTop(c_scene)
       this.game.scene.resume(c_scene)
     } else {
+      // get qevent-scene
+      const p_scene = this.game.scene.getScene(this.qevent_config[id].sceneKey)
+
       // start progress-event on current-scene
       p_scene.events.emit('quiz-event', id, this.qevent_config)
     }

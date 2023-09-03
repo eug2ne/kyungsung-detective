@@ -106,7 +106,7 @@ const event_config = {
 
       // change inspector dialogueKey
       useGameStore().$patch((state: any) => {
-        state.stage.scenes_config['Test1Stage'].npc['test1_inspector'].dialogueKey = 'post_c_repeat'
+        state.stage.scenes_config['Test1'].npc['test1_inspector'].dialogueKey = 'post_c_repeat'
       })
 
       return { clear: false, message: message }

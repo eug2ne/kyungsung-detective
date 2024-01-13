@@ -43,15 +43,6 @@ const event_config = {
     })
   ],
   'breakfast-event-npc0': [
-    new Update({ id: 'breakfast_maid', data: 'prologue'}, () => {
-      // after prologue, update maid dialogue-key
-      useGameStore().$patch((state: any) => {
-        // update npc dialogueKey
-        state.stage.scenes_config['Breakfast'].npc['breakfast_maid'].dialogueKey = 'default-question'
-      })
-
-      return { clear: false }
-    }),
     new Update({ id: 'breakfast_maid', data: 'option-clear'}, () => {
       // after talking to maid when option-clear >> stage clear
       return { clear: true }

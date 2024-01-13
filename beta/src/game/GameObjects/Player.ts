@@ -25,6 +25,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.debugBodyColor = 0x0033ff // debug option
     this.scene.cameras.main.startFollow(this, false, 0.2, 0.2)
 
+    // set physics body to circle
+    this.body!.setCircle(20, 12, 18)
+    this.setFriction(0, 0)
+    
     // create animation
     this.anims.create({
       key: 'left',

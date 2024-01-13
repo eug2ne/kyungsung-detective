@@ -2,22 +2,37 @@
   <div id="router-view" class="pixel-borders--1">
       <img src="../assets/logo/logo500px.png" alt="logo" />
       <button @click="signIn" class="link-button pixel-borders--2">
-        <router-link :to="{ name: 'Main' }">
-          시작하기
-        </router-link>
+        시작하기
       </button>
       <router-link :to="{ name: 'License' }" class="license">license</router-link>
   </div>
 </template>
 
 <script>
-import { anonySignup } from '../firestoreDB'
+import { browserLocalPersistence, setPersistence, signInAnonymously } from 'firebase/auth'
+import { auth, addData } from '../firestoreDB'
+import { useGameStore } from '../game/game'
 
 export default {
   name: 'Home',
   methods: {
     signIn() {
-      anonySignup()
+      setPersistence(auth, browserLocalPersistence)
+        .then(() => {
+          signInAnonymously(auth)
+            .then(async (userCredential) => {
+              console.log(userCredential)
+              // login success
+              await addData(userCredential)
+              // boot useGameStore()
+              await useGameStore().boot('k_detective_beta', '시작') // load stage-data from db + save to game-store
+              // direct to main.vue
+              this.$router.replace('/Game')
+            })
+            .catch((error) => {
+              alert('다음과 같은 이유로 실패했습니다: ' + error.message)
+            })
+        })
     }
   }
 }

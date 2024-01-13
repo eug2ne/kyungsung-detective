@@ -767,7 +767,7 @@ export default class Test2 extends Phaser.Scene {
 
     this.add.existing(sofa)
 
-    const colliders = [sofa]
+    this.colliders = [sofa]
 
     // create items 
     this.items = []
@@ -809,7 +809,7 @@ export default class Test2 extends Phaser.Scene {
       'mini_scrollY': 600,
       'player_scale': 1.8
     }
-    this.sceneload.create(colliders, this.items, this.npcs, camera_config, data)
+    this.sceneload.create(this.items, this.npcs, camera_config, data)
 
     this.investigation.create() // activate investigation-plugin
 

@@ -1,12 +1,14 @@
 import Phaser from 'phaser'
-import { useGameStore } from '../game.js'
+import SceneLoadPlugin from '../plugin/SceneLoadPlugin'
 import Player from './Player.js'
+import { useGameStore } from '../game.js'
 
-export default class Item extends Phaser.GameObjects.Image {
+export default class Item2 extends Phaser.Physics.Arcade.Sprite {
   public readonly id: string
   public readonly name: string
   public readonly descript: string
-  private readonly interact_data: any|null
+  public sceneload: SceneLoadPlugin
+  private readonly interact_data: any
   private _interactKey: string
   private _options_data: any
 
@@ -19,9 +21,9 @@ export default class Item extends Phaser.GameObjects.Image {
     scale: number,
     depth: number,
     texture: string,
-    interact: any|null
+    interact: any
   ) {
-    const item_texture = scene.textures.exists(texture) ? scene.textures.get(texture) : scene.textures.get('dummy_item')
+    const item_texture = scene.textures.exists(texture) ? scene.textures.get(texture) : scene.textures.get('item_sparkle')
     super(scene, x, y, item_texture)
     this.name = name
     this.id = id
@@ -58,15 +60,18 @@ export default class Item extends Phaser.GameObjects.Image {
   }
 
   create() {
-    // this.on('item-touch', (cameraX: number, cameraY: number, item_text: Phaser.GameObjects.Text) => {
-    //   console.log('item touch')
-    //   // if (this.interact_data.type != 'get') return
-
-    //   // show item_text if user overlap with item + item.interact.type == get
-    //   item_text.setPosition(cameraX + 260, cameraY + 200)
-    //   item_text.visible = true
-    // })
     this.setInteractive() // enable interaction
+
+    if (this.texture.key === 'item_sparkle') {
+      console.log('item sparkle')
+      // create animation
+      this.anims.create({
+        key: 'default',
+        frames: this.anims.generateFrameNumbers('item_sparkle', { start: 0, end: 8 }),
+        frameRate: 7,
+        repeat: -1
+      })
+    }
 
     this.on('start-talking', (interactionKey: string) => {
       const interaction = this.interact_data[interactionKey]
@@ -86,5 +91,10 @@ export default class Item extends Phaser.GameObjects.Image {
   update(player: Player) {
     // depth calculation
     this.depth = player.y-this.y > 0 ? 5 : 10
+
+    if (this.texture.key === 'item_sparkle') {
+      // play animation
+      this.anims.play('default', true)
+    }
   }
 }

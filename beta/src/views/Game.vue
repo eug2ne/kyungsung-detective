@@ -23,20 +23,20 @@ export default {
       // redirect to Home.vue to refresh user-auth
       this.$router.replace('/')
       return
-    } else {
-      // save user-status to log when page reload
-      // updateDoc(doc(db, `BetaUsers/${useGameStore().UID}`), {
-      //   userLog: arrayUnion({
-      //     updatedAt: new Date(Date.now()).toISOString(),
-      //     event: {
-      //       stage: useGameStore().stage,
-      //       cluenote: useGameStore().cluenote
-      //     }
-      //   }),
-      //   lastLoginAt: auth.currentUser.toJSON().lastLoginAt
-      // })
-      // .catch(error => console.log(error))
     }
+
+    // save user-status to log when page reload
+    updateDoc(doc(db, `BetaUsers/${auth.currentUser.uid}`), {
+      userLog: arrayUnion({
+        updatedAt: new Date(Date.now()).toISOString(),
+        event: {
+          stage: useGameStore().stage,
+          cluenote: useGameStore().cluenote
+        }
+      }),
+      lastLoginAt: auth.currentUser.toJSON().lastLoginAt
+    })
+      .catch(error => console.log(error))
 
     this.$nextTick(() => {
       this.gameInstance = new game('game-container')

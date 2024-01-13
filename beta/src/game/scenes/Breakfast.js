@@ -2,6 +2,7 @@
 
 import Phaser from "phaser"
 import Item from "../GameObjects/Item"
+import Item2 from "../GameObjects/Item2"
 import NPC from "../GameObjects/NPC"
 import kitchen from '../assets/breakfast/kitchen_background.png'
 import frontchair from '../assets/breakfast/kitchen_frontchair.png'
@@ -363,7 +364,7 @@ export default class Breakfast extends Phaser.Scene {
 
     this.items = []
     items_JSON.forEach((item) => {
-      this.items.push(new Item(
+      this.items.push(new Item2(
         this,
         item.id,
         item.x,
@@ -407,10 +408,10 @@ export default class Breakfast extends Phaser.Scene {
     if (useGameStore().stage.scenes_config['Breakfast'].npc['breakfast_maid'].dialogueKey === 'prologue') {
       // if breakfast_maid.dialogueKey === prologue, play prologue event
       const prologue_config = {
-        'breakfast-event-npc0': {
+        'prologue': {
           sceneKey: 'Breakfast',
-          x: 0,
-          y: 0,
+          x: 863,
+          y: 472,
           dialogue: [
             {
               "image": "maid_smile",
@@ -508,10 +509,17 @@ export default class Breakfast extends Phaser.Scene {
               "name": "사미"
             }
           ],
-          event: { eventKey: 'breakfast-event-npc0', eventData: { id: 'breakfast_maid', data: 'prologue' } }
+          event: null
         }
       }
-      this.events.emit('quiz-event', 'breakfast-event-npc0', prologue_config)
+      this.events.emit('quiz-event', 'prologue', prologue_config)
+
+
+      this.events.once('end-talking', () => {
+        useGameStore().$patch((state) => {
+          state.stage.scenes_config['Breakfast'].npc['breakfast_maid'].dialogueKey = 'default-question'
+        })
+      })
     }
   }
 

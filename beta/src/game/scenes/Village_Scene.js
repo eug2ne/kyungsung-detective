@@ -1,4 +1,7 @@
 import Phaser from 'phaser'
+import { useGameStore } from '../game'
+import Item from "../GameObjects/Item"
+import NPC from "../GameObjects/NPC"
 import vback from '@/game/assets/villagescene/마을최종-2800.png'
 // import float-image
 import vhouse_float from '@/game/assets/villagescene/마을최종-2800-house.png'
@@ -46,8 +49,22 @@ import vgrass_9 from '@/game/assets/villagescene/풀_9.png'
 import vgrass_10 from '@/game/assets/villagescene/풀_10.png'
 import vgrass_11 from '@/game/assets/villagescene/풀_11.png'
 import vgrass_12 from '@/game/assets/villagescene/풀_12.png'
+import mat from '@/game/assets/villagescene/mat.png'
 
 // import npc spritesheet
+import missing1mom_sprite from '@/game/assets/npc_sprite/missing1mom_spritesheet.png'
+import missing1bro_sprite from '@/game/assets/npc_sprite/missing1bro_spritesheet.png'
+import missing1sis_sprite from '@/game/assets/npc_sprite/missing1sis_spritesheet.png'
+import missing2mom_sprite from '@/game/assets/npc_sprite/missing2mom_spritesheet.png'
+import missing3mom_sprite from '@/game/assets/npc_sprite/missing3mom_spritesheet.png'
+import missing3bro_sprite from '@/game/assets/npc_sprite/missing3bro_spritesheet.png'
+import missing4mom_sprite from '@/game/assets/npc_sprite/missing4mom_spritesheet.png'
+import villager1_sprite from '@/game/assets/npc_sprite/villager1_spritesheet.png'
+import villager2_sprite from '@/game/assets/npc_sprite/villager2_spritesheet.png'
+import villager3_sprite from '@/game/assets/npc_sprite/villager3_spritesheet.png'
+import villager4_sprite from '@/game/assets/npc_sprite/villager4_spritesheet.png'
+import police_sprite from '@/game/assets/npc_sprite/police_spritesheet.png'
+import inspector_sprite from '@/game/assets/npc_sprite/inspector_spritesheet.png'
 
 // import npc + sami log image
 
@@ -164,13 +181,17 @@ const npcs_JSON = [
         to: "suspicion"
       }
     },
-    spritesheet: "",
+    spritesheet: "missing1mom_sprite",
     scale: 1.5,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "0,1": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
     },
     check: null,
     x: 0,
@@ -268,13 +289,17 @@ const npcs_JSON = [
         to: "suspicion"
       }
     },
-    spritesheet: "",
+    spritesheet: "missing1bro_sprite",
     scale: 1.5,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "0,5": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
     },
     check: null,
     x: 0,
@@ -399,13 +424,17 @@ const npcs_JSON = [
         to: "suspicion"
       }
     },
-    spritesheet: "",
+    spritesheet: "missing1sis_sprite",
     scale: 1.5,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "0,5": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
     },
     check: null,
     x: 0,
@@ -568,13 +597,17 @@ const npcs_JSON = [
         to: "suspicion"
       }
     },
-    spritesheet: "",
+    spritesheet: "missing2mom_sprite",
     scale: 1.5,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "0,2": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
     },
     check: null,
     x: 0,
@@ -656,13 +689,17 @@ const npcs_JSON = [
         to: "suspicion"
       }
     },
-    spritesheet: "",
+    spritesheet: "missing3mom_sprite",
     scale: 1.5,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "0,5": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
     },
     check: null,
     x: 0,
@@ -851,13 +888,17 @@ const npcs_JSON = [
         to: "suspicion"
       }
     },
-    spritesheet: "",
+    spritesheet: "missing3bro_sprite",
     scale: 1.5,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "0,1": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
     },
     check: null,
     x: 0,
@@ -975,13 +1016,17 @@ const npcs_JSON = [
         to: "suspicion"
       }
     },
-    spritesheet: "",
+    spritesheet: "missing4mom_sprite",
     scale: 1.5,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "0,1": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
     },
     x: 0,
     y: 0
@@ -1072,13 +1117,118 @@ const npcs_JSON = [
         to: "suspicion"
       }
     },
-    spritesheet: "",
+    spritesheet: "villager1_sprite",
     scale: 1.5,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "0,1": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
+    },
+    x: 0,
+    y: 0
+  },
+  {
+    name: "마을 주민",
+    id: "test3_villager12",
+    dialogue: {
+      "default-question": {
+        dialogue: [
+          {
+            question: {
+              image: undefined,
+              line: "마을 주민들에게 질문을 해보자."
+            }
+          }
+        ],
+      },
+      "answer-time": {
+        dialogue: [
+          {
+            image: "villager1_worry",
+            line: "논에서 일하다 애들이 하교할 때 봤죠. 점심 먹고난 뒤니까 한 1시쯤이려나..?"
+          },
+          "(13:00 경)",
+          {
+            image: "missing1234_smile",
+            line: "안녕하세요 아저씨! 안녕하세요 아줌마!"
+          },
+          {
+            image: "villager1_smile",
+            line: "그래그래 이제 하교 하는거니?"
+          },
+          {
+            image: "villager2_smile",
+            line: "집에 잘들 들어가고!"
+          },
+          "사라진 애들이 다같이 아랫동네에 있는 학교에 오전반으로 다니거든요. 그래서 항상 그 시간 때쯤에 하교하는 애들이랑 마주쳐서 인사하곤 했죠.",
+          "모두들 무사해야 할텐데.."
+        ],
+        event: {eventKey: "test3-event-updateTimeline", eventData: {id: "test3_villager12", data: "villager12-time"}}
+      },
+      "answer-tales": {
+        dialogue: [
+          {
+            image: "villager2_smile",
+            line: "산 걸인 괴담이요?"
+          },
+          {
+            image: "villager1_smile",
+            line: "이 동네에서 나고자랐으면 누구나 어릴 때 들어봤을걸요? 저도 그랬고요."
+          },
+          {
+            image: "villager2_smile",
+            line: "산 괴물, 산 걸인, 산 마귀, 등등등 표현은 조금씩 다르지만"
+          },
+          {
+            image: "villager2_smile",
+            line: "요지는 결국 늦게까지 산에 있지말라고 애들 겁주는 거죠."
+          },
+        ],
+        event: {eventKey: "test3-event-tales", eventData: {id: "test3_villager12", data: "villager12-tales"}}
+      },
+      "suspicion": {
+        dialogue: [
+          {
+            image: "villager1_worry",
+            line: "무턱대고 생각해보라 하셔도.."
+          },
+          {
+            image: "villager2_worry",
+            line: "애들이 4명이나 한 번에 사라질만한 이유가.."
+          }
+        ]
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "실종자들을 마지막으로 본 시간에 대하여",
+        to: "answer-time"
+      },
+      "option-tales": {
+        answer: "괴담에 대하여",
+        to: "answer-tales"
+      },
+      "suspicion": {
+        answer: "(의심하기)",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "villager2_sprite",
+    scale: 1.5,
+    anim_config: {
+      "frames": {
+        "0,1": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
     },
     x: 0,
     y: 0
@@ -1166,16 +1316,118 @@ const npcs_JSON = [
         to: "suspicion"
       }
     },
-    spritesheet: "",
-    scale: 1.5,
+    spritesheet: "villager3_sprite",
+    scale: 10,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "0,1": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
     },
-    x: 0,
-    y: 0
+    x: 1830,
+    y: 950
+  },
+  {
+    name: "마을 주민",
+    id: "test3_villager34",
+    dialogue: {
+      "default-question": {
+        dialogue: [
+          {
+            question: {
+              image: undefined,
+              line: "마을 주민들에게 질문을 해보자."
+            }
+          }
+        ],
+      },
+      "answer-time": {
+        dialogue: [
+          {
+            image: "villager4_neutral",
+            line: "아이고 우리는 늙어서 이제 일하지도 못 하고, 그래서 집에만 있느라 아무 것도 못 봤소."
+          },
+          {
+            image: "villager3_neutral",
+            line: "이거 미안하구려. 애들이 하루아침에 없어졌으니 어멈들 마음은 오죽할까."
+          },
+          {
+            image: "villager4_neutral",
+            line: "특히 박 씨네 새댁이 걱정되는구만. 금지옥엽하던 딸이 사라졌으니."
+          },
+          {
+            image: "villager3_neutral",
+            line: "그러게나 말이야."
+          }
+        ],
+        event: {eventKey: "test3-event-updateTimeline", eventData: {id: "test3_villager34", data: "villager34-time"}}
+      },
+      "answer-missing2": {
+        dialogue: [
+          {
+            image: "villager3_neutral",
+            line: "그 집은 자식이라곤 딸만 있으면서 참 아낀단 말이야."
+          },
+          {
+            image: "villager4_neutral",
+            line: "그치만 성격도 얌전하지, 벌써 부모 생각해서 학교 끝나고 스스로 일도 돕고, 얼마나 기특하고 예뻐."
+          },
+          {
+            image: "villager3_neutral",
+            line: "그건 그래. 무사히 돌아와야 할텐데.."
+          }
+        ],
+        event: {eventKey: "test3-event-updateTimeline", eventData: {id: "test3_villager34", data: "villager34-missing2"}}
+      },
+      "suspicion": {
+        dialogue: [
+          {
+            image: "villager4_neutral",
+            line: "오메 젊은 사람이 무서운 소릴 하는구먼."
+          },
+          {
+            image: "villager3_neutral",
+            line: "우리도 아이들이 무사히 돌아오길 바라는 마음은 굴뚝 같네. 하지만 나이 들어서 하는 일이 집안에 죽치고 있는 것 밖에 없으니..도통 아는 게 있어야지."
+          },
+          {
+            image: "villager4_neutral",
+            line: "도움이 안돼 미안하구만."
+          }
+        ]
+      }
+    },
+    opitons_config: {
+      "option-time": {
+        answer: "실종자들을 마지막으로 본 시간에 대하여",
+        to: "answer-time"
+      },
+      "option-missing2": {
+        answer: "박선자 양에 대하여",
+        to: "answer-missing2"
+      },
+      "suspicion": {
+        answer: "(의심하기)",
+        to: "suspicion"
+      }
+    },
+    spritesheet: "villager4_sprite",
+    scale: 10,
+    anim_config: {
+      "frames": {
+        "0,1": "standing"
+      },
+      "repeat": {
+        "standing": true
+      },
+      "default": "standing",
+      "auto_start": true
+    },
+    x: 1930,
+    y: 950
   },
   {
     name: "경찰",
@@ -1309,16 +1561,26 @@ const npcs_JSON = [
         to: "suspicion"
       }
     },
-    spritesheet: "",
-    scale: 1.5,
+    spritesheet: "police_sprite",
+    scale: 1.2,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "1,4": "left",
+        "5,8": "back",
+        "9,12": "front",
+        "13,16": "right"
+      },
+      "repeat": {
+        "left": false,
+        "back": false,
+        "front": true,
+        "right": false
+      },
+      "default": "front",
+      "auto_start": true
     },
-    x: 0,
-    y: 0
+    x: 1800,
+    y: 1680
   },
   {
     name: "감독관",
@@ -1438,13 +1700,23 @@ const npcs_JSON = [
         to: "answer-solve"
       }
     },
-    spritesheet: "",
+    spritesheet: "inspector_sprite",
     scale: 1.5,
     anim_config: {
-      frames: {},
-      repeat: {},
-      default: "",
-      auto_start: true
+      "frames": {
+        "1,4": "left",
+        "5,8": "back",
+        "9,12": "front",
+        "13,16": "right"
+      },
+      "repeat": {
+        "left": false,
+        "back": false,
+        "front": true,
+        "right": false
+      },
+      "default": "front",
+      "auto_start": true
     },
     x: 0,
     y: 0
@@ -1501,6 +1773,7 @@ export default class VillageScene extends Phaser.Scene {
 
   preload() {
     this.load.image('vback', vback)
+    this.load.image('mat', mat)
     this.load.image('vhouse_float', vhouse_float)
     this.load.image('vlighttree_float', vlighttree_float)
     this.load.image('vdarktree_float', vdarktree_float)
@@ -1551,6 +1824,21 @@ export default class VillageScene extends Phaser.Scene {
     this.load.image('vgrass_11', vgrass_11)
     this.load.image('vgrass_12', vgrass_12)
 
+    // load npc+sami image+spritesheet
+    this.load.spritesheet('missing1mom_sprite', missing1mom_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('missing1bro_sprite', missing1bro_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('missing1sis_sprite', missing1sis_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('missing2mom_sprite', missing2mom_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('missing3mom_sprite', missing3mom_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('missing3bro_sprite', missing3bro_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('missing4mom_sprite', missing4mom_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('villager1_sprite', villager1_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('villager2_sprite', villager2_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('villager3_sprite', villager3_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('villager4_sprite', villager4_sprite, { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('police_sprite', police_sprite, { frameWidth: 5508 / 17, frameHeight: 498 })
+    this.load.spritesheet('inspector_sprite', inspector_sprite, { frameWidth: 4692 / 17, frameHeight: 516 })
+
     // sceneload plugin preload()
     this.sceneload.preload()
   }
@@ -1559,8 +1847,10 @@ export default class VillageScene extends Phaser.Scene {
     // add background image + set world bound
     const background = this.add.image(0, 0, 'vback').setOrigin(0, 0)
     this.physics.world.setBounds(0, 0, background.width-18, background.height, true, true, true, true)
+    console.log(background.width, background.height)
 
-    // // add obstacle image + adjust body
+    this.physics.add.staticImage(1850,950,'mat')
+    // add obstacle image + adjust body
     const floatGroup = this.physics.add.staticGroup()
     const fields = this.physics.add.staticGroup()
     const trees = this.physics.add.staticGroup()
@@ -1625,7 +1915,7 @@ export default class VillageScene extends Phaser.Scene {
     houses.create(1445, 725, 'vhouse_4_3').refreshBody()
     houses.create(1460, 755, 'vhouse_4_3').refreshBody()
     houses.create(1485, 775, 'vhouse_4_3').refreshBody()
-    houses.create(2040, 852, 'vhouse_5').body.setSize(600,245)
+    houses.create(2040, 800, 'vhouse_5').body.setSize(600,200)
     houses.create(2230, 705, 'vhouse_5').body.setSize(100,30)
 
     // set obstacle invisible
@@ -1636,13 +1926,32 @@ export default class VillageScene extends Phaser.Scene {
 
     const colliders = [ fields, trees, grass, houses ]
 
+    // create Items
+    this.items = []
+    // create NPCs
+    this.npcs = []
+    npcs_JSON.forEach((npc) => {
+      this.npcs.push(new NPC(
+        this,
+        this.sceneload,
+        npc.id,
+        npc.spritesheet,
+        npc.scale,
+        npc.anim_config,
+        npc.x,
+        npc.y,
+        npc.dialogue,
+        npc.options_config
+      ))
+    })
+
     const camera_config = {
       'main_zoom': 0.9,
       'mini_zoom': 0.065,
       'mini_scrollX': 1306,
       'mini_scrollY': 925
     }
-    this.sceneload.create(colliders, [], [], camera_config, data)
+    this.sceneload.create(colliders, this.items, this.npcs, camera_config, data)
     this.game.stage.mapEvent(this) // activate stage
 
     // game-clear event
@@ -1722,6 +2031,6 @@ export default class VillageScene extends Phaser.Scene {
   }
 
   update() {
-    this.sceneload.update()
+    this.sceneload.update(this.items, this.npcs)
   }
 }

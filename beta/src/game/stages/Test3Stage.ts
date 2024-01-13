@@ -7,10 +7,22 @@ import Stage from "./Stage.js"
 import Village from "../scenes/Village_Scene.js"
 
 const default_config = {
-  player_config: { 'sceneKey': 'Village' , 'x': 570, 'y': 130 },
+  player_config: { 'sceneKey': 'Village' , 'x': 1600, 'y': 1900 },
   scenes_config: {
     'Village': {
-      npc: {},
+      npc: {
+        'test3_missing1mom': { dialogueKey: 'default-question', options: ['option-time'] },
+        'test3_missing1bro': { dialogueKey: 'default-question', options: ['option-time'] },
+        'test3_missing1sis': { dialogueKey: 'default-question', options: ['option-time'] },
+        'test3_missing2mom': { dialogueKey: 'default-question', options: ['option-time'] },
+        'test3_missing3mom': { dialogueKey: 'default-question', options: ['option-time'] },
+        'test3_missing3bro': { dialogueKey: 'default-question', options: ['option-time'] },
+        'test3_missing4mom': { dialogueKey: 'default-question', options: ['option-time'] },
+        'test3_villager12': { dialogueKey: 'default-question', options: ['option-time'] },
+        'test3_villager34': { dialogueKey: 'default-question', options: ['option-time'] },
+        'test3_police': { dialogueKey: 'default-question', options: ['option-time'] },
+        'test3_inspector': { dialogueKey: 'default-question', options: ['option-time'] },
+      },
       item: {}
     }
   }

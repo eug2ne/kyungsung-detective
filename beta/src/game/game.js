@@ -65,7 +65,7 @@ export const useGameStore = defineStore('game', {
   state: () => ({
     stage: {
       key: 'BreakfastStage',
-      player_config: { sceneKey: 'Breakfast' , x: 863, y: 472 },
+      player_config: { sceneKey: 'Breakfast', x: 863, y: 472 },
       scenes_config: {
         'Breakfast': {
           npc: { 'breakfast_maid': { dialogueKey: 'prologue', options: ['option-end', 'option-default'] } },
@@ -84,6 +84,7 @@ export const useGameStore = defineStore('game', {
   }),
   actions: {
     async boot(gameKey, story) {
+      console.log('boot')
       // set UID from auth
       this.$patch({ UID: auth.currentUser.uid })
       // load stage-data from auto-slot
@@ -92,6 +93,7 @@ export const useGameStore = defineStore('game', {
       this.$patch({ booted: true })
     },
     async saveAuto(gameKey, story) {
+      console.log('save auto')
       // save stage-data to auto-slot
       firebaseInterface.saveDoc(this.UID, gameKey, story, 'auto')
     },
@@ -171,7 +173,7 @@ export default class game extends Phaser.Game {
         default: 'arcade',
         arcade: {
           gravity: { y: 0 },
-          debug: false
+          debug: true // debug option
         }
       },
       plugins: {

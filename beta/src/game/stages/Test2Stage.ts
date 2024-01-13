@@ -15,7 +15,7 @@ const default_config = {
       npc: {
         'test2_suspect1': { dialogueKey: 'default-question', options: ['option-default'] },
         'test2_suspect2': { dialogueKey: 'default-question', options: ['option-default'] },
-        'test2_suspect3': { dialogueKey: 'default-question', options: ['option-default'] } 
+        'test2_suspect3': { dialogueKey: 'default-question', options: ['option-default'] }
       },
       item: {
         'test2_item0': { interactionKey: 'read' },

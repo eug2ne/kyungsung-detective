@@ -3,10 +3,23 @@ import SceneLoadPlugin from '../plugin/SceneLoadPlugin'
 import Player from './Player.js'
 import { useGameStore } from '../game.js'
 
+type depthConfig = {
+  constant: boolean,
+  default: number
+}
+
+type bodyConfig = {
+  width: number,
+  height: number,
+  offSet: { x: number, y: number }
+}
+
 export default class Item2 extends Phaser.Physics.Arcade.Sprite {
   public readonly id: string
   public readonly name: string
   public readonly descript: string
+  private readonly depth_config: depthConfig
+  private readonly body_config: bodyConfig|null
   public sceneload: SceneLoadPlugin
   private readonly interact_data: any
   private _interactKey: string
@@ -19,7 +32,8 @@ export default class Item2 extends Phaser.Physics.Arcade.Sprite {
     y: number,
     name: string,
     scale: number,
-    depth: number,
+    depth_config: depthConfig,
+    body_config: bodyConfig|null,
     texture: string,
     interact: any
   ) {
@@ -28,7 +42,9 @@ export default class Item2 extends Phaser.Physics.Arcade.Sprite {
     this.name = name
     this.id = id
     this.interact_data = interact
-    scene.add.existing(this).setScale(scale).setDepth(depth)
+    this.depth_config = depth_config
+    this.body_config = body_config
+    scene.add.existing(this).setScale(scale).setDepth(this.depth_config.default)
     scene.physics.add.existing(this, true)
   }
 
@@ -61,13 +77,19 @@ export default class Item2 extends Phaser.Physics.Arcade.Sprite {
 
   create() {
     this.setInteractive() // enable interaction
+    console.log(this.body_config)
+    if (this.body_config) {
+      console.log(this.id, this.body)
+      // set body-size, offset
+      this.body?.setSize(this.body_config.width, this.body_config.height)
+      this.body?.setOffset(this.body_config.offSet.x, this.body_config.offSet.y)
+    }
 
     if (this.texture.key === 'item_sparkle') {
-      console.log('item sparkle')
       // create animation
       this.anims.create({
         key: 'default',
-        frames: this.anims.generateFrameNumbers('item_sparkle', { start: 0, end: 8 }),
+        frames: this.anims.generateFrameNumbers('item_sparkle', { start: 0, end: 7 }),
         frameRate: 7,
         repeat: -1
       })
@@ -89,8 +111,10 @@ export default class Item2 extends Phaser.Physics.Arcade.Sprite {
   }
 
   update(player: Player) {
-    // depth calculation
-    this.depth = player.y-this.y > 0 ? 5 : 10
+    if (!this.depth_config.constant) {
+      // depth calculation
+      this.depth = player.y > this.y ? 5 : 10
+    }
 
     if (this.texture.key === 'item_sparkle') {
       // play animation

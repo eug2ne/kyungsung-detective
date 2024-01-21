@@ -1,11 +1,12 @@
 // mission: eat breakfast + read newspaper >> talk to maid
 
 import Phaser from "phaser"
-import Item from "../GameObjects/Item"
 import Item2 from "../GameObjects/Item2"
 import NPC from "../GameObjects/NPC"
 import kitchen from '../assets/breakfast/kitchen_background.png'
 import frontchair from '../assets/breakfast/kitchen_frontchair.png'
+import leftchair from '../assets/breakfast/kitchen_leftchair.png'
+import rightchair from '../assets/breakfast/kitchen_rightchair.png'
 import backchair from '../assets/breakfast/kitchen_backchair.png'
 import table from '../assets/breakfast/kitchen_table.png'
 import closet from '../assets/breakfast/kitchen_leftright.png'
@@ -230,10 +231,11 @@ const items_JSON = [
   {
     "name": "newspaper",
     "id": "breakfast_item0",
-    "x": 770,
-    "y": 425,
+    "x": 760,
+    "y": 445,
     "scale": 2,
-    "depth": 10,
+    "depth_config": { constant: true, default: 6 },
+    "body_config": null,
     "texture": "newspaper",
     "interact": {
       "read": {
@@ -268,9 +270,10 @@ const items_JSON = [
     "name": "b_meal",
     "id": "breakfast_item1",
     "x": 660,
-    "y": 422,
+    "y": 425,
     "scale": 2,
-    "depth": 5,
+    "depth_config": { constant: true, default: 6 },
+    "body_config": null,
     "texture": "b_meal",
     "interact": {
       "eat": {
@@ -295,6 +298,28 @@ const items_JSON = [
         }
       }
     }
+  },
+  {
+    "name": "leftchair",
+    "id": "breakfast_item2",
+    "x": 512,
+    "y": 419,
+    "scale": 2,
+    "depth_config": { constant: false, default: 5 },
+    "body_config": { width: 34, height: 20, offSet: { x: 0, y: 50 } },
+    "texture": "leftchair",
+    "interact": null
+  },
+  {
+    "name": "rightchair",
+    "id": "breakfast_item3",
+    "x": 816,
+    "y": 419,
+    "scale": 2,
+    "depth_config": { constant: false, default: 5 },
+    "body_config": { width: 34, height: 20, offSet: { x: 0, y: 50 } },
+    "texture": "rightchair",
+    "interact": null
   }
 ]
 
@@ -312,6 +337,8 @@ export default class Breakfast extends Phaser.Scene {
     // load map image
     this.load.image('kitchen', kitchen)
     this.load.image('frontchair', frontchair)
+    this.load.image('leftchair', leftchair)
+    this.load.image('rightchair', rightchair)
     this.load.image('backchair', backchair)
     this.load.image('table', table)
     this.load.image('closet', closet)
@@ -339,20 +366,20 @@ export default class Breakfast extends Phaser.Scene {
 
     // add obstacle image + adjust body
     const cupboard = this.physics.add.staticImage(350,100,'cupboard').setOrigin(0,0)
-    cupboard.visible = false, cupboard.body.x = 350, cupboard.body.y = 100, cupboard.body.setSize(500,80,false)
+    cupboard.visible = false, cupboard.body.x = 350, cupboard.body.y = 100, cupboard.body.setSize(500,120,false)
     const sink = this.physics.add.staticImage(350,100,'sink').setOrigin(0,0)
-    sink.visible = false, sink.body.x = 440, sink.body.y = 190, sink.body.setSize(300,50,false)
+    sink.visible = false, sink.body.x = 440, sink.body.y = 190, sink.body.setSize(300,70,false)
     const glasscloset = this.physics.add.staticImage(350,100,'glasscloset').setOrigin(0,0)
-    glasscloset.visible = false, glasscloset.body.x = 855, glasscloset.body.y = 110, glasscloset.body.setSize(125,115,false)
+    glasscloset.visible = false, glasscloset.body.x = 855, glasscloset.body.y = 110, glasscloset.body.setSize(125,150,false)
     
-    const table = this.physics.add.staticImage(350,95,'table').setOrigin(0,0).setScale(2)
-    table.body.x = 540, table.body.y = 350, table.body.setSize(250,100,false)
+    const table = this.physics.add.staticImage(528,351,'table').setOrigin(0,0).setScale(2)
+    table.body.x = 540, table.body.y = 351, table.body.setSize(250,120,false)
     
     this.physics.add.staticImage(350,100,'closet').setOrigin(0,0).setScale(2).setDepth(15)
     const closet_l = this.physics.add.staticImage(350,100,'closet_l').setOrigin(0,0)
-    closet_l.visible = false, closet_l.body.x = 350, closet_l.body.y = 395, closet_l.body.setSize(50,150,false)
+    closet_l.visible = false, closet_l.body.x = 350, closet_l.body.y = 385, closet_l.body.setSize(50,160,false)
     const closet_r = this.physics.add.staticImage(350,100,'closet_r').setOrigin(0,0)
-    closet_r.visible = false, closet_r.body.x = 925, closet_r.body.y = 395, closet_r.body.setSize(50,150,false)
+    closet_r.visible = false, closet_r.body.x = 925, closet_r.body.y = 385, closet_r.body.setSize(50,160,false)
 
     const chairs = this.physics.add.staticGroup() // chairs do not apply collision
     chairs.create(350,95,'backchair').setOrigin(0,0).setScale(2)
@@ -371,7 +398,8 @@ export default class Breakfast extends Phaser.Scene {
         item.y,
         item.name,
         item.scale,
-        item.depth,
+        item.depth_config,
+        item.body_config,
         item.texture,
         item.interact
       ))

@@ -1,10 +1,10 @@
 import Phaser from 'phaser'
 import { useGameStore } from '../game'
-import Item from "../GameObjects/Item"
+import Item2 from "../GameObjects/Item2"
 import NPC from "../GameObjects/NPC"
 import vback from '@/game/assets/villagescene/마을최종-2800.png'
 // import float-image
-import vhouse_float from '@/game/assets/villagescene/마을최종-2800-house.png'
+import vhouse_float from '@/game/assets/villagescene/마을최종-housefloat.png'
 import vlighttree_float from '@/game/assets/villagescene/마을최종-lighttree.png'
 import vdarktree_float from '@/game/assets/villagescene/마을최종-darktree.png'
 import vtree_float from '@/game/assets/villagescene/마을최종-2800-tree.png'
@@ -1730,7 +1730,8 @@ const items_JSON = [
     x: 502,
     y: 460,
     scale: 2,
-    depth: 7,
+    depth_config: { constant: true, default: 15 },
+    body_config: null,
     texture: "item_sparkle",
     interact: {
       "get": {
@@ -1748,7 +1749,8 @@ const items_JSON = [
     x: 502,
     y: 460,
     scale: 2,
-    depth: 7,
+    depth_config: { constant: true, default: 15 },
+    body_config: null,
     texture: "item_sparkle",
     interact: {
       "get": {
@@ -1849,7 +1851,7 @@ export default class VillageScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, background.width-18, background.height, true, true, true, true)
     console.log(background.width, background.height)
 
-    this.physics.add.staticImage(1850,950,'mat')
+    this.physics.add.staticImage(1880,950,'mat').setScale(1.5)
     // add obstacle image + adjust body
     const floatGroup = this.physics.add.staticGroup()
     const fields = this.physics.add.staticGroup()
@@ -1857,10 +1859,10 @@ export default class VillageScene extends Phaser.Scene {
     const grass = this.physics.add.staticGroup()
     const houses = this.physics.add.staticGroup()
 
-    floatGroup.create(0,0,'vhouse_float').setOrigin(0,0).setDepth(10)
-    floatGroup.create(0,0,'vlighttree_float').setOrigin(0,0).setDepth(10)
-    floatGroup.create(0,0,'vdarktree_float').setOrigin(0,0).setDepth(10)
-    floatGroup.create(0,0,'vtree_float').setOrigin(0,0).setDepth(10)
+    floatGroup.create(195,150,'vhouse_float').setOrigin(0,0).setDepth(15)
+    floatGroup.create(0,0,'vlighttree_float').setOrigin(0,0).setDepth(15)
+    floatGroup.create(0,0,'vdarktree_float').setOrigin(0,0).setDepth(15)
+    floatGroup.create(0,0,'vtree_float').setOrigin(0,0).setDepth(15)
 
     fields.create(320, 380, 'vfield_1_1').refreshBody()
     fields.create(740, 510, 'vfield_1_2').refreshBody()
@@ -1904,20 +1906,6 @@ export default class VillageScene extends Phaser.Scene {
     grass.create(2191, 1865, 'vgrass_7').refreshBody()
     grass.create(2272, 1925, 'vgrass_12').refreshBody()
 
-    houses.create(423, 1027, 'vhouse_1').refreshBody()
-    houses.create(300, 870, 'vhouse_1').body.setSize(180,20)
-    houses.create(765, 712, 'vhouse_2').body.setSize(450,165)
-    houses.create(955, 625, 'vhouse_2').body.setSize(50,10)
-    houses.create(1150, 290, 'vhouse_3').body.setSize(400,120)
-    houses.create(1310, 220, 'vhouse_3').body.setSize(80,20)
-    houses.create(1220, 832, 'vhouse_4_1').body.setSize(400,285)
-    houses.create(1488, 879, 'vhouse_4_2').refreshBody()
-    houses.create(1445, 725, 'vhouse_4_3').refreshBody()
-    houses.create(1460, 755, 'vhouse_4_3').refreshBody()
-    houses.create(1485, 775, 'vhouse_4_3').refreshBody()
-    houses.create(2040, 800, 'vhouse_5').body.setSize(600,200)
-    houses.create(2230, 705, 'vhouse_5').body.setSize(100,30)
-
     // set obstacle invisible
     fields.setVisible(false)
     trees.setVisible(false)
@@ -1928,6 +1916,18 @@ export default class VillageScene extends Phaser.Scene {
 
     // create Items
     this.items = []
+    items_JSON.forEach((item) => {
+      this.items.push(new Item2(
+        this,
+        item.id,
+        item.x,
+        item.y,
+        item.name,
+        item.scale,
+        item.depth_config,
+        item.body_config
+      ))
+    })
     // create NPCs
     this.npcs = []
     npcs_JSON.forEach((npc) => {

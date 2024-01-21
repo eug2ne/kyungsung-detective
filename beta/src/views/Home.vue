@@ -24,8 +24,8 @@ export default {
               console.log(userCredential)
               // login success
               await addData(userCredential)
-              // boot useGameStore()
-              await useGameStore().boot('k_detective_beta', '시작') // load stage-data from db + save to game-store
+              // save UID on store
+              useGameStore().$patch({ UID: userCredential.user.uid })
               // direct to main.vue
               this.$router.replace('/Game')
             })

@@ -1,10 +1,11 @@
 import Phaser from 'phaser'
 import { useGameStore } from '../game'
-import Item from "../GameObjects/Item"
+import Item2 from "../GameObjects/Item2"
 import NPC from "../GameObjects/NPC"
 import test2 from '@/game/assets/test2_map/test2.png'
 import desk from '@/game/assets/test2_map/test2-desk.png'
 import sofa from '@/game/assets/test2_map/test2-sofa.png'
+import table from '@/game/assets/test2_map/test2-table.png'
 import deadbody from '@/game/assets/test2_map/test2-deadbody.png'
 import deskbook from '@/game/assets/test2_map/test2-deskbook.png'
 import bookshelf from '@/game/assets/test2_map/test2-bookshelf.png'
@@ -594,7 +595,8 @@ const items_JSON = [
     "x": 802,
     "y": 460,
     "scale": 2,
-    "depth": 7,
+    "depth_config": { constant: false, default: 5 },
+    "body_config": { width: 100, height: 51, offSet: { x: 16, y: 11 } },
     "texture": "deadbody",
     "interact": {
       "read": {
@@ -615,10 +617,11 @@ const items_JSON = [
   {
     "name": "book",
     "id": "test2_item1",
-    "x": 875,
-    "y": 513,
+    "x": 876,
+    "y": 551,
     "scale": 2,
-    "depth": 8,
+    "depth_config": { constant: false, default: 10 },
+    "body_config": { width: 288, height: 80, offSet: { x: 0, y: 18 } },
     "texture": "deskbook",
     "interact": {
       "read": {
@@ -649,9 +652,10 @@ const items_JSON = [
     "name": "bookshelf",
     "id": "test2_item2",
     "x": 875,
-    "y": 197,
+    "y": 220,
     "scale": 2,
-    "depth": 10,
+    "depth_config": { constant: true, default: 5 },
+    "body_config": null,
     "texture": "bookshelf",
     "interact": {
       "read": {
@@ -689,7 +693,8 @@ const items_JSON = [
     "x": 875,
     "y": 825,
     "scale": 2,
-    "depth": 10,
+    "depth_config": { constant: true, default: 15 },
+    "body_config": null,
     "texture": "tea",
     "interact": {
       "read": {
@@ -714,6 +719,28 @@ const items_JSON = [
         event: { eventKey: "YPnEQwKAwueWEzSmpRdF", eventData: {id: "test2_item3", data: "item3-read"}}
       }
     }
+  },
+  {
+    "name": "sofa",
+    "id": "test2_item4",
+    "x": 875,
+    "y": 841,
+    "scale": 2,
+    "depth_config": { constant: false, default: 10 },
+    "body_config": { width: 588, height: 125, offSet: { x: 0, y: 80 } },
+    "texture": "sofa",
+    "interact": null
+  },
+  {
+    "name": "table",
+    "id": "test2_item5",
+    "x": 875,
+    "y": 851,
+    "scale": 2,
+    "depth_config": { constant: false, default: 10 },
+    "body_config": { width: 20, height: 10, offSet: { x: 0, y: 50 } },
+    "texture": "table",
+    "interact": null
   }
 ]
 
@@ -727,6 +754,7 @@ export default class Test2 extends Phaser.Scene {
     this.load.image('test2', test2)
     this.load.image('desk', desk)
     this.load.image('sofa', sofa)
+    this.load.image('table', table)
 
     // load npc+sami image+spritesheet
     this.load.image('victim_neutral', victim_neutral)
@@ -756,30 +784,23 @@ export default class Test2 extends Phaser.Scene {
   }
 
   create(data) {
+    console.log(data)
     // add background image + set world bound
     const background = this.add.image(500, 100, 'test2').setOrigin(0, 0).setScale(2)
     this.physics.world.setBounds(509, 100, background.width*2-18, background.height*2, true, true, true, true)
 
-    // add obstacle image + adjust body
-    const desk = this.physics.add.staticImage(500,100,'desk').setOrigin(0,0).setScale(2).setDepth(8)
-    const sofa = this.physics.add.staticImage(500,100,'sofa').setOrigin(0,0).setScale(2).setDepth(9)
-    sofa.body.x = 583, sofa.body.y = 770, sofa.body.setSize(585,205,false)
-
-    this.add.existing(sofa)
-
-    this.colliders = [sofa]
-
     // create items 
     this.items = []
     items_JSON.forEach((item) => {
-      this.items.push(new Item(
+      this.items.push(new Item2(
         this,
         item.id,
         item.x,
         item.y,
         item.name,
         item.scale,
-        item.depth,
+        item.depth_config,
+        item.body_config,
         item.texture,
         item.interact
       ))
@@ -809,7 +830,7 @@ export default class Test2 extends Phaser.Scene {
       'mini_scrollY': 600,
       'player_scale': 1.8
     }
-    this.sceneload.create(this.items, this.npcs, camera_config, data)
+    this.sceneload.create([], this.items, this.npcs, camera_config, data)
 
     this.investigation.create() // activate investigation-plugin
 

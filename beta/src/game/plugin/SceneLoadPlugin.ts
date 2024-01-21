@@ -70,7 +70,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     npcs: [ NPC ]|[],
     camera_config: { main_zoom: number, mini_zoom: number, mini_scrollX: number, mini_scrollY: number, player_scale?: number },
     data: {
-      player_config: {x: number, y: number, sceneKey: string},
+      player_config: { x: number, y: number, sceneKey: string },
       scenes_config: any
     }) {
     this.config = _.cloneDeep(data)

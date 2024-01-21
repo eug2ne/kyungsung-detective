@@ -20,7 +20,7 @@ const default_config = {
         'test1_applicant4': { dialogueKey: 'default' },
         'test1_applicant5': { dialogueKey: 'default' },
       },
-      item: {}
+      item: { 'test1_item1': { dialogueKey: null } }
     }
   }
 }

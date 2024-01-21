@@ -36,7 +36,7 @@ const STAGE_DEFAULT_CONFIG = {
           'test1_applicant4': { dialogueKey: 'default' },
           'test1_applicant5': { dialogueKey: 'default' },
         },
-        item: {}
+        item: { 'test1_item0': { dialogueKey: null } }
       }
     }
   },
@@ -55,6 +55,31 @@ const STAGE_DEFAULT_CONFIG = {
           'test2_item1': { interactionKey: 'read' },
           'test2_item2': { interactionKey: 'read' },
           'test2_item3': { interactionKey: 'read' }
+        }
+      }
+    }
+  },
+  'Test3Stage': {
+    key: 'Test3Stage',
+    player_config: { 'sceneKey': 'Village' , 'x': 1600, 'y': 1900 },
+    scenes_config: {
+      'Village': {
+        npc: {
+          'test3_missing1mom': { dialogueKey: 'default-question', options: ['option-time'] },
+          'test3_missing1bro': { dialogueKey: 'default-question', options: ['option-time'] },
+          'test3_missing1sis': { dialogueKey: 'default-question', options: ['option-time'] },
+          'test3_missing2mom': { dialogueKey: 'default-question', options: ['option-time'] },
+          'test3_missing3mom': { dialogueKey: 'default-question', options: ['option-time'] },
+          'test3_missing3bro': { dialogueKey: 'default-question', options: ['option-time'] },
+          'test3_missing4mom': { dialogueKey: 'default-question', options: ['option-time'] },
+          'test3_villager12': { dialogueKey: 'default-question', options: ['option-time'] },
+          'test3_villager34': { dialogueKey: 'default-question', options: ['option-time'] },
+          'test3_police': { dialogueKey: 'default-question', options: ['option-time'] },
+          'test3_inspector': { dialogueKey: 'default-question', options: ['option-time'] },
+        },
+        item: {
+          'test3_item0': { interactionKey: 'get' },
+          'test3_item1': { interactionKey: 'get' }
         }
       }
     }
@@ -94,7 +119,7 @@ export const useGameStore = defineStore('game', {
     },
     async saveAuto(gameKey, story) {
       console.log('save auto')
-      // save stage-data to auto-slot
+      // save stage-data to auto-slot 
       firebaseInterface.saveDoc(this.UID, gameKey, story, 'auto')
     },
     async saveSlot(gameKey, story, slotKey) {
@@ -146,6 +171,12 @@ export const useGameStore = defineStore('game', {
           await deleteDoc(doc(USER_QUIZS, 'WIN3vIY76B5ZHa13x70c'))          
           await deleteDoc(doc(USER_QUIZS, 'tLJfpFrSVAq5O1sGNs8I'))
           await deleteDoc(doc(USER_QUIZS, 'YPnEQwKAwueWEzSmpRdF'))
+          break
+
+        case 'Test3Stage':
+          // delete clue from cluenote
+          useGameStore().$patch({ cluenote: { 2: null }})
+          // delete quiz-data
           break
       }
 
@@ -200,6 +231,8 @@ export default class game extends Phaser.Game {
   }
 
   create() {
+    console.log('game create')
+    console.log(useGameStore().stage)
     // pass stage-data to game.stage
     const Stage = STAGE_KEYS[useGameStore().stage.key]
     this.stage = new Stage(this.plugins) // create game.stage

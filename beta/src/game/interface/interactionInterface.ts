@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import Item from '../GameObjects/Item'
+import Item2 from '../GameObjects/Item2'
 import NPC from "../GameObjects/NPC"
 import dialogueInterface from "./dialogueInterface"
 
@@ -20,16 +20,16 @@ type InteractionConfig = {
 
 interface GameObjectInterface extends PluginInterface {
   game: Phaser.Game
-  gameObject: Item|NPC
+  gameObject: Item2|NPC
 }
 
 export default class interactionInterface implements GameObjectInterface {
   game: Phaser.Game
-  gameObject: Item | NPC
+  gameObject: Item2 | NPC
   dialogue: dialogueInterface
   config: InteractionConfig
 
-  constructor(Game: Phaser.Game, GameObject: Item|NPC, DialogueInterface: dialogueInterface, config: InteractionConfig) {
+  constructor(Game: Phaser.Game, GameObject: Item2|NPC, DialogueInterface: dialogueInterface, config: InteractionConfig) {
     this.game = Game
     this.gameObject = GameObject
     this.dialogue = DialogueInterface

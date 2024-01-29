@@ -87,10 +87,7 @@ const event_config = {
             reveal: false,
           }
         },
-        related: {
-          testimony: [],
-          interrogation: [ { type: 'NPC', name: '감독관', id: '' } ]
-        }
+        img: 'mapae.png'
       }
       const investigation: Investigation = {
         title: '첫번째 탐정시험',

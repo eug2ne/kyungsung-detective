@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 import NPC from "../GameObjects/NPC"
-import Item from "../GameObjects/Item"
+import Item2 from "../GameObjects/Item2"
 import Player from "../GameObjects/Player"
 
 type PluginInterface = {
@@ -75,7 +75,7 @@ export default class keydoardInterface implements ScenePluginInterface {
     }
   }
 
-  interactWithNPCItem(gameObject: NPC|Item): boolean {
+  interactWithNPCItem(gameObject: NPC|Item2): boolean {
     if (this.talking) return false
 
     // NPC/item interaction event

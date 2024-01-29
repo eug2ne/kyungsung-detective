@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Phaser from 'phaser'
 import { useGameStore } from '../game.js'
 import SceneLoadPlugin from '../plugin/SceneLoadPlugin'
-import Item from './Item.js'
+import Item2 from './Item2.js'
 import Player from './Player.js'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
@@ -48,9 +48,9 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     if ((key === 'clue'||key === 'answer')&&this.dialogue[key].check) {
       // check player.item_carry (from gameStore)
       const item_id = this.dialogue[key].check
-      if (useGameStore().carry_item.find((ele: Item|undefined) => ele?.id == item_id)) {
+      if (useGameStore().carry_item.find((ele: Item2|undefined) => ele?.id == item_id)) {
         // delete item from inventery + carry_item
-        const removed = _.remove(useGameStore().inventory, (ele:Item|undefined) => {ele?.id == item_id})
+        const removed = _.remove(useGameStore().inventory, (ele:Item2|undefined) => {ele?.id == item_id})
         useGameStore().$patch({
           inventory: removed,
           carry_item: []

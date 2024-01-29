@@ -784,7 +784,6 @@ export default class Test2 extends Phaser.Scene {
   }
 
   create(data) {
-    console.log(data)
     // add background image + set world bound
     const background = this.add.image(500, 100, 'test2').setOrigin(0, 0).setScale(2)
     this.physics.world.setBounds(509, 100, background.width*2-18, background.height*2, true, true, true, true)

@@ -9,13 +9,33 @@ import vlighttree_float from '@/game/assets/villagescene/마을최종-lighttree.
 import vdarktree_float from '@/game/assets/villagescene/마을최종-darktree.png'
 import vtree_float from '@/game/assets/villagescene/마을최종-2800-tree.png'
 
-import vhouse_1 from '@/game/assets/villagescene/집_1.png'
-import vhouse_2 from '@/game/assets/villagescene/집_2.png'
-import vhouse_3 from '@/game/assets/villagescene/집_3.png'
-import vhouse_4_1 from '@/game/assets/villagescene/집_4_1.png'
-import vhouse_4_2 from '@/game/assets/villagescene/집_4_2.png'
-import vhouse_4_3 from '@/game/assets/villagescene/집_4_3.png'
-import vhouse_5 from '@/game/assets/villagescene/집_5.png'
+import house1_body1 from '@/game/assets/villagescene/house1_body1.png'
+import house1_body2 from '@/game/assets/villagescene/house1_body2.png'
+import house1_body3 from '@/game/assets/villagescene/house1_body3.png'
+import house1_body4 from '@/game/assets/villagescene/house1_body4.png'
+import house1_body5 from '@/game/assets/villagescene/house1_body5.png'
+import house1_body6 from '@/game/assets/villagescene/house1_body6.png'
+import house1_body7 from '@/game/assets/villagescene/house1_body7.png'
+import house1_body8 from '@/game/assets/villagescene/house1_body8.png'
+import house1_body9 from '@/game/assets/villagescene/house1_body9.png'
+import house2_body1 from '@/game/assets/villagescene/house2_body1.png'
+import house2_body2 from '@/game/assets/villagescene/house2_body2.png'
+import house2_body3 from '@/game/assets/villagescene/house2_body3.png'
+import house2_body4 from '@/game/assets/villagescene/house2_body4.png'
+import house2_body5 from '@/game/assets/villagescene/house2_body5.png'
+import house3_body1 from '@/game/assets/villagescene/house3_body1.png'
+import house3_body2 from '@/game/assets/villagescene/house3_body2.png'
+import house3_body3 from '@/game/assets/villagescene/house3_body3.png'
+import house3_body4 from '@/game/assets/villagescene/house3_body4.png'
+import house3_body5 from '@/game/assets/villagescene/house3_body5.png'
+import house4_body1 from '@/game/assets/villagescene/house4_body1.png'
+import house4_body2 from '@/game/assets/villagescene/house4_body2.png'
+import house4_body3 from '@/game/assets/villagescene/house4_body3.png'
+import house4_body4 from '@/game/assets/villagescene/house4_body4.png'
+import house4_body5 from '@/game/assets/villagescene/house4_body5.png'
+import house5_body1 from '@/game/assets/villagescene/house5_body1.png'
+import house5_body2 from '@/game/assets/villagescene/house5_body2.png'
+
 import vfield from '@/game/assets/villagescene/논밭.png'
 import vfield_1_1 from '@/game/assets/villagescene/논밭_1_1.png'
 import vfield_1_2 from '@/game/assets/villagescene/논밭_1_2.png'
@@ -31,12 +51,6 @@ import vfield_4_2 from '@/game/assets/villagescene/논밭_4_2.png'
 import vfield_4_3 from '@/game/assets/villagescene/논밭_4_3.png'
 import vcutted_tree from '@/game/assets/villagescene/다리자른나무.png'
 import vtree from '@/game/assets/villagescene/나무충돌.png'
-import vhouse_1_float from '@/game/assets/villagescene/집_1_float.png'
-import vhouse_1_fence_float from '@/game/assets/villagescene/집_1_울타리_float.png'
-import vhouse_2_float from '@/game/assets/villagescene/집_2_float.png'
-import vhouse_3_float from '@/game/assets/villagescene/집_3_float.png'
-import vhouse_4_float from '@/game/assets/villagescene/집_4_float.png'
-import vhouse_5_float from '@/game/assets/villagescene/집_5_float.png'
 import vgrass_1 from '@/game/assets/villagescene/풀_1.png'
 import vgrass_2 from '@/game/assets/villagescene/풀_2.png'
 import vgrass_3 from '@/game/assets/villagescene/풀_3.png'
@@ -67,6 +81,49 @@ import police_sprite from '@/game/assets/npc_sprite/police_spritesheet.png'
 import inspector_sprite from '@/game/assets/npc_sprite/inspector_spritesheet.png'
 
 // import npc + sami log image
+import missing1_angry from '@/game/assets/npc_log/missing1_angry.png'
+import missing1_cry from '@/game/assets/npc_log/missing1_cry.png'
+import missing1_neutral from '@/game/assets/npc_log/missing1_neutral.png'
+import missing1_smile from '@/game/assets/npc_log/missing1_smile.png'
+import missing1_surprise from '@/game/assets/npc_log/missing1_surprise.png'
+import missing1bro_smile1 from '@/game/assets/npc_log/missing1bro_smile1.png'
+import missing1bro_smile2 from '@/game/assets/npc_log/missing1bro_smile2.png'
+import missing1bro_surprise from '@/game/assets/npc_log/missing1bro_surprise.png'
+import missing1bro_worry from '@/game/assets/npc_log/missing1bro_worry.png'
+import missing1mom_angry from '@/game/assets/npc_log/missing1mom_angry.png'
+import missing1mom_neutral from '@/game/assets/npc_log/missing1mom_neutral.png'
+import missing1mom_worry from '@/game/assets/npc_log/missing1mom_worry.png'
+import missing1sis_neutral from '@/game/assets/npc_log/missing1sis_neutral.png'
+import missing1sis_surprise from '@/game/assets/npc_log/missing1sis_surprise.png'
+import missing1sis_sus from '@/game/assets/npc_log/missing1sis_sus.png'
+import missing2_neutral from '@/game/assets/npc_log/missing2_neutral.png'
+import missing2_pain from '@/game/assets/npc_log/missing2_pain.png'
+import missing2_smile from '@/game/assets/npc_log/missing2_smile.png'
+import missing2_surprise from '@/game/assets/npc_log/missing2_surprise.png'
+import missing2mom_worry from '@/game/assets/npc_log/missing2mom_worry.png'
+import missing3_angry from '@/game/assets/npc_log/missing3_angry.png'
+import missing3_neutral from '@/game/assets/npc_log/missing3_neutral.png'
+import missing3_smile from '@/game/assets/npc_log/missing3_smile.png'
+import missing3_surprise from '@/game/assets/npc_log/missing3_surprise.png'
+import missing3_think from '@/game/assets/npc_log/missing3_think.png'
+import missing3bro_cry1 from '@/game/assets/npc_log/missing3bro_cry1_100x100.png'
+import missing3mom_neutral from '@/game/assets/npc_log/missing3mom_neutral.png'
+import missing3mom_sorry from '@/game/assets/npc_log/missing3mom_sorry.png'
+import missing3mom_worry from '@/game/assets/npc_log/missing3mom_worry.png'
+import missing4_neutral from '@/game/assets/npc_log/missing4_neutral.png'
+import missing4_sick from '@/game/assets/npc_log/missing4_sick.png'
+import missing4mom_sad from '@/game/assets/npc_log/missing4mom_sad_100x100.png'
+import missing4mom_surprise from '@/game/assets/npc_log/missing4mom_surprise_100x100.png'
+import missing4mom_worry from '@/game/assets/npc_log/missing4mom_worry_100x100.png'
+import villager1_smile from '@/game/assets/npc_log/villager1_smile_100x100.png'
+import villager2_smile from '@/game/assets/npc_log/villager2_smile.png'
+import villager2_worry from '@/game/assets/npc_log/villager2_worry.png'
+import villager3_neutral from '@/game/assets/npc_log/villager3_neutral.png'
+import villager4_neutral from '@/game/assets/npc_log/villager4_neutral.png'
+import police_neutral from '@/game/assets/npc_log/police_neutral.png'
+import inspector_neutral from '@/game/assets/npc_log/inspector_neutral.png'
+import sami_neutral from '@/game/assets/sami_log/sami_무표정.png'
+import sami_surprise from '@/game/assets/sami_log/sami_화.png'
 
 const npcs_JSON = [
   {
@@ -1780,15 +1837,34 @@ export default class VillageScene extends Phaser.Scene {
     this.load.image('vlighttree_float', vlighttree_float)
     this.load.image('vdarktree_float', vdarktree_float)
     this.load.image('vtree_float', vtree_float)
-
-    this.load.image('vhouse_1', vhouse_1)
-    this.load.image('vhouse_2', vhouse_2)
-    this.load.image('vhouse_3', vhouse_3)
-    this.load.image('vhouse_4_1', vhouse_4_1)
-    this.load.image('vhouse_4_2', vhouse_4_2)
-    this.load.image('vhouse_4_3', vhouse_4_3)
-    this.load.image('vhouse_5', vhouse_5)
     
+    this.load.image('house1_body1', house1_body1)
+    this.load.image('house1_body2', house1_body2)
+    this.load.image('house1_body3', house1_body3)
+    this.load.image('house1_body4', house1_body4)
+    this.load.image('house1_body5', house1_body5)
+    this.load.image('house1_body6', house1_body6)
+    this.load.image('house1_body7', house1_body7)
+    this.load.image('house1_body8', house1_body8)
+    this.load.image('house1_body9', house1_body9)
+    this.load.image('house2_body1', house2_body1)
+    this.load.image('house2_body2', house2_body2)
+    this.load.image('house2_body3', house2_body3)
+    this.load.image('house2_body4', house2_body4)
+    this.load.image('house2_body5', house2_body5)
+    this.load.image('house3_body1', house3_body1)
+    this.load.image('house3_body2', house3_body2)
+    this.load.image('house3_body3', house3_body3)
+    this.load.image('house3_body4', house3_body4)
+    this.load.image('house3_body5', house3_body5)
+    this.load.image('house4_body1', house4_body1)
+    this.load.image('house4_body2', house4_body2)
+    this.load.image('house4_body3', house4_body3)
+    this.load.image('house4_body4', house4_body4)
+    this.load.image('house4_body5', house4_body5)
+    this.load.image('house5_body1', house5_body1)
+    this.load.image('house5_body2', house5_body2)
+
     this.load.image('vfield', vfield)
     this.load.image('vfield_1_1', vfield_1_1)
     this.load.image('vfield_1_2', vfield_1_2)
@@ -1806,13 +1882,6 @@ export default class VillageScene extends Phaser.Scene {
     this.load.image('vcutted_tree', vcutted_tree)
     this.load.image('vtree', vtree)
 
-    this.load.image('vhouse_1_float', vhouse_1_float)
-    this.load.image('vhouse_1_fence_float', vhouse_1_fence_float)
-    this.load.image('vhouse_2_float', vhouse_2_float)
-    this.load.image('vhouse_3_float', vhouse_3_float)
-    this.load.image('vhouse_4_float', vhouse_4_float)
-    this.load.image('vhouse_5_float', vhouse_5_float)
-
     this.load.image('vgrass_1', vgrass_1)
     this.load.image('vgrass_2', vgrass_2)
     this.load.image('vgrass_3', vgrass_3)
@@ -1826,7 +1895,7 @@ export default class VillageScene extends Phaser.Scene {
     this.load.image('vgrass_11', vgrass_11)
     this.load.image('vgrass_12', vgrass_12)
 
-    // load npc+sami image+spritesheet
+    // load npc spritesheet
     this.load.spritesheet('missing1mom_sprite', missing1mom_sprite, { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('missing1bro_sprite', missing1bro_sprite, { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('missing1sis_sprite', missing1sis_sprite, { frameWidth: 64, frameHeight: 64 })
@@ -1840,6 +1909,11 @@ export default class VillageScene extends Phaser.Scene {
     this.load.spritesheet('villager4_sprite', villager4_sprite, { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('police_sprite', police_sprite, { frameWidth: 5508 / 17, frameHeight: 498 })
     this.load.spritesheet('inspector_sprite', inspector_sprite, { frameWidth: 4692 / 17, frameHeight: 516 })
+    // load npc+sami image
+    this.load.image('police_neutral', police_neutral)
+    this.load.image('inspector_neutral', inspector_neutral)
+    this.load.image('sami_neutral', sami_neutral)
+    this.load.image('sami_surprise', sami_surprise)
 
     // sceneload plugin preload()
     this.sceneload.preload()
@@ -1864,11 +1938,55 @@ export default class VillageScene extends Phaser.Scene {
     floatGroup.create(0,0,'vdarktree_float').setOrigin(0,0).setDepth(15)
     floatGroup.create(0,0,'vtree_float').setOrigin(0,0).setDepth(15)
 
-    fields.create(320, 380, 'vfield_1_1').refreshBody()
+    houses.create(2145,812,'house1_body1')
+    houses.create(1815,935,'house1_body2')
+    houses.create(1860,990,'house1_body3')
+    houses.create(2285,820,'house1_body4')
+    houses.create(2305,865,'house1_body5')
+    houses.create(2325,950,'house1_body6')
+    houses.create(2230,930,'house1_body7')
+    houses.create(2185,985,'house1_body8')
+    houses.create(1880,814,'house1_body9')
+    houses.create(1220,860,'house2_body1')
+    houses.create(1440,880,'house2_body2')
+    houses.create(1470,890,'house2_body3')
+    houses.create(1490,900,'house2_body4')
+    houses.create(1515,915,'house2_body5')
+    houses.create(920,745,'house3_body1')
+    houses.create(740,750,'house3_body2')
+    houses.create(625,715,'house3_body3')
+    houses.create(605,735,'house3_body3')
+    houses.create(600,790,'house3_body4')
+    houses.create(555,795,'house3_body5')
+    houses.create(555,785,'house3_body5')
+    houses.create(345,1050,'house4_body1')
+    houses.create(210,1055,'house4_body2')
+    houses.create(530,1100,'house4_body3')
+    houses.create(620,1160,'house4_body4')
+    houses.create(615,1195,'house4_body5')
+    houses.create(1050,320,'house5_body1')
+    houses.create(1250,315,'house5_body2')
+
+    fields.create(150, 120, 'vfield_1_1').setScale(0.5).refreshBody()
+    fields.create(300, 70, 'vfield_1_1').setScale(0.5).refreshBody()
+    fields.create(400, 0, 'vfield_1_1').setScale(0.5).refreshBody()
     fields.create(740, 510, 'vfield_1_2').refreshBody()
+    fields.create(570, 560, 'vfield_1_2').refreshBody()
+    fields.create(270, 760, 'vfield').refreshBody()
+    fields.create(310, 700, 'vfield').refreshBody()
+    fields.create(420, 560, 'vfield').refreshBody()
+    fields.create(520, 450, 'vfield').refreshBody()
+    fields.create(570, 400, 'vfield').refreshBody()
+    fields.create(620, 370, 'vfield').refreshBody()
+    fields.create(640, 690, 'vfield').refreshBody()
     fields.create(685, 383, 'vfield').refreshBody()
     fields.create(739, 425, 'vfield').refreshBody()
     fields.create(790, 475, 'vfield').refreshBody()
+    fields.create(600, 510, 'vfield_2_1').setScale(0.8).refreshBody()
+    fields.create(450, 590, 'vfield_2_1').setScale(0.5).refreshBody()
+    fields.create(420, 650, 'vfield_2_1').setScale(0.5).refreshBody()
+    fields.create(370, 730, 'vfield_2_1').setScale(0.5).refreshBody()
+    fields.create(300, 800, 'vfield_2_1').setScale(0.3).refreshBody()
     fields.create(1700, 355, 'vfield_2_1').refreshBody()
     fields.create(1645, 465, 'vfield_2_2').refreshBody()
     fields.create(1595, 503, 'vfield_2_3').refreshBody()
@@ -1890,20 +2008,21 @@ export default class VillageScene extends Phaser.Scene {
     trees.create(1120, 1890, 'vtree').refreshBody()
     trees.create(1340, 1890, 'vtree').refreshBody()
 
-    grass.create(25, 1580, 'vgrass_1').body.setSize(50,50)
+    grass.create(25, 1580, 'vgrass_1').refreshBody()
     grass.create(20, 600, 'vgrass_2').refreshBody()
     grass.create(1400, 10, 'vgrass_3').refreshBody()
     grass.create(2149, 130, 'vgrass_4').refreshBody()
     grass.create(2565, 229, 'vgrass_5').refreshBody()
     grass.create(2192, 527, 'vgrass_7').refreshBody()
+    grass.create(2191, 1865, 'vgrass_7').refreshBody()
     grass.create(2290, 558, 'vgrass_7').refreshBody()
     grass.create(2385, 633, 'vgrass_7').refreshBody()
     grass.create(700, 70, 'vgrass_7').refreshBody()
+    grass.create(620, 120, 'vgrass_7').refreshBody()
     grass.create(2620, 900, 'vgrass_8').refreshBody()
     grass.create(2710, 990, 'vgrass_9').refreshBody()
     grass.create(2625, 1683, 'vgrass_10').refreshBody()
     grass.create(2495, 1815, 'vgrass_11').refreshBody()
-    grass.create(2191, 1865, 'vgrass_7').refreshBody()
     grass.create(2272, 1925, 'vgrass_12').refreshBody()
 
     // set obstacle invisible
@@ -1954,6 +2073,64 @@ export default class VillageScene extends Phaser.Scene {
     this.sceneload.create(colliders, this.items, this.npcs, camera_config, data)
     this.game.stage.mapEvent(this) // activate stage
 
+    // check clue update
+    if (!useGameStore().cluenote[2]) {
+      // if Test3 clue not exist, play stage-start event
+      const start_config = { 
+        'start': {
+          sceneKey: 'Village',
+          x: null,
+          y: null,
+          dialogue: [
+            {
+              image: "inspector_neutral",
+              line: "자네가 탐정 시험 지원자인 사미인가?",
+              name: "감독관"
+            },
+            {
+              image: "sami_neutral",
+              line: "네 맞습니다."
+            },
+            {
+              image: "inspector_neutral",
+              line: "만나서 반갑네. 난 세번째 시험에 동행하게 된 감독관일세. 자네가 실제 사건을 해결하는 과정을 옆에서 지켜보며 탐정으로써의 자질을 평가하는 역할이지.",
+              name: "감독관"
+            },
+            {
+              image: "inspector_neutral",
+              line: "이 마을에서 아이들이 한 번에 넷이나 사라졌네.",
+              name: "감독관"
+            },
+            {
+              image: "sami_neutral",
+              line: "아이들이 사라졌다고요?"
+            },
+            {
+              image: "inspector_neutral",
+              line: "그래. 아이들의 안전을 위해서 한시라도 빨리 해결되어야 하는 사건인거지.",
+              name: "감독관"
+            },
+            {
+              image: "inspector_neutral",
+              line: "만일 자네가 사건을 해결하는데 너무 오래 걸려 아이들의 안전이 우려되는 상황이 발생한다면 내가 나서겠지만, 그 전까지 나는 어떤 도움도 주지 않을걸세.",
+              name: "감독관"
+            },
+            {
+              image: "inspector_neutral",
+              line: "그럼 이 점을 염두에 두고 사건을 해결해보게나.",
+              name: "감독관"
+            },
+            {
+              image: "police_neutral",
+              line: "오시기로 한 탐정분들인가요? 여기 실종된 아이들의 인적사항입니다. 받으십시오.",
+              name: "경찰"
+            }
+          ],
+          event: { eventKey: 'start', eventData: {data: 'no-clue'} }
+        }
+      }
+      this.events.emit('quiz-event', 'start', start_config)
+    }
     // game-clear event
     this.events.on('game-clear', () => {
       // set scene invisible

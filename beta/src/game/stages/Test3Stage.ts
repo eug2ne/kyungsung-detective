@@ -1,7 +1,8 @@
 import Phaser from "phaser"
 import _ from "lodash"
 import { useGameStore } from '../game.js'
-import { addClue, addSubClue, addTimeline } from '../library.js'
+import { Investigation, Clue, subClue, event } from "../GameObjects/ClueDataStructure.js"
+import { addInvestigation, addClue, addSubClue, addTimeline } from '../library.js'
 import Update from "./Update"
 import Stage from "./Stage.js"
 import Village from "../scenes/Village_Scene.js"
@@ -44,57 +45,78 @@ const event_config = {
   // pre-suspicion events
   'start': [
     new Update({ data: 'no-clue' }, () => {
-      // after start scene for first time, acquire clue
-      const clue = {
+      // after start scene for first time, acquire investigation
+      const investigation: Investigation = {
         title: "00골 아이들 실종 사건",
-        description: "00골에서 한 번에 마을 아이들 4명이 사라지는 사건이 발생했다. 해가 떨어지고 있다. 너무 늦기 전에 아이들을 찾아내자!",
-        subClues: {
-          0 : [], // case hint
-          1 : [
-            {
-              title: "김정숙",
-              description: "10세. 여아. 2녀1남 중 막내",
-              clue_ref: "시작.2.subClues.1",
-              quiz_id: null,
-              reveal: true
-            }
-          ], // missing1 hint
-          2 : [
-            {
-              title: "박선자",
-              description: "10세. 여아. 외동",
-              clue_ref: "시작.2.subClues.2",
-              quiz_id: null,
-              reveal: true
-            }
-          ], // missing2 hint
-          3 : [
-            {
-              title: "이정웅",
-              description: "12세. 남아. 2남 중 장남",
-              clue_ref: "시작.2.subClues.3",
-              quiz_id: null,
-              reveal: true
-            }
-          ], // missing3 hint
-          4 : [
-            {
-              title: "최영길",
-              description: "9세. 남아. 외동",
-              clue_ref: "시작.2.subClues.4",
-              quiz_id: null,
-              reveal: true
-            }
-          ] // missing4 hint
-        },
-        timelineData: { 
-          timeline: { 0:null, 1:null, 2:null, 3:null, 4:null },
-          complete: 0
+        description: "00골에서 한 번에 마을 아이들 4명이 사라지는 사건이 발생했다. 너무 늦기 전에 아이들을 찾아내자!",
+        index: 2,
+        complete: false,
+        i_scope: [ { scope: '사인', evidence: [] }, { scope: '범행 방법', evidence: [] }, { scope: '동기', evidence: [] } ],
+        timeline: { 0:null, 1:null, 2:null, 3:null, 4:null },
+        clues: {
+          0 : null, // case hint
+          1 : {
+            title: "김정숙",
+            description: "10세. 여아. 2녀1남 중 막내",
+            index: 1,
+            subClues: {
+              0: null,
+              1: null
+            },
+            related: {
+              testimony: [],
+              interrogation: []
+            },
+            img: 'missing1_neutral.png'
+          }, // missing1 hint
+          2 : {
+            title: "박선자",
+            description: "10세. 여아. 외동",
+            index: 2,
+            subClues: {
+              0: null,
+              1: null
+            },
+            related: {
+              testimony: [],
+              interrogation: []
+            },
+            img: 'missing2_neutral.png'
+          }, // missing2 hint
+          3 : {
+            title: "이정웅",
+            description: "12세. 남아. 2남 중 장남",
+            index: 3,
+            subClues: {
+              0: null,
+              1: null
+            },
+            related: {
+              testimony: [],
+              interrogation: []
+            },
+            img: 'missing3_neutral.png'
+          }, // missing3 hint
+          4 : {
+            title: "최영길",
+            description: "9세. 남아. 외동",
+            index: 4,
+            subClues: {
+              0: null,
+              1: null
+            },
+            related: {
+              testimony: [],
+              interrogation: []
+            },
+            img: 'missing4_neutral.png'
+          } // missing4 hint
         }
       }
-      addClue(clue,2)
 
-      return { clear: false, message: "" }
+      const message = addInvestigation(2,investigation)
+
+      return { clear: false, message: message }
     })
   ],
   'z2Aj8sLVTc5FLNxZQ0Rg': [

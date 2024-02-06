@@ -77,9 +77,7 @@ export default class Item2 extends Phaser.Physics.Arcade.Sprite {
 
   create() {
     this.setInteractive() // enable interaction
-    console.log(this.body_config)
     if (this.body_config) {
-      console.log(this.id, this.body)
       // set body-size, offset
       this.body?.setSize(this.body_config.width, this.body_config.height)
       this.body?.setOffset(this.body_config.offSet.x, this.body_config.offSet.y)

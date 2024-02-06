@@ -2075,6 +2075,7 @@ export default class VillageScene extends Phaser.Scene {
 
     // check clue update
     if (!useGameStore().cluenote[2]) {
+      console.log('test3 no clue')
       // if Test3 clue not exist, play stage-start event
       const start_config = { 
         'start': {

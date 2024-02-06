@@ -140,7 +140,8 @@ const event_config = {
         related: {
           testimony: [],
           interrogation: []
-        }
+        },
+        img: 'deadbody'
       }
       const investigation: Investigation = {
         title: '두번째 탐정시험',
@@ -234,7 +235,8 @@ const event_config = {
         description: "피해자의 생전에 집안의 거의 모든 재산이 장남인 피해자에게 남겨졌다.",
         index: 1,
         source: { type: "Item", name: "book", id: "test2_item1" },
-        subClues: { 0: null, 1: null }
+        subClues: { 0: null, 1: null },
+        img: 'deskbook'
       }
       const message = addClue(1, clue) // add clue
       
@@ -399,7 +401,8 @@ const event_config = {
         description: "최근 몇 년 간 집안 살림을 축소한 흔적과 함께 사용인 기록이 빠지는 등 가계 장부를 제대로 관리하지 못 한 흔적이 보인다.",
         index: 2,
         source: { type: "Item", name: "book", id: "test2_item2" },
-        subClues: { 0: null }
+        subClues: { 0: null },
+        img: 'bookshelf'
       }
       const message = addClue(1, clue) // add clue
 
@@ -530,6 +533,6 @@ const event_config = {
 
 export default class Test2Stage extends Stage {
   constructor(manager: Phaser.Plugins.PluginManager) {
-    super(manager, [ new Test2() ], default_config, event_config, qevent_config, 'Test2Stage', null)
+    super(manager, [ new Test2() ], default_config, event_config, qevent_config, 'Test2Stage', new Test3Stage(manager))
   }
 }

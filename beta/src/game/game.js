@@ -177,6 +177,9 @@ export const useGameStore = defineStore('game', {
           // delete clue from cluenote
           useGameStore().$patch({ cluenote: { 2: null }})
           // delete quiz-data
+          await deleteDoc(doc(USER_QUIZS, 'z2Aj8sLVTc5FLNxZQ0Rg'))
+          await deleteDoc(doc(USER_QUIZS, '5pSYFHRok3Es4xw6XWcC'))
+
           break
       }
 

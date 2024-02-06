@@ -328,11 +328,6 @@ export default class Breakfast extends Phaser.Scene {
     super({key: 'Breakfast'})
   }
 
-  // init(player_config) {
-  //   // pass player_config to sceneload plugin
-  //   this.sceneload.init(player_config)
-  // }
-
   preload() {
     // load map image
     this.load.image('kitchen', kitchen)

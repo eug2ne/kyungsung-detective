@@ -190,6 +190,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   /* quiz-progress event */
 
     this.scene!.events.on('quiz-event', (id: string, progress_config: any) => {
+      console.log(this.player.x, this.player.y)
       // set player.position to given value
       this.player.x = progress_config[id].x ?? this.player.x
       this.player.y = progress_config[id].y ?? this.player.y

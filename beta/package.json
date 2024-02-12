@@ -7,7 +7,7 @@
     "build": "vue-cli-service build --openssl-legacy-provider --output dist"
   },
   "engines": {
-    "node": "17.x"
+    "node": "18.x"
   },
   "dependencies": {
     "@types/lodash": "^4.14.178",

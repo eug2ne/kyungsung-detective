@@ -7,7 +7,7 @@
     "build": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build"
   },
   "engines": {
-    "node": "16.x"
+    "node": "20.x"
   },
   "dependencies": {
     "@types/lodash": "^4.14.178",

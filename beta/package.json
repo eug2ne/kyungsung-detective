@@ -30,7 +30,8 @@
     "@vue/cli-plugin-typescript": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
     "@vue/compiler-sfc": "^3.0.0",
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "fork-ts-checker-webpack-plugin": "^9.0.2"
   },
   "browserslist": [
     "> 1%",

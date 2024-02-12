@@ -1,0 +1,71 @@
+[
+  {
+    "name": "newspaper",
+    "id": "breakfast_item0",
+    "x": 770,
+    "y": 425,
+    "scale": 2,
+    "depth": 10,
+    "texture": "newspaper",
+    "interact": {
+      "read": {
+        "type": "read",
+        "dialogue": [
+          "아침 신문이다.",
+          "..「경성 최고의 탐정 별세」",
+          "「범인은 현장에서 같이 죽은채로 발견된 40세 윤 모씨로 추정」",
+          "「현장에서 윤 모씨의 지문이 묻은 권총이 발견되고,」",
+          "「부검결과 범행 시각 당시 지첨초 중독 상태였던 것으로 미루어보아」",
+          "「우발적 살해 후 실족사 혹은 자살로 추정」",
+          "「특히 경찰은 윤 씨가 지첨초 밀매에 종사했다는 근거로 미루어보아」",
+          "「평소 사마전씨에게 앙심을 품고 있었을 걸로 보고」",
+          "「수사를 종결했다.」",
+          "..역시나 어머니의 부고 소식으로 떠들썩하다.",
+          "그 아래 새로운 소식이 눈에 띈다.",
+          "「탐정 시험 xx월 xx일 경무대에서 진행」",
+          {
+            "image": "sami_neutral",
+            "line": "xx월 xx일이라니. 오늘이잖아?"
+          },
+          {
+            "image": "sami_neutral",
+            "line": "...."
+          }
+        ],
+        "event": { "eventKey": "breakfast-event-item0", "eventData": {"id": "breakfast_item0", "data": "item0-read"} }
+      }
+    }
+  },
+  {
+    "name": "b_meal",
+    "id": "breakfast_item1",
+    "x": 660,
+    "y": 422,
+    "scale": 2,
+    "depth": 5,
+    "texture": "b_meal",
+    "interact": {
+      "eat": {
+        "type": "question",
+        "dialogue": [
+          {
+            "question": {
+              "image": null,
+              "line": "아침이 차려져있다."
+            }
+          }
+        ],
+        "options_config": {
+          "option-eat": {
+            "answer": "먹는다.",
+            "event": { "eventKey": "breakfast-event-item1", "eventData": {"id": "breakfast_item1", "data": "item1-eat"} }
+          },
+          "option-skip": {
+            "answer": "별로 입맛이 없다.",
+            "event": null
+          }
+        }
+      }
+    }
+  }
+]

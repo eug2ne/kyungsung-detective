@@ -25,10 +25,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.debugBodyColor = 0x0033ff // debug option
     this.scene.cameras.main.startFollow(this, false, 0.2, 0.2)
 
-    // set physics body to circle
-    this.body!.setCircle(20, 12, 23)
-    this.setFriction(0, 0)
-    
     // create animation
     this.anims.create({
       key: 'left',
@@ -93,7 +89,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     // update area coord
-    const boxX = this.x+this.body!.velocity.x*0.25, boxY = this.y+this.body!.velocity.y*0.28
+    const boxX = this.x+this.body!.velocity.x*0.35, boxY = this.y+this.body!.velocity.y*0.45
     this.interact_area.setPosition(boxX, boxY)
   }
 }

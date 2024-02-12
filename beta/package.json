@@ -3,8 +3,8 @@
   "version": "1.2.5",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "serve": "vue-cli-service serve --openssl-legacy-provider",
+    "build": "vue-cli-service build --openssl-legacy-provider"
   },
   "engines": {
     "node": "18.x"

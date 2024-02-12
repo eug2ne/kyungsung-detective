@@ -36,10 +36,6 @@ export default {
       this.investigationData = i_data
     },
     verifyInvestigation() {
-      // check stage-key + investigationData.index
-      if ((this.investigationData.index === 1&&useGameStore().stage.key != 'Test2Stage')
-      ||this.investigationData.index === 2&&useGameStore().stage.key != 'Test3Stage') return
-
       // emit verification event
       useGameStore().$patch({ progress: { id: 'verification', message: '사건을 입증하러 갑니다...', route: this.investigationData.index } })
     }
@@ -91,6 +87,16 @@ export default {
   scrollbar-width: 0px;
 }
 
+.wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
 .shift-back {
   margin-top: -5px;
   z-index: 0;
@@ -106,5 +112,21 @@ export default {
   position: relative;
   align-self: flex-end;
   z-index: 20;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0 10px;
+  text-align: left;
+}
+
+.description {
+  display: inline-block;
+  font-size: 20px;
+  text-align: left;
+  line-break: auto;
+  margin: 10px;
+  text-align: left;
 }
 </style>

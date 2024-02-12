@@ -4,13 +4,12 @@
     <h3 class="title">아직 획득하지 못 한 단서입니다.</h3>
   </div>
   <div class="wrapper clue" v-else>
-    <div style="width: 390px">
+    <div style="width: 450px">
       <h3 class="title">{{ this.clue.title }}</h3>
       <p class="description">{{ this.clue.description }}</p>
       <!-- <div class="source" :class="{ 'npc': this.clue.source.type === 'NPC', 'item': this.clue.source.type === 'Item' }">
         <p class="description">(출처: {{ this.clue.source.name }})</p>
       </div> -->
-      <img v-if="this.clue.img" :src="require(`@/assets/clue_img/${this.clue.img}`)">
     </div>
     <div class="wrapper">
       <div class="background" @hover.prevent="mouseOverSubclue($event)"
@@ -49,18 +48,6 @@ export default {
   justify-content: flex-start;
   margin: 40px 20px;
   padding: 15px;
-}
-
-.clue .description {
-  text-align: left;
-  line-break: strict;
-}
-
-.clue img {
-  width: 100%;
-  max-width: 200px;
-  height: auto;
-  max-height: 200px;
 }
 
 .lock {

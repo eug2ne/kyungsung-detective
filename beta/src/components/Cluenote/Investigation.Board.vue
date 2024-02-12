@@ -91,7 +91,7 @@ export default {
 .subclue {
   display: block;
   position: relative;
-  width: 400px;
+  width: 350px;
   min-height: 200px;
   height: fit-content;
   padding: 20px;

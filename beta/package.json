@@ -3,8 +3,8 @@
   "version": "1.2.5",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --openssl-legacy-provider",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --openssl-legacy-provider"
+    "serve": "vue-cli-service --openssl-legacy-provider serve",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service --openssl-legacy-provider build"
   },
   "engines": {
     "node": "18.x"

@@ -5,6 +5,8 @@ import dialogueInterface from '../interface/dialogueInterface'
 import Player from '../GameObjects/Player'
 import NPC from '../GameObjects/NPC'
 import Item2 from '../GameObjects/Item2'
+// import dialogue-ui
+import dialogueUI from '../assets/ui/dialogue_ui.png'
 // import spritesheet
 import sami from '../assets/sami_sprite/sami_frame1fixedversion (1).png'
 import item_sparkle from '../assets/item/item_spritesheet.png'
@@ -18,14 +20,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     scenes_config: {}
   }
   public player: Player
+  private update_items: [ Item2? ] = []
   private minimap: Phaser.Cameras.Scene2D.Camera
-  private item_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene!, 0, 0, '엔터를 눌러 아이템 얻기', {
-    fontFamily: 'NeoDunggeunmo',
-    fontSize: '20px',
-    stroke: '#000',
-    strokeThickness: 6,
-    color: '#fff'
-  })
   public keyboard: keyboardInterface
   public dialogue: dialogueInterface
   private keyboard_text: Phaser.GameObjects.Text = new Phaser.GameObjects.Text(this.scene!, 0, 0,
@@ -59,6 +55,8 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   }
 
   preload() {
+    // preload dialogue-ui
+    this.scene!.load.image('dialogue_ui', dialogueUI)
     // preload player spitesheet
     this.scene!.load.spritesheet('sami', sami, { frameWidth: 1088 / 17, frameHeight: 64 })
     // preload item-sparkle spritesheet
@@ -87,7 +85,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.minimap.setBackgroundColor(50)
     this.minimap.scrollX = camera_config.mini_scrollX
     this.minimap.scrollY = camera_config.mini_scrollY
-    this.minimap.ignore([ this.item_text, this.keyboard_text ]) // item_text, keyboard_text invisible in minimap
+    this.minimap.ignore([ this.keyboard_text ]) // keyboard_text invisible in minimap
 
     // add keyboard_text to scene
     this.scene!.add.existing(this.keyboard_text).setDepth(30).setFontSize(`${20/camera_config.main_zoom}px`)
@@ -113,12 +111,16 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     // create item on screen
     if (Object.keys(scene_config.item).length != 0) {
       items.forEach((item: Item2) => {
+        if (item.interact&&!Object.keys(scene_config.item).includes(item.id)) return
+        // add to update-items
+        this.update_items.push(item)
+        // create item on scene
+        this.scene!.add.existing(item).setScale(item.scale).setDepth(item.default_depth())
+        this.scene!.physics.add.existing(item, true)
         item.create()
       })
     }
-    this.scene!.physics.add.collider(this.player, items) // add collider 
-    this.scene!.add.existing(this.item_text).setDepth(15)
-    this.item_text.visible = false // add item_text
+    this.scene!.physics.add.collider(this.player, items) // add collider
     this.scene!.physics.add.overlap(this.player.interact_area, items, (area: any, item: any) => {
       // item-interact event
       if (this.keyboard.interactWithNPCItem(item)) {
@@ -190,20 +192,17 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
   /* quiz-progress event */
 
     this.scene!.events.on('quiz-event', (id: string, progress_config: any) => {
-      console.log(this.player.x, this.player.y)
       // set player.position to given value
-      this.player.x = progress_config[id].x ?? this.player.x
-      this.player.y = progress_config[id].y ?? this.player.y
+      this.player.x = progress_config[id].playerX ?? this.player.x
+      this.player.y = progress_config[id].playerY ?? this.player.y
 
       // get zoom
       const zoom = this.scene!.cameras.main.zoom
-      // get dialogueX + dialogueY (choose bigger value from player.coord, camera.coord)
-      const playerX = this.player.x, playerY = this.player.y
-      const cameraX = this.scene!.cameras.main.worldView.centerX, cameraY = this.scene!.cameras.main.worldView.centerY
-      const dialogueX = playerX > cameraX ? playerX : cameraX, dialogueY = playerY > cameraY ? playerY : cameraY
+      // get cameraX + cameraY
+      const cameraX = progress_config[id].cameraX ?? this.scene!.cameras.main.worldView.centerX, cameraY = progress_config[id].cameraY ?? this.scene!.cameras.main.worldView.centerY
 
       // create dialogue on scene (dialogueKey: id, dialogueData: progress_config)
-      this.dialogue.createDialogue(dialogueX, dialogueY, zoom, id, progress_config)
+      this.dialogue.createDialogue(cameraX, cameraY, zoom, id, progress_config)
 
       // emit start-talking event
       this.scene!.events.emit('start-talking')
@@ -217,7 +216,7 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     this.dialogue = new dialogueInterface(this.game, this.scene!, this, this.keyboard)
   }
 
-  update(items: [ Item2 ], npcs: [ NPC ]) {
+  update(npcs: [ NPC ]) {
     // update keyboard_text.x,y
     const cameraX = this.scene!.cameras.main.worldView.x, cameraY = this.scene!.cameras.main.worldView.y
     this.keyboard_text.setPosition(cameraX+800, cameraY+10)
@@ -254,9 +253,9 @@ export default class SceneLoadPlugin extends Phaser.Plugins.ScenePlugin {
     }
 
     // collider depth calculation
-    // item depth calculation
-    items.forEach((item: Item2) => {
-      item.update(this.player)
+    // update-item depth calculation
+    this.update_items.forEach((item?: Item2) => {
+      item?.update(this.player)
     })
     // npc animation + depth calculation
     npcs.forEach((npc: NPC) => {

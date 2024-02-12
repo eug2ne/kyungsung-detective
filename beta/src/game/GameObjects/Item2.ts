@@ -17,10 +17,12 @@ type bodyConfig = {
 export default class Item2 extends Phaser.Physics.Arcade.Sprite {
   public readonly id: string
   public readonly name: string
+  public readonly scale: number
   public readonly descript: string
   private readonly depth_config: depthConfig
   private readonly body_config: bodyConfig|null
   public sceneload: SceneLoadPlugin
+  public interact: boolean
   private readonly interact_data: any
   private _interactKey: string
   private _options_data: any
@@ -41,11 +43,11 @@ export default class Item2 extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, item_texture)
     this.name = name
     this.id = id
+    this.scale = scale
+    this.interact = interact ? true : false
     this.interact_data = interact
     this.depth_config = depth_config
     this.body_config = body_config
-    scene.add.existing(this).setScale(scale).setDepth(this.depth_config.default)
-    scene.physics.add.existing(this, true)
   }
 
   destroy() {
@@ -75,6 +77,10 @@ export default class Item2 extends Phaser.Physics.Arcade.Sprite {
     return this._options_data
   }
 
+  public default_depth() {
+    return this.depth_config.default
+  }
+
   create() {
     this.setInteractive() // enable interaction
     if (this.body_config) {
@@ -96,13 +102,13 @@ export default class Item2 extends Phaser.Physics.Arcade.Sprite {
     this.on('start-talking', (interactionKey: string) => {
       const interaction = this.interact_data[interactionKey]
       if (interaction.type === 'get') {
-        // after talking, destroy item from scene + remove from scene-config
-        this.scene.events.on('end-talking', () => {
+        // after talking, remove item from scene + remove from scene-config
+        this.scene.events.once('end-talking', () => {
           useGameStore().$patch((state: any) => {
-            state.inventory.push()
-            delete state.scenes_config['Village'].item[this.id]
+            delete state.stage.scenes_config['Village'].item[this.id]
           })
-          this.destroy()
+          this.scene.children.remove(this)
+          this.disableBody()
         })
       }
     })

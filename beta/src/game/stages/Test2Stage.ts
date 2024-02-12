@@ -1,31 +1,13 @@
 import Phaser from "phaser"
 import _ from "lodash"
 import { useGameStore } from '../game.js'
+import STAGE_DEFAULT_CONFIG from './config/STAGE_DEFAULT_CONFIG.json' // import default-config
 import { Investigation, Clue, subClue, event } from "../GameObjects/ClueDataStructure.js"
 import { spliceOption, addInvestigation, addClue, addEvent, addSubClue, updateSubClue } from '../library.js'
 import Stage from "./Stage.js"
 import Update from "./Update"
 import Test2 from '../scenes/Test2_Scene.js'
 import Test3Stage from "./Test3Stage"
-
-const default_config = {
-  player_config: { 'sceneKey': 'Test2' , 'x': 600, 'y': 500 },
-  scenes_config: {
-    'Test2': {
-      npc: {
-        'test2_suspect1': { dialogueKey: 'default-question', options: ['option-default'] },
-        'test2_suspect2': { dialogueKey: 'default-question', options: ['option-default'] },
-        'test2_suspect3': { dialogueKey: 'default-question', options: ['option-default'] }
-      },
-      item: {
-        'test2_item0': { interactionKey: 'read' },
-        'test2_item1': { interactionKey: 'read' },
-        'test2_item2': { interactionKey: 'read' },
-        'test2_item3': { interactionKey: 'read' }
-      }
-    }
-  }
-}
 
 const qevent_config = {
   /* quiz answer '독' */'WIN3vIY76B5ZHa13x70c': {
@@ -141,7 +123,7 @@ const event_config = {
           testimony: [],
           interrogation: []
         },
-        img: 'deadbody'
+        img: 'deadbody.png'
       }
       const investigation: Investigation = {
         title: '두번째 탐정시험',
@@ -236,7 +218,7 @@ const event_config = {
         index: 1,
         source: { type: "Item", name: "book", id: "test2_item1" },
         subClues: { 0: null, 1: null },
-        img: 'deskbook'
+        img: 'deskbook.png'
       }
       const message = addClue(1, clue) // add clue
       
@@ -402,7 +384,7 @@ const event_config = {
         index: 2,
         source: { type: "Item", name: "book", id: "test2_item2" },
         subClues: { 0: null },
-        img: 'bookshelf'
+        img: 'bookshelf.png'
       }
       const message = addClue(1, clue) // add clue
 
@@ -533,6 +515,6 @@ const event_config = {
 
 export default class Test2Stage extends Stage {
   constructor(manager: Phaser.Plugins.PluginManager) {
-    super(manager, [ new Test2() ], default_config, event_config, qevent_config, 'Test2Stage', new Test3Stage(manager))
+    super(manager, [ new Test2() ], STAGE_DEFAULT_CONFIG['Test2Stage'], event_config, qevent_config, 'Test2Stage', new Test3Stage(manager))
   }
 }

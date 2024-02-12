@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 
 export default class Dialogue extends Phaser.GameObjects.GameObject {
+  private dialogue_ui: Phaser.GameObjects.Image
   private line_box: Phaser.GameObjects.Rectangle
   private readonly line_x: number
   private readonly line_y: number
@@ -36,18 +37,21 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     // create dialogue-box on screen
     const white = Phaser.Display.Color.GetColor32(255,255,255,0.1)
     const black = Phaser.Display.Color.GetColor32(0,0,0,0.1)
-    this.line_box = this.scene.add.rectangle(cameraX+130/zoom, cameraY+170/zoom, 645/zoom, 200/zoom, white)
+    this.line_box = this.scene.add.rectangle(cameraX+125/zoom, cameraY+140/zoom, 630/zoom, 200/zoom, white)
       .setDepth(20)
       .setStrokeStyle(2, black) // line-box
-    this.image_box = this.scene.add.rectangle(cameraX-325/zoom, cameraY+170/zoom, 200/zoom, 200/zoom, white)
+    this.image_box = this.scene.add.rectangle(cameraX-325/zoom, cameraY+140/zoom, 260/zoom, 260/zoom, white)
       .setDepth(20)
       .setStrokeStyle(2, black) // image-box
-
     // create image
     this.image = this.scene.add.image(this.image_box.x, this.image_box.y
       , (this.texture) ? this.texture:'undefined')
       .setDepth(20)
-
+    // create dialogue-ui
+    this.dialogue_ui = this.scene.add.image(cameraX, cameraY+140/zoom, 'dialogue_ui')
+      .setScale(1.55/zoom)
+      .setDepth(20)
+    
     // create line
     this.line_x = this.line_box.x-this.line_box.width/2
     this.line_y = this.line_box.y-this.line_box.height/2
@@ -61,8 +65,8 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
         fontSize: `${25/zoom}px`,
         color: '#000',
         padding: {
-          x: 20,
-          y: 20
+          x: 15,
+          y: 15
         }        
       }
     ).setWordWrapWidth(Math.floor(620/zoom))
@@ -72,13 +76,12 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     this.speaker_name = new Phaser.GameObjects.Text(
       this.scene,
       this.image_box.x,
-      this.image_box.y+this.image_box.height/2,
+      this.image_box.y-this.image_box.height/2+5,
       '',
       {
         fontFamily: 'NeoDunggeunmo',
-        fontSize: `${30/zoom}px`,
-        color: '#000',
-        backgroundColor: '#edfaf9',
+        fontSize: `${20/zoom}px`,
+        color: '#ffff',
         padding: {
           x: 5,
           y: 5
@@ -110,6 +113,7 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
   destroy() {
     this.line_box.destroy()
     this.image_box.destroy()
+    this.dialogue_ui.destroy()
     this.line.destroy()
     this.speaker_name.destroy()
     this.skip_next.destroy()
@@ -118,6 +122,10 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     })
     this.image?.destroy()
     super.destroy()
+  }
+
+  private get name_text() {
+    return this.dialogue[this.index].question ? this.dialogue[this.index].question.name : this.dialogue[this.index].name
   }
 
   private get line_text() {
@@ -178,11 +186,13 @@ export default class Dialogue extends Phaser.GameObjects.GameObject {
     })
     const renderTextImage = (writing: boolean) => {
       this.image_box.visible = (this.texture) ? true:false
-      this.image.setTexture(this.texture).setDisplaySize(200/this.zoom, 200/this.zoom)
+      this.image.setTexture(this.texture).setDisplaySize(230/this.zoom, 230/this.zoom)
       this.image.visible = (this.texture) ? true:false
+      // show ui when image exist in dialogue
+      this.dialogue_ui.visible = this.image.visible
       // show speaker_name when name exist in dialogue
-      this.speaker_name.text = this.dialogue[this.index].name
-      this.speaker_name.visible = this.dialogue[this.index].name ?? false
+      this.speaker_name.text = this.name_text
+      this.speaker_name.visible = this.name_text ? true : false
       // show skip_next when next line_text exist
       if (!this.dialogue[this.index].question&&this.dialogue[this.index+1]) {
         this.skip_next.visible = true

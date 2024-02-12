@@ -1,35 +1,92 @@
 import Phaser from "phaser"
 import _ from "lodash"
 import { useGameStore } from '../game.js'
+import STAGE_DEFAULT_CONFIG from './config/STAGE_DEFAULT_CONFIG.json' // import default-config
 import { Investigation, Clue, subClue, event } from "../GameObjects/ClueDataStructure.js"
 import { spliceOption, addInvestigation, addClue, addEvent, addSubClue, updateSubClue } from '../library.js'
 import Update from "./Update"
 import Stage from "./Stage.js"
 import Village from "../scenes/Village_Scene.js"
 
-const default_config = {
-  player_config: { 'sceneKey': 'Village' , 'x': 1600, 'y': 1900 },
-  scenes_config: {
-    'Village': {
-      npc: {
-        'test3_missing1mom': { dialogueKey: 'default-question', options: ['option-time'] },
-        'test3_missing1bro': { dialogueKey: 'default-question', options: ['option-time'] },
-        'test3_missing1sis': { dialogueKey: 'default-question', options: ['option-time'] },
-        'test3_missing2mom': { dialogueKey: 'default-question', options: ['option-time'] },
-        'test3_missing3mom': { dialogueKey: 'default-question', options: ['option-time'] },
-        'test3_missing3bro': { dialogueKey: 'default-question', options: ['option-time'] },
-        'test3_missing4mom': { dialogueKey: 'default-question', options: ['option-time'] },
-        'test3_villager12': { dialogueKey: 'default-question', options: ['option-time'] },
-        'test3_villager34': { dialogueKey: 'default-question', options: ['option-time'] },
-        'test3_police': { dialogueKey: 'default-question', options: ['option-time'] },
-        'test3_inspector': { dialogueKey: 'default-question', options: ['option-time'] },
-      },
-      item: {}
-    }
-  }
-}
-
 const qevent_config = {
+  /* quiz answer '꾀병' */'z2Aj8sLVTc5FLNxZQ0Rg': {
+    sceneKey: 'Village',
+    x: null,
+    y: null,
+    dialogue: [
+      '어릴 때부터 사용하던 담요도 같이 사라졌고,',
+      '창문 밖에는 신발 한 짝이 떨어져있었지.',
+      {
+        'image': 'sami_neutral',
+        'line': '어머님은 납치의 가능성을 제시했지만',
+        'name': '사미'
+      },
+      {
+        'image': 'sami_neutral',
+        'line': '마을의 유일한 입구로 나가는 아이들을 본 사람이 없다는 말은 바꿔 말하면 마을로 들어오는 사람도 본 사람이 없다는 말이지.',
+        'name': '사미'
+      },
+      {
+        'image': 'sami_sus',
+        'line': '즉, 어머님의 말대로 납치였을 가능성은 상당히 낮아.',
+        'name': '사미'
+      },
+      {
+        'image': 'sami_neutral',
+        'line': '그보다는 아팠다는 것부터 꾀병이고, 담요까지 몰래 챙겨서 창문으로 몰래 빠져나간 게 아닐까?',
+        'name': '사미'
+      },
+      {
+        'image': 'sami_neutral',
+        'line': '어머님은 납치설을 강경하게 믿고 있는 것 같지만 그래도 한 번 물어볼까?',
+        'name': '사미'
+      }
+    ],
+    event: { eventKey: 'z2Aj8sLVTc5FLNxZQ0Rg', eventData: {quiz_id: 'z2Aj8sLVTc5FLNxZQ0Rg'} }
+  },
+  /* quiz answer '탐험' */'5pSYFHRok3Es4xw6XWcC': {
+    sceneKey: 'Village',
+    x: null,
+    y: null,
+    dialogue: [
+      {
+        'image': 'sami_neutral',
+        'line': '그래, 역시 아이들이 자발적으로 사라진 거라면 목적은 탐험이야.',
+        'name': '사미'
+      },
+      {
+        'image': 'missing1_neutral',
+        'line': '김정숙 양이 오빠와의 대화에서 친구들과의 약속을 언급했으니 다같이 정해진 시간에 모이기로 했을 거야.',
+        'name': '김정숙 양'
+      },
+      {
+        'image': 'missing1_neutral',
+        'line': '평소에도 여기저기 돌아다니기 좋아하고, 동네에서 골목대장 역할이었다고 하니, 아마 본인이 약속을 주도했겠지. 그래서 그렇게 초조해했던 거야.',
+        'name': '김정숙 양'
+      },
+      {
+        'image': 'sami_sus',
+        'line': '김정숙 양 가족들이나 김정숙 양과 친했던 박선자 양 가족들에게 물어보면 뭔가 나올지도 몰라.',
+        'name': '사미'
+      },
+      {
+        'image': 'sami_neutral',
+        'line': '산으로 가는 길목에서 주운 쪽지에 쓰여있던 기름, 전등, 양초, 밧줄도 탐험에 필요한 준비물이었던 거구나.',
+        'name': '사미'
+      },
+      {
+        'image': 'sami_neutral',
+        'line': '기름, 전등, 양초. 탐험을 떠나려던 장소가 꽤 어두운 데인 거 같은데?',
+        'name': '사미'
+      },
+      {
+        'image': 'sami_neutral',
+        'line': '너무 위험한 데로 갔으면 안되는데...',
+        'name': '사미'
+      }
+    ],
+    event: { eventKey: '5pSYFHRok3Es4xw6XWcC', eventData: {quiz_id: '5pSYFHRok3Es4xw6XWcC'} }
+  },
   'suspicion-system-activate': {
     sceneKey: 'Village',
     x: null,
@@ -118,7 +175,7 @@ const event_config = {
       return { clear: false, message: message }
     })
   ],
-  'z2Aj8sLVTc5FLNxZQ0Rg': [
+  /* quiz answer '꾀병' */ 'z2Aj8sLVTc5FLNxZQ0Rg': [
     new Update({id: "test3_missing4mom", data: "missing4mom-time"}, () => {
       // after asking missing4mom about time, update timeline + add subClue
       const e_subclue: subClue = {
@@ -174,7 +231,7 @@ const event_config = {
         state.inventory.push(item)
 
         // update missing4mom dialogueKey
-        state.stage.scenes_config['Test3'].npc['test3_missing4mom'].dialogueKey = 'answer'
+        state.stage.scenes_config['Village'].npc['test3_missing4mom'].dialogueKey = 'answer'
       })
 
       return { clear: false, message: "「 신발 」 아이템을 획득했습니다." }
@@ -209,7 +266,7 @@ const event_config = {
     }),
     new Update({quiz_id: "z2Aj8sLVTc5FLNxZQ0Rg"}, () => {
       // update missing4mom optionKey
-      spliceOption('Test3', 'test3_missingmom4', undefined, 'option-fake')
+      spliceOption('Village', 'test3_missingmom4', undefined, 'option-fake')
 
       return { clear: false, message: "" }
     }),
@@ -275,7 +332,7 @@ const event_config = {
         state.inventory.push(item)
 
         // update missing1sis dialogueKey
-        state.stage.scenes_config['Test3'].npc['test3_missing1sis'].dialogueKey = 'answer'
+        state.stage.scenes_config['Village'].npc['test3_missing1sis'].dialogueKey = 'answer'
       })
 
       return { clear: false, message: "「 더러운 쪽지 」 아이템을 획득했습니다." }
@@ -353,7 +410,7 @@ const event_config = {
     }),
     new Update({id: "test3_villager34", data: "villager34-time"}, () => {
       // update villager34 optionKey
-      spliceOption('Test3', 'test3_villager34', undefined, 'option-missing2')
+      spliceOption('Village', 'test3_villager34', undefined, 'option-missing2')
 
       return { clear: false, message: "" }
     }),
@@ -399,7 +456,7 @@ const event_config = {
       }
 
       // update missing1mom optionKey
-      spliceOption('Test3', 'test3_missing1mom', undefined, 'option-friendship')
+      spliceOption('Village', 'test3_missing1mom', undefined, 'option-friendship')
 
       const timeline_complete = Object.values(useGameStore().cluenote[1].timeline).length
       if (timeline_complete === 5) {
@@ -605,12 +662,12 @@ const event_config = {
       // update subclue
       const subclue: subClue = {
         title: "괴담",
-          description: "이 마을에서는 아이들이 늦은 시간에 산에 오르지 않게 겁주기 위해 대대로 산 속 괴물에 대한 괴담이 대대로 구전되었다.",
-          index: 1,
-          c_index: 0,
-          p_index: 2,
-          quiz_id: "",
-          reveal: true
+        description: "이 마을에서는 아이들이 늦은 시간에 산에 오르지 않게 겁주기 위해 대대로 산 속 괴물에 대한 괴담이 대대로 구전되었다.",
+        index: 1,
+        c_index: 0,
+        p_index: 2,
+        quiz_id: "",
+        reveal: true
       }
       const message = updateSubClue(2, subclue)
 
@@ -632,7 +689,7 @@ const event_config = {
       const message = addSubClue(2, subclue)
 
       // update police optionKey
-      spliceOption('Village', 'test3_police', undefined, 'option-kidnap')
+      spliceOption('Villagege', 'test3_police', undefined, 'option-kidnap')
 
       return { clear: false, message: message }
     }),
@@ -652,7 +709,7 @@ const event_config = {
       return { clear: false, message: message }
     })
   ],
-  '5pSYFHRok3Es4xw6XWcC': [
+  /* quiz anwer '탐험' */ '5pSYFHRok3Es4xw6XWcC': [
     new Update({id: "test3_police", data: "police-suspicion"}, () => {
       // add subclue
       const subclue_1: subClue = {
@@ -680,7 +737,7 @@ const event_config = {
     }),
     new Update({quiz_id: "5pSYFHRok3Es4xw6XWcC"}, () => {
       // update missing2mom optionKey
-      spliceOption('Village', 'test3_missing2mom', undefined, 'option-adventure')
+      spliceOption('Villagege', 'test3_missing2mom', undefined, 'option-adventure')
 
       return { clear: false, message: "" }
     }),
@@ -715,20 +772,20 @@ const event_config = {
       }
       const message = addSubClue(2, subclue)
 
-      // update inspector optionKey
-
       return { clear: false, message: message }
-    }),
-    new Update({id: "test3_inspector", data: "inspector-solve"}, (stage: any) => {
+    })
+  ],
+  'verification-clear': [
+    new Update({id: "verification", data: "verification-clear"}, () => {
       // stage clear
-      return { clear: true }
+      return { clear: true, message: "" }
     })
   ]
 }
 
 export default class Test3Stage extends Stage {
   constructor(manager: Phaser.Plugins.PluginManager) {
-    super(manager, [ new Village() ], default_config, event_config, qevent_config, 'Test3Stage', null)
+    super(manager, [ new Village() ], STAGE_DEFAULT_CONFIG['Test3Stage'], event_config, qevent_config, 'Test3Stage', null)
   }
 
   clear() {

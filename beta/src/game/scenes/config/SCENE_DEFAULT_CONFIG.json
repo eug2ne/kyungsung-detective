@@ -1,0 +1,3162 @@
+{
+  "Breakfast": {
+    "npc_json": [
+      {
+        "name": "사치코",
+        "id": "breakfast_maid",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "maid_smile",
+                  "line": "아직 여독이 가시지 않아 피곤하실텐데 오늘은 쉬시는게 어떤가요?",
+                  "name": "사치코"
+                }
+              }
+            ]
+          },
+          "answer-default": {
+            "dialogue": [
+              {
+                "image": "maid_smile",
+                "line": "뭘 하시는건 좋은데 일단은 뭐든 드시고 하시지요.",
+                "name": "사치코"
+              }
+            ],
+            "event": null
+          },
+          "answer-no-plan": {
+            "dialogue": [
+              {
+                "image": "maid_smile",
+                "line": "뭘 할지 계획은 있으신가요?",
+                "name": "사치코"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "....",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "(생각해보니 딱히 계획이 없다.)",
+                "name": "사미"
+              }
+            ],
+            "event": null
+          },
+          "answer-clear": {
+            "dialogue": [
+              {
+                "image": "sami_neutral",
+                "line": "사치코. 나, 탐정 시험을 보려고.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "신문을 보니까 마침 공인 시험이 오늘 경무대에서 진행된다더라.",
+                "name": "사미"
+              },
+              {
+                "image": "maid_surprise",
+                "line": "..",
+                "name": "사치코"
+              },
+              {
+                "image": "maid_surprise",
+                "line": "..아",
+                "name": "사치코"
+              },
+              {
+                "image": "maid_neutral",
+                "line": "전 주인님께서 그렇게 가시고 아가씨가 같은 길을 가실 생각을 하실 줄은 몰라서..",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "..나 정말 오랜만에 이 집에 돌아왔는데 장례만 치르고 다시 떠나기 싫거든. 여기서 좀 지내면서 마음을 좀 추스르고 싶어.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_smile",
+                "line": "그래서 지내는 동안 용돈 벌이 정도는 해야 하잖아?",
+                "name": "사미"
+              },
+              {
+                "image": "maid_surprise",
+                "line": "아가씨가 여기서 지내더라도 부친께서 꼭 생활비는 해결해주실 거에요! 걱정하지 않으셔도 돼요!",
+                "name": "사치코"
+              },
+              {
+                "image": "sami_smile",
+                "line": "아, 그건 알지.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "사실 그런 이유뿐만 아니라,",
+                "name": "사미"
+              },
+              {
+                "image": "sami_smile",
+                "line": "기왕 일하는 거 어머니를 위해서 할 수 있는 일을 하고 싶어.",
+                "name": "사미"
+              },
+              {
+                "image": "maid_surprise",
+                "line": "설마 주인님의 죽음이 의심스러우신가요?",
+                "name": "사치코"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "그럴리가. 그런게 아냐.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "어머니가 탐정이 되는 걸 좋아할 수 밖에 없었던 이유를 알고 싶어.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "'그동안 내가 봐온 어머니는 신문 기사 속에서만 있었어.'",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "'늦었지만 이제부터라도 알고싶어. 이대로 어머니가 어떤 사람이었는지도 제대로 모르는 채 흘려보내고 싶지 않아.'",
+                "name": "사미"
+              },
+              {
+                "image": "maid_neutral",
+                "line": "....",
+                "name": "사치코"
+              },
+              {
+                "image": "maid_smile",
+                "line": "..저는 아가씨가 어떤 길을 가시든 진심으로 응원해요.",
+                "name": "사치코"
+              },
+              {
+                "image": "maid_smile",
+                "line": "그러니 마지막으로 한 가지만 더 알려드릴게요.",
+                "name": "사치코"
+              },
+              {
+                "image": "maid_smile",
+                "line": "이 게임은 게임을 진행하면서 자동저장이 이루어지기는 하나, 왼쪽 상단의 새로고침 아이콘을 누르면 원하는 슬롯에 지금까지의 진행정보를 따로 저장할 수도 있어요.",
+                "name": "사치코"
+              },
+              {
+                "image": "maid_smile",
+                "line": "물론 과거에 저장했던 슬롯을 불러오는 것도 가능하고요. '스테이지 선택' 으로 넘어가시면 원하시는 스테이지를 고를 수도 있어요.",
+                "name": "사치코"
+              },
+              {
+                "image": "maid_smile",
+                "line": "앞으로 탐정업을 하시는데 도움이 되실 겁니다. 물론 어떻게 활용하실지는 아가씨의 몫이지만요.",
+                "name": "사치코"
+              },
+              {
+                "image": "sami_smile",
+                "line": "응. 잘 알았어. 기왕 알려준 거 잘 활용해볼게. 이해해줘서 고마워, 사치코",
+                "name": "사미"
+              }
+            ],
+            "event": { "eventKey": "breakfast-event-npc0", "eventData": {"id": "breakfast_maid", "data": "option-clear"} }
+          }
+        },
+        "options_config": {
+          "option-end": {
+            "answer": "그럴까?",
+            "to": null
+          },
+          "option-default": {
+            "answer": "아니. 나가보려고.",
+            "to": "answer-default"
+          },
+          "option-no-plan": {
+            "answer": "아니. 나가보려고.",
+            "to": "answer-no-plan"
+          },
+          "option-clear": {
+            "answer": "아니. 나가보려고.",
+            "to": "answer-clear"
+          }
+        },
+        "spritesheet": "maid_dishwash",
+        "scale": 1.1,
+        "anim_config": {
+          "frames": {
+            "0,5": "dishwash"
+          },
+          "repeat": {
+            "dishwash": true
+          },
+          "default": "dishwash",
+          "auto_start": true
+        },
+        "check": null,
+        "x": 620,
+        "y": 240
+      }
+    ],
+    "item_json": [
+      {
+        "name": "newspaper",
+        "id": "breakfast_item0",
+        "x": 760,
+        "y": 445,
+        "scale": 2,
+        "depth_config": { "constant": true, "default": 6 },
+        "body_config": null,
+        "texture": "newspaper",
+        "interact": {
+          "read": {
+            "type": "read",
+            "dialogue": [
+              "아침 신문이다.",
+              "..「경성 최고의 탐정 별세」",
+              "「범인은 현장에서 같이 죽은채로 발견된 40세 윤 모씨로 추정」",
+              "「현장에서 윤 모씨의 지문이 묻은 권총이 발견되고,」",
+              "「부검결과 범행 시각 당시 지첨초 중독 상태였던 것으로 미루어보아」",
+              "「우발적 살해 후 실족사 혹은 자살로 추정」",
+              "「특히 경찰은 윤 씨가 지첨초 밀매에 종사했다는 근거로 미루어보아」",
+              "「평소 사마전씨에게 앙심을 품고 있었을 걸로 보고」",
+              "「수사를 종결했다.」",
+              "..역시나 어머니의 부고 소식으로 떠들썩하다.",
+              "그 아래 새로운 소식이 눈에 띈다.",
+              "「탐정 시험 xx월 xx일 경무대에서 진행」",
+              {
+                "image": "sami_neutral",
+                "line": "xx월 xx일이라니. 오늘이잖아?",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "....",
+                "name": "사미"
+              }
+            ],
+            "event": { "eventKey": "breakfast-event-item0", "eventData": {"id": "breakfast_item0", "data": "item0-read"} }
+          }
+        }
+      },
+      {
+        "name": "b_meal",
+        "id": "breakfast_item1",
+        "x": 660,
+        "y": 425,
+        "scale": 2,
+        "depth_config": { "constant": true, "default": 6 },
+        "body_config": null,
+        "texture": "b_meal",
+        "interact": {
+          "eat": {
+            "type": "question",
+            "dialogue": [
+              {
+                "question": {
+                  "image": null,
+                  "line": "아침이 차려져있다."
+                }
+              }
+            ],
+            "options_config": {
+              "option-eat": {
+                "answer": "먹는다.",
+                "event": { "eventKey": "breakfast-event-item1", "eventData": {"id": "breakfast_item1", "data": "item1-eat"} }
+              },
+              "option-skip": {
+                "answer": "별로 입맛이 없다.",
+                "event": null
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "leftchair",
+        "id": "breakfast_item2",
+        "x": 512,
+        "y": 419,
+        "scale": 2,
+        "depth_config": { "constant": false, "default": 5 },
+        "body_config": { "width": 34, "height": 20, "offSet": { "x": 0, "y": 50 } },
+        "texture": "leftchair",
+        "interact": null
+      },
+      {
+        "name": "rightchair",
+        "id": "breakfast_item3",
+        "x": 816,
+        "y": 419,
+        "scale": 2,
+        "depth_config": { "constant": false, "default": 5 },
+        "body_config": { "width": 34, "height": 20, "offSet": { "x": 0, "y": 50 } },
+        "texture": "rightchair",
+        "interact": null
+      }
+    ]
+  },
+  "Test1": {
+    "npc_json": [
+      {
+        "name": "감독관",
+        "id": "test1_inspector",
+        "dialogue": {
+          "clue": {
+            "dialogue": [
+              {
+                "image": "inspector_neutral",
+                "line": "탐정 시험을 보러 온건가?",
+                "name": "감독관"
+              },
+              {
+                "image": "inspector_neutral",
+                "line": "시험은 총 세 단계로 구성된다.",
+                "name": "감독관"
+              },
+              {
+                "image": "inspector_neutral",
+                "line": "첫 번째 시험과 두 번째 시험은 이곳, 경무대에서 오늘 중으로 모두 치를 것이고,",
+                "name": "감독관"
+              },
+              {
+                "image": "inspector_neutral",
+                "line": "세 번째 시험은 실제 현장에서 파견 감독관의 동행 하에 3일간 치러질 것이다.",
+                "name": "감독관"
+              },
+              {
+                "image": "inspector_neutral",
+                "line": "받아라. 첫 번째 시험이다.",
+                "name": "감독관"
+              }
+            ],
+            "event": { "eventKey": "cJ89EcZyF5EHwElEGRGZ", "eventData": {"id": "test1_inspector", "data": "inspector-clue"} }
+          },
+          "post_c_repeat": {
+            "dialogue": [
+              {
+                "image": "inspector_neutral",
+                "line": "뭐지.",
+                "name": "감독관"
+              },
+              {
+                "image": "inspector_neutral",
+                "line": "정답을 알아낸게 아니면 말을 걸지말라.",
+                "name": "감독관"
+              }
+            ],
+            "event": null
+          },
+          "answer": {
+            "dialogue": [
+              {
+                "image": "inspector_smile",
+                "line": "오호. 제법이군. 정답이다.",
+                "name": "감독관"
+              },
+              {
+                "image": "inspector_smile",
+                "line": "두 번째 시험은 나를 따라오도록.",
+                "name": "감독관"
+              }
+            ],
+            "event": { "eventKey": "cJ89EcZyF5EHwElEGRGZ", "eventData": {"id": "test1_inspector", "data": "inspector-clear"} },
+            "check": "k_detective_beta.test1_newspaper"
+          }
+        },
+        "spritesheet": "inspector_sprite",
+        "scale": 1.1,
+        "anim_config": {
+          "frames": {
+            "0,4": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "x": 465,
+        "y": 445
+      },
+      {
+        "name": "???",
+        "id": "test1_applicant1",
+        "dialogue": {
+          "default": {
+            "dialogue": [
+              {
+                "image": "applicant1_neutral",
+                "line": "아...이번 탐정 시험도 낙방하는 거 아닌가. 당장 이번 달 경비는 어디서 번담.",
+                "name": "???"
+              }
+            ]
+          }
+        },
+        "spritesheet": "applicant1_sprite",
+        "scale": 4.5,
+        "anim_config": {
+          "frames": {
+            "1,4": "sigh_right"
+          },
+          "repeat": {
+            "sigh_left": true
+          },
+          "default": "sigh_right",
+          "auto_start": true
+        },
+        "clue": null,
+        "answer": null,
+        "check": null,
+        "x": 2400,
+        "y": 700
+      },
+      {
+        "name": "???",
+        "id": "test1_applicant2",
+        "dialogue": {
+          "default": {
+            "dialogue": [
+              {
+                "image": "applicant2_smile",
+                "line": "후후후 내 예감이 확실히 말해주고 있어.",
+                "name": "???"
+              },
+              {
+                "image": "applicant2_smile",
+                "line": "확실해! 붉은 마패는 여기 있어!",
+                "name": "???"
+              }
+            ]
+          }
+        },
+        "spritesheet": "applicant2_sprite",
+        "scale": 4.5,
+        "anim_config": {
+          "frames": {
+            "0,7": "searching"
+          },
+          "repeat": {
+            "searching": true
+          },
+          "default": "searching",
+          "auto_start": true
+        },
+        "clue": null,
+        "answer": null,
+        "check": null,
+        "x": 1070,
+        "y": 1755
+      },
+      {
+        "name": "???",
+        "id": "test1_applicant3",
+        "dialogue": {
+          "default": {
+            "dialogue": [
+              {
+                "image": "applicant3_think",
+                "line": "흠...붉은 마패..붉은 마패라....",
+                "name": "???"
+              }
+            ]
+          }
+        },
+        "spritesheet": "applicant3_sprite",
+        "scale": 4.5,
+        "anim_config": {
+          "frames": {
+            "0,5": "smoking"
+          },
+          "repeat": {
+            "smoking": true
+          },
+          "default": "smoking",
+          "auto_start": true
+        },
+        "clue": null,
+        "answer": null,
+        "check": null,
+        "x": 500,
+        "y": 800
+      },
+      {
+        "name": "???",
+        "id": "test1_applicant4",
+        "dialogue": {
+          "default": {
+            "dialogue": [
+              {
+                "image": "applicant4_neutral",
+                "line": "오오오 보인다!",
+                "name": "???"
+              },
+              {
+                "image": "applicant4_neutral",
+                "line": "보여..! 역시..그런 거였어!!",
+                "name": "???"
+              },
+              {
+                "image": "applicant4_neutral",
+                "line": "예? 그게 아니라구요 선생님?",
+                "name": "???"
+              },
+              "(아무래도 사건 해결을 미신에 의지하는 사람인 것 같다. 무시하고 지나가자.)"
+            ]
+          }
+        },
+        "spritesheet": "applicant4_sprite",
+        "scale": 4.5,
+        "anim_config": {
+          "frames": {
+            "0,7": "jumping"
+          },
+          "repeat": {
+            "jumping": true
+          },
+          "default": "jumping",
+          "auto_start": true
+        },
+        "clue": null,
+        "answer": null,
+        "check": null,
+        "x": 2050,
+        "y": 1200
+      },
+      {
+        "name": "???",
+        "id": "test1_applicant5",
+        "dialogue": {
+          "default": {
+            "dialogue": [
+              {
+                "image": "applicant5_sad",
+                "line": "역시 당신이 '붉은 마패' 맞잖아요!",
+                "name": "???"
+              },
+              {
+                "image": "guard_neutral",
+                "line": "거 그만두게도! 자꾸 이러면 형법에 따라 응당 값을 치르게 될 것이야!",
+                "name": "수문장"
+              }
+            ]
+          }
+        },
+        "spritesheet": "applicant5_sprite",
+        "scale": 4.5,
+        "anim_config": {
+          "frames": {
+            "0,4": "begging"
+          },
+          "repeat": {
+            "begging": true
+          },
+          "default": "begging",
+          "auto_start": true
+        },
+        "clue": null,
+        "answer": null,
+        "check": null,
+        "x": 1162,
+        "y": 1155
+      },
+      {
+        "name": "???",
+        "id": "test1_applicant6",
+        "dialogue": null,
+        "spritesheet": "applicant6_sprite",
+        "scale": 5.0,
+        "anim_config": {
+          "frames": {
+            "0,5": "throwing"
+          },
+          "repeat": {
+            "throwing": true
+          },
+          "default": "throwing",
+          "auto_start": true
+        },
+        "clue": null,
+        "answer": null,
+        "check": null,
+        "x": 1800,
+        "y": 1500
+      },
+      {
+        "name": "???",
+        "id": "test1_applicant7",
+        "dialogue": null,
+        "spritesheet": "applicant7_sprite",
+        "scale": 4.5,
+        "anim_config": {
+          "frames": {
+            "0,5": "throwing"
+          },
+          "repeat": {
+            "throwing": true
+          },
+          "default": "throwing",
+          "auto_start": true
+        },
+        "clue": null,
+        "answer": null,
+        "check": null,
+        "x": 2300,
+        "y": 1400
+      },
+      {
+        "name": "???",
+        "id": "test1_applicant8",
+        "dialogue": null,
+        "spritesheet": "applicant8_sprite",
+        "scale": 4.5,
+        "anim_config": {
+          "frames": {
+            "0,3": "praying"
+          },
+          "repeat": {
+            "praying": true
+          },
+          "default": "praying",
+          "auto_start": true
+        },
+        "clue": null,
+        "answer": null,
+        "check": null,
+        "x": 1600,
+        "y": 1780
+      },
+      {
+        "name": "신문팔이",
+        "id": "test1_newspaperstand",
+        "dialogue": {
+          "default": {
+            "dialogue": [
+              {
+                "image": "newspaper_smile1",
+                "line": "신문 사세요.",
+                "name": "???"
+              },
+              {
+                "image": "newspaper_smile1",
+                "line": "오늘자 신문 팝니다. 신문 사세요.",
+                "name": "???"
+              }
+            ],
+            "event": null
+          },
+          "answer": {
+            "dialogue": [
+              {
+                "image": "sami_sure2",
+                "line": "'붉은 마패' 한 부 주세요.",
+                "name": "사미"
+              },
+              {
+                "image": "newspaper_smile1",
+                "line": "탐정 시험 보러오셨군요.",
+                "name": "신문팔이"
+              },
+              {
+                "image": "newspaper_smile2",
+                "line": "여깄습니다. 남은 시험도 잘 보세요!",
+                "name": "신문팔이"
+              }
+            ],
+            "event": { "eventKey": "cJ89EcZyF5EHwElEGRGZ", "eventData": {"id": "test1_newspaperstand", "data": "newspaper-get"} }
+          },
+          "post_a": {
+            "dialogue": [
+              {
+                "image": "newspaper_smile1",
+                "line": "신문 사세요.",
+                "name": "신문팔이"
+              },
+              {
+                "image": "newspaper_smile1",
+                "line": "오늘자 신문 팝니다. 신문 사세요.",
+                "name": "신문팔이"
+              }
+            ],
+            "event": null
+          }
+        },
+        "spritesheet": "newspaper_sprite",
+        "scale": 4.7,
+        "anim_config": {
+          "frames": {
+            "0,2": "default"
+          },
+          "repeat": {
+            "default": true
+          },
+          "default": "default",
+          "auto_start": true
+        },
+        "clue": null,
+        "answer": {
+          "name": "신문",
+          "id": "k_detective_beta.test1_newspaper",
+          "descript": "오늘자 제국익문사 신문이자, '붉은 마패'이다",
+          "texture": "newspaper.png"
+        },
+        "check": null,
+        "x": 2350,
+        "y": 930
+      }
+    ],
+    "item_json": [
+      {
+        "name": "small_roof",
+        "id": "test1_item0",
+        "x": 543,
+        "y": 938,
+        "scale": 1,
+        "depth_config": { "constant": false, "default": 10 },
+        "body_config": { "width": 30, "height": 30, "offSet": { "x": 15, "y": 30 } },
+        "texture": "small_roof",
+        "interact": null
+      }
+    ]
+  },
+  "Test2": {
+    "npc_json": [
+      {
+        "name": "박유신",
+        "id": "test2_suspect1",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "suspect1_neutral",
+                  "line": "박유신에게 질문을 해보자.",
+                  "name": "박유신"
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "suspect1_neutral",
+                "line": "저는 오늘 돈 문제로 얘기할 게 있어서 철수네 집에 왔어요.",
+                "name": "박유신"
+              },
+              {
+                "image": "suspect1_neutral",
+                "line": "오래 있지는 않았습니다. 아마 1시간도 안돼서 떠난 걸로 기억합니다.",
+                "name": "박유신"
+              }
+            ],
+            "event": {"eventKey": "test2-event-timelineUpdate", "eventData": {"id": "test2_suspect1", "data": "suspect1-time"}}
+          },
+          "answer-fight": {
+            "dialogue": [
+              {
+                "image": "suspect1_neutral",
+                "line": "철수랑 얘기를 하다가 몸싸움이 좀 있었던 건 사실입니다.",
+                "name": "박유신"
+              },
+              {
+                "image": "suspect1_neutral",
+                "line": "하지만 심하게 싸운 건 아니었어요.",
+                "name": "박유신"
+              },
+              {
+                "image": "suspect1_neutral",
+                "line": "서로 멱살 정도만 잡았는데, 그 정도는 평소에도 으레 있는 일이었어요.",
+                "name": "박유신"
+              },
+              "오히려 오늘은 철수가 평소보다 피곤해보여서 일찍 떠났다고요!"
+            ],
+            "event": {"eventKey": "WIN3vIY76B5ZHa13x70c", "eventData": {"id": "test2_suspect1", "data": "suspect1-fight"}}
+          },
+          "answer-coffee": {
+            "dialogue": [
+              {
+                "image": "sami_neutral",
+                "line": "박유신씨, 커피를 대접받았을 때 두 분 중 냉커피를 마신 분이 있습니까?",
+                "name": "사미"
+              },
+              {
+                "image": "suspect1_neutral",
+                "line": "네, 철수가 냉커피를 마셨습니다. 항상 몸에 열이 많아서 따뜻한 건 자기랑 잘 안 맞는다고 했어요.",
+                "name": "박유신"
+              }
+            ],
+            "event": {"eventKey": "YPnEQwKAwueWEzSmpRdF", "eventData": {"id": "test2_suspect1", "data": "suspect1-coffee"}}
+          },
+          "suspicion.test2_suspect2": {
+            "dialogue": [
+              {
+                "image": "suspect1_neutral",
+                "line": "당연히 저 동생이란 놈이겠죠.",
+                "name": "박유신"
+              },
+              {
+                "image": "suspect1_neutral",
+                "line": "제 주변에서도 가족끼리 싸우는 가장 큰 이유가 뭔지 아세요? 다 돈이에요, 돈.",
+                "name": "박유신"
+              },
+              {
+                "image": "suspect1_neutral",
+                "line": "말로만 우애 다지기야 쉽죠. 그래봤자 돈 앞에서는 가족도 변절하는게 사람입니다.",
+                "name": "박유신"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "이 양아치가! 날 너 같은 인륜을 우습게 아는 놈이랑 동급으로 취급하지마! 너나 사람 죽이는게 우습겠지!",
+                "name": "김현수"
+              }
+            ],
+            "event": {"eventKey": "suspicion", "eventData": {"id": "test2_suspect1", "data": "suspect1-suspicion.test2_suspect2"}}
+          },
+          "refusal": {
+            "dialogue": [
+              {
+                "image": "suspect1_neutral",
+                "line": "뭐죠? 이미 저를 범인으로 확신하시는 모양인데 더 물을 것이 있습니까?",
+                "name": "박유신"
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-default": {
+            "answer": "피해자를 방문한 시간에 대해",
+            "to": "answer-time"
+          },
+          "option-fight": {
+            "answer": "싸움에 대해",
+            "to": "answer-fight"
+          },
+          "option-coffee": {
+            "answer": "커피에 대해",
+            "to": "answer-coffee"
+          },
+          "option-suspicion": {
+            "answer": "(의심 가는 사람 지목하기)",
+            "to": "suspicion.test2_suspect2"
+          }
+        },
+        "spritesheet": "suspect1_sprite",
+        "scale": 1.5,
+        "anim_config": {
+          "frames": {
+            "1,4": "left",
+            "5,8": "back",
+            "9,12": "front",
+            "13,16": "right"
+          },
+          "repeat": {
+            "left": false,
+            "back": false,
+            "front": true,
+            "right": false
+          },
+          "default": null,
+          "auto_start": false
+        },
+        "clue": {},
+        "answer": null,
+        "check": null,
+        "x": 623,
+        "y": 1150
+      },
+      {
+        "name": "김현수",
+        "id": "test2_suspect2",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "suspect2_neutral",
+                  "line": "김현수에게 질문을 해보자.",
+                  "name": "김현수"
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "suspect2_neutral",
+                "line": "저는 방금 이 집에 왔습니다.",
+                "name": "김현수"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "제가 방문을 열자마자 형님이 이미 돌아가신 걸 발견했습니다.",
+                "name": "김현수"
+              }
+            ],
+            "event": {"eventKey": "test2-event-timelineUpdate", "eventData": {"id": "test2_suspect2", "data": "suspect2-time"}}
+          },
+          "answer-heritage": {
+            "dialogue": [
+              {
+                "image": "suspect2_neutral",
+                "line": "윽, 그건..",
+                "name": "김현수"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "..부모님이 장남이란 이유로 형님에게만 거의 모든 유산을 물려주신 건 사실입니다.",
+                "name": "김현수"
+              },
+              {
+                "image": "sami_sus",
+                "line": "심지어 경제관념 없이 돈을 펑펑 쓰기만 하니 불만이 상당했을 것 같군요.",
+                "name": "사미"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "그걸 그렇게 딱 짚어서 말씀하시니 변명할 수도 없네요..",
+                "name": "김현수"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "인정하겠습니다. 형님에게만 유산을 물려준 부모님도, 그 유산을 여흥에만 낭비하는 형님도 모두 원망스러웠습니다.",
+                "name": "김현수"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "하지만 그 돈이 형님의 목숨값보다 중하지는 않았습니다! 형님을 해쳐서 나오는 돈이라면 안 받느니만 못 합니다!",
+                "name": "김현수"
+              }
+            ],
+            "event": {"eventKey": "test2-event-heritage", "eventData": {"id": "test2_suspect2", "data": "suspect2-heritage"}}
+          },
+          "answer-suspect3": {
+            "dialogue": [
+              {
+                "image": "sami_neutral",
+                "line": "듣자하니 안연정씨가 이 집에서 굉장히 오랜 시간 일하신 것 같습니다.",
+                "name": "사미"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "아무래도 저희 어릴 때 들어오셔서 부모님부터 모시기 시작했으니까요.",
+                "name": "김현수"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "안연정씨가 피해자와 과거에 갈등이 있었던 적이 있나요?",
+                "name": "사미"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "네? 아뇨, 그럴리가요. 저희도 어릴 때부터 안연정씨를 잘 따랐고, 부모님도 항상 안연정씨의 능력을 높이 샀는걸요.",
+                "name": "김현수"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "안연정씨만큼 성실하고, 훌륭한 분을 가정부로 둘 수 있다는게 얼마나 행운인데요.",
+                "name": "김현수"
+              }
+            ],
+            "event": {"eventKey": "tLJfpFrSVAq5O1sGNs8I", "eventData": {"id": "test2_suspect2", "data": "suspect2-suspect3"}}
+          },
+          "suspicion.test2_suspect1": {
+            "dialogue": [
+              {
+                "image": "suspect2_neutral",
+                "line": "저는 역시 저 박유신이라는 양아치가 가장 수상합니다.",
+                "name": "김현수"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "형님도 본래 이렇게 여흥에 돈을 낭비하는 분이 아니셨습니다.",
+                "name": "김현수"
+              },
+              {
+                "image": "suspect2_neutral",
+                "line": "그런데 어느날부터 저 박유신이란 작자와 어울리기 시작하더니 나쁜 물이 들어서 이 지경까지 되었습니다.",
+                "name": "김현수"
+              },
+              {
+                "image": "suspect1_neutral",
+                "line": "너네 그 잘난 형님이 노는 모습을 직접 봤으면 그런 소리는 입 밖에도 못 내밀텐데!",
+                "name": "박유신"
+              },
+              {
+                "image": "suspect1_neutral",
+                "line": "자기 손으로 가산 말아먹은 것도 내 탓이고, 이제는 너네 형님 죽음까지 내 탓이다!",
+                "name": "박유신"
+              }
+            ],
+            "event": { "eventKey": "suspicion", "eventData": {"id": "test2_suspect2", "data": "suspect1-suspicion.test2_suspect1"}}
+          },
+          "refusal": {
+            "dialogue": [
+              {
+                "image": "suspect2_neutral",
+                "line": "저 양아치의 말을 믿으시는 겁니까? 제가 형님을 죽였다고?!",
+                "name": "김현수"
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-default": {
+            "answer": "피해자를 방문한 시간에 대해",
+            "to": "answer-time"
+          },
+          "option-heritage": {
+            "answer": "유산에 대해",
+            "to": "answer-heritage"
+          },
+          "option-suspect3": {
+            "answer": "안연정에 대해",
+            "to": "answer-suspect3"
+          },
+          "option-suspicion": {
+            "answer": "(의심 가는 사람 지목하기)",
+            "to": "suspicion.test2_suspect1"
+          }
+        },
+        "spritesheet": "suspect2_sprite",
+        "scale": 1.5,
+        "anim_config": {
+          "frames": {
+            "1,4": "left",
+            "5,8": "back",
+            "9,12": "front",
+            "13,16": "right"
+          },
+          "repeat": {
+            "left": false,
+            "back": false,
+            "front": true,
+            "right": false
+          },
+          "default": null,
+          "auto_start": false
+        },
+        "clue": {},
+        "answer": null,
+        "check": null,
+        "x": 880,
+        "y": 1150
+      },
+      {
+        "name": "안연정",
+        "id": "test2_suspect3",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "suspect3_neutral",
+                  "line": "안연정에게 질문을 해보자.",
+                  "name": "안연정"
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "suspect3_neutral",
+                "line": "저는 오늘 오전에 친구분이 오셨을 때 커피를 내려 방에 들인 것 빼고는 서재에 들어간 적이 없습니다.",
+                "name": "안연정"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "박유신씨가 떠난 뒤에도요?",
+                "name": "사미"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "네. 박유신씨가 집까지 와서 좋았던 적이 거의 없다보니, 굳이 도련님 기분이 안 좋을 때 마주치고 싶지 않았거든요..",
+                "name": "안연정"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "박유신씨가 방문하시는 동안 수상한 점은 없었습니까?",
+                "name": "사미"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "그러고보니 두 분이 싸우는 소리가 서재 밖까지 들렸습니다!",
+                "name": "안연정"
+              }
+            ],
+            "event": {"eventKey": "WIN3vIY76B5ZHa13x70c", "eventData": {"id": "test2_suspect3", "data": "suspect3-time"}}
+          },
+          "answer-record": {
+            "dialogue": [
+              {
+                "image": "sami_neutral",
+                "line": "집안 장부를 봤습니다. 안연정씨 이름이 오래 전 사용인 기록에도 나와있더군요.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "이 집에서 오랫동안 근무하신 것 같습니다.",
+                "name": "사미"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "맞습니다. 도련님들이 어릴 때부터 이 집안을 관리해왔습니다.",
+                "name": "안연정"
+              }
+            ],
+            "event": null
+          },
+          "answer-pay": {
+            "dialogue": [
+              {
+                "image": "sami_neutral",
+                "line": "장부에서 한 가지 이상한 점을 봤었습니다.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "몇 년간 꾸준히 있었던 사용인들에 대한 기록이 최근 들어서 점점 줄어들었어요.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "아마 피해자가 금전 문제가 생기면서 집안 살림을 줄이려고 사용인들을 정리하면서 그렇게 된 것 같은데,",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "어느 순간부터는 사용인 기록이 아예 없어졌습니다.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "이 집안에서 남은 사용인은 안연정씨뿐이라 기록이 누락된 거라고 생각할 수도 있지만,",
+                "name": "사미"
+              },
+              {
+                "image": "sami_sus",
+                "line": "저는 당신이 오랫동안 임금을 받지 못 했기 때문에 기록에 없는 것이라고 생각됩니다.",
+                "name": "사미"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "그걸 어떻게..!",
+                "name": "안연정"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "네, 맞아요. 몇 달 간 급여를 받지 못 하고 있습니다.",
+                "name": "안연정"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "설마 그것 때문에 저를 의심하시는 건 아니죠?",
+                "name": "안연정"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "주인님을 죽인다고 없던 돈이 생기는 것도 아닌데 제가 왜 그런 짓을 하겠습니까?",
+                "name": "안연정"
+              }
+            ],
+            "event": {"eventKey": "tLJfpFrSVAq5O1sGNs8I", "eventData": {"id": "test2_suspect3", "data": "suspect3-pay"}}
+          },
+          "answer-suspect2": {
+            "dialogue": [
+              {
+                "image": "sami_neutral",
+                "line": "이 집에서 오래 일하셨으니 피해자와 동생분인 김현수씨에 대해서도 잘 아시겠군요.",
+                "name": "사미"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "그럼요! 어릴 때부터 봐온 사이인걸요.",
+                "name": "안연정"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "김현수씨와 피해자의 사이는 생전에 어땠나요?",
+                "name": "사미"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "어릴 때부터 우애가 좋은 형제였어요. 최근 유산 문제 때문에 사이가 틀어지시긴 했지만..",
+                "name": "안연정"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "그것 때문에 두 분이 갈라진게 안타까워요.",
+                "name": "안연정"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "전 주인분들도 너무하시지. 현수 도련님이 가업을 이어받으려고 얼마나 성실하게 노력하셨는지 아시면서, 장남이란 이유로 모든 걸 주인님에게 물려주시고..",
+                "name": "안연정"
+              }
+            ],
+            "event": {"eventKey": "test2-event-heritage", "eventData": {"id": "test2_suspect3", "data": "suspect3-suspect2"}}
+          },
+          "suspicion.test2_suspect1": {
+            "dialogue": [
+              {
+                "image": "suspect3_neutral",
+                "line": "제가 감히 누군가를 범인으로 몰 자격이 있는지 모르겠으나",
+                "name": "안연정"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "굳이 지목한다면 역시 저 친구라는 자겠지요.",
+                "name": "안연정"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "서재에서 단둘이 있을 때 싸우는 소리가 나지않았습니까?",
+                "name": "안연정"
+              },
+              {
+                "image": "suspect3_neutral",
+                "line": "그리고 저 자를 만나고부터 주인님이 망가져가는 모습을 직접 본 입장에서 됨됨이를 전혀 믿을 수 없는 자입니다.",
+                "name": "안연정"
+              },
+              {
+                "image": "suspect1_neutral",
+                "line": "뭐야? 이 아녀자가 뭣도 모르면서 무슨 소리를 지껄이는 거야?!",
+                "name": "박유신"
+              }
+            ],
+            "event": { "eventKey": "suspicion", "eventData": {"id": "test2_suspect3", "data": "suspect3-suspicion.test2_suspect1"}}
+          }
+        },
+        "options_config": {
+          "option-default": {
+            "answer": "피해자를 방문한 시간에 대해",
+            "to": "answer-time"
+          },
+          "option-record": {
+            "answer": "가계장부에 대해",
+            "to": "answer-record"
+          },
+          "option-pay": {
+            "answer": "가계장부에 대해",
+            "to": "answer-pay"
+          },
+          "option-suspect2": {
+            "answer": "김현수에 대해",
+            "to": "answer-suspect2"
+          },
+          "option-suspicion": {
+            "answer": "(의심 가는 사람 지목하기)",
+            "to": "suspicion.test2_suspect1"
+          }
+        },
+        "spritesheet": "suspect3_sprite",
+        "scale": 1.5,
+        "anim_config": {
+          "frames": {
+            "1,4": "left",
+            "5,8": "back",
+            "9,12": "front",
+            "13,16": "right"
+          },
+          "repeat": {
+            "left": false,
+            "back": false,
+            "front": true,
+            "right": false
+          },
+          "default": null,
+          "auto_start": false
+        },
+        "clue": {},
+        "answer": null,
+        "check": null,
+        "x": 1140,
+        "y": 1150
+      }
+    ],
+    "item_json": [
+      {
+        "name": "body",
+        "id": "test2_item0",
+        "x": 802,
+        "y": 460,
+        "scale": 2,
+        "depth_config": { "constant": false, "default": 5 },
+        "body_config": { "width": 100, "height": 51, "offSet": { "x": 16, "y": 11 } },
+        "texture": "deadbody",
+        "interact": {
+          "read": {
+            "type": "read",
+            "dialogue": [
+              "진짜 시신 대신 짚으로 만든 모형이 누워있다.",
+              "자세로 보아 의자에서 일어나려다 그대로 쓰러진 것 같다.",
+              "모형에 붙어있는 종이에 시신에 대한 간단한 조사 내용들이 정리되어 있다.",
+              "「자잘한 멍과 찰과상이 전신에 있으며,」",
+              "「두부에 큰 충격을 받은 흔적이 있으나 규모가 작아 사인으로 보기에는 다소 무리가 있다.」",
+              "「그 이외의 치명적인 외상은 없다.」",
+              "「양쪽 눈에 핏발이 심하며, 입안이 말라있다.」"
+            ],
+            "event": { "eventKey": "WIN3vIY76B5ZHa13x70c", "eventData": {"id": "test2_item0", "data": "item0-read"} }
+          }
+        }
+      },
+      {
+        "name": "book",
+        "id": "test2_item1",
+        "x": 876,
+        "y": 551,
+        "scale": 2,
+        "depth_config": { "constant": false, "default": 10 },
+        "body_config": { "width": 288, "height": 80, "offSet": { "x": 0, "y": 18 } },
+        "texture": "deskbook",
+        "interact": {
+          "read": {
+            "type": "read",
+            "dialogue": [
+              "책상 위에 서류가 흩어져있다.",
+              "이것저것 들춰보다 익숙한 이름이 적혀있는 서류를 하나 발견했다.",
+              {
+                "image": "sami_neutral",
+                "line": "「상속세과세자진신고서」?",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "부모님이 돌아가시면서 이 집을 포함해서 집안에서 운영하던 사업의 경영권에, 고향의 선산 토지랑 관리권까지",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "이 정도면 집안의 모든 주요 재산은 다 물려받았는데.",
+                "name": "사미"
+              },
+              "책상에서 관련 자료를 더 찾아보니 유언장이 나왔다.",
+              "역시나 집안의 거의 모든 재산은 장남인 피해자에게 증여되었고, 차남인 김현수에게는 현금 약간만이 주어졌다."
+            ],
+            "event": { "eventKey": "test2-event-heritage", "eventData": {"id": "test2_item1", "data": "item1-read"}}
+          }
+        }
+      },
+      {
+        "name": "bookshelf",
+        "id": "test2_item2",
+        "x": 875,
+        "y": 220,
+        "scale": 2,
+        "depth_config": { "constant": true, "default": 5 },
+        "body_config": null,
+        "texture": "bookshelf",
+        "interact": {
+          "read": {
+            "type": "read",
+            "dialogue": [
+              "책장에 여러 종류의 책이 꽂혀있다.",
+              "가지런하게 정리되어 있는 집안 가계장부가 눈에 들어온다.",
+              "유복한 집안답게 초반에는 장부에서 문제를 찾아볼 수 없다.",
+              {
+                "image": "sami_neutral",
+                "line": "옛날 사용인 기록에도 안연정의 이름이 있잖아?",
+                "name": "사미"
+              },
+              "몇 년 전 기록부터 등장하는 걸로 보아 안연정은 이 집에서 굉장히 오랫동안 근무한 것 같다.",
+              "최근 기록으로 오면서 전체적인 지출이 점점 줄어들고, 사용인 기록이 아예 없어지기 전까지 안연정의 이름은 꾸준히 장부에 기록되어 있다.",
+              {
+                "image": "sami_neutral",
+                "line": "이때부터 친구라는 박유신과 돈 문제가 생기기 시작하는 거겠지.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "살림을 정리하면서 안연정을 제외한 사용인들은 모두 내보낸 모양이야.",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "가구나 미술품을 판 기록도 있네.",
+                "name": "사미"
+              }
+            ],
+            "event": { "eventKey": "tLJfpFrSVAq5O1sGNs8I", "eventData": {"id": "test2_item2", "data": "item2-read"}}
+          }
+        }
+      },
+      {
+        "name": "coffee",
+        "id": "test2_item3",
+        "x": 875,
+        "y": 825,
+        "scale": 2,
+        "depth_config": { "constant": true, "default": 15 },
+        "body_config": null,
+        "texture": "tea",
+        "interact": {
+          "read": {
+            "type": "read",
+            "dialogue": [
+              "방 한가운데에 탁자가 놓여있다.",
+              "손님들을 맞이하고 음료 같은 걸 대접하는 자리인 것 같다.",
+              {
+                "image": "sami_neutral",
+                "line": "저 커피 주전자는 박유신씨가 방문했을 때 내놓은 거겠군.",
+                "name": "사미"
+              },
+              "한 쪽 잔에는 다 식은 커피가 남아있고 한 쪽 잔에는 커피가 거의 남아있지 않다.",
+              {
+                "image": "sami_neutral",
+                "line": "비어있는 쪽 잔에만 결로가 있잖아?",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "한 명은 냉커피를, 다른 한 명은 따뜻한 커피를 마신건가?",
+                "name": "사미"
+              }
+            ],
+            "event": { "eventKey": "YPnEQwKAwueWEzSmpRdF", "eventData": {"id": "test2_item3", "data": "item3-read"}}
+          }
+        }
+      },
+      {
+        "name": "sofa",
+        "id": "test2_item4",
+        "x": 875,
+        "y": 841,
+        "scale": 2,
+        "depth_config": { "constant": false, "default": 10 },
+        "body_config": { "width": 588, "height": 125, "offSet": { "x": 0, "y": 80 } },
+        "texture": "sofa",
+        "interact": null
+      },
+      {
+        "name": "table",
+        "id": "test2_item5",
+        "x": 875,
+        "y": 851,
+        "scale": 2,
+        "depth_config": { "constant": false, "default": 10 },
+        "body_config": { "width": 20, "height": 10, "offSet": { "x": 0, "y": 50 } },
+        "texture": "table",
+        "interact": null
+      }
+    ]
+  },
+  "Village": {
+    "npc_json": [
+      {
+        "name": "김정숙 양 어머니",
+        "id": "test3_missing1mom",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "missing1mom_worry",
+                  "line": "김정숙 양 어머니에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "missing1mom_worry",
+                "line": "오늘 학교 끝나고 집에 돌아와서..."
+              },
+              "(하교 후 13:00 이후)",
+              {
+                "image": "missing1_smile",
+                "line": "다녀왔습니다~",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1mom_neutral",
+                "line": "왔니. 오빠한테도 인사해라."
+              },
+              {
+                "image": "missing1bro_smile1",
+                "line": "정숙이 오랜만이네~"
+              },
+              {
+                "image": "missing1_surprise",
+                "line": "어..",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1mom_neutral",
+                "line": "마침 잘됐다. 너 저번에도 수학 숙제 안 해가서 혼났지. 오빠가 이참에 정숙이 숙제하는 것 좀 봐줘라."
+              },
+              {
+                "image": "missing1_angry",
+                "line": "뭐? 싫어!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1mom_angry",
+                "line": "이 녀석이! 또 숙제 안 해가서 선생님한테 혼나고 싶어?"
+              },
+              {
+                "image": "missing1_angry",
+                "line": "오늘은 수학 숙제 없어!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1mom_neutral",
+                "line": "그래? 그럼 선자 엄마한테 물어봐도 없다고 하겠네?"
+              },
+              {
+                "image": "missing1_surprise",
+                "line": "윽..",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1mom_angry",
+                "line": "그럴 줄 알았어! 맨날 모험이랍시고 산이며 들이며 쏘다니니까 숙제를 못 하는 거 아냐?!"
+              },
+              {
+                "image": "missing1mom_angry",
+                "line": "어휴, 선자 반만이라도 닮아봐라. 그렇게 붙어다니는 동안 그런 거 닮을 생각은 하지도 않았어?"
+              },
+              {
+                "image": "missing1mom_angry",
+                "line": "빨리 교과서 가져와서 펴! 앞으로는 숙제 다 하기 전까지는 놀라나가는 거 금지야!"
+              },
+              {
+                "image": "missing1_angry",
+                "line": "힝..",
+                "name": "김정숙 양"
+              },
+              "그렇게 큰애한테 애를 맡기고 저는 일하러 나갔어요. 그게 제가 기억하는 정숙이의 마지막 모습이에요..",
+              {
+                "image": "missing1mom_worry",
+                "line": "산이라도 들어갔다가 다친 건 아닌지..제발 무사했으면 좋겠어요.."
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_missing1mom", "data": "missing1mom-time"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "missing1mom_neutral",
+                "line": "우리 딸이 여간 활발한게 아니라, 평소에도 들이나 산에 쏘다니다가 다쳐서 오는 일이 종종 있었거든요."
+              },
+              {
+                "image": "missing1mom_worry",
+                "line": "이번에는 산에 들어갔다가 너무 심하게 다쳐서 못 돌아오고 있는 거 아닐까요..?"
+              },
+              {
+                "image": "missing1mom_worry",
+                "line": "만약 그런거면....아이고, 이를 어째..다쳐가지고 움직이지도 못 하면..곧 어두워질텐데.."
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "김정숙 양을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "missing1mom_sprite",
+        "scale": 10,
+        "anim_config": {
+          "frames": {
+            "0,1": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "check": null,
+        "x": 950,
+        "y": 850
+      },
+      {
+        "name": "김정숙 양 오빠",
+        "id": "test3_missing1bro",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "missing1bro_worry",
+                  "line": "김정숙 양 오빠에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "missing1bro_worry",
+                "line": "오늘 대학교 기숙사에 있다가 오랜만에 집에 왔어요."
+              },
+              {
+                "image": "missing1bro_worry",
+                "line": "오전 중에 도착해서 짐을 다 풀고 점심 먹고나니까 막내가 학교에서 돌아왔고, 마침 어머니가 공부를 좀 봐달라고 해서 그 뒤로 막내 공부를 봐줬어요."
+              },
+              "(15:00 가량)",
+              {
+                "image": "missing1bro_smile1",
+                "line": "자, 이제 차근차근 혼자서 풀어봐."
+              },
+              {
+                "image": "missing1_angry",
+                "line": "몰라, 하나도 모르겠는데 어떻게 풀어.",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1bro_smile1",
+                "line": "아니야. 정숙이도 차근차근 하다보면 혼자서 풀 수 있어. 잘 봐, 여기 있는 x를 하나씩 왼쪽으로 옮겨.."
+              },
+              {
+                "image": "missing1_angry",
+                "line": "몰라, 몰라! 오빠나 알지 그런 거 내가 어떻게 알아! 아까부터 자꾸 모르겠다고 말하는데 뭘 자꾸 알겠다는 거야!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1_cry",
+                "line": "그렇게 잘 알면 오빠나 이런 거 많이 해! 흐아아아앙!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1_cry",
+                "line": "오빠 미워! 오빠 때문에 나는 친구들 보러 가지도 못 하고. 오빠 때문에 내가 친구들이랑 약속 못 지키면 좋겠어?!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1_cry",
+                "line": "흐아아아아아아앙!!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1bro_surprise",
+                "line": "어.."
+              },
+              {
+                "image": "missing1bro_smile2",
+                "line": "그래, 공부도 하기 싫은데 너무 억지로 하면 안되지. 오늘은 이만 쉬고 내일 다시 이어서 공부하자."
+              },
+              "어찌나 서럽게 울던지..막내가 그렇게 우는 건 처음 봤어요.."
+            ],
+            "event": {"eventKey": "test3-event-promise", "eventData": {"id": "test3_missing1bro", "data": "missing1bro-time"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "missing1bro_smile1",
+                "line": "음..제 생각에는 친구들이랑 놀다가 길을 잃은게 아닐까 싶어요. 어릴 때부터 이 동네를 휘어잡던 골목대장이라."
+              },
+              {
+                "image": "missing1bro_worry",
+                "line": "그래도 저녁시간 넘어서까지 늦은 적은 없는데.."
+              },
+              {
+                "image": "missing1bro_worry",
+                "line": "혹시 아까 억지로 공부를 시킨게 서러워서 집에 들어오고 싶어하지 않은 걸 수도.."
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "김정숙 양을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "missing1bro_sprite",
+        "scale": 10,
+        "anim_config": {
+          "frames": {
+            "0,5": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "check": null,
+        "x": 710,
+        "y": 230
+      },
+      {
+        "name": "김정숙 양 언니",
+        "id": "test3_missing1sis",
+        "dialogue": {
+          "post_c_repeat": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "missing1sis_neutral",
+                  "line": "김정숙 양 언니에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer": {
+            "dialogue": [
+              {
+                "image": "missing1sis_neutral",
+                "line": "'전등이랑 기름, 양초, 밧줄'. 맨 아래는 화살표하고 뭐지? '절대..잊지 말어..?'"
+              },
+              {
+                "image": "missing1sis_surprise",
+                "line": "아..!"
+              },
+              {
+                "image": "missing1sis_surprise",
+                "line": "그러고보니 정숙이가 부엌에서 뒤지던 찬장이 양초를 보관하던 찬장이었어요!"
+              },
+              {
+                "image": "missing1sis_sus",
+                "line": "그치만..양초로 뭘 하려던 거지? 이 물건들은 다 뭐고.."
+              }
+            ],
+            "check": "k_detective_beta.test3_note",
+            "event": {"eventKey": "test3-event-promise", "eventData": {"id": "test3_missing1sis", "data": "missing1sis-answer"}}
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "missing1sis_neutral",
+                "line": "제가 김정숙을 본 건 오후 3시 15분쯤이었어요. 밭을 메고 잠깐 물 마시러 부엌에 들어왔는데.."
+              },
+              "(15:15 가량)",
+              {
+                "image": "missing1sis_neutral",
+                "line": "너 거기서 뭐해?"
+              },
+              {
+                "image": "missing1_surprise",
+                "line": "헉!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1sis_sus",
+                "line": "거긴 왜 뒤지는거야?"
+              },
+              {
+                "image": "missing1sis_sus",
+                "line": "너, 솔직하게 말해. 이번에 또 무슨 말썽을 피우려고?"
+              },
+              {
+                "image": "missing1_surprise",
+                "line": "아, 아무것도 아니야!",
+                "name": "김정숙 양"
+              },
+              "부엌 찬장을 뒤지고 있는 걸 걸렸더니 그대로 도망갔어요.",
+              {
+                "image": "missing1sis_sus",
+                "line": "오빠한테 들어보니까 무슨 친구랑 약속이 있다고 공부하다 내뺐다고 하던데, 대체 무슨 일을 하려던 건지."
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_missing1sis", "data": "missing1sis-time"}}
+          },
+          "answer-adventure": {
+            "dialogue": [
+              {
+                "image": "missing1sis_sus",
+                "line": "그러고보니 일주일 전인가, 장작을 주우러 산을 올랐는데,"
+              },
+              {
+                "image": "missing1sis_sus",
+                "line": "좀 깊은 산 속에 못 보던 동굴이 있는 걸 발견했어요. 신기해서 그 날 저녁을 먹으면서 얘기했더니.."
+              },
+              {
+                "image": "missing1sis_surprise",
+                "line": "정숙이가 엄청 캐물어서 위치를 알려줬어요!"
+              },
+              {
+                "image": "missing1sis_surprise",
+                "line": "정숙이가 탐험을 하러 갔다면 거기 밖에 없어요!"
+              }
+            ],
+            "event": {"eventKey": "5pSYFHRok3Es4xw6XWcC", "eventData": {"id": "test3_missing1sis", "data": "missing1sis-adventure"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "missing1sis_sus",
+                "line": "..솔직히 말씀 드려도 될까요?"
+              },
+              {
+                "image": "missing1sis_sus",
+                "line": "제 동생이지만 김정숙은 다들 알아주는 천둥벌거숭이거든요."
+              },
+              {
+                "image": "missing1sis_sus",
+                "line": "부엌에서 뭘 뒤지고 있던 것도 그렇고 분명히 무슨 꿍꿍이가 있는게 분명해요."
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "김정숙 양을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "missing1sis_sprite",
+        "scale": 10,
+        "anim_config": {
+          "frames": {
+            "0,5": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "check": null,
+        "x": 2080,
+        "y": 600
+      },
+      {
+        "name": "박선자 양 어머니",
+        "id": "test3_missing2mom",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "missing2mom_worry",
+                  "line": "박선자 양 어머니에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "missing2mom_worry",
+                "line": "학교 끝나고 같이 논에서 일하고 있었는데.."
+              },
+              "(하교 후 13:00 이후)",
+              {
+                "image": "missing2_pain",
+                "line": "아야!",
+                "name": "박선자 양"
+              },
+              {
+                "image": "missing2mom_surprise1",
+                "line": "왜 그래! 어디 다쳤어?"
+              },
+              {
+                "image": "missing2_pain",
+                "line": "발바닥을 돌부리에 베인 것 같애. 집에 가서 약 바르고 올게.",
+                "name": "박선자 양"
+              },
+              {
+                "image": "missing2mom_neutral",
+                "line": "정말? 어디봐, 심하게 다쳤어?"
+              },
+              {
+                "image": "missing2_surprise",
+                "line": "응? 아냐아냐, 집에 가서 약만 좀 바르면 나을거야.",
+                "name": "박선자 양"
+              },
+              {
+                "image": "missing2mom_neutral",
+                "line": "봐봐, 발바닥이면 많이 아플텐데 엄마가 도와줄게."
+              },
+              {
+                "image": "missing2_surprise",
+                "line": "아냐아냐, 진짜 괜찮아.",
+                "name": "박선자 양"
+              },
+              {
+                "image": "missing2_pain",
+                "line": "아, 아이고, 배야~ 배가 갑자기 아프네~ 나 변소 좀 가야겠다! 갈게!",
+                "name": "박선자 양"
+              },
+              {
+                "image": "missing2mom_surprise1",
+                "line": "응? 선자야! 선자야!"
+              },
+              "그리고 쏜살같이 집으로 달려갔어요.",
+              {
+                "image": "missing2mom_worry",
+                "line": "논으로 돌아오진 않았지만 알아서 약 바르고 집에서 쉬고 있겠거니, 했는데..어째서 이런 일이..!"
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_missing2mom", "data": "missing2mom-time"}}
+          },
+          "answer-friendship": {
+            "dialogue": [
+              {
+                "image": "missing2mom_smile",
+                "line": "둘이 아주 죽고는 못 사는 사이였죠."
+              },
+              {
+                "image": "missing2mom_smile",
+                "line": "며칠 전에 정숙이가 놀러왔을 때는 서로 '의자매'까지 맺은 모양이에요."
+              },
+              "(며칠 전)",
+              {
+                "image": "missing1_smile",
+                "line": "자, 이게 우리 맹세의 증표야. 이제부터 우리는 의자매야! 그러니까 어딜 가든 함께 가고, 서로에게 비밀도 만들지 않는 거야.",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1_smile",
+                "line": "그리고, 서로보다 더 친한 친구도 만들지 않는 거야! 평생 우리끼리 제일 친한 친구인 거야!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing1_smile",
+                "line": "약속!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing2_smile",
+                "line": "응, 약속!",
+                "name": "박선자 양"
+              },
+              "애들은 정말 귀엽게 놀지 않아요?"
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_missing2mom", "data": "missing2mom-friendship"}}
+          },
+          "answer-adventure": {
+            "dialogue": [
+              {
+                "image": "missing2mom_surprise2",
+                "line": "'탐험'..탐....아!"
+              },
+              {
+                "image": "missing2mom_surprise2",
+                "line": "며칠 전에 정숙이가 놀러왔을 때 둘이 의자매를 맺었다고 했었죠."
+              },
+              {
+                "image": "missing2mom_surprise2",
+                "line": "의자매를 맺게 된 이유가 기억 났어요!"
+              },
+              {
+                "image": "missing1_smile",
+                "line": "첫 탐험과 앞으로의 무수히 많은 탐험들에서",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing2_smile",
+                "line": "의자매로서 항상 함께할 것을 기원하며!",
+                "name": "박선자 양"
+              },
+              "정확히 무슨 내용이 오갔는지는 기억이 안 나지만, 둘이 무슨, 어디를 탐험하러가기 전에 의자매를 맺는다고, 그래서 의자매를 맺었어요!"
+            ],
+            "event": {"eventKey": "5pSYFHRok3Es4xw6XWcC", "eventData": {"id": "test3_missing2mom", "data": "missing2mom-adventure"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "missing2mom_worry",
+                "line": "전..정말 모르겠어요..부모 속 한 번 썩인 적 없는 애가.."
+              },
+              {
+                "image": "missing2mom_worry",
+                "line": "그렇게 급하게 집으로 간 이유도 모르겠고, 갑자기 어디로 간 건지도 모르겠고."
+              },
+              {
+                "image": "missing2mom_worry",
+                "line": "어디서 해코지 당하고 있는 건 아니겠죠..?"
+              },
+              {
+                "image": "missing2mom_sad",
+                "line": "제발 무사하기만 했으면.."
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "박선자 양을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "option-friendship": {
+            "answer": "박선자 양과 김정숙 양의 친분에 대하여",
+            "to": "answer-friendship"
+          },
+          "option-adventure": {
+            "answer": "'탐험'에 대하여",
+            "to": "answer-adventure"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "missing2mom_sprite",
+        "scale": 10,
+        "anim_config": {
+          "frames": {
+            "0,2": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "check": null,
+        "x": 910,
+        "y": 870
+      },
+      {
+        "name": "이정웅 군 엄마",
+        "id": "test3_missing3mom",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "missing3mom_worry",
+                  "line": "이정웅 군 어머니에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "missing3mom_neutral",
+                "line": "정웅이는 항상 학교에서 다녀오면 집에서 동생인 동생을 돌봐요."
+              },
+              {
+                "image": "missing3mom_neutral",
+                "line": "그러다 4시 정도였나.."
+              },
+              "(16:00 가량)",
+              {
+                "image": "missing3bro_cry1",
+                "line": "으아앙 엄마..형아가 없어졌어.."
+              },
+              "집으로 가봤더니 정말로 애가 집을 나갔더라고요.",
+              {
+                "image": "missing3mom_neutral",
+                "line": "그때까지는 그냥 동생 돌보는게 귀찮아져서 떼어놓고 친구들이랑 놀러간거라고 생각했는데."
+              },
+              {
+                "image": "missing3mom_neutral",
+                "line": "저녁시간이 돼도 애가 돌아오지도 않고, 다른 엄마들도 애가 없어졌다고 해서 그제서야 큰 일이 생겼다는 걸 직감했죠."
+              },
+              {
+                "image": "missing3mom_worry",
+                "line": "다같이 마을 주변을 돌았는데도 애들은 나오지도 않고.."
+              },
+              {
+                "image": "missing3mom_worry",
+                "line": "어떻게 무사하기만이라도 했으면 좋겠어요.."
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_missing3mom", "data": "missing3mom-time"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "missing3mom_worry",
+                "line": "하아..모르겠네요."
+              },
+              {
+                "image": "missing3mom_worry",
+                "line": "동생도 그렇게 떼어놓고 갈 정도로, 친구들이랑 놀고 싶었나.."
+              },
+              {
+                "image": "missing3mom_sorry",
+                "line": "...."
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "이정웅 군을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "missing3mom_sprite",
+        "scale": 10,
+        "anim_config": {
+          "frames": {
+            "0,5": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "check": null,
+        "x": 1300,
+        "y": 150
+      },
+      {
+        "name": "이정웅 군 동생",
+        "id": "test3_missing3bro",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "missing3bro_cry1",
+                  "line": "이정웅 군 동생에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "missing3bro_cry1",
+                "line": "훌쩍..형아랑 숨바꼭질 하고 있었는데..형아가..분명히 30초 세면 찾을거라 해놓고.."
+              },
+              {
+                "image": "missing3bro_cry2",
+                "line": "끝까지 나 안 찾았어! 후에에에엥!"
+              },
+              {
+                "image": "missing3bro_cry2",
+                "line": "나 속였어! 사기쳤어! 형아 미워!"
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_missing3bro", "data": "missing3bro-time"}}
+          },
+          "answer-play": {
+            "dialogue": [
+              {
+                "image": "sami_neutral",
+                "line": "형아랑 어떻게 놀았는지 더 자세히 얘기해줄 수 있겠니?",
+                "name": "사미"
+              },
+              {
+                "image": "missing3bro_cry1",
+                "line": "흑..형아가.."
+              },
+              "(13:00에서 16:00 사이 어느 시점)",
+              {
+                "image": "missing3_neutral",
+                "line": "야, 이제 숨바꼭질 하자.",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing3bro_neutral",
+                "line": "엥? 싫어. 난 땅따먹기가 더 재밌단 말야."
+              },
+              {
+                "image": "missing3bro_smile",
+                "line": "형아 나한테 땅따먹기 지고 있어서 일부러 그러는거지?"
+              },
+              {
+                "image": "missing3_angry",
+                "line": "뭐? 이게! 그런 거 아니거든!",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing3bro_smile",
+                "line": "헹 맞으면서."
+              },
+              {
+                "image": "missing3_angry",
+                "line": "아니라니까. 내가 진짜 끝내주는 숨바꼭질을 알아서 그래.",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing3bro_neutral",
+                "line": "피, 숨바꼭질이 숨바꼭질이지."
+              },
+              {
+                "image": "missing3_neutral",
+                "line": "아 진짜 아니라니까 그러네. 이건 다른거야. 한 번 해보자니까.",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing3bro_neutral",
+                "line": "..알았어."
+              },
+              "(시간이 흐른 뒤)",
+              {
+                "image": "missing3bro_smile",
+                "line": "형아 찾았다!"
+              },
+              {
+                "image": "missing3_surprise",
+                "line": "허억! 어떻게 찾은거야.",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing3bro_neutral",
+                "line": "근데 이거 그냥 숨바꼭질이랑 뭐가 다른건지 모르겠어. 재미없어."
+              },
+              {
+                "image": "missing3_surprise",
+                "line": "뭐? 재미없긴. 재밌잖아?",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing3bro_angry",
+                "line": "그리고 언제까지 나만 술래야! 나도 숨는 거 하고 싶다고!"
+              },
+              {
+                "image": "missing3_surprise",
+                "line": "그러지말고, 이번..",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing3_thinking",
+                "line": ".... ....",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing3_smile",
+                "line": "이번에는 너가 숨고 싶다고?",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing3bro_smile",
+                "line": "응!"
+              },
+              {
+                "image": "missing3_smile",
+                "line": "알았어. 이번엔 형아가 술래할게. 30까지 센다.",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing3bro_smile",
+                "line": "아싸!"
+              },
+              "그랬는데..",
+              {
+                "image": "missing3bro_cry1",
+                "line": "아무리 기다려도 형아가 나 안 찾으러와서 나왔는데.."
+              },
+              {
+                "image": "missing3bro_cry2",
+                "line": "형아가 나 놔두고 가버렸어! 찾는대놓고! 후에에에엥"
+              },
+              {
+                "image": "sami_disappointment",
+                "line": "'듣자하니 일부러 떼어놓으려던 것 같군..'"
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_missing3bro", "data": "missing3bro-play"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "missing3bro_cry2",
+                "line": "허어어엉 형아는 산 속 괴물이 끌고간 거야!"
+              },
+              {
+                "image": "missing3bro_cry2",
+                "line": "나랑 안 놀아줘서 벌 받은거야!"
+              },
+              {
+                "image": "missing3bro_cry2",
+                "line": "끕, 흑, 나랑 놀아주지도 않고 사기치는 형아는 영영 안 돌아왔음 좋겠어. 산 속 괴물한테 먹혀버리기나 했음 좋겠어!"
+              },
+              {
+                "image": "missing3mom_angry",
+                "line": "너 그게 무슨 말버릇이야! 형아가 진짜로 이대로 안 돌아왔음 좋겠어? 평생 집에 안 들어와서 엄마아빠 나가면 혼자 집에 있었음 좋겠어?"
+              },
+              {
+                "image": "missing3bro_cry1",
+                "line": "..읍."
+              },
+              {
+                "image": "missing3bro_cry2",
+                "line": "흐아아아아앙"
+              }
+            ],
+            "event": {"eventKey": "test3-event-tales", "eventData": {"id": "test3_missing3bro", "data": "missing3bro-suspicion"}}
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "이정웅 군을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "option-play": {
+            "answer": "이정웅 군과 함께한 놀이에 대하여",
+            "to": "answer-play"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "missing3bro_sprite",
+        "scale": 8,
+        "anim_config": {
+          "frames": {
+            "0,1": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "check": null,
+        "x": 950,
+        "y": 400
+      },
+      {
+        "name": "최영길 군 엄마",
+        "id": "test3_missing4mom",
+        "dialogue": {
+          "post_c_repeat": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "missing4mom_worry",
+                  "line": "최영길 군 어머니에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer": {
+            "dialogue": [
+              {
+                "image": "missing4mom_surprise",
+                "line": "이건, 영길이 신발인데..이걸 어디서 찾으신거죠?"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "안방 창문 아래에 떨어져 있었습니다.",
+                "name": "사미"
+              },
+              {
+                "image": "missing4mom_surprise",
+                "line": "아..! 역시 누군가 우리 애를 이불째 들고 창문 밖으로 나가면서 떨어진 거에요!"
+              },
+              {
+                "image": "missing4mom_angry1",
+                "line": "대체..누가..!"
+              }
+            ],
+            "check": "k_detective_beta.test3_shoe",
+            "event": {"eventKey": "z2Aj8sLVTc5FLNxZQ0Rg", "eventData": {"id": "test3_missing4mom", "data": "missing4mom-answer"}}
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "missing4mom_sad",
+                "line": "영길이는 어렸을 때부터 또래들보다 작고 몸도 약했어요. 그래서 잔병치레도 잦았죠. 오늘도 학교에서 돌아오자마자.."
+              },
+              "(하교 후 13:00 이후)",
+              {
+                "image": "missing4_neutral",
+                "line": "..감기 걸린 것 같아요. 방에서 쉬고 있을게요.",
+                "name": "최영길 군"
+              },
+              {
+                "image": "missing4mom_worry",
+                "line": "저런, 열은 없니?"
+              },
+              {
+                "image": "missing4_sick",
+                "line": "콜록콜록. 모르겠어요..으..어지러워..",
+                "name": "최영길 군"
+              },
+              {
+                "image": "missing4mom_worry",
+                "line": "그래 얼른 들어가 쉬어라."
+              },
+              "그대로 방에 들어가서 눕는 것까지 확인하고 일하러 나왔는데,",
+              {
+                "image": "missing4mom_sad",
+                "line": "집에 돌아와보니..애가..!"
+              },
+              {
+                "image": "missing4mom_surprise",
+                "line": "심지어 영길이가 어릴 때부터 덮고자던 아끼는 담요가 있거든요. 그걸 덮고 자는 것도 봤는데. 그 담요도 같이 사라졌어요! 누군가 자고있던 우리 애를 이불째 들고 날른게 틀림없어요!"
+              }
+            ],
+            "event": {"eventKey": "z2Aj8sLVTc5FLNxZQ0Rg", "eventData": {"id": "test3_missing4mom", "data": "missing4mom-time"}}
+          },
+          "answer-fake": {
+            "dialogue": [
+              {
+                "image": "missing4mom_angry",
+                "line": "뭐라고요?! 지금 애가 없어졌는데 진지하게 조사하진 못 할 망정 장난같은 소리나 할 때에요?"
+              },
+              {
+                "image": "missing4mom_angry",
+                "line": "당신 같은 것도 탐정이라니!"
+              }
+            ],
+            "event": {"eventKey": "z2Aj8sLVTc5FLNxZQ0Rg", "eventData": {"id": "test3_missing4mom", "data": "missing4mom-fake"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "missing4mom_surprise",
+                "line": "맞아! 요즘 근처 동네에서 인신매매단이 활개친다는 소문을 들었어요!"
+              },
+              {
+                "image": "missing4mom_surprise",
+                "line": "애들을 납치하다가 공장 같은데다 싼값에 넘긴다고요!"
+              }
+            ],
+            "event": {"eventKey": "test3-event-kidnap", "eventData": {"id": "test3_missing4mom", "data": "missing4mom-suspicion"}}
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "최영길 군을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "option-fake": {
+            "answer": "꾀병에 대하여",
+            "to": "answer-fake"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "missing4mom_sprite",
+        "scale": 10,
+        "anim_config": {
+          "frames": {
+            "0,1": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "x": 650,
+        "y": 1050
+      },
+      {
+        "name": "마을 주민",
+        "id": "test3_villager12",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "villager1_worry",
+                  "line": "마을 주민들에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "villager1_worry",
+                "line": "논에서 일하다 애들이 하교할 때 봤죠. 점심 먹고난 뒤니까 한 1시쯤이려나..?"
+              },
+              "(13:00 경)",
+              {
+                "image": "missing1_smile",
+                "line": "안녕하세요 아저씨! 안녕하세요 아줌마!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing2_neutral",
+                "line": "아저씨, 아줌마 안녕하세요.",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing3_neutral",
+                "line": "..안녕하세요.",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing4_neutral",
+                "line": "안녕하세요 아저씨. 아줌마도 안녕하세요.",
+                "name": "최영길 군"
+              },
+              {
+                "image": "villager1_smile",
+                "line": "그래그래 이제 하교 하는거니?"
+              },
+              {
+                "image": "villager2_smile",
+                "line": "집에 잘들 들어가고!"
+              },
+              "사라진 애들이 다같이 아랫동네에 있는 학교에 오전반으로 다니거든요. 그래서 항상 그 시간 때쯤에 하교하는 애들이랑 마주쳐서 인사하곤 했죠.",
+              "모두들 무사해야 할텐데.."
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_villager12", "data": "villager12-time"}}
+          },
+          "answer-tales": {
+            "dialogue": [
+              {
+                "image": "villager2_smile",
+                "line": "산 걸인 괴담이요?"
+              },
+              {
+                "image": "villager1_smile",
+                "line": "이 동네에서 나고자랐으면 누구나 어릴 때 들어봤을걸요? 저도 그랬고요."
+              },
+              {
+                "image": "villager2_smile",
+                "line": "산 괴물, 산 걸인, 산 마귀, 등등등 표현은 조금씩 다르지만"
+              },
+              {
+                "image": "villager2_smile",
+                "line": "요지는 결국 늦게까지 산에 있지말라고 애들 겁주는 거죠."
+              }
+            ],
+            "event": {"eventKey": "test3-event-tales", "eventData": {"id": "test3_villager12", "data": "villager12-tales"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "villager1_worry",
+                "line": "무턱대고 생각해보라 하셔도.."
+              },
+              {
+                "image": "villager2_worry",
+                "line": "애들이 4명이나 한 번에 사라질만한 이유가.."
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "실종자들을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "option-tales": {
+            "answer": "괴담에 대하여",
+            "to": "answer-tales"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "villager1_sprite",
+        "scale": 10,
+        "anim_config": {
+          "frames": {
+            "0,1": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "x": 2180,
+        "y": 1150
+      },
+      {
+        "name": "마을 주민",
+        "id": "test3_villager12",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "villager2_worry",
+                  "line": "마을 주민들에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "villager1_worry",
+                "line": "논에서 일하다 애들이 하교할 때 봤죠. 점심 먹고난 뒤니까 한 1시쯤이려나..?"
+              },
+              "(13:00 경)",
+              {
+                "image": "missing1_smile",
+                "line": "안녕하세요 아저씨! 안녕하세요 아줌마!",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing2_neutral",
+                "line": "아저씨, 아줌마 안녕하세요.",
+                "name": "김정숙 양"
+              },
+              {
+                "image": "missing3_neutral",
+                "line": "..안녕하세요.",
+                "name": "이정웅 군"
+              },
+              {
+                "image": "missing4_neutral",
+                "line": "안녕하세요 아저씨. 아줌마도 안녕하세요.",
+                "name": "최영길 군"
+              },
+              {
+                "image": "villager1_smile",
+                "line": "그래그래 이제 하교 하는거니?"
+              },
+              {
+                "image": "villager2_smile",
+                "line": "집에 잘들 들어가고!"
+              },
+              "사라진 애들이 다같이 아랫동네에 있는 학교에 오전반으로 다니거든요. 그래서 항상 그 시간 때쯤에 하교하는 애들이랑 마주쳐서 인사하곤 했죠.",
+              "모두들 무사해야 할텐데.."
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_villager12", "data": "villager12-time"}}
+          },
+          "answer-tales": {
+            "dialogue": [
+              {
+                "image": "villager2_smile",
+                "line": "산 걸인 괴담이요?"
+              },
+              {
+                "image": "villager1_smile",
+                "line": "이 동네에서 나고자랐으면 누구나 어릴 때 들어봤을걸요? 저도 그랬고요."
+              },
+              {
+                "image": "villager2_smile",
+                "line": "산 괴물, 산 걸인, 산 마귀, 등등등 표현은 조금씩 다르지만"
+              },
+              {
+                "image": "villager2_smile",
+                "line": "요지는 결국 늦게까지 산에 있지말라고 애들 겁주는 거죠."
+              }
+            ],
+            "event": {"eventKey": "test3-event-tales", "eventData": {"id": "test3_villager12", "data": "villager12-tales"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "villager1_worry",
+                "line": "무턱대고 생각해보라 하셔도.."
+              },
+              {
+                "image": "villager2_worry",
+                "line": "애들이 4명이나 한 번에 사라질만한 이유가.."
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "실종자들을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "option-tales": {
+            "answer": "괴담에 대하여",
+            "to": "answer-tales"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "villager2_sprite",
+        "scale": 10,
+        "anim_config": {
+          "frames": {
+            "0,1": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "x": 2240,
+        "y": 1150
+      },
+      {
+        "name": "마을 주민",
+        "id": "test3_villager34",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "villager3_neutral",
+                  "line": "마을 주민들에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "villager4_neutral",
+                "line": "아이고 우리는 늙어서 이제 일하지도 못 하고, 그래서 집에만 있느라 아무 것도 못 봤소."
+              },
+              {
+                "image": "villager3_neutral",
+                "line": "이거 미안하구려. 애들이 하루아침에 없어졌으니 어멈들 마음은 오죽할까."
+              },
+              {
+                "image": "villager4_neutral",
+                "line": "특히 박 씨네 새댁이 걱정되는구만. 금지옥엽하던 딸이 사라졌으니."
+              },
+              {
+                "image": "villager3_neutral",
+                "line": "그러게나 말이야."
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_villager34", "data": "villager34-time"}}
+          },
+          "answer-missing2": {
+            "dialogue": [
+              {
+                "image": "villager3_neutral",
+                "line": "그 집은 자식이라곤 딸만 있으면서 참 아낀단 말이야."
+              },
+              {
+                "image": "villager4_neutral",
+                "line": "그치만 성격도 얌전하지, 벌써 부모 생각해서 학교 끝나고 스스로 일도 돕고, 얼마나 기특하고 예뻐."
+              },
+              {
+                "image": "villager3_neutral",
+                "line": "그건 그래. 무사히 돌아와야 할텐데.."
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_villager34", "data": "villager34-missing2"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "villager4_neutral",
+                "line": "오메 젊은 사람이 무서운 소릴 하는구먼."
+              },
+              {
+                "image": "villager3_neutral",
+                "line": "우리도 아이들이 무사히 돌아오길 바라는 마음은 굴뚝 같네. 하지만 나이 들어서 하는 일이 집안에 죽치고 있는 것 밖에 없으니..도통 아는 게 있어야지."
+              },
+              {
+                "image": "villager4_neutral",
+                "line": "도움이 안돼 미안하구만."
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "실종자들을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "option-missing2": {
+            "answer": "박선자 양에 대하여",
+            "to": "answer-missing2"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "villager3_sprite",
+        "scale": 10,
+        "anim_config": {
+          "frames": {
+            "0,1": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "x": 1830,
+        "y": 950
+      },
+      {
+        "name": "마을 주민",
+        "id": "test3_villager34",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "villager4_neutral",
+                  "line": "마을 주민들에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer-time": {
+            "dialogue": [
+              {
+                "image": "villager4_neutral",
+                "line": "아이고 우리는 늙어서 이제 일하지도 못 하고, 그래서 집에만 있느라 아무 것도 못 봤소."
+              },
+              {
+                "image": "villager3_neutral",
+                "line": "이거 미안하구려. 애들이 하루아침에 없어졌으니 어멈들 마음은 오죽할까."
+              },
+              {
+                "image": "villager4_neutral",
+                "line": "특히 박 씨네 새댁이 걱정되는구만. 금지옥엽하던 딸이 사라졌으니."
+              },
+              {
+                "image": "villager3_neutral",
+                "line": "그러게나 말이야."
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_villager34", "data": "villager34-time"}}
+          },
+          "answer-missing2": {
+            "dialogue": [
+              {
+                "image": "villager3_neutral",
+                "line": "그 집은 자식이라곤 딸만 있으면서 참 아낀단 말이야."
+              },
+              {
+                "image": "villager4_neutral",
+                "line": "그치만 성격도 얌전하지, 벌써 부모 생각해서 학교 끝나고 스스로 일도 돕고, 얼마나 기특하고 예뻐."
+              },
+              {
+                "image": "villager3_neutral",
+                "line": "그건 그래. 무사히 돌아와야 할텐데.."
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_villager34", "data": "villager34-missing2"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "villager4_neutral",
+                "line": "오메 젊은 사람이 무서운 소릴 하는구먼."
+              },
+              {
+                "image": "villager3_neutral",
+                "line": "우리도 아이들이 무사히 돌아오길 바라는 마음은 굴뚝 같네. 하지만 나이 들어서 하는 일이 집안에 죽치고 있는 것 밖에 없으니..도통 아는 게 있어야지."
+              },
+              {
+                "image": "villager4_neutral",
+                "line": "도움이 안돼 미안하구만."
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-time": {
+            "answer": "실종자들을 마지막으로 본 시간에 대하여",
+            "to": "answer-time"
+          },
+          "option-missing2": {
+            "answer": "박선자 양에 대하여",
+            "to": "answer-missing2"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "villager4_sprite",
+        "scale": 10,
+        "anim_config": {
+          "frames": {
+            "0,1": "standing"
+          },
+          "repeat": {
+            "standing": true
+          },
+          "default": "standing",
+          "auto_start": true
+        },
+        "x": 1930,
+        "y": 950
+      },
+      {
+        "name": "경찰",
+        "id": "test3_police",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "police_neutral",
+                  "line": "경찰에게 질문을 해보자."
+                }
+              }
+            ]
+          },
+          "answer-case": {
+            "dialogue": [
+              {
+                "image": "police_neutral",
+                "line": "신고가 들어온 건 1시간 전인 오후 5시쯤입니다.",
+                "name": "경찰"
+              },
+              {
+                "image": "police_neutral",
+                "line": "그동안 마을과 뒷산에서 아이들이 자주 놀았다는 장소들까지 수색했지만 어디에도 아이들은 없었습니다.",
+                "name": "경찰"
+              },
+              {
+                "image": "police_neutral",
+                "line": "점심 이후부터 대부분의 마을 어른들이 마을 입구 쪽 논이나 밭에서 일하고 있었지만 아이들이 그 사이에 마을을 떠나는 걸 본 사람도 없습니다.",
+                "name": "경찰"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "'입구 쪽에 보는 눈들이 그렇게 많은데 4명의 아이들이 한 번에 몰래 빠져나왔을리는 없어.'",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "'그렇다면 남은 건 뒷산으로 올라가는 것 밖에 없는데?'",
+                "name": "사미"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "'하지만 얘기를 들어보니 자주 다니던 길로 간 것 같지도 않아. 어떻게 된거지?'",
+                "name": "사미"
+              }
+            ],
+            "event": {"eventKey": "test3-event-updateTimeline", "eventData": {"id": "test3_police", "data": "police-case"}}
+          },
+          "answer-tales": {
+            "dialogue": [
+              {
+                "image": "police_neutral",
+                "line": "그런 류의 이야기가 마을마다 하나씩 있기 마련이죠.",
+                "name": "경찰"
+              },
+              {
+                "image": "police_neutral",
+                "line": "대부분은 아이들을 겁줘서 허튼 짓 못 하게 하려는 수작이지만요.",
+                "name": "경찰"
+              },
+              {
+                "image": "police_neutral",
+                "line": "하지만 그게 통하는 것도 어릴 때나 그런 거 아니겠습니까?",
+                "name": "경찰"
+              }
+            ]
+          },
+          "answer-kidnap": {
+            "dialogue": [
+              {
+                "image": "police_neutral",
+                "line": "지난 5년간 이 인근에서 접수된 실종 신고는 3건 밖에 없었습니다.",
+                "name": "경찰"
+              },
+              {
+                "image": "police_neutral",
+                "line": "심지어 3명 모두 성인 남성이었고요.",
+                "name": "경찰"
+              },
+              {
+                "image": "police_neutral",
+                "line": "이번에 탐정을 부른 것도 아이들만 실종 신고가 들어온 것이 이례적인 일이기 때문이니,"
+              },
+              {
+                "image": "police_neutral",
+                "line": "아이들만 노리는 인신매매단의 존재는 어디까지나 소문으로만 봐도 될 것 같습니다.",
+                "name": "경찰"
+              }
+            ],
+            "event": {"eventKey": "test3-event-kidnap", "eventData": {"id": "test3_police", "data": "police-kidnap"}}
+          },
+          "suspicion": {
+            "dialogue": [
+              {
+                "image": "police_neutral",
+                "line": "수사를 할 때는 모든 가능성의 수를 열고 판단을 최대한 유보하는 것이 좋습니다.",
+                "name": "경찰"
+              },
+              {
+                "image": "police_neutral",
+                "line": "지금까지의 증거로 볼 때 아이들이 누군가에 의해 끌려갔을 가능성은 낮습니다.",
+                "name": "경찰"
+              },
+              {
+                "image": "police_neutral",
+                "line": "개인이 4명의 아이들을 통솔하기도 어려울 뿐더러,",
+                "name": "경찰"
+              },
+              {
+                "image": "police_neutral",
+                "line": "4명의 아이들을 충분히 제압할 수 있는 인원이 동원됐다면 마을 사람들이 이상한 점을 눈치챘을테니까요.",
+                "name": "경찰"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "바꿔 말하면 아이들이 자발적으로 사라진 걸 수도 있다는 거군요.",
+                "name": "사미"
+              },
+              {
+                "image": "police_neutral",
+                "line": "그런가요. 그렇게 볼 수도 있겠네요.",
+                "name": "경찰"
+              },
+              {
+                "image": "sami_neutral",
+                "line": "'아이들이 자발적으로 사라진 걸수도 있다, 라..'",
+                "name": "사미"
+              }
+            ],
+            "event": {"eventKey": "5pSYFHRok3Es4xw6XWcC", "eventData": {"id": "test3_police", "data": "police-suspicion"}}
+          }
+        },
+        "options_config": {
+          "option-case": {
+            "answer": "사건에 대하여",
+            "to": "answer-case"
+          },
+          "option-tales": {
+            "answer": "괴담에 대하여",
+            "to": "answer-tales"
+          },
+          "option-kidnap": {
+            "answer": "인신매매에 대하여",
+            "to": "answer-kidnap"
+          },
+          "suspicion": {
+            "answer": "(의심하기)",
+            "to": "suspicion"
+          }
+        },
+        "spritesheet": "police_sprite",
+        "scale": 1.2,
+        "anim_config": {
+          "frames": {
+            "1,4": "left",
+            "5,8": "back",
+            "9,12": "front",
+            "13,16": "right"
+          },
+          "repeat": {
+            "left": false,
+            "back": false,
+            "front": true,
+            "right": false
+          },
+          "default": "front",
+          "auto_start": true
+        },
+        "x": 1520,
+        "y": 1200
+      },
+      {
+        "name": "감독관",
+        "id": "test3_inspector",
+        "dialogue": {
+          "default-question": {
+            "dialogue": [
+              {
+                "question": {
+                  "image": "inspector_neutral",
+                  "line": "그래, 아이들이 어떻게 사라졌는지 알겠나?",
+                  "name": "감독관"
+                }
+              }
+            ]
+          },
+          "answer-yes": {
+            "dialogue": [
+              {
+                "image": "inspector_neutral",
+                "line": "아이들이 어떻게 사라졌는지 안다면 단서노트에 있는 '사건 입증'을 통해 아이들의 행방을 증명해주게!",
+                "name": "감독관"
+              }
+            ]
+          },
+          "answer-no": {
+            "dialogue": [
+              {
+                "image": "inspector_neutral",
+                "line": "이렇게 쓸데없이 말을 걸 시간에 수사에 집중해주게나.",
+                "name": "감독관"
+              }
+            ]
+          }
+        },
+        "options_config": {
+          "option-yes": {
+            "answer": "예",
+            "to": "answer-yes"
+          },
+          "option-no": {
+            "answer": "아니오",
+            "to": "answer-no"
+          }
+        },
+        "spritesheet": "inspector_sprite",
+        "scale": 1.2,
+        "anim_config": {
+          "frames": {
+            "1,4": "left",
+            "5,8": "back",
+            "9,12": "front",
+            "13,16": "right"
+          },
+          "repeat": {
+            "left": false,
+            "back": false,
+            "front": true,
+            "right": false
+          },
+          "default": "front",
+          "auto_start": true
+        },
+        "x": 1800,
+        "y": 1680
+      }
+    ],
+    "item_json": [
+      {
+        "name": "shoe",
+        "id": "test3_item0",
+        "x": 180,
+        "y": 850,
+        "scale": 2,
+        "depth_config": { "constant": true, "default": 8 },
+        "body_config": null,
+        "texture": "item_sparkle",
+        "interact": {
+          "get": {
+            "type": "get",
+            "dialogue": [
+              "창문 아래에서 신발 한 쪽을 주웠다."
+            ],
+            "event": { "eventKey": "z2Aj8sLVTc5FLNxZQ0Rg", "eventData": {"id": "test3_item0", "data": "item0-get"} }
+          }
+        }
+      },
+      {
+        "name": "note",
+        "id": "test3_item1",
+        "x": 2100,
+        "y": 300,
+        "scale": 2,
+        "depth_config": { "constant": true, "default": 8 },
+        "body_config": null,
+        "texture": "item_sparkle",
+        "interact": {
+          "get": {
+            "type": "get",
+            "dialogue": [
+              "숲으로 들어가는 길목에서 반쯤 찢어져있는 종이 조각을 주웠다."
+            ],
+            "event": { "eventKey": "test3-event-promise", "eventData": {"id": "test3_item1", "data": "item1-get"} }
+          }
+        }
+      }
+    ]
+  }
+}

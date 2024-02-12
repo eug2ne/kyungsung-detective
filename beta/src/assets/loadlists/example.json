@@ -1,0 +1,124 @@
+{
+  "answer_data": {
+    "answer": "경성 탐정",
+    "a_underbar": "_ _ _ _",
+    "a_abbr": "ㄱㅅ ㅌㅈ",
+    "a_def": "1930년대 가상의 한국 근대를 배경으로 한 한글 퍼즐 추리 게임"
+  },
+  "crossword_data": {
+    "config": {
+      "center": {
+        "x": 12,
+        "y": 7
+      },
+      "width": {
+        "left": 6,
+        "right": 1,
+        "o_left": 6,
+        "o_right": 1
+      },
+      "height": {
+        "top": 5,
+        "bottom": 1,
+        "o_top": 5,
+        "o_bottom": 1
+      },
+      "total_space": {
+        "c_value": 14,
+        "o_value": 14
+      },
+      "accomplish": false
+    },
+    "point_merge_history": [],
+    "data": {
+      "0": {
+        "id": 0,
+        "type": "vertical",
+        "length": {
+          "c_value": 7,
+          "o_value": 7
+        },
+        "config": {
+          "start_pos": {
+            "x": 12,
+            "y": 2,
+            "o_x": 12,
+            "o_y": 2
+          },
+          "end_pos": {
+            "x": 12,
+            "y": 8,
+            "o_x": 12,
+            "o_y": 8
+          }
+        },
+        "point": {
+          "index": 5,
+          "o_index": 5,
+          "to": 1
+        },
+        "letter_list": ["ㄱ"],
+        "merge_list": [],
+        "def_config": {
+          "config": {
+            "pos": { "x": 13, "y": 3 },
+            "width": 320,
+            "height": 100
+          },
+          "definition": "대한민국 수도의 근대 이름"
+        },
+        "first_abbr": true,
+        "correct": false
+      },
+      "1": {
+        "id": 1,
+        "type": "horizontal",
+        "length": {
+          "c_value": 8,
+          "o_value": 8
+        },
+        "config": {
+          "start_pos": {
+            "x": 6,
+            "y": 7,
+            "o_x": 6,
+            "o_y": 7
+          },
+          "end_pos": {
+            "x": 13,
+            "y": 7,
+            "o_x": 13,
+            "o_y": 7
+          }
+        },
+        "point": {
+          "index": 6,
+          "o_index": 6,
+          "to": 0
+        },
+        "letter_list": [],
+        "merge_list": [],
+        "def_config": {
+          "config": {
+            "pos": { "x": 6, "y": 9 },
+            "width": 340,
+            "height": 150
+          },
+          "definition": "드러나지 않은 사정을 몰래 살펴 알아내는 사람"
+        },
+        "first_abbr": false,
+        "correct": false
+      }
+    },
+    "answer": {
+      "0": {
+        "length": 6,
+        "letter_list": ["ㄱ", "ㅕ", "ㅇ", "ㅅ", "ㅓ", "ㅇ"]
+      },
+      "1": {
+        "length": 6,
+        "letter_list": ["ㅌ", "ㅏ", "ㅁ", "ㅈ", "ㅓ", "ㅇ"]
+      }
+    }
+  }
+}

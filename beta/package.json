@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service --openssl-legacy-provider serve",
-    "build": "vue-cli-service --openssl-legacy-provider build"
+    "build": "vue-cli-service --openssl-legacy-provider build --output /dist"
   },
   "engines": {
     "node": "18.x"

@@ -1,67 +1,65 @@
 <template>
-<div class="contents">
-  <!-- answer-area -->
-  <AnswerArea :answerData="this.answerConfig" :cwAccs="this.cwInstance.config ? this.cwInstance.config.accomplish : false" />
-
+<div class="page-wrapper">
   <div class="contents">
-    <div v-if="this.showDefault" id="default_page">
-      <h2>아직 추리 중인 단서가 없습니다!</h2>
-      <h3>맵을 돌아다니며 단서를 얻거나,<br>단서 노트에서 추리하고 싶은 단서를 선택해주세요!</h3>
+    <Answerarea />
+    <ul id="help">
+    <!-- if this.accs, disable all click events -->
+    <li id="hint" @click="accs ? null : showHints = !showHints">힌트</li>
+      <ul v-if="showHints" id="hints">
+        <li @click="accs ? null : this.emitter.emit('hint_first')">초성 힌트</li>
+        <li @click="accs ? null : this.emitter.emit('hint_def')">뜻 힌트</li>
+      </ul>
+    <li id="rules" v-else><router-link :to="{ name: 'Rules' }">게임방법</router-link></li>
+    </ul>
+    <QuizArea />
+  </div>
+
+  <div class="sources">
+    <div>
+      Icons made by
+      <a
+        href="https://www.flaticon.com/authors/andy-horvath"
+        title="Andy Horvath"
+        >Andy Horvath</a
+      >
+      from
+      <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
     </div>
-    <CrosswordArea v-else :cwData="this.cwInstance"/>
+    <div>
+      Icons made by
+      <a
+        href="https://www.flaticon.com/authors/jesus-chavarria"
+        title="Jesus Chavarria"
+        >Jesus Chavarria</a
+      >
+      from
+      <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+    </div>
+    <div>
+      Icons made by
+      <a href="https://www.flaticon.com/authors/bayu015" title="bayu015"
+        >bayu015</a
+      >
+      from
+      <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+    </div>
   </div>
 </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import _ from 'lodash'
-import { useGameStore } from '../game/game'
-import { importSet, exportSet } from '../composables/puzzleStore'
-import AnswerArea from '@/components/Crossword/AnswerArea.vue'
-import CrosswordArea from '@/components/Crossword/CrosswordArea.vue'
+import Answerarea from '../components/Answerarea.vue'
+import QuizArea from '../components/QuizArea.vue'
 import AccsModal from '../components/AccsModal.vue'
 
 export default {
   name: 'Quiz',
-  components: { AnswerArea, CrosswordArea, AccsModal },
-  setup() {
-    const cwInstance = ref({})
-    const answerConfig = ref({
-      answer: '????? ????? ?',
-      a_underbar: '?? ???',
-      a_abbr: '?? ???',
-      a_def: '????? ????? ????? ????? ?? ???'
-    })
-    const showDefault = ref(true)
-
-    // import set from db
-      
-    // create async load func.
-    const load = async () => {
-      const { id, path } = useGameStore().puzzle
-
-      if (!id) return
-
-      try {
-        const { cw_instance, answer_config } = await importSet(id, path)
-
-        cwInstance.value = cw_instance
-        answerConfig.value = answer_config
-        showDefault.value = false
-      } catch (err) {
-        console.log(err)
-      }
+  components: { QuizArea, Answerarea, AccsModal },
+  data() {
+    return {
+      showHints: false,
+      accs: false
     }
-    
-    // load data from db
-    load()
-
-    return { cwInstance, answerConfig, showDefault }
-  },
-  unmounted() {
-    // update db when page destroyed
-    exportSet(this.cw_instance)
   }
 }
 </script>
@@ -69,8 +67,54 @@ export default {
 <style>
 .contents {
   position: relative;
-  width: 1210px;
-  margin: 0 auto;
+}
+
+#controls {
+  width: 1050px;
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: space-between;
+  background-color: #ffe2b3;
+  margin-left: -25px;
+  padding: 15px;
+}
+
+#help {
+  width: 150px;
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  float: right;
+  margin: 0 10px;
+}
+
+#hint {
+  background-color: white;
+  height: 60px;
+  line-height: 55px;
+  color: white;
+  text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+  padding: 0;
+  display: block;
+  text-align: center;
+  border-color: #15333b;
+  border-image-source: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='6' height='6'><path d='M0 2h2v2H0zM2 0h2v2H2zM4 2h2v2H4zM2 4h2v2H2z' fill='%2315333b' /></svg>");
+  box-shadow: 5px 5px 0 rgba(255, 255, 255, 0.4) inset,
+    -5px -5px 0 rgba(0, 0, 0, 0.2) inset, 0 0 0 75px #4bafd3 inset;
+  border-radius: 5px;
+}
+
+#hints li {
+  background-color: #b0eeff;
+  height: 55px;
+  line-height: 55px;
+  padding: 0;
+  display: block;
+  text-align: center;
+  border-bottom: 0.5px solid #15333b;
+  font-size: 25px;
 }
 
 .help-icon, .help-icon:focus {
@@ -83,30 +127,32 @@ export default {
   border-radius: 50%;
   background-color: slategrey;
   margin: 5px;
-  font-size: 25px;
+  font-size: 20px;
   color: #fff700;
 }
 
-.controls {
-  width: 995px;
-  height: 70px;
-  padding: 15px;
-  text-align: center;
-  justify-content: space-between;
-  background-color: #b3fffe;
+table {
+  display: table;
+  width: 1000px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-spacing: 2px;
+  box-shadow: 0 0 0 4px #ffe2b3, 0 0 0 calc(4px + 6px) rgba(0, 0, 0, 0.8),
+    0 0 0 calc(4px + 6px + 15px) #ffe2b3;
+  margin: 15px auto 35px;
+  align-self: center;
+  justify-self: center;
 }
 
-#default_page {
-  display: block;
-  width: 1160px;
-  height: 400px;
-  text-align: center;
-  font-size: 25px;
-  background-color: #ffefd5;
-  border-spacing: 2px;
-  box-shadow: 0 0 0 4px #ffefd5, 0 0 0 calc(4px + 6px) #101935,
-    0 0 0 calc(4px + 6px + 15px) #ffefd5;
-  margin: 35px auto 15px;
-  padding: 50px;
+table:after {
+  content: "";
+  z-index: -1;
+}
+
+.sources {
+  line-height: 110%;
+}
+
+.sources a {
+  text-decoration-line: underline;
 }
 </style>

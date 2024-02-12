@@ -80,11 +80,6 @@ nav {
   animation-duration: 2s;
 }
 
-.rotate {
-  transform: rotate(-360deg);
-  transition-duration: 1s;
-}
-
 .between-box {
   flex-grow: 1;
 }

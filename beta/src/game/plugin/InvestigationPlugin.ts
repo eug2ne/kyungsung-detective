@@ -151,11 +151,12 @@ export default class InvestigationPlugin extends Phaser.Plugins.ScenePlugin {
     
     // after verification-start dialogue, create first verification dialogue
     const verification: {
-      key: string,
-      dialogue: [ string|{ line: string, name: string, image: string }|{ question: { line: string, name: string, image: string }} ],
-      answer?: { evidences: [ (subClue|event) ], to: string }
-    }|undefined = key ? this.verification_config.verificationEvent.verifications.find(ele => ele.key === key) :
-      this.verification_config.verificationEvent.verifications[0]
+        key: string,
+        dialogue: [ string|{ line: string, name: string, image: string }|{ question: { line: string, name: string, image: string }} ],
+        answer?: { evidences: [ (subClue|event) ], to: string }
+      }|undefined
+      = key ? this.verification_config.verificationEvent.verifications.find(ele => ele.key === key) :
+        this.verification_config.verificationEvent.verifications[0]
     const scope: scopeData|undefined = i_scope.find(ele => ele.scope === verification!.key)
     const answer: { evidences: [ (subClue|event) ], to: string }|undefined = verification!.answer
     

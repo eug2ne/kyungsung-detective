@@ -13,9 +13,11 @@ type DBInterface = {
 
 export const firebaseInterface: DBInterface = {
   loadDoc: async (UID: string, gameKey: string, story: string, slot: string|number) => {
+    console.log('load doc')
     const USER_SLOTS = collection(db, `BetaUsers/${UID}/Games/${gameKey}/Slots`)
     const SLOT_DOC = doc(USER_SLOTS, slot)
     const SLOT_SNAP = await getDoc(SLOT_DOC)
+    console.log(useGameStore().stage)
 
     if (!SLOT_SNAP.exists()) {
       // create doc with default-value from game-store
@@ -38,6 +40,7 @@ export const firebaseInterface: DBInterface = {
     }
   },
   saveDoc: async (UID: string, gameKey: string, story: string, slot: string|number) => {
+    console.log('save doc')
     const USER_SLOTS = collection(db, `BetaUsers/${UID}/Games/${gameKey}/Slots`)
     const SLOT_DOC = doc(USER_SLOTS, slot)
 

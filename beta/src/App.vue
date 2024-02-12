@@ -59,6 +59,14 @@ export default {
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'DOSIyagiMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/DOSIyagiMedium.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -75,6 +83,16 @@ body {
   line-height: 200%;
 }
 
+img {
+  display: inherit;
+  width: inherit;
+  height: inherit;
+}
+
+ul {
+  list-style-type: none;
+}
+
 #router-view {
   width: 1270px;
   min-height: 730px;
@@ -87,6 +105,11 @@ body {
 .page-wrapper {
   width: 995px;
   margin: 0 auto;
+}
+
+.rotate {
+  transform: rotate(-360deg);
+  transition-duration: 1s;
 }
 
 .icon, .icon:focus {
@@ -111,6 +134,36 @@ body {
 
 .popup {
   position: absolute;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0 10px;
+  padding: 5px;
+  text-align: left;
+}
+
+.description {
+  display: inline-block;
+  font-size: 20px;
+  text-align: left;
+  line-height: 30px;
+  line-break: auto;
+  letter-spacing: -1px;
+  word-break: keep-all;
+  padding: 10px;
+  text-align: left;
 }
 
 h3 {

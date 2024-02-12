@@ -6,66 +6,18 @@ import { firebaseInterface } from './interface/firebaseInterface'
 import SceneLoadPlugin from './plugin/SceneLoadPlugin'
 import InvestigationPlugin from './plugin/InvestigationPlugin'
 
-// import stages
+// import stages + config
+import STAGE_DEFAULT_CONFIG from './stages/config/STAGE_DEFAULT_CONFIG.json'
 import BreakfastStage from './stages/BreakfastStage'
 import Test1Stage from './stages/Test1Stage'
 import Test2Stage from './stages/Test2Stage'
 import Test3Stage from './stages/Test3Stage'
 
-const STAGE_DEFAULT_CONFIG = {
-  'BreakfastStage': {
-    key: 'BreakfastStage',
-    player_config: { sceneKey: 'Breakfast' , x: 863, y: 472 },
-    scenes_config: {
-      'Breakfast': {
-        npc: { 'breakfast_maid': { dialogueKey: 'prologue', options: ['option-end', 'option-default'] } },
-        item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
-      }
-    }
-  },
-  'Test1Stage': {
-    key: 'Test1Stage',
-    player_config: { 'sceneKey': 'Test1' , 'x': 570, 'y': 130 },
-    scenes_config: {
-      'Test1': {
-        npc: { 'test1_inspector': { dialogueKey: 'clue' },
-          'test1_newspaperstand': { dialogueKey: 'default' },
-          'test1_applicant1': { dialogueKey: 'default' },
-          'test1_applicant2': { dialogueKey: 'default' },
-          'test1_applicant3': { dialogueKey: 'default' },
-          'test1_applicant4': { dialogueKey: 'default' },
-          'test1_applicant5': { dialogueKey: 'default' },
-        },
-        item: {}
-      }
-    }
-  },
-  'Test2Stage': {
-    key: 'Test2Stage',
-    player_config: { 'sceneKey': 'Test2' , 'x': 600, 'y': 500 },
-    scenes_config: {
-      'Test2': {
-        npc: {
-          'test2_suspect1': { dialogueKey: 'default-question', options: ['option-default'] },
-          'test2_suspect2': { dialogueKey: 'default-question', options: ['option-default'] },
-          'test2_suspect3': { dialogueKey: 'default-question', options: ['option-default'] } 
-        },
-        item: {
-          'test2_item0': { interactionKey: 'read' },
-          'test2_item1': { interactionKey: 'read' },
-          'test2_item2': { interactionKey: 'read' },
-          'test2_item3': { interactionKey: 'read' }
-        }
-      }
-    }
-  }
-}
-
 export const useGameStore = defineStore('game', {
   state: () => ({
     stage: {
       key: 'BreakfastStage',
-      player_config: { sceneKey: 'Breakfast' , x: 863, y: 472 },
+      player_config: { sceneKey: 'Breakfast', x: 863, y: 472 },
       scenes_config: {
         'Breakfast': {
           npc: { 'breakfast_maid': { dialogueKey: 'prologue', options: ['option-end', 'option-default'] } },
@@ -84,6 +36,7 @@ export const useGameStore = defineStore('game', {
   }),
   actions: {
     async boot(gameKey, story) {
+      console.log('boot')
       // set UID from auth
       this.$patch({ UID: auth.currentUser.uid })
       // load stage-data from auto-slot
@@ -92,7 +45,8 @@ export const useGameStore = defineStore('game', {
       this.$patch({ booted: true })
     },
     async saveAuto(gameKey, story) {
-      // save stage-data to auto-slot
+      console.log('save auto')
+      // save stage-data to auto-slot 
       firebaseInterface.saveDoc(this.UID, gameKey, story, 'auto')
     },
     async saveSlot(gameKey, story, slotKey) {
@@ -145,6 +99,15 @@ export const useGameStore = defineStore('game', {
           await deleteDoc(doc(USER_QUIZS, 'tLJfpFrSVAq5O1sGNs8I'))
           await deleteDoc(doc(USER_QUIZS, 'YPnEQwKAwueWEzSmpRdF'))
           break
+
+        case 'Test3Stage':
+          // delete clue from cluenote
+          useGameStore().$patch({ cluenote: { 2: null }})
+          // delete quiz-data
+          await deleteDoc(doc(USER_QUIZS, 'z2Aj8sLVTc5FLNxZQ0Rg'))
+          await deleteDoc(doc(USER_QUIZS, '5pSYFHRok3Es4xw6XWcC'))
+
+          break
       }
 
       // reset stage-config+puzzle-data to default-config of selected stage
@@ -171,7 +134,7 @@ export default class game extends Phaser.Game {
         default: 'arcade',
         arcade: {
           gravity: { y: 0 },
-          debug: false
+          debug: false // debug option
         }
       },
       plugins: {
@@ -198,6 +161,7 @@ export default class game extends Phaser.Game {
   }
 
   create() {
+    console.log('game create')
     // pass stage-data to game.stage
     const Stage = STAGE_KEYS[useGameStore().stage.key]
     this.stage = new Stage(this.plugins) // create game.stage

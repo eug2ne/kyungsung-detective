@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service --openssl-legacy-provider serve",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service --openssl-legacy-provider build"
+    "build": "vue-cli-service --openssl-legacy-provider build"
   },
   "engines": {
     "node": "18.x"

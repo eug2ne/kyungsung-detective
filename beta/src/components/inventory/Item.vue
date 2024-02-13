@@ -63,12 +63,12 @@ export default {
 }
 
 .item-wrapper:hover .hover {
-  display: block;
-  position: absolute;
   top: 0px;
   left: 0px;
   right: 0px;
   bottom: 0px;
+  position: absolute;
+  display: block;
   align-items: center;
   justify-content: center;
   padding: 80px 20px 0 20px;

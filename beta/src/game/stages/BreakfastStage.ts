@@ -1,11 +1,20 @@
 import Phaser from "phaser"
 import { useGameStore } from '../game.js'
-import STAGE_DEFAULT_CONFIG from './config/STAGE_DEFAULT_CONFIG.json' // import default-config
 import { spliceOption } from '../library.js'
 import Stage from "./Stage.js"
 import Update from './Update'
 import Breakfast from '../scenes/Breakfast.js'
 import Test1Stage from "./Test1Stage"
+
+const default_config = {
+  player_config: { 'sceneKey': 'Breakfast' , 'x': 863, 'y': 472 },
+  scenes_config: {
+    'Breakfast': {
+      npc: { 'breakfast_maid': { dialogueKey: 'prologue', options: ['option-end', 'option-default'] } },
+      item: { 'breakfast_item0': { interactionKey: 'read' }, 'breakfast_item1': { interactionKey: 'eat', options: ['option-eat', 'option-skip'] } }
+    }
+  }
+}
 
 const event_config = {
   'breakfast-event-item0': [
@@ -34,6 +43,15 @@ const event_config = {
     })
   ],
   'breakfast-event-npc0': [
+    new Update({ id: 'breakfast_maid', data: 'prologue'}, () => {
+      // after prologue, update maid dialogue-key
+      useGameStore().$patch((state: any) => {
+        // update npc dialogueKey
+        state.stage.scenes_config['Breakfast'].npc['breakfast_maid'].dialogueKey = 'default-question'
+      })
+
+      return { clear: false }
+    }),
     new Update({ id: 'breakfast_maid', data: 'option-clear'}, () => {
       // after talking to maid when option-clear >> stage clear
       return { clear: true }
@@ -43,6 +61,6 @@ const event_config = {
 
 export default class BreakfastStage extends Stage {
   constructor(manager: Phaser.Plugins.PluginManager) {
-    super(manager, [ new Breakfast() ], STAGE_DEFAULT_CONFIG['BreakfastStage'], event_config, null, 'BreakfastStage', new Test1Stage(manager))
+    super(manager, [ new Breakfast() ], default_config, event_config, null, 'BreakfastStage', new Test1Stage(manager))
   }
 }

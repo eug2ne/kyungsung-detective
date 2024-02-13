@@ -2,7 +2,8 @@ import _ from 'lodash'
 import Phaser from 'phaser'
 import { useGameStore } from '../game.js'
 import SceneLoadPlugin from '../plugin/SceneLoadPlugin'
-import Item from './Item.js'
+import Item2 from './Item2.js'
+import Player from './Player.js'
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
   public readonly id: string
@@ -28,7 +29,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   ) {
     const spritesheet = scene.textures.get(spritesheet_key)
     super(scene, x, y, spritesheet)
-    scene.add.existing(this).setScale(0.16*scale).setDepth(8)
+    scene.add.existing(this).setScale(0.16*scale).setDepth(10)
     scene.physics.add.existing(this, true)
     
     this.id = id
@@ -47,9 +48,9 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     if ((key === 'clue'||key === 'answer')&&this.dialogue[key].check) {
       // check player.item_carry (from gameStore)
       const item_id = this.dialogue[key].check
-      if (useGameStore().carry_item.find((ele: Item|undefined) => ele?.id == item_id)) {
+      if (useGameStore().carry_item.find((ele: Item2|undefined) => ele?.id == item_id)) {
         // delete item from inventery + carry_item
-        const removed = _.remove(useGameStore().inventory, (ele:Item|undefined) => {ele?.id == item_id})
+        const removed = _.remove(useGameStore().inventory, (ele:Item2|undefined) => {ele?.id == item_id})
         useGameStore().$patch({
           inventory: removed,
           carry_item: []
@@ -92,6 +93,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     this.debugShowVelocity = true
     this.debugBodyColor = 0x0033ff // debug option
     this.setInteractive() // enable interaction
+    this.setBodySize(40,62) // set body-size
 
     // create animation for each frame
     Object.entries(this.anim_config.frames).forEach((entry: any) => {
@@ -121,7 +123,9 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     })
   }
 
-  update() {
+  update(player: Player) {
+    // depth calculation
+    this.depth = player.y-this.y > 0 ? 5 : 10
     // if default_anim exist, play default_anim
     const default_anim = this.anims.get(this.anim_config.default)
 

@@ -41,7 +41,7 @@ export default {
       },
       nav_pointer: 0, // default show game
       showStageSelect: false,
-      showEmailPopup: true
+      showEmailPopup: false
     }
   },
   computed: {

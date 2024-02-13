@@ -21,9 +21,12 @@
       </p>
       <button class="stage-select pixel-borders--1" @click="resetStage('Test2Stage')">처음부터</button>
     </div>
-    <div class="stage unknown pixel-borders--2">
-      <h3 class="stage-title">coming soon...</h3>
-      <p class="stage-description">????? ?????</p>
+    <div class="stage pixel-borders--2">
+      <h3 class="stage-title">세번째 탐정시험</h3>
+      <p class="stage-description">
+        탐정시험의 마지막 관문은 실전에서 탐정으로서의 능력을 증명하는 것이다. 마을에서 사라진 4명의 아이들의 행방을 알아내자!
+      </p>
+      <button class="stage-select pixel-borders--1" @click="resetStage('Test3Stage')">처음부터</button>
     </div>
   </div>
 </template>

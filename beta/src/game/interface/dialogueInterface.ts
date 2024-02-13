@@ -2,7 +2,7 @@ import Phaser from "phaser"
 import Dialogue from "../GameObjects/Dialogue"
 import keydoardInterface from "./keyboardInterface"
 import NPC from "../GameObjects/NPC"
-import Item from "../GameObjects/Item"
+import Item2 from "../GameObjects/Item2"
 
 type PluginInterface = {
   game: Phaser.Game
@@ -66,7 +66,7 @@ export default class dialogueInterface implements ScenePluginInterface {
   plugin: Phaser.Plugins.ScenePlugin
   keyboard: keydoardInterface
   public option_pointer?: OptionPointer
-  public game_object?: NPC|Item
+  public game_object?: NPC|Item2
   private dialogue: Dialogue
 
   constructor(Game: Phaser.Game, Scene: Phaser.Scene, ScenePlugin: Phaser.Plugins.ScenePlugin, KeyboardInterface: keydoardInterface) {
@@ -83,7 +83,7 @@ export default class dialogueInterface implements ScenePluginInterface {
     dialogueKey: string,
     dialogueData: any,
     optionsData?: any,
-    gameObject?: NPC|Item
+    gameObject?: NPC|Item2
   ) {
     if (this.game_object) this.game_object.setInteractive() // reset past game_object cool time
     this.game_object = gameObject

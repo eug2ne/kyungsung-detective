@@ -1,29 +1,13 @@
 import Phaser from "phaser"
 import _ from "lodash"
 import { useGameStore } from '../game.js'
+import STAGE_DEFAULT_CONFIG from './config/STAGE_DEFAULT_CONFIG.json' // import default-config
 import { addInvestigation } from '../library.js'
 import { Investigation, Clue } from '../GameObjects/ClueDataStructure'
 import Update from "./Update"
 import Stage from "./Stage.js"
 import Test1 from "../scenes/Test1_Scene.js"
 import Test2Stage from "./Test2Stage"
-
-const default_config = {
-  player_config: { 'sceneKey': 'Test1' , 'x': 570, 'y': 130 },
-  scenes_config: {
-    'Test1': {
-      npc: { 'test1_inspector': { dialogueKey: 'clue' },
-        'test1_newspaperstand': { dialogueKey: 'default' },
-        'test1_applicant1': { dialogueKey: 'default' },
-        'test1_applicant2': { dialogueKey: 'default' },
-        'test1_applicant3': { dialogueKey: 'default' },
-        'test1_applicant4': { dialogueKey: 'default' },
-        'test1_applicant5': { dialogueKey: 'default' },
-      },
-      item: {}
-    }
-  }
-}
 
 const qevent_config = {
   'cJ89EcZyF5EHwElEGRGZ': {
@@ -87,10 +71,7 @@ const event_config = {
             reveal: false,
           }
         },
-        related: {
-          testimony: [],
-          interrogation: [ { type: 'NPC', name: '감독관', id: '' } ]
-        }
+        img: 'mapae.png'
       }
       const investigation: Investigation = {
         title: '첫번째 탐정시험',
@@ -151,6 +132,6 @@ const event_config = {
 
 export default class Test1Stage extends Stage {
   constructor(manager: Phaser.Plugins.PluginManager) {
-    super(manager, [ new Test1() ], default_config, event_config, qevent_config, 'Test1Stage', new Test2Stage(manager))
+    super(manager, [ new Test1() ], STAGE_DEFAULT_CONFIG['Test1Stage'], event_config, qevent_config, 'Test1Stage', new Test2Stage(manager))
   }
 }

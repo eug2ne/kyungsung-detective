@@ -37,6 +37,7 @@ export default {
   padding: 20px;
   border-radius: 10px;
   background-color: #ffffffd6;
+  z-index: 100;
 }
 
 .show-stage-list {

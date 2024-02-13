@@ -132,6 +132,14 @@ export default {
   scrollbar-width: none;
 }
 
+.scope.left {
+  background-color: #00ae9a;
+}
+
+.scope.right {
+  background-color: #fff94c;
+}
+
 .scope .title {
   margin: 0;
   padding: 5px;
@@ -140,14 +148,6 @@ export default {
 
 .scope::-webkit-scrollbar {
   display: none;
-}
-
-.left {
-  background-color: #00ae9a;
-}
-
-.right {
-  background-color: #fff94c;
 }
 
 .subclue.minimized {

@@ -34,7 +34,8 @@ export type Clue = {
   related?: {
     testimony: [ subClue? ],
     interrogation: [ profile? ]
-  }
+  },
+  img?: string
 }
 
 export type Investigation = {

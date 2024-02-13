@@ -1,24 +1,12 @@
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = {
-  configureWebpack: (config) => {
-    // get a reference to the existing ForkTsCheckerWebpackPlugin
-    const existingForkTsChecker = config.plugins.filter(
-      p => p instanceof ForkTsCheckerWebpackPlugin,
-    )[0];
-
-    // remove the existing ForkTsCheckerWebpackPlugin
-    // so that we can replace it with our modified version
-    config.plugins = config.plugins.filter(
-      p => !(p instanceof ForkTsCheckerWebpackPlugin),
-    );
-
-    // copy the options from the original ForkTsCheckerWebpackPlugin
-    // instance and add the memoryLimit property
-    const forkTsCheckerOptions = existingForkTsChecker ? existingForkTsChecker.options : { typescript: {} };
-    forkTsCheckerOptions.typescript.memoryLimit = 8192;
-
-    config.plugins.push(new ForkTsCheckerWebpackPlugin(forkTsCheckerOptions));
+  configureWebpack: {
+    plugins: [
+      new ForkTsCheckerWebpackPlugin({ 
+        typescript: { memoryLimit: 4096, configFile: './tsconfig.json' }
+      })
+    ]
   },
   chainWebpack: config => {
     /* disable insertion of assets as data urls b/c Phaser doesn't support it */
@@ -38,6 +26,15 @@ module.exports = {
             name: `${rule.dir}/[name].[hash:8].[ext]`
           })
     })
+
+    config.module
+      .rule('typescript')
+      .use('ts-loader')
+      .loader('ts-loader')
+      .options({
+        transpileOnly: true, // Enable transpileOnly mode for faster type checking
+        happyPackMode: false, // Disable happyPack mode to use fork-ts-checker-webpack-plugin
+      });
   },
   devServer: {
     hot: false

@@ -5,6 +5,7 @@ node_modules
 # event-tree files
 *.xmind
 *.pdf
+'경성 탐정' 베타판 이벤트 트리.png
 
 # local env files
 .env.local

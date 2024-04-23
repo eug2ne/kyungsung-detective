@@ -134,7 +134,7 @@ export default class game extends Phaser.Game {
         default: 'arcade',
         arcade: {
           gravity: { y: 0 },
-          debug: false // debug option
+          debug: true // debug option
         }
       },
       plugins: {

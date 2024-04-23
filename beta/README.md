@@ -1,4 +1,5 @@
-# beta
+# 'Kyungsung Detective' beta
+> play beta version here: https://github.com/eug2ne
 
 ## Project setup
 ```

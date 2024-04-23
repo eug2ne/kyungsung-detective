@@ -1,5 +1,5 @@
 # 'Kyungsung Detective' beta
-> play beta version here: https://github.com/eug2ne
+> play beta version here: https://kyungsung-detective-beta.vercel.app
 
 ## Project setup
 ```

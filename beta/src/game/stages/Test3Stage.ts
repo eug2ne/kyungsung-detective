@@ -397,7 +397,6 @@ const event_config = {
         state.cluenote[2].clues[4].description += " 인근 학교 오전반 재학 중."
       }) // update subclue
 
-      console.log(Object.values(useGameStore().cluenote[1].timeline).filter((e) => e != null))
       const timeline_complete = Object.values(useGameStore().cluenote[2].timeline).filter((e) => e != null).length === 5
       if (timeline_complete) {
         // if timeline complete, activate suspicion system after talking
@@ -458,7 +457,6 @@ const event_config = {
       // update missing1mom optionKey
       spliceOption('Village', 'test3_missing1mom', undefined, 'option-friendship')
 
-      console.log(Object.values(useGameStore().cluenote[1].timeline).filter((e) => e != null))
       const timeline_complete = Object.values(useGameStore().cluenote[2].timeline).filter((e) => e != null).length === 5
       if (timeline_complete) {
         // if timeline complete, activate suspicion system after talking
@@ -493,7 +491,6 @@ const event_config = {
       }
       const message = addEvent(2, event)
 
-      console.log(Object.values(useGameStore().cluenote[2].timeline).filter((e) => e != null).length)
       const timeline_complete = Object.values(useGameStore().cluenote[2].timeline).filter((e) => e != null).length === 5
       if (timeline_complete) {
         // if timeline complete, activate suspicion system after talking

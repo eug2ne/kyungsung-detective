@@ -107,6 +107,6 @@ export default {
 
 .rotateRight {
   rotate: 5deg;
-  align-self: flex-end;
+  align-self: flex-start;
 }
 </style>

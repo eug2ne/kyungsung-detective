@@ -397,13 +397,13 @@ const event_config = {
         state.cluenote[2].clues[4].description += " 인근 학교 오전반 재학 중."
       }) // update subclue
 
-      const timeline_complete = Object.values(useGameStore().cluenote[1].timeline).length
-      if (timeline_complete === 5) {
+      console.log(Object.values(useGameStore().cluenote[1].timeline).filter((e) => e != null))
+      const timeline_complete = Object.values(useGameStore().cluenote[2].timeline).filter((e) => e != null).length === 5
+      if (timeline_complete) {
         // if timeline complete, activate suspicion system after talking
         stage.game.scene.getScene('Village').events.once('end-talking', () => {
           useGameStore().$patch({ progress: { id: 'suspicion-system-activate' } })
         })
-        message = ""
       }
       
       return { clear: false, message: message }
@@ -458,13 +458,13 @@ const event_config = {
       // update missing1mom optionKey
       spliceOption('Village', 'test3_missing1mom', undefined, 'option-friendship')
 
-      const timeline_complete = Object.values(useGameStore().cluenote[1].timeline).length
-      if (timeline_complete === 5) {
+      console.log(Object.values(useGameStore().cluenote[1].timeline).filter((e) => e != null))
+      const timeline_complete = Object.values(useGameStore().cluenote[2].timeline).filter((e) => e != null).length === 5
+      if (timeline_complete) {
         // if timeline complete, activate suspicion system after talking
         stage.game.scene.getScene('Village').events.once('end-talking', () => {
           useGameStore().$patch({ progress: { id: 'suspicion-system-activate' } })
         })
-        message = ""
       }
 
       return { clear: false, message: message }
@@ -493,8 +493,9 @@ const event_config = {
       }
       const message = addEvent(2, event)
 
-      const timeline_complete = Object.values(useGameStore().cluenote[1].timeline).length
-      if (timeline_complete === 5) {
+      console.log(Object.values(useGameStore().cluenote[2].timeline).filter((e) => e != null).length)
+      const timeline_complete = Object.values(useGameStore().cluenote[2].timeline).filter((e) => e != null).length === 5
+      if (timeline_complete) {
         // if timeline complete, activate suspicion system after talking
         stage.game.scene.getScene('Village').events.once('end-talking', () => {
           useGameStore().$patch({ progress: { id: 'suspicion-system-activate' } })
@@ -552,8 +553,8 @@ const event_config = {
         message = addSubClue(2, e_subclue2)
       }
 
-      const timeline_complete = Object.values(useGameStore().cluenote[1].timeline).length
-      if (timeline_complete === 5) {
+      const timeline_complete = Object.values(useGameStore().cluenote[2].timeline).filter((e) => e != null).length === 5
+      if (timeline_complete) {
         // if timeline complete, activate suspicion system after talking
         stage.game.scene.getScene('Village').events.once('end-talking', () => {
           useGameStore().$patch({ progress: { id: 'suspicion-system-activate' } })
@@ -588,8 +589,8 @@ const event_config = {
         message = addSubClue(2, e_subclue)
       }
 
-      const timeline_complete = Object.values(useGameStore().cluenote[1].timeline).length
-      if (timeline_complete === 5) {
+      const timeline_complete = Object.values(useGameStore().cluenote[2].timeline).filter((e) => e != null).length === 5
+      if (timeline_complete) {
         // if timeline complete, activate suspicion system after talking
         stage.game.scene.getScene('Village').events.once('end-talking', () => {
           useGameStore().$patch({ progress: { id: 'suspicion-system-activate' } })
@@ -689,7 +690,7 @@ const event_config = {
       const message = addSubClue(2, subclue)
 
       // update police optionKey
-      spliceOption('Villagege', 'test3_police', undefined, 'option-kidnap')
+      spliceOption('Village', 'test3_police', undefined, 'option-kidnap')
 
       return { clear: false, message: message }
     }),
@@ -737,7 +738,7 @@ const event_config = {
     }),
     new Update({quiz_id: "5pSYFHRok3Es4xw6XWcC"}, () => {
       // update missing2mom optionKey
-      spliceOption('Villagege', 'test3_missing2mom', undefined, 'option-adventure')
+      spliceOption('Village', 'test3_missing2mom', undefined, 'option-adventure')
 
       return { clear: false, message: "" }
     }),
